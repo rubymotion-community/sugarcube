@@ -6,8 +6,8 @@ class String
     return UIImage.imageNamed(self)
   end
 
-  def uifont
-    return UIFont.fontWithName(self, size:UIFont.systemFontSize)
+  def uifont(size=UIFont.systemFontSize)
+    return UIFont.fontWithName(self, size:size)
   end
 
 end
