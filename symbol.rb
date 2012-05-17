@@ -220,10 +220,10 @@ class Symbol
     raise ColorNotFoundException(self)
   end
 
-  def uifont
+  def uifont(size=UIFont.systemFontSize)
     # system fonts
     if Symbol.system_fonts[self]
-      return UIFont.send(Symbol.system_fonts[self], UIFont.systemFontSize)
+      return UIFont.send(Symbol.system_fonts[self], size)
     elsif Symbol.font_sizes[self]
       return UIFont.systemFontOfSize(Symbol.font_sizes[self])
     end
