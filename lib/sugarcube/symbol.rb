@@ -32,6 +32,27 @@ class Symbol
       center: UITextAlignmentCenter,
     }
 
+  @buttontypes = {
+      custom: UIButtonTypeCustom = 0,
+      rounded: UIButtonTypeRoundedRect,
+      rounded_rect: UIButtonTypeRoundedRect,
+      detail: UIButtonTypeDetailDisclosure,
+      detaildisclosure: UIButtonTypeDetailDisclosure,
+      info: UIButtonTypeInfoLight,
+      infolight: UIButtonTypeInfoLight,
+      infodark: UIButtonTypeInfoDark,
+      contact: UIButtonTypeContactAdd,
+      contactadd: UIButtonTypeContactAdd,
+    }
+
+  @controlstate = {
+        normal: UIControlStateNormal,
+        highlighted: UIControlStateHighlighted,
+        disabled: UIControlStateDisabled,
+        selected: UIControlStateSelected,
+        application: UIControlStateApplication,
+    }
+
   @system_fonts = {
       system: :"systemFontOfSize:",
       bold:   :"boldSystemFontOfSize:",
@@ -189,26 +210,14 @@ class Symbol
       yellowgreen:          0x9acd32,
     }
 
-  @button_types = {
-    custom: UIButtonTypeCustom = 0,
-    rounded: UIButtonTypeRoundedRect,
-    rounded_rect: UIButtonTypeRoundedRect,
-    detail: UIButtonTypeDetailDisclosure,
-    detaildisclosure: UIButtonTypeDetailDisclosure,
-    info: UIButtonTypeInfoLight,
-    infolight: UIButtonTypeInfoLight,
-    infodark: UIButtonTypeInfoDark,
-    contact: UIButtonTypeContactAdd,
-    contactadd: UIButtonTypeContactAdd,
-  }
-
   class << self
     attr_accessor :alignments
+    attr_accessor :buttontypes
+    attr_accessor :controlstate
     attr_accessor :system_fonts
     attr_accessor :font_sizes
     attr_accessor :uicolors
     attr_accessor :csscolors
-    attr_accessor :button_types
   end
 
   def uialignment
@@ -219,8 +228,15 @@ class Symbol
   end
 
   def uibuttontype
-    if Symbol.button_types[self]
-      return Symbol.button_types[self]
+    if Symbol.buttontypes[self]
+      return Symbol.buttontypes[self]
+    end
+    raise ButtonTypeNotFoundException(self)
+  end
+
+  def uicontrolstate
+    if Symbol.controlstates[self]
+      return Symbol.controlstates[self]
     end
     raise ButtonTypeNotFoundException(self)
   end
