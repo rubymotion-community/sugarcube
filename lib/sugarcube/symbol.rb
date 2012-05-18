@@ -11,7 +11,6 @@ to make their intent clear, and to provide a little bit of "namespacing"
     # uicolors
     :black.uicolor => UIColor.blackColor
 
-    # css colors!  (NO "grey"s, use gray)
     :darkturquoise.uicolor => UIColor.blackColor
 
     # fonts
@@ -49,12 +48,9 @@ class Symbol
       blue:      :blueColor,
       brown:     :brownColor,
       cyan:      :cyanColor,
-      darkgrey:  :darkgreyColor,
       darkgray:  :darkgrayColor,
-      grey:      :greyColor,
       gray:      :grayColor,
       green:     :greenColor,
-      lightgrey: :lightgreyColor,
       lightgray: :lightgrayColor,
       magenta:   :magentaColor,
       orange:    :orangeColor,
