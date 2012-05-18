@@ -189,12 +189,26 @@ class Symbol
       yellowgreen:          0x9acd32,
     }
 
+  @button_types = {
+    custom: UIButtonTypeCustom = 0,
+    rounded: UIButtonTypeRoundedRect,
+    rounded_rect: UIButtonTypeRoundedRect,
+    detail: UIButtonTypeDetailDisclosure,
+    detaildisclosure: UIButtonTypeDetailDisclosure,
+    info: UIButtonTypeInfoLight,
+    infolight: UIButtonTypeInfoLight,
+    infodark: UIButtonTypeInfoDark,
+    contact: UIButtonTypeContactAdd,
+    contactadd: UIButtonTypeContactAdd,
+  }
+
   class << self
     attr_accessor :alignments
     attr_accessor :system_fonts
     attr_accessor :font_sizes
     attr_accessor :uicolors
     attr_accessor :csscolors
+    attr_accessor :button_types
   end
 
   def uialignment
@@ -202,6 +216,13 @@ class Symbol
       return Symbol.alignments[self]
     end
     raise AlignmentNotFoundException(self)
+  end
+
+  def uibuttontype
+    if Symbol.button_types[self]
+      return Symbol.button_types[self]
+    end
+    raise ButtonTypeNotFoundException(self)
   end
 
   def uicolor

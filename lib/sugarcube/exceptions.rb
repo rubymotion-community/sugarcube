@@ -8,3 +8,7 @@ end
 
 class FontNotFoundException < Exception
 end
+
+
+class ButtonTypeNotFoundException < Exception
+end
