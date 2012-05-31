@@ -18,7 +18,7 @@ view << subview.
 examples
 ========
 
-`Fixnum`
+ Fixnum
 --------
 
 ```ruby
@@ -30,7 +30,7 @@ examples
 55.percent # => 0.55
 ```
 
-`Float`
+ Float
 -------
 
 ```ruby
@@ -39,7 +39,7 @@ examples
 55.0.percent # => 0.55
 ```
 
-`String`
+ String
 --------
 
 ```ruby
@@ -55,7 +55,7 @@ examples
 "my_image".uicolor == "my_image".uiimage.uicolor # => UIColor.colorWithPatternImage(UIImage.imageNamed("my_image"))
 ```
 
-`Symbol`
+ Symbol
 --------
 
 This is the "big daddy".  Lots of sugar here...
@@ -75,7 +75,7 @@ This is the "big daddy".  Lots of sugar here...
 :bold.uifont(:small)  # UIFont.boldSystemFontOfSize(:small.uifontsize)
 ```
 
-`UIImage`
+ UIImage
 ---------
 
 ```ruby
@@ -83,7 +83,7 @@ image = "my_image".uiimage
 image.uicolor # => UIColor.colorWithPatternImage(image)
 ```
 
-`UIView`
+ UIView
 --------
 
 ```ruby
