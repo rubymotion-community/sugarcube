@@ -60,7 +60,9 @@ class Symbol
 
   @font_sizes = {
       label:  :labelFontSize,
+      button: :buttonFontSize,
       small:  :smallSystemFontSize,
+      system: :systemFontSize,
     }
 
   @uicolors = {
