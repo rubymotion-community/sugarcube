@@ -257,9 +257,25 @@ class Symbol
   def uifont(size=UIFont.systemFontSize)
     # system fonts
     if Symbol.system_fonts[self]
+      if size === Symbol
+        size = Symbol.font_sizes[size].uifontsize
+      end
+
       return UIFont.send(Symbol.system_fonts[self], size)
     elsif Symbol.font_sizes[self]
-      return UIFont.systemFontOfSize(Symbol.font_sizes[self])
+      size = self.uifontsize
+      return UIFont.systemFontOfSize(size)
+    end
+    raise FontNotFoundException(self)
+  end
+
+  def uifontsize
+    if Symbol.system_fonts[self]
+      size = Symbol.system_fonts[self]
+      if size === Symbol
+        size = UIFont.send(Symbol.font_sizes[self])
+      end
+      return size.to_f
     end
     raise FontNotFoundException(self)
   end
