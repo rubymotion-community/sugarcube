@@ -8,4 +8,12 @@ class String
     UIFont.fontWithName(self, size:size)
   end
 
+  def uicolor
+    begin
+      self.to_sym.uicolor
+    rescue ColorNotFoundException
+      self.uiimage.uicolor
+    end
+  end
+
 end
