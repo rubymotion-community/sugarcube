@@ -45,12 +45,13 @@ examples
 ```ruby
 # UIImage from name
 "my_image".uiimage # => UIImage.imageNamed("my_image")
+# (if you have an image named "blue", use "blue".uiimage.uicolor)
 
 # UIFont from name
 "my_font".uifont # => UIFont.fontWithName("my_font", size:UIFont.systemFontSize)
 "my_font".uifont(20) # => UIFont.fontWithName("my_font", size:20)
 
-# UIColor from name OR image
+# UIColor from color name OR image name
 "blue".uicolor == :blue.uicolor # => UIColor.blueColor
 "my_image".uicolor == "my_image".uiimage.uicolor # => UIColor.colorWithPatternImage(UIImage.imageNamed("my_image"))
 ```
