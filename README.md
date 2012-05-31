@@ -3,6 +3,18 @@ sugarcube
 
 Some sugar for your cocoa, or your tea.
 
+About
+-----
+
+CocoaTouch/iOS is a *verbose* framework.  These extensions hope to make
+development in rubymotion more enjoyable by tacking "UI" methods onto the base
+classes (String, Fixnum, Float).  With sugarcube, you can create a color from an
+integer or symbol, or create a UIFont or UIImage from a string.
+
+Some UI classes are opened up as well, like adding the '<<' operator to a UIView
+instance, instead of view.addSubview(subview), you can use the more idiomatic:
+view << subview.
+
 examples
 ========
 
