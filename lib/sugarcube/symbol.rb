@@ -44,7 +44,7 @@ class Symbol
       contactadd: UIButtonTypeContactAdd,
     }
 
-  @controlstate = {
+  @controlstates = {
         normal: UIControlStateNormal,
         highlighted: UIControlStateHighlighted,
         disabled: UIControlStateDisabled,
@@ -212,7 +212,7 @@ class Symbol
   class << self
     attr_accessor :alignments
     attr_accessor :buttontypes
-    attr_accessor :controlstate
+    attr_accessor :controlstates
     attr_accessor :system_fonts
     attr_accessor :font_sizes
     attr_accessor :uicolors
