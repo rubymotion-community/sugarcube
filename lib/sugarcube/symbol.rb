@@ -280,4 +280,8 @@ class Symbol
     raise FontNotFoundException(self)
   end
 
+  def to_teacup_stylesheet
+    Teacup::Stylesheet[self]
+  end
+
 end
