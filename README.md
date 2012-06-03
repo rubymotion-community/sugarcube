@@ -67,8 +67,11 @@ This is the "big daddy".  Lots of sugar here...
 
 ```ruby
 :center.uialignment  # => UITextAlignmentCenter
+:upsidedown.uiorientation  # => UIDeviceOrientationPortraitUpsideDown
 :rounded.uibuttontype  # => UIButtonTypeRounded
 :highlighted.uicontrolstate  # => UIControlStateHighlighted
+:touch.uicontrolevent  # => UIControlEventTouchUpInside
+:all.uicontrolevent  # => UIControlEventAllEvents
 :blue.uicolor  # UIColor.blueColor
 # all CSS colors are supported.
 # (no "grey"s, only "gray"s, consistent with UIKit, which only provides "grayColor")
