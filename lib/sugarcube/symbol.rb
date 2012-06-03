@@ -54,8 +54,6 @@ class Symbol
     upside_down: UIInterfaceOrientationPortraitUpsideDown,
     left: UIInterfaceOrientationLandscapeLeft,
     right: UIInterfaceOrientationLandscapeRight,
-    face_up: UIInterfaceOrientationLandscapeFaceUp,
-    face_down: UIInterfaceOrientationLandscapeFaceDown,
   }
 
   @buttontypes = {
@@ -267,7 +265,7 @@ class Symbol
 
   private
   def look_in(here)
-_    return here[self] if here[self]
+    return here[self] if here[self]
     raise SugarNotFoundException(self)
   end
 
