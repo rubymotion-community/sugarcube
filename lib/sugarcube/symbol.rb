@@ -301,7 +301,7 @@ class Symbol
   def uicolor
     begin
       # iOS colors
-      look_in(Symbol.uicolors)
+      UIColor.send(look_in(Symbol.uicolors))
     rescue SugarNotFoundException
       # css colors
       look_in(Symbol.css_colors)
