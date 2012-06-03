@@ -265,8 +265,8 @@ class Symbol
 
   private
   def look_in(here)
-    return here[self] if here[self]
-    raise SugarNotFoundException(self)
+    return here[self] if here.has_key? self
+    raise SugarNotFoundException.new(self)
   end
 
   public
@@ -275,7 +275,7 @@ class Symbol
     if Symbol.devices[self]
       return Symbol.devices[self]
     end
-    raise SugarNotFoundException(self)
+    raise SugarNotFoundException.new(self)
   end
 
   def uialignment
