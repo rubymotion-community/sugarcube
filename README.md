@@ -54,6 +54,10 @@ examples
 # UIColor from color name OR image name
 "blue".uicolor == :blue.uicolor # => UIColor.blueColor
 "my_image".uicolor == "my_image".uiimage.uicolor # => UIColor.colorWithPatternImage(UIImage.imageNamed("my_image"))
+
+# NSLocalizedString from string
+"hello".localized  # => NSBundle.mainBundle.localizedStringForKey("hello", value:nil, table:nil)
+"hello".localized('Hello!', 'hello_table')  # => ...("hello", value:'Hello!', table:'hello_table')
 ```
 
  Symbol
