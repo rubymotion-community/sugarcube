@@ -21,6 +21,6 @@ class String
   def localized(value=nil, table=nil)
     NSBundle.mainBundle.localizedStringForKey(self, value:value, table:table)
   end
-  alias :_, :localized
+  alias :_ :localized
 
 end
