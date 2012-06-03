@@ -18,7 +18,7 @@ class UIView
   def to_s
     "{#{self.class.name} @ x: #{self.frame.origin.x} y:#{self.frame.origin.y}, "\
                         "#{self.frame.size.width}×#{self.frame.size.height}}"\
-                        "#{self.superview ? 'child of ' + self.superview.class.name : ''}"
+                        "#{self.superview ? ' child of ' + self.superview.class.name : ''}"
   end
 
 end
