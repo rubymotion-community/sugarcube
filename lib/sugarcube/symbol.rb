@@ -18,7 +18,7 @@ to make their intent clear, and to provide a little bit of "namespacing"
 
 You can extend the defaults by adding entries:
 
-    Symbol.csscolors[:my_color] = 0x123456
+    Symbol.css_colors[:my_color] = 0x123456
     Symbol.font_sizes[:big] = 40
 
     :my_color.uicolor => UIColor
@@ -35,7 +35,7 @@ class Symbol
     attr_accessor :system_fonts
     attr_accessor :font_sizes
     attr_accessor :uicolors
-    attr_accessor :csscolors
+    attr_accessor :css_colors
   end
 
   @devices = {
@@ -136,7 +136,7 @@ class Symbol
     white:     :whiteColor,
   }
 
-  @csscolors = {
+  @css_colors = {
     aliceblue:            0xf0f8ff,
     antiquewhite:         0xfaebd7,
     aqua:                 0x00ffff,
