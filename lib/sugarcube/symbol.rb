@@ -304,7 +304,7 @@ class Symbol
       UIColor.send(look_in(Symbol.uicolors))
     rescue SugarNotFoundException
       # css colors
-      look_in(Symbol.css_colors)
+      look_in(Symbol.css_colors).uicolor
     end
   end
 
