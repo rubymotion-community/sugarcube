@@ -67,7 +67,7 @@ This is the "big daddy".  Lots of sugar here...
 
 ```ruby
 :center.uialignment  # => UITextAlignmentCenter
-:upsidedown.uiorientation  # => UIDeviceOrientationPortraitUpsideDown
+:upside_down.uiorientation  # => UIDeviceOrientationPortraitUpsideDown
 :rounded.uibuttontype  # => UIButtonTypeRounded
 :highlighted.uicontrolstate  # => UIControlStateHighlighted
 :touch.uicontrolevent  # => UIControlEventTouchUpInside
