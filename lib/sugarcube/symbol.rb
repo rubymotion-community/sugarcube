@@ -312,7 +312,7 @@ class Symbol
     # system fonts
     begin
       font = look_in(Symbol.system_fonts)
-      if size === Symbol
+      if Symbol === size
         size = Symbol.font_sizes.fetch(size).uifontsize
       end
       return UIFont.send(font, size)
@@ -324,7 +324,7 @@ class Symbol
 
   def uifontsize
     size = look_in(Symbol.system_fonts)
-    if size === Symbol
+    if Symbol === size
       return UIFont.send(Symbol.font_sizes[self])
     end
     return size.to_f

@@ -17,7 +17,7 @@ class UIControl
   #   button.on(:touchupoutside, :touchcancel) { my_code }
   def on(*events, &block)
     events.each do |event|
-      event = event.uicontrolevent unless event === Fixnum
+      event = event.uicontrolevent unless Fixnum === event
 
       sugarcube_callbacks[event].push block
       addTarget(block, action: :call, forControlEvents: [event])
