@@ -265,7 +265,15 @@ class Symbol
     yellowgreen:          0x9acd32,
   }
 
+  private
+  def look_in(here)
+_    return here[self] if here[self]
+    raise SugarNotFoundException(self)
+  end
+
+  public
   def uidevice
+    look_in(Symbol.devices)
     if Symbol.devices[self]
       return Symbol.devices[self]
     end
@@ -273,76 +281,55 @@ class Symbol
   end
 
   def uialignment
-    if Symbol.alignments[self]
-      return Symbol.alignments[self]
-    end
-    raise SugarNotFoundException(self)
+    look_in(Symbol.alignments)
   end
 
   def uiorientation
-    if Symbol.orientations[self]
-      return Symbol.orientations[self]
-    end
-    raise SugarNotFoundException(self)
+    look_in(Symbol.orientations)
   end
 
   def uibuttontype
-    if Symbol.buttontypes[self]
-      return Symbol.buttontypes[self]
-    end
-    raise SugarNotFoundException(self)
+    look_in(Symbol.buttontypes)
   end
 
   def uicontrolstate
-    if Symbol.controlstates[self]
-      return Symbol.controlstates[self]
-    end
-    raise SugarNotFoundException(self)
+    look_in(Symbol.controlstates)
   end
 
   def uicontrolevent
-    if Symbol.controlevents[self]
-      return Symbol.controlevents[self]
-    end
-    raise SugarNotFoundException(self)
+    look_in(Symbol.controlevents)
   end
 
   def uicolor
-    # iOS colors
-    if Symbol.uicolors[self]
-      return UIColor.send(Symbol.uicolors[self])
-    # css colors
-    elsif Symbol.csscolors[self]
-      return Symbol.csscolors[self].uicolor  # see fixnum.rb
+    begin
+      # iOS colors
+      look_in(Symbol.uicolors)
+    rescue SugarNotFoundException
+      # css colors
+      look_in(Symbol.css_colors)
     end
-
-    raise SugarNotFoundException(self)
   end
 
   def uifont(size=UIFont.systemFontSize)
     # system fonts
-    if Symbol.system_fonts[self]
+    begin
+      font = look_in(Symbol.system_fonts)
       if size === Symbol
-        size = Symbol.font_sizes[size].uifontsize
+        size = Symbol.font_sizes.fetch(size).uifontsize
       end
-
-      return UIFont.send(Symbol.system_fonts[self], size)
-    elsif Symbol.font_sizes[self]
-      size = self.uifontsize
+      return UIFont.send(font, size)
+    rescue SugarNotFoundException
+      size = look_in(font_sizes).uifontsize
       return UIFont.systemFontOfSize(size)
     end
-    raise SugarNotFoundException(self)
   end
 
   def uifontsize
-    if Symbol.system_fonts[self]
-      size = Symbol.system_fonts[self]
-      if size === Symbol
-        size = UIFont.send(Symbol.font_sizes[self])
-      end
-      return size.to_f
+    size = look_in(Symbol.system_fonts)
+    if size === Symbol
+      return UIFont.send(Symbol.font_sizes[self])
     end
-    raise SugarNotFoundException(self)
+    return size.to_f
   end
 
   def to_teacup_stylesheet
