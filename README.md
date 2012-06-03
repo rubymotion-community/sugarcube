@@ -97,3 +97,24 @@ image.uicolor # => UIColor.colorWithPatternImage(image)
 ```ruby
 self.view << subview  # => self.view.addSubview(subview)
 ```
+
+ UIControl
+-----------
+
+Inspired by BubbleWrap's `when` method, but I prefer jQuery-style verbs and
+sugarcube symbols.
+
+```ruby
+button = UIButton.alloc.initWithFrame([0, 0, 10, 10])
+
+button.on(:touch) { my_code }
+button.on(:touchupoutside, :touchcancel) { my_code }
+
+# remove handlers
+button.off(:touch, :touchupoutside, :touchcancel)
+button.off(:all)
+```
+
+The ability to remove *some* handlers is not supported right now (not needed -
+I'll probably add it if someone needs it).
+
