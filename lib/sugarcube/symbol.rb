@@ -51,11 +51,11 @@ class Symbol
 
   @orientations = {
     portrait: UIInterfaceOrientationPortrait,
-    upsidedown: UIInterfaceOrientationPortraitUpsideDown,
+    upside_down: UIInterfaceOrientationPortraitUpsideDown,
     left: UIInterfaceOrientationLandscapeLeft,
     right: UIInterfaceOrientationLandscapeRight,
-    faceup: UIInterfaceOrientationLandscapeFaceUp,
-    facedown: UIInterfaceOrientationLandscapeFaceDown,
+    face_up: UIInterfaceOrientationLandscapeFaceUp,
+    face_down: UIInterfaceOrientationLandscapeFaceDown,
   }
 
   @buttontypes = {
@@ -63,12 +63,12 @@ class Symbol
     rounded: UIButtonTypeRoundedRect,
     rounded_rect: UIButtonTypeRoundedRect,
     detail: UIButtonTypeDetailDisclosure,
-    detaildisclosure: UIButtonTypeDetailDisclosure,
+    detail_disclosure: UIButtonTypeDetailDisclosure,
     info: UIButtonTypeInfoLight,
-    infolight: UIButtonTypeInfoLight,
-    infodark: UIButtonTypeInfoDark,
+    info_light: UIButtonTypeInfoLight,
+    info_dark: UIButtonTypeInfoDark,
     contact: UIButtonTypeContactAdd,
-    contactadd: UIButtonTypeContactAdd,
+    contact_add: UIButtonTypeContactAdd,
   }
 
   @controlstates = {
@@ -81,26 +81,26 @@ class Symbol
 
   @controlevents = {
     touch: UIControlEventTouchUpInside,
-    touchdown: UIControlEventTouchDown,
+    touch_down: UIControlEventTouchDown,
 
-    touchdownrepeat: UIControlEventTouchDownRepeat,
-    touchdraginside: UIControlEventTouchDragInside,
-    touchdragoutside: UIControlEventTouchDragOutside,
-    touchdragenter: UIControlEventTouchDragEnter,
-    touchdragexit: UIControlEventTouchDragExit,
-    touchupinside: UIControlEventTouchUpInside,
-    touchupoutside: UIControlEventTouchUpOutside,
-    touchcancel: UIControlEventTouchCancel,
+    touch_down_repeat: UIControlEventTouchDownRepeat,
+    touch_drag_inside: UIControlEventTouchDragInside,
+    touch_drag_outside: UIControlEventTouchDragOutside,
+    touch_drag_enter: UIControlEventTouchDragEnter,
+    touch_drag_exit: UIControlEventTouchDragExit,
+    touch_up_inside: UIControlEventTouchUpInside,
+    touch_up_outside: UIControlEventTouchUpOutside,
+    touch_cancel: UIControlEventTouchCancel,
 
-    valuechanged: UIControlEventValueChanged,
+    value_changed: UIControlEventValueChanged,
 
-    editingdidbegin: UIControlEventEditingDidBegin,
-    editingchanged: UIControlEventEditingChanged,
-    editingdidend: UIControlEventEditingDidEnd,
-    editingdidendonexit: UIControlEventEditingDidEndOnExit,
+    editing_did_begin: UIControlEventEditingDidBegin,
+    editing_changed: UIControlEventEditingChanged,
+    editing_did_end: UIControlEventEditingDidEnd,
+    editing_did_endonexit: UIControlEventEditingDidEndOnExit,
 
-    alltouch: UIControlEventAllTouchEvents,
-    allediting: UIControlEventAllEditingEvents,
+    all_touch: UIControlEventAllTouchEvents,
+    all_editing: UIControlEventAllEditingEvents,
     application: UIControlEventApplicationReserved,
     system: UIControlEventSystemReserved,
     all: UIControlEventAllEvents,
