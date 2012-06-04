@@ -9,9 +9,13 @@ class String
   end
 
   def uicolor
+    if self[0,1] == '#'
+      return self[1..-1].to_i(16).uicolor
+    end
+
     begin
       self.to_sym.uicolor
-    rescue ColorNotFoundException
+    rescue SugarNotFoundException
       self.uiimage.uicolor
     end
   end
