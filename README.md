@@ -24,6 +24,7 @@ examples
 ```ruby
 # create a UIColor from a hex value
 0xffffff.uicolor # => UIColor.colorWithRed(1.0, green:1.0, blue:1.0, alpha:1.0)
+0xffffff.uicolor(0.5) # => UIColor.colorWithRed(1.0, green:1.0, blue:1.0, alpha:0.5)
 
 # create a percentage
 100.percent # => 1.00
@@ -54,7 +55,7 @@ examples
 # UIColor from color name OR image name OR hex code
 "blue".uicolor == :blue.uicolor # => UIColor.blueColor
 "#ff00ff".uicolor == :fuchsia.uicolor == 0xff00ff.uicolor # => UIColor.colorWithRed(1.0, green:0.0, blue:1.0, alpha:1.0)
-"#f0f".uicolor == :fuchsia.uicolor == 0xff00ff.uicolor # => UIColor.colorWithRed(1.0, green:1.0, blue:1.0, alpha:1.0)
+"#f0f".uicolor(0.5) == :fuchsia.uicolor(0.5) == 0xff00ff.uicolor(0.5) # => UIColor.colorWithRed(1.0, green:1.0, blue:1.0, alpha:0.5)
 # note: 0xf0f.uicolor == 0x00f0f.uicolor.  There's no way to tell the difference
 # at run time between those two Fixnum literals.
 "my_image".uicolor == "my_image".uiimage.uicolor # => UIColor.colorWithPatternImage(UIImage.imageNamed("my_image"))
@@ -77,9 +78,9 @@ This is the "big daddy".  Lots of sugar here...
 :touch.uicontrolevent  # => UIControlEventTouchUpInside
 :all.uicontrolevent  # => UIControlEventAllEvents
 :blue.uicolor  # UIColor.blueColor
-# all CSS colors are supported.
+# all CSS colors are supported, and alpha
 # (no "grey"s, only "gray"s, consistent with UIKit, which only provides "grayColor")
-:firebrick.uicolor  # => 0xb22222.uicolor
+:firebrick.uicolor(0.25)  # => 0xb22222.uicolor(0.25)
 :bold.uifont  # UIFont.boldSystemFontOfSize(UIFont.systemFontSize)
 :bold.uifont(10)  # UIFont.boldSystemFontOfSize(10)
 :small.uifontsize # => UIFont.smallSystemFontSize

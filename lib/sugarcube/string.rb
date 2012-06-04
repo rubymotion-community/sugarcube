@@ -8,20 +8,20 @@ class String
     UIFont.fontWithName(self, size:size)
   end
 
-  def uicolor
+  def uicolor(alpha=nil)
     if self[0,1] == '#'
       # #fff
       if self.length == 4
-        return (self[1] * 2 + self[2] * 2 + self[3] * 2).to_i(16).uicolor
+        return (self[1] * 2 + self[2] * 2 + self[3] * 2).to_i(16).uicolor(alpha)
       end
       # else
-      return self[1..-1].to_i(16).uicolor
+      return self[1..-1].to_i(16).uicolor(alpha)
     end
 
     begin
-      self.to_sym.uicolor
+      self.to_sym.uicolor(alpha)
     rescue SugarNotFoundException
-      self.uiimage.uicolor
+      self.uiimage.uicolor(alpha)
     end
   end
 

@@ -3,14 +3,20 @@ class Symbol
     attr_accessor :uicolors
   end
 
-  def uicolor
+  def uicolor(alpha=nil)
     begin
       # iOS colors
-      UIColor.send(look_in(Symbol.uicolors))
+      color = UIColor.send(look_in(Symbol.uicolors))
+
+      if not alpha.nil?
+        color = color.colorWithAlphaComponent(alpha.to_f)
+      end
     rescue SugarNotFoundException
       # css colors
-      look_in(Symbol.css_colors).uicolor
+      color = look_in(Symbol.css_colors).uicolor(alpha)
     end
+
+    color
   end
 
   @uicolors = {
