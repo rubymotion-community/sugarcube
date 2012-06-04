@@ -53,7 +53,10 @@ examples
 
 # UIColor from color name OR image name OR hex code
 "blue".uicolor == :blue.uicolor # => UIColor.blueColor
-"#ff00ff".uicolor == :fuchsia.uicolor # => UIColor.blueColor
+"#ff00ff".uicolor == :fuchsia.uicolor == 0xff00ff.uicolor # => UIColor.blueColor
+"#f0f".uicolor == :fuchsia.uicolor == 0xff00ff.uicolor # => UIColor.blueColor
+# note: 0xf0f.uicolor == 0x00f0f.uicolor.  There's no way to tell the difference
+# at run time between those two Fixnum literals.
 "my_image".uicolor == "my_image".uiimage.uicolor # => UIColor.colorWithPatternImage(UIImage.imageNamed("my_image"))
 
 # NSLocalizedString from string

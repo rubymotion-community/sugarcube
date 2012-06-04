@@ -10,6 +10,11 @@ class String
 
   def uicolor
     if self[0,1] == '#'
+      # #fff
+      if self.length == 4
+        return (self[1] * 2 + self[2] * 2 + self[3] * 2).to_i(16).uicolor
+      end
+      # else
       return self[1..-1].to_i(16).uicolor
     end
 
