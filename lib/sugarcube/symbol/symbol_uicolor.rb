@@ -28,6 +28,7 @@ class Symbol
     red:       :redColor,
     yellow:    :yellowColor,
     white:     :whiteColor,
+    clear:     :clearColor,
   }
 
   @css_colors = {
