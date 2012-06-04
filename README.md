@@ -51,8 +51,9 @@ examples
 "my_font".uifont # => UIFont.fontWithName("my_font", size:UIFont.systemFontSize)
 "my_font".uifont(20) # => UIFont.fontWithName("my_font", size:20)
 
-# UIColor from color name OR image name
+# UIColor from color name OR image name OR hex code
 "blue".uicolor == :blue.uicolor # => UIColor.blueColor
+"#ff00ff".uicolor == :fuchsia.uicolor # => UIColor.blueColor
 "my_image".uicolor == "my_image".uiimage.uicolor # => UIColor.colorWithPatternImage(UIImage.imageNamed("my_image"))
 
 # NSLocalizedString from string
