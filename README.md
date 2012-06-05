@@ -120,6 +120,5 @@ button.off(:touch, :touchupoutside, :touchcancel)
 button.off(:all)
 ```
 
-The ability to remove *some* handlers is not supported right now (not needed -
-I'll probably add it if someone needs it).
-
+You can only remove handlers by "type", not by the action.  e.g. If you bind
+three `:touch` events, calling `button.off(:touch)` will remove all three.
