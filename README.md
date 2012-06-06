@@ -113,7 +113,10 @@ sugarcube symbols.
 button = UIButton.alloc.initWithFrame([0, 0, 10, 10])
 
 button.on(:touch) { my_code }
-button.on(:touchupoutside, :touchcancel) { my_code }
+button.on(:touchupoutside, :touchcancel) { |event|
+  puts event.inspect
+  # my_code...
+}
 
 # remove handlers
 button.off(:touch, :touchupoutside, :touchcancel)
