@@ -28,6 +28,7 @@ class Symbol
     attr_accessor :alignments
     attr_accessor :orientations
     attr_accessor :buttontypes
+    attr_accessor :bordertypes
     attr_accessor :controlstates
     attr_accessor :controlevents
     attr_accessor :system_fonts
@@ -64,6 +65,14 @@ class Symbol
     info_dark: UIButtonTypeInfoDark,
     contact: UIButtonTypeContactAdd,
     contact_add: UIButtonTypeContactAdd,
+  }
+
+  @bordertypes = {
+    none: UITextBorderStyleNone,
+    line: UITextBorderStyleLine,
+    bezel: UITextBorderStyleBezel,
+    rounded: UITextBorderStyleRoundedRect,
+    rounded_rect: UITextBorderStyleRoundedRect,
   }
 
   @controlstates = {
@@ -139,6 +148,10 @@ class Symbol
 
   def uibuttontype
     look_in(Symbol.buttontypes)
+  end
+
+  def uibordertype
+    look_in(Symbol.bordertypes)
   end
 
   def uicontrolstate
