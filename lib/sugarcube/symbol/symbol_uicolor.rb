@@ -35,6 +35,8 @@ class Symbol
     yellow:    :yellowColor,
     white:     :whiteColor,
     clear:     :clearColor,
+
+    table_view: :groupTableViewBackgroundColor,
   }
 
   @css_colors = {
