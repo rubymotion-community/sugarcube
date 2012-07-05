@@ -6,7 +6,7 @@ class UIColor
 
     Symbol.uicolors.each_pair do |color, method|
       if UIColor.send(method) == self
-        return "UIColor.#{method}Color(#{alpha})"
+        return "UIColor.#{method}(#{alpha})"
       end
     end
 
