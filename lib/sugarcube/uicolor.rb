@@ -14,7 +14,6 @@ class UIColor
     green = (self.green * 255).to_i << 8
     blue = (self.blue * 255).to_i
     my_color = red + green + blue
-    NSLog "red: #{red}, green: #{green}, blue: #{blue}, total: #{red + green + blue}"
     Symbol.css_colors.each_pair do |color, hex|
       if hex == my_color
         return "UIColor.color(#{color.inspect}, #{alpha})"
