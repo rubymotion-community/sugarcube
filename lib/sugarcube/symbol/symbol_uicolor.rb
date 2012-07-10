@@ -1,6 +1,7 @@
 class Symbol
   class << self
     attr_accessor :uicolors
+    attr_accessor :css_colors
   end
 
   def uicolor(alpha=nil)
@@ -35,6 +36,8 @@ class Symbol
     yellow:    :yellowColor,
     white:     :whiteColor,
     clear:     :clearColor,
+
+    table_view: :groupTableViewBackgroundColor,
   }
 
   @css_colors = {

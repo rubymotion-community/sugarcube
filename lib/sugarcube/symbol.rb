@@ -33,7 +33,6 @@ class Symbol
     attr_accessor :controlevents
     attr_accessor :system_fonts
     attr_accessor :font_sizes
-    attr_accessor :css_colors
   end
 
   @devices = {
