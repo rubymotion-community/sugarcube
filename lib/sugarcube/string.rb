@@ -1,5 +1,9 @@
 class String
 
+  def nsurl
+    @url ||= NSURL.alloc.initWithString(self)
+  end
+
   def uiimage
     UIImage.imageNamed(self)
   end
