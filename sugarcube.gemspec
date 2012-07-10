@@ -26,7 +26,7 @@ Gem::Specification.new do |gem|
 
   gem.name          = 'sugarcube'
   gem.require_paths = ['lib']
-  gem.version       = SugarCube::VERSION
+  gem.version       = SugarCube::Version
 
   # Put dependencies here
   # e.g. gem.add_dependency "some_gem", "~> optional_version_number"
