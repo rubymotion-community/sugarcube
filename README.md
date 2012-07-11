@@ -76,6 +76,14 @@ Makes it easy to post a notification to some or all objects.
 "https://github.com".nsurl.open  # => UIApplication.sharedApplication.openURL(NSURL.URLWithString("https://github.com"))
 ```
 
+ NSUserDefaults
+----------------
+
+```ruby
+['any', 'objects'].save_to_default(:key)  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
+:key.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
+```
+
  String
 --------
 
