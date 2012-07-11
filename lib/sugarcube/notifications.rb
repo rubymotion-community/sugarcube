@@ -1,16 +1,4 @@
-=begin
-"my notification".observe(obj, :notified)
-  # => NSNotificationCenter.defaultCenter.addObserver(obj, selector::'notified:', name:"my notification", object: nil)
-"my notification".observe(obj) { |notification| puts notification }
-  # => NSNotificationCenter.defaultCenter.addObserver(obj, selector::'__sugarcube_notified__:', name:"my notification", object: Proc.new { |notification| puts notification })
-"my notification".observe { |notification| puts notification }
-  # => NSNotificationCenter.defaultCenter.addObserverForName("my notification", object: nil, queue:NSOperationQueue.mainQueue, usingBlock:{ |notification| puts notification })
 
-"my notification".removeObserver(obj)
-  # => NSNotificationCenter.defaultCenter.removeObserver(object, name:"my notification", object: nil)
-"my notification".removeObserver(obj, obj2)
-  # => NSNotificationCenter.defaultCenter.removeObserver(object, name:"my notification", object: obj2)
-=end
 
 class String
 
