@@ -56,6 +56,18 @@ Examples
 55.0.percent # => 0.55
 ```
 
+ NSNotificationCenter
+----------------------
+
+Makes it easy to post a notification to some or all objects.
+
+```ruby
+# this one is handy, I think:
+"my notification".post_notification  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:nil)
+"my notification".post_notification(obj)  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:obj)
+"my notification".post_notification(obj, user: 'dict')  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:obj, userInfo:{user: 'dict'})
+```
+
  NSURL
 -------
 
