@@ -98,6 +98,7 @@ Makes it easy to post a notification to some or all objects.
 
 # NSLocalizedString from string
 "hello".localized  # => NSBundle.mainBundle.localizedStringForKey("hello", value:nil, table:nil)
+"hello"._          # == "hello".localized
 "hello".localized('Hello!', 'hello_table')  # => ...("hello", value:'Hello!', table:'hello_table')
 
 # NSURL
