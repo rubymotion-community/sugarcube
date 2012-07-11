@@ -101,6 +101,10 @@ Makes it easy to post a notification to some or all objects.
 "hello"._          # == "hello".localized
 "hello".localized('Hello!', 'hello_table')  # => ...("hello", value:'Hello!', table:'hello_table')
 
+# file location
+"my.plist".exists?   # => NSFileManager.defaultManager.fileExistsAtPath("my.plist")
+"my.plist".document  # => NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
+
 # NSURL
 "https://github.com".nsurl  # => NSURL.URLWithString("https://github.com")
 ```
