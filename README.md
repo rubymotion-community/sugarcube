@@ -56,6 +56,14 @@ Examples
 55.0.percent # => 0.55
 ```
 
+ NSURL
+-------
+
+```ruby
+# see String for easy URL creation
+"https://github.com".nsurl.open  # => UIApplication.sharedApplication.openURL(NSURL.URLWithString("https://github.com"))
+```
+
  String
 --------
 
@@ -79,6 +87,9 @@ Examples
 # NSLocalizedString from string
 "hello".localized  # => NSBundle.mainBundle.localizedStringForKey("hello", value:nil, table:nil)
 "hello".localized('Hello!', 'hello_table')  # => ...("hello", value:'Hello!', table:'hello_table')
+
+# NSURL
+"https://github.com".nsurl  # => NSURL.URLWithString("https://github.com")
 ```
 
  Symbol
