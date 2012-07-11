@@ -15,7 +15,23 @@ Some UI classes are opened up as well, like adding the '<<' operator to a UIView
 instance, instead of view.addSubview(subview), you can use the more idiomatic:
 view << subview.
 
-examples
+The basic idea of sugarcube is to turn some operations on their head.  Insead of
+
+    NSUIApplication.sharedApplication.openURL(NSUrl.URLWithString(url))
+
+How about:
+
+    url.nsurl.open
+
+**DISCLAIMER**
+
+It is possible that you *will not like sugarcube*.  That is perfectly fine!
+Some people take milk in their coffee, some take sugar.  Some crazy maniacs
+don't even *drink* coffee, if you can imagine that... All I'm saying is: to each
+their own.  You should checkout [BubbleWrap][] for another take on
+Cocoa-wrappage.
+
+Examples
 ========
 
  Fixnum
@@ -106,8 +122,8 @@ self.view << subview  # => self.view.addSubview(subview)
  UIControl
 -----------
 
-Inspired by BubbleWrap's `when` method, but I prefer jQuery-style verbs and
-sugarcube symbols.
+Inspired by [BubbleWrap's][BubbleWrap] `when` method, but I prefer jQuery-style
+verbs and sugarcube symbols.
 
 ```ruby
 button = UIButton.alloc.initWithFrame([0, 0, 10, 10])
@@ -125,3 +141,5 @@ button.off(:all)
 
 You can only remove handlers by "type", not by the action.  e.g. If you bind
 three `:touch` events, calling `button.off(:touch)` will remove all three.
+
+[BubbleWrap]: https://github.com/rubymotion/BubbleWrap
