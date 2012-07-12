@@ -80,8 +80,33 @@ Makes it easy to post a notification to some or all objects.
 ----------------
 
 ```ruby
-['any', 'objects'].save_to_default(:key)  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
+:key.set_default(['any', 'objects'])  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
 :key.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
+```
+
+This is strange, and backwards, which is just sugarcube's style.  But there is
+one advantage to doing it this way.  Compare these two snippets:
+
+```ruby
+# BubbleWrap
+App::Persistance[:test] = { my: 'test' }
+# sugarcube
+:test.set_default { my: 'test' }
+# k, BubbleWrap looks better
+
+App::Persistance[:test][:my] == 'test'  # true
+:test.get_default[:my]  # true, and odd looking - what's my point?
+
+App::Persistance[:test][:my] = 'new'  # nothing is saved.  bug
+:test.get_default[:my] = 'new'  # nothing is saved, but that's *obvious*
+
+test = App::Persistance[:test]
+test[:my] = 'new'
+App::Persistance[:test] = test  # saved
+
+test = :test.get_default
+test[:my] = 'new'
+:test.set_default test
 ```
 
  String

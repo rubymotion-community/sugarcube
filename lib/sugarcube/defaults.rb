@@ -1,21 +1,17 @@
 
+
 class Symbol
 
   def get_default
     NSUserDefaults.standardUserDefaults.objectForKey(self)
   end
 
-  def remove_default
-    NSUserDefaults.standardUserDefaults.removeObjectForKey(self)
+  def set_default val
+    NSUserDefaults.standardUserDefaults.setObject(self, forKey:val)
   end
 
-end
-
-
-class Object
-
-  def save_to_default(key)
-    NSUserDefaults.standardUserDefaults.setObject(self, forKey:key)
+  def remove_default
+    NSUserDefaults.standardUserDefaults.removeObjectForKey(self)
   end
 
 end
