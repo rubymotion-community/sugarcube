@@ -7,7 +7,7 @@ class Symbol
   end
 
   def set_default val
-    NSUserDefaults.standardUserDefaults.setObject(self, forKey:val)
+    NSUserDefaults.standardUserDefaults.setObject(val, forKey:self)
   end
 
   def remove_default
