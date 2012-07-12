@@ -56,18 +56,6 @@ Examples
 55.0.percent # => 0.55
 ```
 
- NSNotificationCenter
-----------------------
-
-Makes it easy to post a notification to some or all objects.
-
-```ruby
-# this one is handy, I think:
-"my notification".post_notification  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:nil)
-"my notification".post_notification(obj)  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:obj)
-"my notification".post_notification(obj, user: 'dict')  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:obj, userInfo:{user: 'dict'})
-```
-
  NSURL
 -------
 
@@ -76,41 +64,8 @@ Makes it easy to post a notification to some or all objects.
 "https://github.com".nsurl.open  # => UIApplication.sharedApplication.openURL(NSURL.URLWithString("https://github.com"))
 ```
 
- NSUserDefaults
-----------------
-
-```ruby
-:key.set_default(['any', 'objects'])  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
-:key.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
-```
-
-This is strange, and backwards, which is just sugarcube's style.  But there is
-one advantage to doing it this way.  Compare these two snippets:
-
-```ruby
-# BubbleWrap
-App::Persistance[:test] = { my: 'test' }
-# sugarcube
-:test.set_default { my: 'test' }
-# k, BubbleWrap looks better
-
-App::Persistance[:test][:my] == 'test'  # true
-:test.get_default[:my]  # true, and odd looking - what's my point?
-
-App::Persistance[:test][:my] = 'new'  # nothing is saved.  bug
-:test.get_default[:my] = 'new'  # nothing is saved, but that's *obvious*
-
-test = App::Persistance[:test]
-test[:my] = 'new'
-App::Persistance[:test] = test  # saved
-
-test = :test.get_default
-test[:my] = 'new'
-:test.set_default test
-```
-
- String
---------
+ NSString
+----------
 
 ```ruby
 # UIImage from name
@@ -202,5 +157,72 @@ button.off(:all)
 
 You can only remove handlers by "type", not by the action.  e.g. If you bind
 three `:touch` events, calling `button.off(:touch)` will remove all three.
+
+ NSNotificationCenter
+----------------------
+
+Makes it easy to post a notification to some or all objects.
+
+```ruby
+# this one is handy, I think:
+"my notification".post_notification  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:nil)
+"my notification".post_notification(obj)  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:obj)
+"my notification".post_notification(obj, user: 'dict')  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:obj, userInfo:{user: 'dict'})
+```
+
+ NSUserDefaults
+----------------
+
+```ruby
+:key.set_default(['any', 'objects'])  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
+:key.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
+```
+
+This is strange, and backwards, which is just sugarcube's style.  But there is
+one advantage to doing it this way.  Compare these two snippets:
+
+```ruby
+# BubbleWrap
+App::Persistance[:test] = { my: 'test' }
+# sugarcube
+:test.set_default { my: 'test' }
+# k, BubbleWrap looks better
+
+App::Persistance[:test][:my] == 'test'  # true
+:test.get_default[:my]  # true, and odd looking - what's my point?
+
+App::Persistance[:test][:my] = 'new'  # nothing is saved.  bug
+:test.get_default[:my] = 'new'  # nothing is saved, but that's *obvious*
+
+test = App::Persistance[:test]
+test[:my] = 'new'
+App::Persistance[:test] = test  # saved
+
+test = :test.get_default
+test[:my] = 'new'
+:test.set_default test
+```
+
+ CoreGraphics
+--------------
+
+`CGMakeRect` or `CGRectMake`?  Who cares.  Just use `Rect`, `Size` and `Point`
+
+```ruby
+f = Rect(view.frame)  # converts a CGRect into a CGRectArray
+o = Point(view.frame.origin)  # converts a CGPoint into a CGPointArray
+s = Size(view.frame.size)  # converts a CGSize into a CGSizeArray
+
+# lots of other conversions are possible
+# 4 numbers
+f = Rect(x, y, w, h)
+# or two arrays
+p = Point(x, y)  # or just [x, y] works, too
+s = Size(w, h)  # again, [w, h] is fine
+f = Rect(p, s)
+f = Rect([[x, y], [w, h]])  # same as above (the CG*Array objects will get created for you)
+
+view.frame = f  # Rect returns a CGRectArray, which view.frame can accept
+```
 
 [BubbleWrap]: https://github.com/rubymotion/BubbleWrap
