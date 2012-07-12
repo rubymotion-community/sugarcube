@@ -1,5 +1,7 @@
 
 class UIColor
+  def uicolor ; self ; end
+
 
   def to_s
     alpha = self.alpha.to_s
