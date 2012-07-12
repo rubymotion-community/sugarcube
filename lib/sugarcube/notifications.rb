@@ -1,6 +1,4 @@
-
-
-class String
+class NSString
 
   def post_notification(object=nil, user_info=nil)
     if user_info and not Hash === user_info

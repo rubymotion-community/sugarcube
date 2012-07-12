@@ -1,5 +1,3 @@
-
-
 class Symbol
 
   def get_default

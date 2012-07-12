@@ -1,6 +1,6 @@
 
 
-class String
+class NSString
 
   def document
     @docs ||= NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0]

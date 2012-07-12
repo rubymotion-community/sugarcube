@@ -1,4 +1,4 @@
-class String
+class NSString
 
   def nsurl
     @url ||= NSURL.alloc.initWithString(self)
