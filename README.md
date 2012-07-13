@@ -31,6 +31,17 @@ don't even *drink* coffee, if you can imagine that... All I'm saying is: to each
 their own.  You should checkout [BubbleWrap][] for another take on
 Cocoa-wrappage.
 
+Installation
+============
+
+    gem install sugarcube
+
+    # or in Gemfile
+    gem 'sugarcube'
+
+    # in Rakefile
+    require 'sugarcube'
+
 Examples
 ========
 

@@ -1,5 +1,5 @@
 unless defined?(Motion::Project::Config)
-  raise "This file (sugarcube) must be required within a RubyMotion project Rakefile."
+  raise "sugarcube must be required within a RubyMotion project Rakefile."
 end
 
 
