@@ -235,11 +235,11 @@ jQuery-like animation methods.
 
 ```ruby
 # default timeout is 0.3
-view.fadeout { |view|
+view.fade_out { |view|
   view.removeFromSuperview
 }
 # options:
-view.fadeout(0.5, delay: 0,
+view.fade_out(0.5, delay: 0,
                   options: UIViewAnimationOptionCurveLinear,
                   opacity: 0.5) { |view|
   view.removeFromSuperview
