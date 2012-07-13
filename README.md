@@ -208,14 +208,15 @@ test[:my] = 'new'
 
 ###### Is it `CGMakeRect` or `CGRectMake`?
 
-Instead, just use `Rect`, `Size` and `Point`.
+Instead, just use `Rect`, `Size` and `Point`.  These are namespaced in
+`SugarCube` module, but I recommend you `include SugarCube` in app_delegate.rb.
 
 ```ruby
-f = Rect(view.frame)  # converts a CGRect into a CGRectArray
-o = Point(view.frame.origin)  # converts a CGPoint into a CGPointArray
-s = Size(view.frame.size)  # converts a CGSize into a CGSizeArray
+f = SugarCube::Rect(view.frame)  # converts a CGRect into a CGRectArray
+o = SugarCube::Point(view.frame.origin)  # converts a CGPoint into a CGPointArray
+s = SugarCube::Size(view.frame.size)  # converts a CGSize into a CGSizeArray
 
-# lots of other conversions are possible
+# lots of other conversions are possible.  Let's assume `include SugarCube`, too
 # 4 numbers
 f = Rect(x, y, w, h)
 # or two arrays
