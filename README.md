@@ -1,7 +1,7 @@
 sugarcube
 =========
 
-Some sugar for your cocoa, or your tea.
+Some sugar for your cocoa, or your [tea][sweettea].
 
 About
 -----
@@ -317,3 +317,4 @@ Assume I ran `include SugarCube::Adjust` in these examples.
 ```
 
 [BubbleWrap]: https://github.com/rubymotion/BubbleWrap
+[sweettea]: https://github.com/fusionbox/sugarcube/tree/master/SWEETTEA.md
