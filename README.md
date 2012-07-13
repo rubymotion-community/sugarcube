@@ -17,7 +17,7 @@ view << subview.
 
 The basic idea of sugarcube is to turn some operations on their head.  Insead of
 
-    NSUIApplication.sharedApplication.openURL(NSUrl.URLWithString(url))
+    UIApplication.sharedApplication.openURL(NSUrl.URLWithString(url))
 
 How about:
 
