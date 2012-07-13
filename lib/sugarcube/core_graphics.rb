@@ -2,7 +2,6 @@
 class CGRectArray < Array
 
   def initialize args
-    puts "args: #{args.inspect} (#{args.length})"
     if args.length == 4
       super [CGPointArray.new([args[0], args[1]]), CGSizeArray.new([args[2], args[3]])]
     else
