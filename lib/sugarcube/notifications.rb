@@ -13,7 +13,3 @@ class NSString
   end
 
 end
-
-
-class Object
-end
