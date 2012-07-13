@@ -79,9 +79,7 @@ class Kernel
 
   def Size(w_or_size, h=nil)
     if not h
-      if CGSizeArray === w_or_size
-        w_or_size
-      elsif CGSize === w_or_size
+      if CGSize === w_or_size
         w = w_or_size.width
         h = w_or_size.height
       elsif Array === w_or_size
@@ -98,9 +96,7 @@ class Kernel
 
   def Point(x_or_origin, y=nil)
     if not y
-      if CGPointArray === x_or_origin
-        x_or_origin
-      elsif CGPoint === x_or_origin
+      if CGPoint === x_or_origin
         x = x_or_origin.x
         y = x_or_origin.y
       elsif Array === x_or_origin
@@ -120,7 +116,10 @@ class Kernel
   def Rect(x_or_origin, y_or_size=nil, w=nil, h=nil)
     if not y_or_size
       if CGRectArray === x_or_origin
-        x_or_origin
+        x = x_or_origin[0][0]
+        y = x_or_origin[0][1]
+        w = x_or_origin[1][0]
+        h = x_or_origin[1][1]
       elsif CGRect === x_or_origin
         x = x_or_origin.origin.x
         y = x_or_origin.origin.y

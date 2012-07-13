@@ -206,7 +206,9 @@ test[:my] = 'new'
  CoreGraphics
 --------------
 
-`CGMakeRect` or `CGRectMake`?  Who cares.  Just use `Rect`, `Size` and `Point`
+###### Is it `CGMakeRect` or `CGRectMake`?
+
+Instead, just use `Rect`, `Size` and `Point`.
 
 ```ruby
 f = Rect(view.frame)  # converts a CGRect into a CGRectArray
@@ -223,6 +225,25 @@ f = Rect(p, s)
 f = Rect([[x, y], [w, h]])  # same as above (the CG*Array objects will get created for you)
 
 view.frame = f  # Rect returns a CGRectArray, which view.frame can accept
+```
+
+###### Animations
+
+jQuery-like animation methods.
+
+```ruby
+# default timeout is 0.3
+view.fadeout { |view|
+  view.removeFromSuperview
+}
+# options:
+view.fadeout(0.5, delay: 0,
+                  options: UIViewAnimationOptionCurveLinear,
+                  opacity: 0.5) { |view|
+  view.removeFromSuperview
+}
+view.move_to([0, 100])  # move to position 0, 100
+view.delta_to([0, 100])  # move over 0, down 100, from current position
 ```
 
 [BubbleWrap]: https://github.com/rubymotion/BubbleWrap
