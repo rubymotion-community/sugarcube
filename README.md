@@ -209,14 +209,15 @@ test[:my] = 'new'
 ###### Is it `CGMakeRect` or `CGRectMake`?
 
 Instead, just use `Rect`, `Size` and `Point`.  These are namespaced in
-`SugarCube` module, but I recommend you `include SugarCube` in app_delegate.rb.
+`SugarCube::CoreGraphics` module, but I recommend you `include
+SugarCube::CoreGraphics` in app_delegate.rb.
 
 ```ruby
-f = SugarCube::Rect(view.frame)  # converts a CGRect into a CGRectArray
-o = SugarCube::Point(view.frame.origin)  # converts a CGPoint into a CGPointArray
-s = SugarCube::Size(view.frame.size)  # converts a CGSize into a CGSizeArray
+f = Rect(view.frame)  # converts a CGRect into a CGRectArray
+o = Point(view.frame.origin)  # converts a CGPoint into a CGPointArray
+s = Size(view.frame.size)  # converts a CGSize into a CGSizeArray
 
-# lots of other conversions are possible.  Let's assume `include SugarCube`, too
+# lots of other conversions are possible.
 # 4 numbers
 f = Rect(x, y, w, h)
 # or two arrays
@@ -253,28 +254,30 @@ view.delta_to([0, 100])  # move over 0, down 100, from current position
 Pixel pushing is an unfortunate but necessary evil.  Well, at least we can make
 it a little less painful.
 
-These methods help you adjust the frame of a view.  They are in the `SugarCube`
-module so as not to conflict.  If you don't want the prefix, `include SugarCube` in
-app_delegate.rb
+These methods help you adjust the frame of a view.  They are in the
+`SugarCube::Adjust` module so as not to conflict.  If you don't want the prefix,
+`include SugarCube::Adjust` in app_delegate.rb
+
+Assume I ran `include SugarCube::Adjust` in these examples.
 
 ```ruby
 # if you are in the REPL, you might not be able to click on the view you want...
-> SugarCube::adjust superview.subviews[4].subviews[1]
-> SugarCube::up 1
-> SugarCube::down 1  # same as up -1, obviously
-> SugarCube::left 1
-> SugarCube::right 1  # same as up -1, obviously
-> SugarCube::origin 10, 12  # move to x:10, y:12
-> SugarCube::wider 1
-> SugarCube::thinner 1
-> SugarCube::taller 1
-> SugarCube::shorter 1
-> SugarCube::size 100, 10  # set size to width:100, height: 10
-> SugarCube::restore
+> adjust superview.subviews[4].subviews[1]
+> up 1
+> down 1  # same as up -1, obviously
+> left 1
+> right 1  # same as up -1, obviously
+> origin 10, 12  # move to x:10, y:12
+> wider 1
+> thinner 1
+> taller 1
+> shorter 1
+> size 100, 10  # set size to width:100, height: 10
+> restore  # original frame is saved when you call adjust
 ```
 
 ```ruby
-> # short versions!  and let's assume I ran `include SC`
+> # short versions!
 > a superview.subviews[4].subviews[1]  # this is not uncommon in the REPL
 > u          # up, default value=1
 > d          # down
