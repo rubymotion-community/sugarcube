@@ -247,4 +247,50 @@ view.move_to([0, 100])  # move to position 0, 100
 view.delta_to([0, 100])  # move over 0, down 100, from current position
 ```
 
+ REPL View adjustments
+-----------------------
+
+Pixel pushing is an unfortunate but necessary evil.  Well, at least we can make
+it a little less painful.
+
+These methods help you adjust the frame of a view.  They are in the `SugarCube`
+module so as not to conflict.  If you don't want the prefix, `include SugarCube` in
+app_delegate.rb
+
+```ruby
+# if you are in the REPL, you might not be able to click on the view you want...
+> SugarCube::adjust superview.subviews[4].subviews[1]
+> SugarCube::up 1
+> SugarCube::down 1  # same as up -1, obviously
+> SugarCube::left 1
+> SugarCube::right 1  # same as up -1, obviously
+> SugarCube::origin 10, 12  # move to x:10, y:12
+> SugarCube::wider 1
+> SugarCube::thinner 1
+> SugarCube::taller 1
+> SugarCube::shorter 1
+> SugarCube::size 100, 10  # set size to width:100, height: 10
+> SugarCube::restore
+```
+
+```ruby
+> # short versions!  and let's assume I ran `include SC`
+> a superview.subviews[4].subviews[1]  # this is not uncommon in the REPL
+> u          # up, default value=1
+> d          # down
+> l          # left
+> r          # right
+> o 10, 12   # origin, also accepts an array (or Point() object)
+> w          # wider
+> n          # thinner
+> t          # taller
+> s          # shorter
+> z 100, 10  # size, also accepts an array (or Size() object)
+> r          # restore
+
+# if you forget what view you are adjusting, run `adjust` again
+> a
+=> {UITextField @ x: 46.0 y:214.0, 280.0×33.0} child of UIView
+```
+
 [BubbleWrap]: https://github.com/rubymotion/BubbleWrap
