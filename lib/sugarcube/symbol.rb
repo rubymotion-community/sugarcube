@@ -33,6 +33,7 @@ class Symbol
     attr_accessor :controlevents
     attr_accessor :system_fonts
     attr_accessor :font_sizes
+    attr_accessor :returnkeys
   end
 
   @devices = {
@@ -122,6 +123,20 @@ class Symbol
     system: :systemFontSize,
   }
 
+  @returnkeys = {
+    default:       UIReturnKeyDefault,
+    go:            UIReturnKeyGo,
+    google:        UIReturnKeyGoogle,
+    join:          UIReturnKeyJoin,
+    next:          UIReturnKeyNext,
+    route:         UIReturnKeyRoute,
+    search:        UIReturnKeySearch,
+    send:          UIReturnKeySend,
+    yahoo:         UIReturnKeyYahoo,
+    done:          UIReturnKeyDone,
+    emergencycall: UIReturnKeyEmergencyCall,
+  }
+
   private
   def look_in(here)
     return here[self] if here.has_key? self
@@ -159,6 +174,10 @@ class Symbol
 
   def uicontrolevent
     look_in(Symbol.controlevents)
+  end
+
+  def uireturnkey
+    look_in(Symbol.returnkeys)
   end
 
   def uifont(size=UIFont.systemFontSize)
