@@ -5,7 +5,7 @@ end
 
 Motion::Project::App.setup do |app|
   # scans app.files until it finds /sugarcube/
-  sugarcube_insert_point = 0
+  sugarcube_insert_point = nil
   app.files.each_index do |index|
     file = app.files[index]
     if file =~ /sugarcube/
@@ -21,7 +21,7 @@ Motion::Project::App.setup do |app|
   end
 
   # scans app.files until it finds /teacup/
-  teacup_insert_point = 0
+  teacup_insert_point = nil
   app.files.each_index do |index|
     file = app.files[index]
     if file =~ /teacup/
