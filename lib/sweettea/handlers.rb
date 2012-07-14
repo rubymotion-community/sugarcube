@@ -1,4 +1,4 @@
-puts "runs!?"
+
 UIImageView.teacup_assign :image { |view, image|
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
