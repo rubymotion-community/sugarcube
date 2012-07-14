@@ -6,10 +6,10 @@ class CGRectArray < Array
       super [CGPointArray.new([args[0], args[1]]), CGSizeArray.new([args[2], args[3]])]
     else
       unless CGPointArray === args[0]
-        args[0] = Point(args[0])
+        args[0] = SugarCube::CoreGraphics::Point(args[0])
       end
       unless CGSizeArray === args[1]
-        args[1] = Size(args[1])
+        args[1] = SugarCube::CoreGraphics::Size(args[1])
       end
       super [args[0], args[1]]
     end
@@ -20,7 +20,7 @@ class CGRectArray < Array
   end
 
   def origin= val
-    self[0] = Point(val)
+    self[0] = SugarCube::CoreGraphics::Point(val)
   end
 
   def size
@@ -28,7 +28,7 @@ class CGRectArray < Array
   end
 
   def size= val
-    self[1] = Size(val)
+    self[1] = SugarCube::CoreGraphics::Size(val)
   end
 
 end
