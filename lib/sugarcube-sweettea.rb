@@ -4,19 +4,21 @@ end
 
 
 Motion::Project::App.setup do |app|
-  insert = nil
+  # scans app.files until it finds /sugarcube/
+  insert_point = 0
   app.files.each_index do |index|
     file = app.files[index]
     if file =~ /sugarcube/
-      insert = index + 1
-    elsif insert
+      insert_point = index + 1
+    elsif insert_point
       # found one, so stop looking
       break
     end
   end
-  if not insert
+  if not insert_point
     raise "sweettea must be required after sugarcube."
   end
+  puts "insert_point is #{insert_point.inspect}"
 
-  app.files.insert(insert, File.join(File.dirname(__FILE__), 'sweettea/handlers.rb'))
+  app.files.insert_point(insert, File.join(File.dirname(__FILE__), 'sweettea/handlers.rb'))
 end
