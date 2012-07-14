@@ -37,8 +37,10 @@ module SugarCube
     end
     alias :d :down
 
-    def origin x, y=nil
+    def origin x=nil, y=nil
       f = @@sugarcube_view.frame
+      return SugarCube::CoreGraphics::Point(f.origin) if not x
+
       if y
         f.origin.x = x
         f.origin.y = y
@@ -74,8 +76,10 @@ module SugarCube
     end
     alias :t :taller
 
-    def size w, h=nil
+    def size w=nil, h=nil
       f = @@sugarcube_view.frame
+      return SugarCube::CoreGraphics::Size(f.size) if not w
+
       if h
         f.size.width = w
         f.size.height = h
