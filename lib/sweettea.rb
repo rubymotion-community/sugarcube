@@ -19,5 +19,5 @@ Motion::Project::App.setup do |app|
     raise "sweettea must be required after sugarcube."
   end
 
-  app.files.insert_point(insert_point, File.join(File.dirname(__FILE__), 'sweettea/handlers.rb'))
+  app.files.insert(insert_point, File.join(File.dirname(__FILE__), 'sweettea/handlers.rb'))
 end
