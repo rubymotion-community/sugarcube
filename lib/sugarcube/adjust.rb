@@ -3,6 +3,7 @@ module SugarCube
     module_function
 
     def adjust view=nil
+      @@sugarcube_view ||= nil
       return @@sugarcube_view if not view
 
       @@sugarcube_view = view
@@ -61,17 +62,17 @@ module SugarCube
     end
     alias :w :wider
 
-    def taller val=1
-      SugarCube::shorter -val
-    end
-    alias :t :taller
-
     def shorter val=1
+      SugarCube::taller -val
+    end
+    alias :s :shorter
+
+    def taller val=1
       f = @@sugarcube_view.frame
       f.size.height += val
       @@sugarcube_view.frame = f
     end
-    alias :s :shorter
+    alias :t :taller
 
     def size w, h=nil
       f = @@sugarcube_view.frame
