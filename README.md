@@ -61,6 +61,10 @@ Examples
 # create a percentage
 100.0.percent # => 1.00
 55.0.percent # => 0.55
+
+1.3.seconds.later do
+  @someview.fade_out
+end
 ```
 
  NSURL
@@ -175,6 +179,15 @@ Makes it easy to post a notification to some or all objects.
 "my notification".post_notification  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:nil)
 "my notification".post_notification(obj)  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:obj)
 "my notification".post_notification(obj, user: 'dict')  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:obj, userInfo:{user: 'dict'})
+```
+
+ NSTimer
+---------
+
+```ruby
+1.second.later do
+  @view.fade_out
+end
 ```
 
  NSUserDefaults
