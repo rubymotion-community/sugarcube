@@ -12,6 +12,16 @@ class UIView
                         "#{self.superview ? ' child of ' + self.superview.class.name : ''}"
   end
 
+  def show
+    self.hidden = false
+    self
+  end
+
+  def hide
+    self.hidden = true
+    self
+  end
+
   def fade_out(duration=0.3, options={}, &after)
     UIView.animateWithDuration(duration,
                          delay: options[:delay] || 0,
