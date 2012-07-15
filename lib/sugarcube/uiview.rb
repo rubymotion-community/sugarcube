@@ -48,8 +48,8 @@ class UIView
 
   def delta_to(delta, duration=0.3, options={}, &after)
     f = self.frame
-    delta = Point(delta)
-    position = Point(f.origin)
+    delta = SugarCube::CoreGraphics::Point(delta)
+    position = SugarCube::CoreGraphics::Point(f.origin)
     position.x += delta.x
     position.y += delta.y
     UIView.animateWithDuration(duration,
