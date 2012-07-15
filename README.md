@@ -266,8 +266,7 @@ view.fade_out(0.5, delay: 0,
 }
 view.move_to([0, 100])  # move to position 0, 100
 view.delta_to([0, 100])  # move over 0, down 100, from current position
-view.slide(:left)  # slides the entire view one "page" to the left, right, up, or down
-view.slide_left    # i dunno, maybe I hate typing colons.
+view.slide :left   # slides the entire view one "page" to the left, right, up, or down
 ```
 
  REPL View adjustments

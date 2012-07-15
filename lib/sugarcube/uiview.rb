@@ -67,20 +67,4 @@ class UIView
     end
   end
 
-  def slide_left(duration=0.3, options={}, &after)
-    slide(:left, duration, options, after)
-  end
-
-  def slide_right(duration=0.3, options={}, &after)
-    slide(:right, duration, options, after)
-  end
-
-  def slide_up(duration=0.3, options={}, &after)
-    slide(:up, duration, options, after)
-  end
-
-  def slide_down(duration=0.3, options={}, &after)
-    slide(:down, duration, options, after)
-  end
-
 end
