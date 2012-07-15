@@ -51,4 +51,36 @@ class UIView
                               )
   end
 
+  def slide(direction=:left, duration=0.3, options={}, &after)
+    size = UIScreen.mainScreen.bounds.size
+    case direction
+    when :left
+      delta_to([-width, 0], duration, options, after)
+    when :right
+      delta_to([+width, 0], duration, options, after)
+    when :up
+      delta_to([0, -height], duration, options, after)
+    when :down
+      delta_to([0, +height], duration, options, after)
+    else
+      raise "Unknown direction #{direction.inspect}"
+    end
+  end
+
+  def slide_left(duration=0.3, options={}, &after)
+    slide(:left, duration, options, after)
+  end
+
+  def slide_right(duration=0.3, options={}, &after)
+    slide(:right, duration, options, after)
+  end
+
+  def slide_up(duration=0.3, options={}, &after)
+    slide(:up, duration, options, after)
+  end
+
+  def slide_down(duration=0.3, options={}, &after)
+    slide(:down, duration, options, after)
+  end
+
 end
