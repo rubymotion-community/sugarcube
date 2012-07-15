@@ -3,39 +3,74 @@ UIView.teacup_handler :backgroundColor { |view, color|
   view.backgroundColor = color.uicolor
 }
 
-UIImageView.teacup_handler :image { |view, image|
+UIImageView.teacup_handler :image { |view, img|
+  image = img.uiimage
+  if not image
+    NSLog("WARN: Could not find #{img.inspect}")
+    return
+  end
+  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
   end
-  view.image = image.uiimage
+  view.image = image
 }
 
-UIButton.teacup_handler :normal { |view, image|
+UIButton.teacup_handler :normal { |view, img|
+  image = img.uiimage
+  if not image
+    NSLog("WARN: Could not find #{img.inspect}")
+    return
+  end
+  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
   end
-  view.setImage(image.uiimage, forState: UIControlStateNormal)
+  view.setImage(image, forState: UIControlStateNormal)
 }
 
-UIButton.teacup_handler :highlighted { |view, image|
+UIButton.teacup_handler :highlighted { |view, img|
+  image = img.uiimage
+  if not image
+    NSLog("WARN: Could not find #{img.inspect}")
+    return
+  end
+  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
   end
-  view.setImage(image.uiimage, forState: UIControlStateHighlighted)
+  view.setImage(image, forState: UIControlStateHighlighted)
 }
 
-UIButton.teacup_handler :bg_normal { |view, image|
+UIButton.teacup_handler :bg_normal { |view, img|
+  image = img.uiimage
+  if not image
+    NSLog("WARN: Could not find #{img.inspect}")
+    return
+  end
+  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
   end
-  view.setBackgroundImage(image.uiimage, forState: UIControlStateNormal)
+  view.setBackgroundImage(image, forState: UIControlStateNormal)
 }
 
-UIButton.teacup_handler :bg_highlighted { |view, image|
+UIButton.teacup_handler :bg_highlighted { |view, img|
+  image = img.uiimage
+  if not image
+    NSLog("WARN: Could not find #{img.inspect}")
+    return
+  end
+  raise "Expected UIImage in teacup_handler :image, not #{image.inspect}" unless image.is_a?(UIImage)
+
   if SugarCube::CoreGraphics::Size(view.frame.size) == [0, 0]
     view.frame = SugarCube::CoreGraphics::Rect(view.frame.origin, image.size)
   end
-  view.setBackgroundImage(image.uiimage, forState: UIControlStateHighlighted)
+  view.setBackgroundImage(image, forState: UIControlStateHighlighted)
 }
 
 UIButton.teacup_handler :returnKeyType, :returnkey { |view, type|

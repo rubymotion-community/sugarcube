@@ -38,5 +38,7 @@ Motion::Project::App.setup do |app|
 
   insert_point = sugarcube_insert_point > teacup_insert_point ? sugarcube_insert_point : teacup_insert_point
 
-  app.files.insert(insert_point, File.join(File.dirname(__FILE__), 'sweettea/handlers.rb'))
+  Dir.glob(File.join(File.dirname(__FILE__), 'sweettea/**/*.rb')).reverse.each do |file|
+    app.files.insert(insert_point, file)
+  end
 end
