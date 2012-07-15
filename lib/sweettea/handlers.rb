@@ -3,6 +3,10 @@ UIView.teacup_handler :backgroundColor { |view, color|
   view.backgroundColor = color.uicolor
 }
 
+UIActivityIndicatorView.teacup_handler :color { |view, color|
+  view.color = color.uicolor
+}
+
 UIImageView.teacup_handler :image { |view, img|
   image = img.uiimage
   if not image
