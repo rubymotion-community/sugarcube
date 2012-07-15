@@ -169,6 +169,22 @@ button.off(:all)
 You can only remove handlers by "type", not by the action.  e.g. If you bind
 three `:touch` events, calling `button.off(:touch)` will remove all three.
 
+ UINavigationController
+------------------------
+
+`push`/`<<` and `pop` instead of `pushViewController` and `popViewController`.
+`!` and `!(view)` instead of `popToRootViewController` and `popToViewController`
+
+animated is `true` for all these.
+
+```ruby
+nav_ctlr.push(new_ctlr)
+nav_ctlr << new_ctlr
+nav_ctlr.pop
+nav_ctlr.!
+nav_ctlr.!(another_view_ctlr)
+```
+
  NSNotificationCenter
 ----------------------
 
