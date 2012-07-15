@@ -17,8 +17,4 @@ class Fixnum
     UIColor.colorWithRed(red, green:green, blue:blue, alpha:alpha.to_f)
   end
 
-  def percent
-    self.to_f.percent
-  end
-
 end

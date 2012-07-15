@@ -8,7 +8,7 @@ About
 
 CocoaTouch/iOS is a *verbose* framework.  These extensions hope to make
 development in rubymotion more enjoyable by tacking "UI" methods onto the base
-classes (String, Fixnum, Float).  With sugarcube, you can create a color from an
+classes (String, Fixnum, Numeric).  With sugarcube, you can create a color from an
 integer or symbol, or create a UIFont or UIImage from a string.
 
 Some UI classes are opened up as well, like adding the '<<' operator to a UIView
@@ -52,14 +52,10 @@ Examples
 # create a UIColor from a hex value
 0xffffff.uicolor # => UIColor.colorWithRed(1.0, green:1.0, blue:1.0, alpha:1.0)
 0xffffff.uicolor(0.5) # => UIColor.colorWithRed(1.0, green:1.0, blue:1.0, alpha:0.5)
-
-# create a percentage
-100.percent # => 1.00
-55.percent # => 0.55
 ```
 
- Float
--------
+ Numeric
+---------
 
 ```ruby
 # create a percentage
