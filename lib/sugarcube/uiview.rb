@@ -30,6 +30,7 @@ class UIView
                                   self.layer.opacity = options[:opacity] || 0
                                 }, completion:after
                               )
+    self
   end
 
   def move_to(position, duration=0.3, options={}, &after)
@@ -42,6 +43,7 @@ class UIView
                                   self.frame = position
                                 }, completion:after
                               )
+    self
   end
 
   def delta_to(delta, duration=0.3, options={}, &after)
@@ -56,25 +58,27 @@ class UIView
                     animations: proc{
                                   f = self.frame
                                   f.origin = position
-                                  self.frame = position
+                                  self.frame = f
                                 }, completion:after
                               )
+    self
   end
 
-  def slide(direction=:left, duration=0.3, options={}, &after)
+  def slide(direction, duration=0.3, options={}, &after)
     size = UIScreen.mainScreen.bounds.size
     case direction
     when :left
-      delta_to([-width, 0], duration, options, after)
+      delta_to([-size.width, 0], duration, options, &after)
     when :right
-      delta_to([+width, 0], duration, options, after)
+      delta_to([+size.width, 0], duration, options, &after)
     when :up
-      delta_to([0, -height], duration, options, after)
+      delta_to([0, -size.height], duration, options, &after)
     when :down
-      delta_to([0, +height], duration, options, after)
+      delta_to([0, +size.height], duration, options, &after)
     else
       raise "Unknown direction #{direction.inspect}"
     end
+    self
   end
 
 end
