@@ -7,6 +7,12 @@ UIActivityIndicatorView.teacup_handler :color { |view, color|
   view.color = color.uicolor
 }
 
+UIActivityIndicatorView.teacup_handler :style { |view, style|
+  style = style.uiactivityindicatorstyle unless style.is_a?(Fixnum)
+  view.activityIndicatorViewStyle = style
+}
+UIActivityIndicatorView.teacup_alias :activityIndicatorViewStyle => :style
+
 UIImageView.teacup_handler :image { |view, img|
   image = img.uiimage
   if not image
