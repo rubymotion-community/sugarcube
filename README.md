@@ -129,6 +129,7 @@ This is the "big daddy".  Lots of sugar here...
 :small.uifontsize # => UIFont.smallSystemFontSize
 :small.uifont  # => UIFont.systemFontOfSize(:small.uifontsize)
 :bold.uifont(:small)  # UIFont.boldSystemFontOfSize(:small.uifontsize)
+:large.uiactivityindicatorstyle  # :large, :white, :gray
 ```
 
  UIImage
@@ -144,6 +145,8 @@ image.uicolor # => UIColor.colorWithPatternImage(image)
 
 ```ruby
 self.view << subview  # => self.view.addSubview(subview)
+self.view.show  # => self.hidden = false
+self.view.hide  # => self.hidden = true
 ```
 
  UIControl
