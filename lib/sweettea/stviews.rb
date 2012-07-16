@@ -16,7 +16,7 @@ class STFullScreenView < UIView
 
 end
 
-class STContainerImageView < UIImageView
+class STInteractiveImageView < UIImageView
 
   def self.new(name=nil)
     if name

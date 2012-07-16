@@ -47,7 +47,7 @@ view without caring to check the device.
 subview(STImageButton, bg_image: "image name")
 subview(STFullScreenView) do
 end
-subview(STContainerImageView, image: "backrgound") do
+subview(STInteractiveImageView, image: "backrgound") do
   subview(UITextField, :name)
 end
 ```
