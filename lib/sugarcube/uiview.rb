@@ -81,4 +81,22 @@ class UIView
     self
   end
 
+  def shake(options={})
+    offset = options[:offset] || 8
+    repeat = options[:repeat] || 3
+    duration = (options[:duration] || 0.3) / repeat
+    keypath = options[:keypath] || 'transform.translation.x'
+
+    origin = 0
+    left = -offset
+    right = +offset
+
+    animation = CAKeyframeAnimation.animationWithKeyPath(keypath)
+    animation.duration = duration
+    animation.repeatCount = repeat
+    animation.values = [origin, left, right, origin]
+    animation.keyTimes = [0, 0.25, 0.75, 1.0]
+    self.layer.addAnimation(animation, forKey:'shake')
+  end
+
 end
