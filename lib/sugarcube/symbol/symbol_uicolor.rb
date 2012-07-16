@@ -5,14 +5,14 @@ class Symbol
   end
 
   def uicolor(alpha=nil)
-    begin
+    if Symbol.uicolors.has_key? self
       # iOS colors
       color = UIColor.send(look_in(Symbol.uicolors))
 
       if not alpha.nil?
         color = color.colorWithAlphaComponent(alpha.to_f)
       end
-    rescue SugarNotFoundException
+    else
       # css colors
       color = look_in(Symbol.css_colors).uicolor(alpha)
     end

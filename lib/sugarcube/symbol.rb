@@ -217,16 +217,17 @@ class Symbol
 
   def uifont(size=UIFont.systemFontSize)
     # system fonts
-    begin
+    if Symbol.system_fonts.has_key? self
       font = look_in(Symbol.system_fonts)
       if Symbol === size
         size = Symbol.font_sizes.fetch(size).uifontsize
       end
-      return UIFont.send(font, size)
-    rescue SugarNotFoundException
+      font = UIFont.send(font, size)
+    else
       size = look_in(font_sizes).uifontsize
-      return UIFont.systemFontOfSize(size)
+      font = UIFont.systemFontOfSize(size)
     end
+    font
   end
 
   def uifontsize
