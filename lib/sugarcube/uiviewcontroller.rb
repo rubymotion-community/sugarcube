@@ -12,8 +12,10 @@ class UINavigationController
     self
   end
 
-  def pop
-    self.popViewController
+  def pop(to_view=nil)
+    return self.!(to_view) if to_view
+
+    self.popViewControllerAnimated(true)
   end
 
   def !(to_view=nil)
