@@ -44,7 +44,7 @@ tiny tiny useful classes, like if you want to have an imageview with stuff on it
 view without caring to check the device.
 
 ```ruby
-subview(STImageButton, bg_image: "image name")
+subview(UIButton.custom, bg_image: "image name")
 subview(STFullScreenView) do
 end
 subview(STInteractiveImageView, image: "backrgound") do
