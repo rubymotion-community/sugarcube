@@ -30,6 +30,9 @@ module SugarCube
     alias :l :left
 
     def right val=1
+      @@sugarcube_view ||= nil
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+
       f = @@sugarcube_view.frame
       f.origin.x += val
       @@sugarcube_view.frame = f
@@ -42,6 +45,9 @@ module SugarCube
     alias :u :up
 
     def down val=1
+      @@sugarcube_view ||= nil
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+
       f = @@sugarcube_view.frame
       f.origin.y += val
       @@sugarcube_view.frame = f
@@ -49,6 +55,9 @@ module SugarCube
     alias :d :down
 
     def origin x=nil, y=nil
+      @@sugarcube_view ||= nil
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+
       f = @@sugarcube_view.frame
       return SugarCube::CoreGraphics::Point(f.origin) if not x
 
@@ -69,6 +78,9 @@ module SugarCube
     alias :n :thinner
 
     def wider val=1
+      @@sugarcube_view ||= nil
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+
       f = @@sugarcube_view.frame
       f.size.width += val
       @@sugarcube_view.frame = f
@@ -81,6 +93,9 @@ module SugarCube
     alias :s :shorter
 
     def taller val=1
+      @@sugarcube_view ||= nil
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+
       f = @@sugarcube_view.frame
       f.size.height += val
       @@sugarcube_view.frame = f
@@ -88,6 +103,9 @@ module SugarCube
     alias :t :taller
 
     def size w=nil, h=nil
+      @@sugarcube_view ||= nil
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+
       f = @@sugarcube_view.frame
       return SugarCube::CoreGraphics::Size(f.size) if not w
 
@@ -103,6 +121,9 @@ module SugarCube
 
     ##|  RESTORE
     def restore
+      @@sugarcube_view ||= nil
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+
       @@sugarcube_view.frame = @@sugarcube_restore
     end
     alias :r :restore
