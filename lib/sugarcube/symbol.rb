@@ -34,6 +34,9 @@ class Symbol
     attr_accessor :system_fonts
     attr_accessor :font_sizes
     attr_accessor :returnkeys
+    attr_accessor :activityindicator_styles
+    attr_accessor :tableview_styles
+    attr_accessor :statusbar_styles
   end
 
   @devices = {
@@ -137,6 +140,24 @@ class Symbol
     emergencycall: UIReturnKeyEmergencyCall,
   }
 
+  @activityindicator_styles = {
+    large:      UIActivityIndicatorViewStyleWhiteLarge,
+    whitelarge: UIActivityIndicatorViewStyleWhiteLarge,
+    white:      UIActivityIndicatorViewStyleWhite,
+    gray:       UIActivityIndicatorViewStyleGray,
+  }
+
+  @tableview_styles = {
+    plain:   UITableViewStylePlain,
+    grouped: UITableViewStyleGrouped,
+  }
+
+  @statusbar_styles = {
+    default:   UIStatusBarStyleDefault,
+    black:     UIStatusBarStyleBlackOpaque,
+    translucent: UIStatusBarStyleBlackTranslucent,
+  }
+
   private
   def look_in(here)
     return here[self] if here.has_key? self
@@ -178,6 +199,20 @@ class Symbol
 
   def uireturnkey
     look_in(Symbol.returnkeys)
+  end
+
+  def uiactivityindicatorstyle
+    look_in(Symbol.activityindicator_styles)
+  end
+  alias :uiactivityindicatorviewstyle :uiactivityindicatorstyle
+
+  def uitablestyle
+    look_in(Symbol.tableview_styles)
+  end
+  alias :uitableviewstyle :uitablestyle
+
+  def uistatusbarstyle
+    look_in(Symbol.statusbar_styles)
   end
 
   def uifont(size=UIFont.systemFontSize)
