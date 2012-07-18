@@ -1,34 +1,34 @@
 class UIButton
   class << self
     def custom
-      UIButton.buttonWithType(:custom.uibuttontype)
+      self.buttonWithType(:custom.uibuttontype)
     end
     def rounded
-      UIButton.buttonWithType(:rounded.uibuttontype)
+      self.buttonWithType(:rounded.uibuttontype)
     end
     def rounded_rect
-      UIButton.buttonWithType(:rounded_rect.uibuttontype)
+      self.buttonWithType(:rounded_rect.uibuttontype)
     end
     def detail
-      UIButton.buttonWithType(:detail.uibuttontype)
+      self.buttonWithType(:detail.uibuttontype)
     end
     def detail_disclosure
-      UIButton.buttonWithType(:detail_disclosure.uibuttontype)
+      self.buttonWithType(:detail_disclosure.uibuttontype)
     end
     def info
-      UIButton.buttonWithType(:info.uibuttontype)
+      self.buttonWithType(:info.uibuttontype)
     end
     def info_light
-      UIButton.buttonWithType(:info_light.uibuttontype)
+      self.buttonWithType(:info_light.uibuttontype)
     end
     def info_dark
-      UIButton.buttonWithType(:info_dark.uibuttontype)
+      self.buttonWithType(:info_dark.uibuttontype)
     end
     def contact
-      UIButton.buttonWithType(:contact.uibuttontype)
+      self.buttonWithType(:contact.uibuttontype)
     end
     def contact_add
-      UIButton.buttonWithType(:contact_add.uibuttontype)
+      self.buttonWithType(:contact_add.uibuttontype)
     end
   end
 end
