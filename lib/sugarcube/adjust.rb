@@ -12,6 +12,17 @@ module SugarCube
     end
     alias :a :adjust
 
+    ##|  FRAME
+    def frame f=nil
+      @@sugarcube_view ||= nil
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+
+      return SugarCube::CoreGraphics::Rect(@@sugarcube_view.frame) if not f
+
+      @@sugarcube_view.frame = f
+    end
+    alias :f :frame
+
     ##|  ORIGIN
     def left val=1
       SugarCube::right -val
