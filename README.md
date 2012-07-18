@@ -284,7 +284,8 @@ Assume I ran `include SugarCube::Adjust` in these examples.
 > taller 1
 > shorter 1
 > size 100, 10  # set size to width:100, height: 10
-> restore  # original frame is saved when you call adjust
+> shadow(opacity: 0.5, offset: [0, 0], color: :black, radius: 1) # and path, which is a CGPath object.
+> restore  # original frame and shadow is saved when you call `adjust`
 ```
 
 ```ruby
@@ -300,7 +301,15 @@ Assume I ran `include SugarCube::Adjust` in these examples.
 > t          # taller
 > s          # shorter
 > z 100, 10  # size, also accepts an array (or Size() object)
-> r          # restore
+> # you can also query your view.  You will get nice-looking
+> # SugarCube::CoreGraphics objects
+> f   # frame
+[[0, 0], [320, 480]]
+> o   # origin
+[0, 0]
+> z   # size
+[320, 480]
+> h   # shadow - this returns an array identical to what you can pass to `shadow`
 
 # if you forget what view you are adjusting, run `adjust` again
 > a

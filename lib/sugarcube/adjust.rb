@@ -7,7 +7,11 @@ module SugarCube
       return @@sugarcube_view if not view
 
       @@sugarcube_view = view
-      @@sugarcube_restore = view.frame
+      @@sugarcube_restore = {
+        frame: SugarCube::Adjust.frame,
+        shadow: SugarCube::Adjust.shadow,
+      }
+
       view
     end
     alias :a :adjust
@@ -119,12 +123,49 @@ module SugarCube
     end
     alias :z :size
 
+    ##|  SHADOW
+    def shadow shadow=nil
+      @@sugarcube_view ||= nil
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+
+      if shadow
+        {
+          opacity: :'shadowOpacity=',
+          radius: :'shadowRadius=',
+          offset: :'shadowOffset=',
+          color: :'shadowColor=',
+          path: :'shadowPath=',
+        }.each { |key, msg|
+          if value = shadow[key]
+            if key == :color
+              value = value.uicolor.CGColor
+            end
+            @@sugarcube_view.layer.send(msg, value)
+            @@sugarcube_view.layer.masksToBounds = false
+            @@sugarcube_view.layer.shouldRasterize = true
+          end
+        }
+        @@sugarcube_view
+      else
+        {
+          opacity: @@sugarcube_view.layer.shadowOpacity,
+          radius: @@sugarcube_view.layer.shadowRadius,
+          offset: @@sugarcube_view.layer.shadowOffset,
+          color: @@sugarcube_view.layer.shadowColor,
+          path: @@sugarcube_view.layer.shadowPath,
+        }
+      end
+    end
+    alias :h :shadow
+
     ##|  RESTORE
     def restore
       @@sugarcube_view ||= nil
       raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
 
-      @@sugarcube_view.frame = @@sugarcube_restore
+      @@sugarcube_restore.each do |msg, value|
+        SugarCube::Adjust.send(msg, value)
+      end
     end
 
   end
