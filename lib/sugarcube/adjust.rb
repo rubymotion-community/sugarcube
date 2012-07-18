@@ -126,7 +126,6 @@ module SugarCube
 
       @@sugarcube_view.frame = @@sugarcube_restore
     end
-    alias :r :restore
 
   end
 end
