@@ -11,4 +11,9 @@ class UIImage
     color
   end
 
+  def uiimageview
+    @uiimageview = UIImageView.alloc.initWithImage(self)
+  end
+
+
 end
