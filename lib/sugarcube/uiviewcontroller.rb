@@ -1,5 +1,3 @@
-
-
 class UINavigationController
 
   def push(view_controller)

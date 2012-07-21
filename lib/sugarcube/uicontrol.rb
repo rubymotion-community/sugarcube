@@ -1,5 +1,3 @@
-
-
 class UIControl
 
   # event blocks need to be retained, and the addTarget method explicitly does

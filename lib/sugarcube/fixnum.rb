@@ -1,5 +1,3 @@
-
-
 class Fixnum
 
   #     0xffffff.uicolor

@@ -1,5 +1,3 @@
-
-
 class UIImage
   def uiimage ; self ; end
 

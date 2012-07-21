@@ -1,5 +1,3 @@
-
-
 class Numeric
 
   def percent

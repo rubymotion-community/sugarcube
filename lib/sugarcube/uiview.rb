@@ -1,5 +1,3 @@
-
-
 class UIView
 
   def <<(view)
