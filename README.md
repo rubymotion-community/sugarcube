@@ -213,6 +213,10 @@ end
 ----------------
 
 ```ruby
+'key'.set_default(['any', 'objects'])  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
+'key'.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
+
+# symbols are converted to strings, so theses are equivalent
 :key.set_default(['any', 'objects'])  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
 :key.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
 ```
