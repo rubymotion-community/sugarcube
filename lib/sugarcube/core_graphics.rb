@@ -102,16 +102,74 @@ class CGSizeArray < Array
 end
 
 
+class UIEdgeInsetsArray < Array
+
+  def top
+    return self[0]
+  end
+
+  def top= val
+    self[0] = val
+  end
+
+  def left
+    return self[1]
+  end
+
+  def left= val
+    self[1] = val
+  end
+
+  def bottom
+    return self[2]
+  end
+
+  def bottom= val
+    self[2] = val
+  end
+
+  def right
+    return self[3]
+  end
+
+  def right= val
+    self[3] = val
+  end
+
+end
+
+
+class UIOffsetArray < Array
+
+  def horizontal
+    return self[0]
+  end
+
+  def horizontal= val
+    self[0] = val
+  end
+
+  def vertical
+    return self[1]
+  end
+
+  def vertical= val
+    self[1] = val
+  end
+
+end
+
 module SugarCube
   module CoreGraphics
     module_function
 
     def Size(w_or_size, h=nil)
       if not h
-        if CGSize === w_or_size
+        case w_or_size
+        when CGSize
           w = w_or_size.width
           h = w_or_size.height
-        elsif Array === w_or_size
+        when Array
           w = w_or_size[0]
           h = w_or_size[1]
         else
@@ -125,10 +183,11 @@ module SugarCube
 
     def Point(x_or_origin, y=nil)
       if not y
-        if CGPoint === x_or_origin
+        case x_or_origin
+        when CGPoint
           x = x_or_origin.x
           y = x_or_origin.y
-        elsif Array === x_or_origin
+        when Array
           x = x_or_origin[0]
           y = x_or_origin[1]
         else
@@ -140,21 +199,24 @@ module SugarCube
       return CGPointArray.new([x, y])
     end
 
-    # Accepts 2 or 4 arguments.  2 arguments should be a point and a size,
+    # Accepts 1, 2 or 4 arguments.
+    # 1 argument should be an Array[4], CGRectArray, or CGRect
+    # 2 arguments should be a Point/CGPoint and a Size/CGSize,
     # 4 should be x, y, w, h
     def Rect(x_or_origin, y_or_size=nil, w=nil, h=nil)
       if not y_or_size
-        if CGRectArray === x_or_origin
-          x = x_or_origin[0][0]
-          y = x_or_origin[0][1]
-          w = x_or_origin[1][0]
-          h = x_or_origin[1][1]
-        elsif CGRect === x_or_origin
+        case x_or_origin
+        when CGRect
           x = x_or_origin.origin.x
           y = x_or_origin.origin.y
           w = x_or_origin.size.width
           h = x_or_origin.size.height
-        elsif Array === x_or_origin
+        when CGRectArray
+          x = x_or_origin[0][0]
+          y = x_or_origin[0][1]
+          w = x_or_origin[1][0]
+          h = x_or_origin[1][1]
+        when Array
           x = x_or_origin[0]
           y = x_or_origin[1]
           w = x_or_origin[2]
@@ -172,6 +234,57 @@ module SugarCube
         y = y_or_size
       end
       return CGRectArray.new([[x, y], [w, h]])
+    end
+
+    # Accepts 1 or 4 arguments.
+    # 1 argument should be an Array[4] or UIEdgeInset,
+    # 4 should be top, left, bottom, right
+    def EdgeInsets(top_or_inset, left=nil, bottom=nil, right=nil)
+      unless left or bottom or right
+        case top_or_inset
+        when UIEdgeInsets
+          top = top.top
+          left = top.left
+          bottom = top.bottom
+          right = top.right
+        when Array
+          top = top_or_inset[0]
+          left = top_or_inset[1]
+          bottom = top_or_inset[2]
+          right = top_or_inset[3]
+        when Numeric
+          top = left = bottom = right = top_or_inset
+        else
+          raise RuntimeError.new("Invalid argument sent to EdgeInsets(#{top_or_inset.inspect})")
+        end
+      else
+        top = top_or_inset
+      end
+      return UIEdgeInsetsArray.new([top, left, bottom, right])
+    end
+
+    # Accepts 1 or 2 arguments.
+    # 1 argument should be an Array[2] or UIOffset,
+    # 2 should be horizontal, vertical
+    def Offset(horizontal_or_offset, vertical=nil)
+      if not vertical
+        case horizontal_or_offset
+        when UIOffset
+          horizontal = horizontal_or_offset.horizontal
+          vertical = horizontal_or_offset.vertical
+        when Array
+          horizontal = horizontal_or_offset[0]
+          vertical = horizontal_or_offset[1]
+        when Fixnum
+          horizontal_or_offset =
+          vertical = horizontal_or_offset[0]
+        else
+          raise RuntimeError.new("Invalid argument sent to Offset(#{horizontal_or_offset.inspect})")
+        end
+      else
+        horizontal = horizontal_or_offset
+      end
+      return UIOffsetArray.new([horizontal, vertical])
     end
 
   end
