@@ -37,6 +37,9 @@ class Symbol
     attr_accessor :activityindicator_styles
     attr_accessor :tableview_styles
     attr_accessor :statusbar_styles
+    attr_accessor :barmetrics
+    attr_accessor :barbuttomitems
+    attr_accessor :keyboardtypes
   end
 
   @devices = {
@@ -158,6 +161,49 @@ class Symbol
     translucent: UIStatusBarStyleBlackTranslucent,
   }
 
+  @barmetrics = {
+    default:   UIBarMetricsDefault,
+    landscape: UIBarMetricsLandscapePhone,
+  }
+
+  @barbuttomitems = {
+    done:          UIBarButtonSystemItemDone,
+    cancel:        UIBarButtonSystemItemCancel,
+    edit:          UIBarButtonSystemItemEdit,
+    save:          UIBarButtonSystemItemSave,
+    add:           UIBarButtonSystemItemAdd,
+    flexiblespace: UIBarButtonSystemItemFlexibleSpace,
+    fixedspace:    UIBarButtonSystemItemFixedSpace,
+    compose:       UIBarButtonSystemItemCompose,
+    reply:         UIBarButtonSystemItemReply,
+    action:        UIBarButtonSystemItemAction,
+    organize:      UIBarButtonSystemItemOrganize,
+    bookmarks:     UIBarButtonSystemItemBookmarks,
+    search:        UIBarButtonSystemItemSearch,
+    refresh:       UIBarButtonSystemItemRefresh,
+    stop:          UIBarButtonSystemItemStop,
+    camera:        UIBarButtonSystemItemCamera,
+    trash:         UIBarButtonSystemItemTrash,
+    play:          UIBarButtonSystemItemPlay,
+    pause:         UIBarButtonSystemItemPause,
+    rewind:        UIBarButtonSystemItemRewind,
+    fastforward:   UIBarButtonSystemItemFastForward,
+    undo:          UIBarButtonSystemItemUndo,
+    redo:          UIBarButtonSystemItemRedo,
+    pagecurl:      UIBarButtonSystemItemPageCurl,
+  }
+
+  @keyboardtypes = {
+    default:               UIKeyboardTypeDefault,
+    asciicapable:          UIKeyboardTypeASCIICapable,
+    numbersandpunctuation: UIKeyboardTypeNumbersAndPunctuation,
+    url:                   UIKeyboardTypeURL,
+    numberpad:             UIKeyboardTypeNumberPad,
+    phonepad:              UIKeyboardTypePhonePad,
+    namephonepad:          UIKeyboardTypeNamePhonePad,
+    emailaddress:          UIKeyboardTypeEmailAddress,
+  }
+
   private
   def look_in(here)
     return here[self] if here.has_key? self
@@ -192,6 +238,7 @@ class Symbol
   def uicontrolstate
     look_in(Symbol.controlstates)
   end
+  alias :uistate :uicontrolstate
 
   def uicontrolevent
     look_in(Symbol.controlevents)
@@ -215,6 +262,18 @@ class Symbol
     look_in(Symbol.statusbar_styles)
   end
 
+  def uibarmetrics
+    look_in(Symbol.barmetrics)
+  end
+
+  def uibarbuttonitem
+    look_in(Symbol.barbuttomitems)
+  end
+
+  def uikeyboardtype
+    look_in(Symbol.keyboardtypes)
+  end
+
   def uifont(size=UIFont.systemFontSize)
     # system fonts
     if Symbol.system_fonts.has_key? self
@@ -236,10 +295,6 @@ class Symbol
       return UIFont.send(Symbol.font_sizes[self])
     end
     return size.to_f
-  end
-
-  def to_teacup_stylesheet
-    Teacup::Stylesheet[self]
   end
 
 end
