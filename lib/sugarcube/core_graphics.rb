@@ -31,6 +31,17 @@ class CGRectArray < Array
     self[1] = SugarCube::CoreGraphics::Size(val)
   end
 
+  # returns an intersection of self and rect.
+  def +(rect)
+    super unless rect.is_a?(CGRectArray)
+
+    x1 = self.origin.x < rect.origin.x ? self.origin.x : rect.origin.x
+    y1 = self.origin.y < rect.origin.y ? self.origin.y : rect.origin.y
+    x2 = self.origin.x + self.size.width > rect.origin.x + rect.size.width ? self.origin.x + self.size.width : rect.origin.x + rect.size.width
+    y2 = self.origin.y + self.size.height > rect.origin.y + rect.size.height ? self.origin.y + self.size.height : rect.origin.y + rect.size.height
+    CGRectArray[x1, y1, x2-x1, y2-y1]
+  end
+
 end
 
 
@@ -52,6 +63,14 @@ class CGPointArray < Array
     self[1] = val
   end
 
+  # adds a vector to this point
+  def +(vector)
+    super unless vector.is_a?(CGPointArray)
+    x = self.x + vector.x
+    y = self.y + vector.y
+    CGPointArray[x, y]
+  end
+
 end
 
 class CGSizeArray < Array
@@ -70,6 +89,14 @@ class CGSizeArray < Array
 
   def height= val
     self[1] = val
+  end
+
+  # adds the sizes
+  def +(vector)
+    super unless vector.is_a?(CGSizeArray)
+    width = self.width + vector.width
+    height = self.height + vector.height
+    CGPointArray[width, height]
   end
 
 end
