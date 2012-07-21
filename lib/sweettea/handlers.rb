@@ -111,3 +111,22 @@ UIImageView.teacup_handler :image { |view, img|
   end
   view.image = image
 }
+
+
+UILabel.teacup_handler :textColor { |view, color|
+  view.textColor = color.uicolor
+}
+
+
+UINavigationBar.teacup_handler :backgroundImage { |view, styles|
+  styles.each do |metric, image|
+    metric = metric.uibarmetrics if Symbol === metric
+    view.setBackgroundImage(image.uiimage, forBarMetrics:metric)
+  end
+}
+
+
+UITextField.teacup_handler :keyboardType { |view, type|
+  type = type.uikeyboardtype unless type.is_a?(Fixnum)
+  view.setKeyboardType type
+}
