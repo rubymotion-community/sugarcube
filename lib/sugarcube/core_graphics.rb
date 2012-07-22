@@ -31,15 +31,27 @@ class CGRectArray < Array
     self[1] = SugarCube::CoreGraphics::Size(val)
   end
 
-  # returns an intersection of self and rect.
+  # returns an intersection of self and rect, or moves the Rect using Point,
+  # or increases the size using Size
   def +(rect)
-    super unless rect.is_a?(CGRectArray)
-
-    x1 = self.origin.x < rect.origin.x ? self.origin.x : rect.origin.x
-    y1 = self.origin.y < rect.origin.y ? self.origin.y : rect.origin.y
-    x2 = self.origin.x + self.size.width > rect.origin.x + rect.size.width ? self.origin.x + self.size.width : rect.origin.x + rect.size.width
-    y2 = self.origin.y + self.size.height > rect.origin.y + rect.size.height ? self.origin.y + self.size.height : rect.origin.y + rect.size.height
-    CGRectArray[x1, y1, x2-x1, y2-y1]
+    case rect
+    when CGRectArray
+      x1 = self.origin.x < rect.origin.x ? self.origin.x : rect.origin.x
+      y1 = self.origin.y < rect.origin.y ? self.origin.y : rect.origin.y
+      x2 = self.origin.x + self.size.width > rect.origin.x + rect.size.width ? self.origin.x + self.size.width : rect.origin.x + rect.size.width
+      y2 = self.origin.y + self.size.height > rect.origin.y + rect.size.height ? self.origin.y + self.size.height : rect.origin.y + rect.size.height
+      CGRectArray[x1, y1, x2-x1, y2-y1]
+    when CGPointArray
+      x = self.origin.x + rect.x
+      y = self.origin.y + rect.y
+      CGRectArray[[x, y], self.size]
+    when CGSizeArray
+      w = self.size.width + rect.width
+      h = self.size.height + rect.height
+      CGRectArray[self.origin, [w, h]]
+    else
+      super
+    end
   end
 
 end
@@ -63,12 +75,18 @@ class CGPointArray < Array
     self[1] = val
   end
 
-  # adds a vector to this point
+  # adds a vector to this point, or creates a Rect by adding a size
   def +(vector)
-    super unless vector.is_a?(CGPointArray)
-    x = self.x + vector.x
-    y = self.y + vector.y
-    CGPointArray[x, y]
+    case vector
+    when CGPointArray
+      x = self.x + vector.x
+      y = self.y + vector.y
+      CGPointArray[x, y]
+    when CGSizeArray
+      CGRectArray[self, vector]
+    else
+      super
+    end
   end
 
 end
@@ -92,11 +110,17 @@ class CGSizeArray < Array
   end
 
   # adds the sizes
-  def +(vector)
-    super unless vector.is_a?(CGSizeArray)
-    width = self.width + vector.width
-    height = self.height + vector.height
-    CGPointArray[width, height]
+  def +(size)
+    case size
+    when CGSizeArray
+      width = self.width + size.width
+      height = self.height + size.height
+      CGSizeArray[width, height]
+    when CGPointArray
+      CGRectArray[size, self]
+    else
+      super
+    end
   end
 
 end
