@@ -1,5 +1,5 @@
 unless defined?(Motion::Project::Config)
-  raise "sweettea must be required within a RubyMotion project Rakefile."
+  raise "The sweettea gem must be required within a RubyMotion project Rakefile."
 end
 
 
