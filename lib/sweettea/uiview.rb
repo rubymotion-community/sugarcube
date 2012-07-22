@@ -1,5 +1,5 @@
 
-class View
+class UIView
 
   # aliases 'viewWithStylename', and provides indexed access to subviews
   #
