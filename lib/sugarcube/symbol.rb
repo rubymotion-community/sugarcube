@@ -207,7 +207,7 @@ class Symbol
   private
   def look_in(here)
     return here[self] if here.has_key? self
-    raise SugarNotFoundException.new(self)
+    raise SugarNotFoundException.new(self.inspect)
   end
 
   public
