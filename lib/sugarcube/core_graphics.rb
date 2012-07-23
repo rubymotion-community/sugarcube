@@ -40,15 +40,15 @@ class CGRectArray < Array
       y1 = self.origin.y < rect.origin.y ? self.origin.y : rect.origin.y
       x2 = self.origin.x + self.size.width > rect.origin.x + rect.size.width ? self.origin.x + self.size.width : rect.origin.x + rect.size.width
       y2 = self.origin.y + self.size.height > rect.origin.y + rect.size.height ? self.origin.y + self.size.height : rect.origin.y + rect.size.height
-      CGRectArray[x1, y1, x2-x1, y2-y1]
+      SugarCube::CoreGraphics::Rect(x1, y1, x2-x1, y2-y1)
     when CGPointArray
       x = self.origin.x + rect.x
       y = self.origin.y + rect.y
-      CGRectArray[[x, y], self.size]
+      SugarCube::CoreGraphics::Rect([[x, y], self.size])
     when CGSizeArray
       w = self.size.width + rect.width
       h = self.size.height + rect.height
-      CGRectArray[self.origin, [w, h]]
+      SugarCube::CoreGraphics::Rect([self.origin, [w, h]])
     else
       super
     end
@@ -76,14 +76,14 @@ class CGPointArray < Array
   end
 
   # adds a vector to this point, or creates a Rect by adding a size
-  def +(vector)
-    case vector
+  def +(point)
+    case point
     when CGPointArray
-      x = self.x + vector.x
-      y = self.y + vector.y
+      x = self.x + point.x
+      y = self.y + point.y
       CGPointArray[x, y]
     when CGSizeArray
-      CGRectArray[self, vector]
+      CGRectArray[self, point]
     else
       super
     end
@@ -241,16 +241,27 @@ module SugarCube
           w = x_or_origin[1][0]
           h = x_or_origin[1][1]
         when Array
-          x = x_or_origin[0]
-          y = x_or_origin[1]
-          w = x_or_origin[2]
-          h = x_or_origin[3]
+          if x_or_origin.length == 2
+            x = x_or_origin[0][0]
+            y = x_or_origin[0][1]
+            w = x_or_origin[1][0]
+            h = x_or_origin[1][1]
+          elsif
+            x = x_or_origin[0]
+            y = x_or_origin[1]
+            w = x_or_origin[2]
+            h = x_or_origin[3]
+          else
+            raise RuntimeError.new("Invalid argument sent to Rect(#{x_or_origin.inspect})")
+          end
         else
           raise RuntimeError.new("Invalid argument sent to Rect(#{x_or_origin.inspect})")
         end
       elsif not w and not h
+        x_or_origin = Point(x_or_origin) unless x_or_origin.is_a? CGPointArray
         x = x_or_origin.x
         y = x_or_origin.y
+        y_or_size = Size(y_or_size) unless y_or_size.is_a? CGSizeArray
         w = y_or_size.width
         h = y_or_size.height
       else

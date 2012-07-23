@@ -137,7 +137,7 @@ module SugarCube
           path: :'shadowPath=',
         }.each { |key, msg|
           if value = shadow[key]
-            if key == :color
+            if key == :color and [Symbol, Fixnum, NSString, UIImage, UIColor].any?{|klass| value.is_a? klass}
               value = value.uicolor.CGColor
             end
             @@sugarcube_view.layer.send(msg, value)
