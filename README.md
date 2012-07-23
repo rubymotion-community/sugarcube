@@ -364,4 +364,4 @@ Assume I ran `include SugarCube::Adjust` in these examples.
 ```
 
 [BubbleWrap]: https://github.com/rubymotion/BubbleWrap
-[sweettea]: https://github.com/fusionbox/sugarcube/tree/master/SWEETTEA.md
+[sweettea]: https://github.com/colinta/sweettea/README.md
