@@ -8,10 +8,6 @@ class NSString
     @uiimage = UIImage.imageNamed(self)
   end
 
-  def uicolor
-    @uicolor ||= (self.uiimage and self.uiimage.uicolor or :clear.uicolor)
-  end
-
   def uiimageview
     @uiimageview ||= (self.uiimage and self.uiimage.uiimageview or UIImageView.alloc.initWithImage(nil))
   end
