@@ -149,6 +149,34 @@ self.view.show  # => self.hidden = false
 self.view.hide  # => self.hidden = true
 ```
 
+ View factories
+---------
+
+```ruby
+UIButton.buttonWithType(:custom.uibuttontype)
+# =>
+UIButton.custom
+
+UIButton.custom            => UIButton.buttonWithType(:custom.uibuttontype)
+UIButton.rounded           => UIButton.buttonWithType(:rounded.uibuttontype)
+UIButton.rounded_rect      => UIButton.buttonWithType(:rounded_rect.uibuttontype)
+UIButton.detail            => UIButton.buttonWithType(:detail.uibuttontype)
+UIButton.detail_disclosure => UIButton.buttonWithType(:detail_disclosure.uibuttontype)
+UIButton.info              => UIButton.buttonWithType(:info.uibuttontype)
+UIButton.info_light        => UIButton.buttonWithType(:info_light.uibuttontype)
+UIButton.info_dark         => UIButton.buttonWithType(:info_dark.uibuttontype)
+UIButton.contact           => UIButton.buttonWithType(:contact.uibuttontype)
+UIButton.contact_add       => UIButton.buttonWithType(:contact_add.uibuttontype)
+```
+
+```ruby
+UITableView.alloc.initWithFrame([[0, 0], [320, 480]], style: :plain.uitableviewstyle)
+UITableView.alloc.initWithFrame([[0, 0], [320, 480]], style: :grouped.uitableviewstyle)
+# =>
+UITableView.plain
+UITableView.grouped
+```
+
  UIControl
 -----------
 
