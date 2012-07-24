@@ -25,7 +25,7 @@ You can extend the defaults by adding entries:
 class Symbol
   class << self
     attr_accessor :devices
-    attr_accessor :alignments
+    attr_accessor :textalignments
     attr_accessor :linebreakmodes
     attr_accessor :baselineadjustments
     attr_accessor :orientations
@@ -49,7 +49,7 @@ class Symbol
     ipad: UIUserInterfaceIdiomPad,
   }
 
-  @alignments = {
+  @textalignments = {
     left: UITextAlignmentLeft,
     right: UITextAlignmentRight,
     center: UITextAlignmentCenter,
@@ -236,10 +236,10 @@ class Symbol
     raise SugarNotFoundException.new(self)
   end
 
-  def uialignment
-    look_in(Symbol.alignments)
+  def uitextalignment
+    look_in(Symbol.textalignments)
   end
-  alias :uitextalignment :uialignment
+  alias :uialignment :uitextalignment
 
   def uilinebreakmode
     look_in(Symbol.linebreakmodes)
