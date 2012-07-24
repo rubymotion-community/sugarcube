@@ -26,6 +26,8 @@ class Symbol
   class << self
     attr_accessor :devices
     attr_accessor :alignments
+    attr_accessor :linebreakmodes
+    attr_accessor :baselineadjustments
     attr_accessor :orientations
     attr_accessor :buttontypes
     attr_accessor :bordertypes
@@ -51,6 +53,21 @@ class Symbol
     left: UITextAlignmentLeft,
     right: UITextAlignmentRight,
     center: UITextAlignmentCenter,
+  }
+
+  @linebreakmodes = {
+    wordwrap: UILineBreakModeWordWrap,
+    characterwrap: UILineBreakModeCharacterWrap,
+    clip: UILineBreakModeClip,
+    headtruncation: UILineBreakModeHeadTruncation,
+    tailtruncation: UILineBreakModeTailTruncation,
+    middletruncation: UILineBreakModeMiddleTruncation,
+  }
+
+  @baselineadjustments = {
+    alignbaselines: UIBaselineAdjustmentAlignBaselines,
+    aligncenters: UIBaselineAdjustmentAlignCenters,
+    none: UIBaselineAdjustmentNone,
   }
 
   @orientations = {
@@ -222,6 +239,16 @@ class Symbol
   def uialignment
     look_in(Symbol.alignments)
   end
+  alias :uitextalignment :uialignment
+
+  def uilinebreakmode
+    look_in(Symbol.linebreakmodes)
+  end
+
+  def uibaselineadjustment
+    look_in(Symbol.baselineadjustments)
+  end
+  alias :uibaseline :uibaselineadjustment
 
   def uiorientation
     look_in(Symbol.orientations)
