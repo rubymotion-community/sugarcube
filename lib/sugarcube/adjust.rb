@@ -169,31 +169,43 @@ module SugarCube
     def tree(view=nil, tab=nil, is_last=true, views_index=nil)
       unless view
         @@sugarcube_view ||= nil
-        raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
-        view = @@sugarcube_view
+        if @@sugarcube_view
+          view = @@sugarcube_view
+        else
+          view = UIApplication.sharedApplication.keyWindow
+        end
       end
 
       if not views_index
         is_first = true
-        @@sugarcube_views = []
+        @@sugarcube_views = [view]
         views_index = 0
       else
         is_first = false
+        @@sugarcube_views << view
       end
 
-      print views_index.to_s + ': '
-      @@sugarcube_views << view
+      space = ' '
+      if views_index < 10
+        print "  "
+      elsif views_index < 100
+        print " "
+      elsif views_index > 999
+        # good god, man!
+        space = ''
+      end
+      print views_index.to_s + ":" + space
 
       if tab
         print tab
-        print is_last ? "`-- " : "+-- "
+        print is_last ? "`--" : "+--"
+        tab += is_last ? "    " : "|   "
       else
-        print ". "
+        print "."
         tab = ""
       end
       puts view.inspect
 
-      tab += is_last ? "    " : "|   "
       view.subviews.each_index {|index|
         subview = view.subviews[index]
         views_index += 1
