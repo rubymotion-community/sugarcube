@@ -140,6 +140,30 @@ image = "my_image".uiimage
 image.uicolor # => UIColor.colorWithPatternImage(image)
 ```
 
+ UIAlertView
+--------
+
+Accepts multiple buttons and success and cancel handlers.  In its simplest
+form, you can pass just a title and block.
+
+```ruby
+# simple
+UIAlertView.alert "This is happening, OK?" { self.happened! }
+# a little more complex
+UIAlertView.alert("This is happening, OK?", buttons: ["Nevermind", "OK"],
+  message: "don't worry, it'll be fine.") {
+  self.happened!
+}
+
+# Full on whiz bangery.  Note the success block takes the pressed button, but as
+# a string instead of an index.  The cancel button should be the first entry in
+# `buttons:`
+UIAlertView.alert "I mean, is this cool?", buttons: %w[No! Sure! Hmmmm]
+  message: "No going back now",
+  cancel: { self.cancel },
+  success: { |pressed| self.proceed if pressed == "Sure!" }
+```
+
  UIView
 --------
 
