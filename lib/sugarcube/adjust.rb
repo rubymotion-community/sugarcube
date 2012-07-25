@@ -36,7 +36,7 @@ module SugarCube
 
     ##|  ORIGIN
     def left val=1
-      SugarCube::right -val
+      SugarCube::Adjust::right -val
     end
     alias :l :left
 
@@ -51,7 +51,7 @@ module SugarCube
     alias :r :right
 
     def up val=1
-      SugarCube::down -val
+      SugarCube::Adjust::down -val
     end
     alias :u :up
 
@@ -84,7 +84,7 @@ module SugarCube
 
     ##|  SIZE
     def thinner val=1
-      SugarCube::wider -val
+      SugarCube::Adjust::wider -val
     end
     alias :n :thinner
 
@@ -99,7 +99,7 @@ module SugarCube
     alias :w :wider
 
     def shorter val=1
-      SugarCube::taller -val
+      SugarCube::Adjust::taller -val
     end
     alias :s :shorter
 
