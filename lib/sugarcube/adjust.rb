@@ -6,6 +6,13 @@ module SugarCube
       @@sugarcube_view ||= nil
       return @@sugarcube_view if not view
 
+      if view.is_a? Fixnum
+        @@sugarcube_views ||= nil
+        raise "no views have been assigned to SugarCube::Adjust::tree" unless @@sugarcube_views
+
+        view = @@sugarcube_views[view]
+      end
+
       @@sugarcube_view = view
       @@sugarcube_restore = {
         frame: SugarCube::Adjust.frame,
@@ -157,6 +164,44 @@ module SugarCube
       end
     end
     alias :h :shadow
+
+    ##|  TREE
+    def tree(view=nil, tab=nil, is_last=true, views_index=nil)
+      unless view
+        @@sugarcube_view ||= nil
+        raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+        view = @@sugarcube_view
+      end
+
+      if not views_index
+        is_first = true
+        @@sugarcube_views = []
+        views_index = 0
+      else
+        is_first = false
+      end
+
+      print views_index.to_s + ': '
+      @@sugarcube_views << view
+
+      if tab
+        print tab
+        print is_last ? "`-- " : "+-- "
+      else
+        print ". "
+        tab = ""
+      end
+      puts view.inspect
+
+      tab += is_last ? "    " : "|   "
+      view.subviews.each_index {|index|
+        subview = view.subviews[index]
+        views_index += 1
+        views_index = tree(subview, tab, index == view.subviews.length - 1, views_index)
+      }
+
+      return is_first ? view : views_index
+    end
 
     ##|  RESTORE
     def restore
