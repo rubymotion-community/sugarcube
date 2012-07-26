@@ -2,7 +2,7 @@ class UIAlertView
 
   # UIAlertView.alert("title",
   #   message: "help!",
-  #   buttons: %w"OK Cancel Go Away",
+  #   buttons: %w"OK Cancel No-way",
   #   cancel: proc{ puts "nevermind" },
   #   success: proc{ |pressed| puts "pressed: #{pressed}" },
   #   )
