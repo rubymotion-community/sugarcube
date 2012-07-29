@@ -173,8 +173,41 @@ self.view.show  # => self.hidden = false
 self.view.hide  # => self.hidden = true
 ```
 
- View factories
----------
+###### Animations
+
+jQuery-like animation methods.
+
+```ruby
+# default timeout is 0.3
+view.fade_out { |view|
+  view.removeFromSuperview
+}
+# options:
+view.fade_out(0.5, delay: 0,
+                  options: UIViewAnimationOptionCurveLinear,
+                  opacity: 0.5) { |view|
+  view.removeFromSuperview
+}
+
+view.move_to([0, 100])  # move to position 0, 100
+view.delta_to([0, 100])  # move over 0, down 100, from current position
+
+view.slide :left   # slides the entire view one "page" to the left, right, up, or down
+
+view.shake  # shakes the view.
+# options w/ default values:
+shake offset: 8,   # move 8 px left, and 8 px right
+      repeat: 3,   # three times
+    duration: 0.3, # for a total of 0.3 seconds
+     keypath: 'transform.translate.x'
+
+# vigorous nodding - modifying transform.translation.y:
+view.shake offset: 20, repeat: 10, duration: 5, keypath: 'transform.translation.y'
+# an adorable wiggle - modifying transform.rotation:
+superview.shake offset: 0.1, repeat: 2, duration: 0.5, keypath: 'transform.rotation'
+```
+
+###### View factories
 
 ```ruby
 UIButton.buttonWithType(:custom.uibuttontype)
@@ -322,40 +355,6 @@ f = Rect(p, s)
 f = Rect([[x, y], [w, h]])  # same as above (the CG*Array objects will get created for you)
 
 view.frame = f  # Rect returns a CGRectArray, which view.frame can accept
-```
-
-###### Animations
-
-jQuery-like animation methods.
-
-```ruby
-# default timeout is 0.3
-view.fade_out { |view|
-  view.removeFromSuperview
-}
-# options:
-view.fade_out(0.5, delay: 0,
-                  options: UIViewAnimationOptionCurveLinear,
-                  opacity: 0.5) { |view|
-  view.removeFromSuperview
-}
-
-view.move_to([0, 100])  # move to position 0, 100
-view.delta_to([0, 100])  # move over 0, down 100, from current position
-
-view.slide :left   # slides the entire view one "page" to the left, right, up, or down
-
-view.shake  # shakes the view.
-# options w/ default values:
-shake offset: 8,   # move 8 px left, and 8 px right
-      repeat: 3,   # three times
-    duration: 0.3, # for a total of 0.3 seconds
-     keypath: 'transform.translate.x'
-
-# vigorous nodding - modifying transform.translation.y:
-view.shake offset: 20, repeat: 10, duration: 5, keypath: 'transform.translation.y'
-# an adorable wiggle - modifying transform.rotation:
-superview.shake offset: 0.1, repeat: 2, duration: 0.5, keypath: 'transform.rotation'
 ```
 
  REPL View adjustments
