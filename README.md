@@ -414,5 +414,20 @@ Assume I ran `include SugarCube::Adjust` in these examples.
 => {UITextField @ x: 46.0 y:214.0, 280.0×33.0} child of UIView
 ```
 
+ Pointers
+----------
+
+These are not UIKit-related, so I reverted to Ruby's preferred `to_foo`
+convention.
+
+```ruby
+[0.0, 1.1, 2.2].to_pointer(:float)
+
+floats = Pointer.new(:float, 3)
+floats[0] = 0.0
+floats[1] = 1.1
+floats[2] = 2.2
+```
+
 [BubbleWrap]: https://github.com/rubymotion/BubbleWrap
 [sweettea]: https://github.com/colinta/sweettea
