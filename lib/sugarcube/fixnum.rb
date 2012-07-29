@@ -3,8 +3,8 @@ class Fixnum
   #     0xffffff.uicolor
   #     0xffffff.uicolor(0.33)
   # =>
-  #     UIColor.colorWithRed(1.0, green:1.0, red: 1.0, alpha:1.0)
-  #     UIColor.colorWithRed(1.0, green:1.0, red: 1.0, alpha:0.33)
+  #     UIColor.colorWithRed(1.0, green:1.0, blue: 1.0, alpha:1.0)
+  #     UIColor.colorWithRed(1.0, green:1.0, blue: 1.0, alpha:0.33)
   def uicolor(alpha=nil)
     alpha = 1.0 if alpha.nil?
 
