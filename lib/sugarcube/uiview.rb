@@ -4,12 +4,6 @@ class UIView
     self.addSubview view
   end
 
-  def to_s
-    "{#{self.class.name} @ x: #{self.frame.origin.x} y:#{self.frame.origin.y}, "\
-                        "#{self.frame.size.width}×#{self.frame.size.height}}"\
-                        "#{self.superview ? ' child of ' + self.superview.class.name : ''}"
-  end
-
   def show
     self.hidden = false
     self
