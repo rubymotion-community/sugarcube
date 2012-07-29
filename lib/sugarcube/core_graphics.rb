@@ -31,6 +31,22 @@ class CGRectArray < Array
     self[1] = SugarCube::CoreGraphics::Size(val)
   end
 
+  def top
+    return self[0].y
+  end
+
+  def bottom
+    return self[0].y + self[1].height
+  end
+
+  def left
+    return self[0].x
+  end
+
+  def right
+    return self[0].x + self[1].width
+  end
+
   # returns an intersection of self and rect, or moves the Rect using Point,
   # or increases the size using Size
   def +(rect)
@@ -231,6 +247,11 @@ module SugarCube
     def Rect(x_or_origin, y_or_size=nil, w=nil, h=nil)
       if not y_or_size
         case x_or_origin
+        when UIView
+          x = x_or_origin.frame.origin.x
+          y = x_or_origin.frame.origin.y
+          w = x_or_origin.frame.size.width
+          h = x_or_origin.frame.size.height
         when CGRect
           x = x_or_origin.origin.x
           y = x_or_origin.origin.y
