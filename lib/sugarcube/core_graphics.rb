@@ -185,6 +185,7 @@ end
 
 module SugarCube
   module CoreGraphics
+    PI = 3.141592654
     module_function
 
     def Size(w_or_size, h=nil)
