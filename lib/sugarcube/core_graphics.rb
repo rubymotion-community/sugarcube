@@ -1,6 +1,33 @@
 module SugarCube
   # Extensions to make CGRect a "real class"
   module CGRectExtensions
+    module ClassMethods
+
+      def empty
+        SugarCube::CoreGraphics::Rect(CGRectZero)
+      end
+
+      def null
+        SugarCube::CoreGraphics::Rect(CGRectNull)
+      end
+
+      def infinite
+        SugarCube::CoreGraphics::Rect([0, 0], CGSize.infinite)
+      end
+
+      def from_hash(hash)
+        ret = Pointer.new(CGRect.type)
+        if CGRectMakeWithDictionaryRepresentation(hash, ret)
+          ret[0]
+        else
+          nil
+        end
+      end
+    end
+
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
 
     def empty?
       CGRectIsEmpty(self)
@@ -56,11 +83,11 @@ module SugarCube
     # or increases the size using Size
     def +(rect)
       case rect
-      when CGRectArray, CGRect
+      when Rect, CGRect
         SugarCube::CoreGraphics::Rect(CGRectUnion(self, rect))
-      when CGPointArray, CGPoint
+      when Point, CGPoint
         SugarCube::CoreGraphics::Rect(CGRectOffset(self, rect.x, rect.y))
-      when CGSizeArray, CGSize
+      when Size, CGSize
         SugarCube::CoreGraphics::Rect(CGRectInset(self, - rect.width, - rect.height))
       else
         super
@@ -73,7 +100,7 @@ module SugarCube
 
     def intersects?(rect_or_point)
       case rect_or_point
-      when CGPointArray, CGPoint
+      when Point, CGPoint
         CGRectContainsPoint(self, rect_or_point)
       when Array, CGRect
         CGRectIntersectsRect(self, rect_or_point)
@@ -84,7 +111,7 @@ module SugarCube
 
     def contains?(rect_or_point)
       case rect_or_point
-      when CGPointArray, CGPoint
+      when Point, CGPoint
         CGRectContainsPoint(self, rect_or_point)
       when Array, CGRect
         CGRectContainsRect(self, rect_or_point)
@@ -101,6 +128,20 @@ module SugarCube
 
   # Extensions to make CGPoint a "real class"
   module CGPointExtensions
+    module ClassMethods
+      def from_hash(hash)
+        ret = Pointer.new(CGPoint.type)
+        if CGPointMakeWithDictionaryRepresentation(hash, ret)
+          ret[0]
+        else
+          nil
+        end
+      end
+    end
+
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
 
     def intersects?(rect)
       CGRectContainsPoint(rect, self)
@@ -124,6 +165,25 @@ module SugarCube
 
   # Extensions to make CGSize a "real class"
   module CGSizeExtensions
+    module ClassMethods
+      def infinite
+        infinity = CGRect.null[0][0]
+        SugarCube::CoreGraphics::Size(infinity, infinity)
+      end
+
+      def from_hash(hash)
+        ret = Pointer.new(CGSize.type)
+        if CGSizeMakeWithDictionaryRepresentation(hash, ret)
+          ret[0]
+        else
+          nil
+        end
+      end
+    end
+
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
 
     def infinite?
       infinity = CGRect.null[0][0]
@@ -150,43 +210,20 @@ end
 
 class CGRect
   include SugarCube::CGRectExtensions
-
-  class << self
-    def empty
-      SugarCube::CoreGraphics::Rect(CGRectZero)
-    end
-
-    def null
-      SugarCube::CoreGraphics::Rect(CGRectNull)
-    end
-
-    def infinite
-      SugarCube::CoreGraphics::Rect([0, 0], CGSize.infinite)
-    end
-
-    def from_hash(hash)
-      ret = Pointer.new(CGRect.type)
-      if CGRectMakeWithDictionaryRepresentation(hash, ret)
-        ret[0]
-      else
-        nil
-      end
-    end
-  end
 end
 
 
-class CGRectArray < Array
+class Rect < Array
   include SugarCube::CGRectExtensions
 
   def initialize args
     if args.length == 4
-      super [CGPointArray.new([args[0], args[1]]), CGSizeArray.new([args[2], args[3]])]
+      super [Point.new([args[0], args[1]]), Size.new([args[2], args[3]])]
     else
-      unless CGPointArray === args[0]
+      unless Point === args[0]
         args[0] = SugarCube::CoreGraphics::Point(args[0])
       end
-      unless CGSizeArray === args[1]
+      unless Size === args[1]
         args[1] = SugarCube::CoreGraphics::Size(args[1])
       end
       super [args[0], args[1]]
@@ -214,21 +251,10 @@ end
 
 class CGPoint
   include SugarCube::CGPointExtensions
-
-  class << self
-    def from_hash(hash)
-      ret = Pointer.new(CGPoint.type)
-      if CGPointMakeWithDictionaryRepresentation(hash, ret)
-        ret[0]
-      else
-        nil
-      end
-    end
-  end
 end
 
 
-class CGPointArray < Array
+class Point < Array
   include SugarCube::CGPointExtensions
 
   def x
@@ -250,12 +276,12 @@ class CGPointArray < Array
   # adds a vector to this point, or creates a Rect by adding a size
   def +(point)
     case point
-    when CGPointArray, CGPoint
+    when Point, CGPoint
       x = self.x + point.x
       y = self.y + point.y
-      CGPointArray[x, y]
-    when CGSizeArray, CGSize
-      CGRectArray[self, point]
+      Point[x, y]
+    when Size, CGSize
+      Rect[self, point]
     else
       super
     end
@@ -266,26 +292,10 @@ end
 
 class CGSize
   include SugarCube::CGSizeExtensions
-
-  class << self
-    def infinite
-      infinity = CGRect.null[0][0]
-      SugarCube::CoreGraphics::Size(infinity, infinity)
-    end
-
-    def from_hash(hash)
-      ret = Pointer.new(CGSize.type)
-      if CGSizeMakeWithDictionaryRepresentation(hash, ret)
-        ret[0]
-      else
-        nil
-      end
-    end
-  end
 end
 
 
-class CGSizeArray < Array
+class Size < Array
   include SugarCube::CGSizeExtensions
 
   def width
@@ -307,12 +317,12 @@ class CGSizeArray < Array
   # adds the sizes
   def +(size)
     case size
-    when CGSizeArray, CGSize
+    when Size, CGSize
       width = self.width + size.width
       height = self.height + size.height
-      CGSizeArray[width, height]
-    when CGPointArray, CGPoint
-      CGRectArray[size, self]
+      Size[width, height]
+    when Point, CGPoint
+      Rect[size, self]
     else
       super
     end
@@ -398,7 +408,7 @@ module SugarCube
       else
         w = w_or_size
       end
-      return CGSizeArray.new([w, h])
+      return Size.new([w, h])
     end
 
     def Point(x_or_origin, y=nil)
@@ -416,11 +426,11 @@ module SugarCube
       else
         x = x_or_origin
       end
-      return CGPointArray.new([x, y])
+      return Point.new([x, y])
     end
 
     # Accepts 1, 2 or 4 arguments.
-    # 1 argument should be an Array[4], CGRectArray, or CGRect
+    # 1 argument should be an Array[4], Rect, or CGRect
     # 2 arguments should be a Point/CGPoint and a Size/CGSize,
     # 4 should be x, y, w, h
     def Rect(x_or_origin, y_or_size=nil, w=nil, h=nil)
@@ -436,7 +446,7 @@ module SugarCube
           y = x_or_origin.frame.origin.y
           w = x_or_origin.frame.size.width
           h = x_or_origin.frame.size.height
-        when CGRectArray
+        when Rect
           x = x_or_origin[0][0]
           y = x_or_origin[0][1]
           w = x_or_origin[1][0]
@@ -459,17 +469,17 @@ module SugarCube
           raise RuntimeError.new("Invalid argument sent to Rect(#{x_or_origin.inspect})")
         end
       elsif not w and not h
-        x_or_origin = Point(x_or_origin) unless x_or_origin.is_a? CGPointArray
+        x_or_origin = Point(x_or_origin) unless x_or_origin.is_a? Point
         x = x_or_origin.x
         y = x_or_origin.y
-        y_or_size = Size(y_or_size) unless y_or_size.is_a? CGSizeArray
+        y_or_size = Size(y_or_size) unless y_or_size.is_a? Size
         w = y_or_size.width
         h = y_or_size.height
       else
         x = x_or_origin
         y = y_or_size
       end
-      return CGRectArray.new([[x, y], [w, h]])
+      return Rect.new([[x, y], [w, h]])
     end
 
     # Accepts 1 or 4 arguments.

@@ -337,16 +337,16 @@ test[:my] = 'new'
 ###### Is it `CGMakeRect` or `CGRectMake`?
 
 Instead, just use `Rect`, `Size` and `Point`.  They will happily convert most
-sensible arguments into a `CGRectArray/CGSizeArray/CGPointArray`, which can be
+sensible arguments into a `Rect/Size/Point`, which can be
 treated as a `CGRect` object OR as an `Array` (woah).
 
 These are namespaced in `SugarCube::CoreGraphics` module, but I recommend you
 `include SugarCube::CoreGraphics` in app_delegate.rb.
 
 ```ruby
-f = Rect(view.frame)  # converts a CGRect into a CGRectArray
-o = Point(view.frame.origin)  # converts a CGPoint into a CGPointArray
-s = Size(view.frame.size)  # converts a CGSize into a CGSizeArray
+f = Rect(view.frame)  # converts a CGRect into a Rect
+o = Point(view.frame.origin)  # converts a CGPoint into a Point
+s = Size(view.frame.size)  # converts a CGSize into a Size
 
 # lots of other conversions are possible.
 # a UIView or CALayer => view.frame
@@ -364,7 +364,7 @@ f = Rect([[x, y], [w, h]])
 ###### {CGRect,CGPoint,CGSize} is a *real boy*!
 
 These methods get defined in a module (`SugarCube::CG{Rect,Size,Point}Extensions`),
-and included in `CGRect` *and* `CGRectArray`.  The idea is that you do not have
+and included in `CGRect` *and* `Rect`.  The idea is that you do not have
 to distinguish between the two objects.
 
 These methods all use the methods as described in [CGGeometry Reference][], e.g.
@@ -416,11 +416,11 @@ view.frame + a_size  # => CGRectInset(view.frame, -size.width, -size.height)
 # this one is worth pointing out.  Adding a size to a view keeps the view's
 # CENTER in the same place, but increases its size by `size.width,size.height`
 > Rect(0, 0, 10, 10).center
-=> CGPointArray(5.0, 5.0)  # note the center
+=> Point(5.0, 5.0)  # note the center
 > Rect(0, 0, 10, 10) + Size(10, 10)
-=> CGRectArray([-10.0, -10.0],{30.0 × 30.0})  # origin and size changed, but...
+=> Rect([-10.0, -10.0],{30.0 × 30.0})  # origin and size changed, but...
 > (Rect(0, 0, 10, 10) + Size(10, 10)).center
-=> CGPointArray(5.0, 5.0)
+=> Point(5.0, 5.0)
 # See?  It's bigger, but the center hasn't moved.
 # This uses the CGRectInset(rect, dx, dy)
 ```
