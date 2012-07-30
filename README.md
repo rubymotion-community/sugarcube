@@ -401,12 +401,12 @@ view.frame.contains? Rect(0, 0, 10, 10)    #  <= and this one are different.
 A lot of the methods in CGGeometry Reference are available as instance methods
 
 ```ruby
-view.frame.height  # => CGRectGetHeight(view.frame)
-view.frame.width   # => CGRectGetWidth(view.frame)
 view.frame.left    # => CGRectGetMinX(view.frame)
 view.frame.right   # => CGRectGetMaxX(view.frame)
 view.frame.top     # => CGRectGetMinY(view.frame)
 view.frame.bottom  # => CGRectGetMaxY(view.frame)
+view.frame.width   # => CGRectGetWidth(view.frame)
+view.frame.height  # => CGRectGetHeight(view.frame)
 view.frame.center  # => Point(CGRectGetMidX(view.frame), CGRectGetMidY(view.frame))
 
 view.frame.intersection(another_rect)  # => CGRectIntersection(view.frame, another_rect)
