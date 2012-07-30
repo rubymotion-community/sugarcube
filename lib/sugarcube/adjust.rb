@@ -198,10 +198,10 @@ module SugarCube
 
       if tab
         print tab
-        print is_last ? "`--" : "+--"
+        print is_last ? "`-- " : "+-- "
         tab += is_last ? "    " : "|   "
       else
-        print "."
+        print ". "
         tab = ""
       end
       puts view.inspect
