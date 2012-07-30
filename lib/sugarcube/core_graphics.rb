@@ -83,12 +83,16 @@ module SugarCube
     # or increases the size using Size
     def +(rect)
       case rect
-      when Rect, CGRect
+      when SugarCube::CoreGraphics::Rect, CGRect
         SugarCube::CoreGraphics::Rect(CGRectUnion(self, rect))
-      when Point, CGPoint
+      when SugarCube::CoreGraphics::Point, CGPoint
         SugarCube::CoreGraphics::Rect(CGRectOffset(self, rect.x, rect.y))
-      when Size, CGSize
+      when SugarCube::CoreGraphics::Offset, UIOffset
+        SugarCube::CoreGraphics::Rect(CGRectOffset(self, rect.horizontal, rect.vertical))
+      when SugarCube::CoreGraphics::Size, CGSize
         SugarCube::CoreGraphics::Rect(CGRectInset(self, - rect.width, - rect.height))
+      when SugarCube::CoreGraphics::EdgeInsets, UIEdgeInsets
+        SugarCube::CoreGraphics::Rect(UIEdgeInsetsInsetRect(self, rect))
       else
         super
       end
@@ -100,7 +104,7 @@ module SugarCube
 
     def intersects?(rect_or_point)
       case rect_or_point
-      when Point, CGPoint
+      when SugarCube::CoreGraphics::Point, CGPoint
         CGRectContainsPoint(self, rect_or_point)
       when Array, CGRect
         CGRectIntersectsRect(self, rect_or_point)
@@ -111,7 +115,7 @@ module SugarCube
 
     def contains?(rect_or_point)
       case rect_or_point
-      when Point, CGPoint
+      when SugarCube::CoreGraphics::Point, CGPoint
         CGRectContainsPoint(self, rect_or_point)
       when Array, CGRect
         CGRectContainsRect(self, rect_or_point)
@@ -213,80 +217,8 @@ class CGRect
 end
 
 
-class Rect < Array
-  include SugarCube::CGRectExtensions
-
-  def initialize args
-    if args.length == 4
-      super [Point.new([args[0], args[1]]), Size.new([args[2], args[3]])]
-    else
-      unless Point === args[0]
-        args[0] = SugarCube::CoreGraphics::Point(args[0])
-      end
-      unless Size === args[1]
-        args[1] = SugarCube::CoreGraphics::Size(args[1])
-      end
-      super [args[0], args[1]]
-    end
-  end
-
-  def origin
-    return self[0]
-  end
-
-  def origin= val
-    self[0] = SugarCube::CoreGraphics::Point(val)
-  end
-
-  def size
-    return self[1]
-  end
-
-  def size= val
-    self[1] = SugarCube::CoreGraphics::Size(val)
-  end
-
-end
-
-
 class CGPoint
   include SugarCube::CGPointExtensions
-end
-
-
-class Point < Array
-  include SugarCube::CGPointExtensions
-
-  def x
-    return self[0]
-  end
-
-  def x= val
-    self[0] = val
-  end
-
-  def y
-    return self[1]
-  end
-
-  def y= val
-    self[1] = val
-  end
-
-  # adds a vector to this point, or creates a Rect by adding a size
-  def +(point)
-    case point
-    when Point, CGPoint
-      x = self.x + point.x
-      y = self.y + point.y
-      Point[x, y]
-    when Size, CGSize
-      Rect[self, point]
-    else
-      super
-    end
-  end
-
 end
 
 
@@ -295,102 +227,175 @@ class CGSize
 end
 
 
-class Size < Array
-  include SugarCube::CGSizeExtensions
-
-  def width
-    return self[0]
-  end
-
-  def width= val
-    self[0] = val
-  end
-
-  def height
-    return self[1]
-  end
-
-  def height= val
-    self[1] = val
-  end
-
-  # adds the sizes
-  def +(size)
-    case size
-    when Size, CGSize
-      width = self.width + size.width
-      height = self.height + size.height
-      Size[width, height]
-    when Point, CGPoint
-      Rect[size, self]
-    else
-      super
-    end
-  end
-
-end
-
-
-class UIEdgeInsetsArray < Array
-
-  def top
-    return self[0]
-  end
-
-  def top= val
-    self[0] = val
-  end
-
-  def left
-    return self[1]
-  end
-
-  def left= val
-    self[1] = val
-  end
-
-  def bottom
-    return self[2]
-  end
-
-  def bottom= val
-    self[2] = val
-  end
-
-  def right
-    return self[3]
-  end
-
-  def right= val
-    self[3] = val
-  end
-
-end
-
-
-class UIOffsetArray < Array
-
-  def horizontal
-    return self[0]
-  end
-
-  def horizontal= val
-    self[0] = val
-  end
-
-  def vertical
-    return self[1]
-  end
-
-  def vertical= val
-    self[1] = val
-  end
-
-end
-
 module SugarCube
   module CoreGraphics
-    PI = 3.141592654
+    PI  = 3.141592654
+    PHI = 1.618033989
+    E   = 2.718281828
+
+    class Rect < Array
+      include SugarCube::CGRectExtensions
+
+      def initialize args
+        if args.length == 4
+          super [Point.new([args[0], args[1]]), Size.new([args[2], args[3]])]
+        else
+          unless args[0].is_a? Point
+            args[0] = Point(args[0])
+          end
+          unless args[1].is_a? Size
+            args[1] = Size(args[1])
+          end
+          super [args[0], args[1]]
+        end
+      end
+
+      def origin
+        return self[0]
+      end
+
+      def origin= val
+        self[0] = Point(val)
+      end
+
+      def size
+        return self[1]
+      end
+
+      def size= val
+        self[1] = Size(val)
+      end
+    end
+
+
+    class Point < Array
+      include SugarCube::CGPointExtensions
+
+      def x
+        return self[0]
+      end
+
+      def x= val
+        self[0] = val
+      end
+
+      def y
+        return self[1]
+      end
+
+      def y= val
+        self[1] = val
+      end
+
+      # adds a vector to this point, or creates a Rect by adding a size
+      def +(point)
+        case point
+        when Point, CGPoint
+          x = self.x + point.x
+          y = self.y + point.y
+          Point[x, y]
+        when Size, CGSize
+          Rect[self, point]
+        else
+          super
+        end
+      end
+    end
+
+
+    class Size < Array
+      include SugarCube::CGSizeExtensions
+
+      def width
+        return self[0]
+      end
+
+      def width= val
+        self[0] = val
+      end
+
+      def height
+        return self[1]
+      end
+
+      def height= val
+        self[1] = val
+      end
+
+      # adds the sizes
+      def +(size)
+        case size
+        when Size, CGSize
+          width = self.width + size.width
+          height = self.height + size.height
+          Size[width, height]
+        when Point, CGPoint
+          Rect[size, self]
+        else
+          super
+        end
+      end
+
+    end
+
+
+    class EdgeInsets < Array
+
+      def top
+        return self[0]
+      end
+
+      def top= val
+        self[0] = val
+      end
+
+      def left
+        return self[1]
+      end
+
+      def left= val
+        self[1] = val
+      end
+
+      def bottom
+        return self[2]
+      end
+
+      def bottom= val
+        self[2] = val
+      end
+
+      def right
+        return self[3]
+      end
+
+      def right= val
+        self[3] = val
+      end
+
+    end
+
+
+    class Offset < Array
+
+      def horizontal
+        return self[0]
+      end
+
+      def horizontal= val
+        self[0] = val
+      end
+
+      def vertical
+        return self[1]
+      end
+
+      def vertical= val
+        self[1] = val
+      end
+
+    end
+
     module_function
 
     def Size(w_or_size, h=nil)
@@ -506,7 +511,7 @@ module SugarCube
       else
         top = top_or_inset
       end
-      return UIEdgeInsetsArray.new([top, left, bottom, right])
+      return EdgeInsets.new([top, left, bottom, right])
     end
 
     # Accepts 1 or 2 arguments.
@@ -530,7 +535,7 @@ module SugarCube
       else
         horizontal = horizontal_or_offset
       end
-      return UIOffsetArray.new([horizontal, vertical])
+      return Offset.new([horizontal, vertical])
     end
 
   end

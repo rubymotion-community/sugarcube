@@ -337,8 +337,8 @@ test[:my] = 'new'
 ###### Is it `CGMakeRect` or `CGRectMake`?
 
 Instead, just use `Rect`, `Size` and `Point`.  They will happily convert most
-sensible arguments into a `Rect/Size/Point`, which can be
-treated as a `CGRect` object OR as an `Array` (woah).
+sensible arguments into a `Rect/Size/Point`, which can be treated as a `CGRect`
+object OR as an `Array` (woah).
 
 These are namespaced in `SugarCube::CoreGraphics` module, but I recommend you
 `include SugarCube::CoreGraphics` in app_delegate.rb.
@@ -364,8 +364,8 @@ f = Rect([[x, y], [w, h]])
 ###### {CGRect,CGPoint,CGSize} is a *real boy*!
 
 These methods get defined in a module (`SugarCube::CG{Rect,Size,Point}Extensions`),
-and included in `CGRect` *and* `Rect`.  The idea is that you do not have
-to distinguish between the two objects.
+and included in `CGRect` *and* `Rect`.  The idea is that you do not have to
+distinguish between the two objects.
 
 These methods all use the methods as described in [CGGeometry Reference][], e.g.
 `CGRectContainsPoint`, `CGRectIntersectsRect`, etc.
@@ -411,10 +411,13 @@ view.frame.center  # => Point(CGRectGetMidX(view.frame), CGRectGetMidY(view.fram
 
 view.frame.intersection(another_rect)  # => CGRectIntersection(view.frame, another_rect)
 view.frame + another_rect  # => CGRectUnion(view.frame, another_rect)
-view.frame + a_point  # => CGRectOffset(view.frame, point.x, point.y)
-view.frame + a_size  # => CGRectInset(view.frame, -size.width, -size.height)
-# this one is worth pointing out.  Adding a size to a view keeps the view's
-# CENTER in the same place, but increases its size by `size.width,size.height`
+view.frame + a_point  # => CGRectOffset(view.frame, a_point.x, a_point.y)
+view.frame + a_offset  # => CGRectOffset(view.frame, a_offset.horizontal, a_offset.vertical)
+view.frame + edgeinsets  # => UIEdgeInsetsInsetRect(view.frame, edgeinsets)
+view.frame + a_size  # => CGRectInset(view.frame, -a_size.width, -a_size.height)
+# Adding a size to a view keeps the view's CENTER in the same place, but
+# increases its size by `size.width,size.height`. it's the same as using
+# UIEdgeInsets with top == bottom, and left == right
 > Rect(0, 0, 10, 10).center
 => Point(5.0, 5.0)  # note the center
 > Rect(0, 0, 10, 10) + Size(10, 10)
@@ -422,7 +425,6 @@ view.frame + a_size  # => CGRectInset(view.frame, -size.width, -size.height)
 > (Rect(0, 0, 10, 10) + Size(10, 10)).center
 => Point(5.0, 5.0)
 # See?  It's bigger, but the center hasn't moved.
-# This uses the CGRectInset(rect, dx, dy)
 ```
 
 `to_hash/from_hash`, and notice here that I used `puts`, to show that the `to_s`
