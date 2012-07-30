@@ -34,7 +34,7 @@ class UIEvent
                 "remote-control, EndSeekingForward"
               end
             end
-    "#{self.class.name}(#{type})"
+    "#{self.class.name}(#{type}, touches: #{allTouches.inspect})"
   end
 
 end
