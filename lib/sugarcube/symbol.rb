@@ -301,7 +301,7 @@ class Symbol
     # system fonts
     if Symbol.system_fonts.has_key? self
       font = look_in(Symbol.system_fonts)
-      if Symbol === size
+      if size.is_a? Symbol
         size = Symbol.font_sizes.fetch(size).uifontsize
       end
       font = UIFont.send(font, size)
@@ -314,7 +314,7 @@ class Symbol
 
   def uifontsize
     size = look_in(Symbol.system_fonts)
-    if Symbol === size
+    if size.is_a? Symbol
       return UIFont.send(Symbol.font_sizes[self])
     end
     return size.to_f
