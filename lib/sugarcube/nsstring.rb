@@ -13,7 +13,8 @@ class NSString
   end
 
   def uifont(size=UIFont.systemFontSize)
-    @uifont = UIFont.fontWithName(self, size:size)
+    @uifont ||= {}
+    @uifont[size] ||= UIFont.fontWithName(self, size:size)
   end
 
   def uicolor(alpha=nil)
