@@ -230,10 +230,6 @@ class Symbol
   public
   def uidevice
     look_in(Symbol.devices)
-    if Symbol.devices[self]
-      return Symbol.devices[self]
-    end
-    raise SugarNotFoundException.new(self)
   end
 
   def uitextalignment
