@@ -27,11 +27,7 @@ class NSString
       return self[1..-1].to_i(16).uicolor(alpha)
     end
 
-    begin
-      self.to_sym.uicolor(alpha)
-    rescue SugarNotFoundException
-      self.uiimage.uicolor(alpha)
-    end
+    self.uiimage.uicolor(alpha)
   end
 
   # This can be called as `"Hello".localized` or `"Hello"._`.  The `str._`
