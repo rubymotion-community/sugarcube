@@ -80,8 +80,8 @@ end
 
 ```ruby
 # UIImage from name
-"my_image".uiimage # => UIImage.imageNamed("my_image")
-# (if you have an image named "blue", use "blue".uiimage.uicolor)
+"my_image".uiimage  # => UIImage.imageNamed("my_image")
+"blue".uicolor  # => UIColor.colorWithPatternImage(UIImage.imageNamed("blue"))
 
 # UIFont from name
 "my_font".uifont # => UIFont.fontWithName("my_font", size:UIFont.systemFontSize)
