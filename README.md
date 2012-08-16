@@ -511,5 +511,21 @@ floats[1] = 1.1
 floats[2] = 2.2
 ```
 
+ UUID
+------
+
+Quick wrapper for `CFUUIDCreate()` and `CFUUIDCreateString()`.  Identical to the
+`BubbleWrap::create_uuid` method.
+
+```ruby
+> SugarCube::UUID::uuid
+"0A3A76C6-9738-4458-969E-3B9DF174A3D9"
+
+# or
+> include SugarCube::UUID
+> uuid
+# => "0A3A76C6-9738-4458-969E-3B9DF174A3D9"
+```
+
 [BubbleWrap]: https://github.com/rubymotion/BubbleWrap
 [sweettea]: https://github.com/colinta/sweettea
