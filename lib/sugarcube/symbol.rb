@@ -44,6 +44,7 @@ class Symbol
     attr_accessor :controlevents
     attr_accessor :activityindicator_styles
     attr_accessor :segmented_styles
+    attr_accessor :datepicker_modes
 
     attr_accessor :tableview_styles
     attr_accessor :tableview_rowanimation
@@ -182,6 +183,13 @@ class Symbol
     bordered: UISegmentedControlStyleBordered,
     bar: UISegmentedControlStyleBar,
     bezeled: UISegmentedControlStyleBezeled,
+  }
+
+  @datepicker_modes = {
+    time:           UIDatePickerModeTime,
+    date:           UIDatePickerModeDate,
+    dateandtime:    UIDatePickerModeDateAndTime,
+    countdowntimer: UIDatePickerModeCountDownTimer
   }
 
   @tableview_styles = {
@@ -330,6 +338,10 @@ class Symbol
     look_in(Symbol.segmented_styles)
   end
   alias :uisegmentedcontrolstyle :uisegmentedstyle
+
+  def uidatepickermode
+    look_in(Symbol.datepicker_modes)
+  end
 
   def uitablestyle
     look_in(Symbol.tableview_styles)
