@@ -130,6 +130,13 @@ This is the "big daddy".  Lots of sugar here...
 :small.uifont  # => UIFont.systemFontOfSize(:small.uifontsize)
 :bold.uifont(:small)  # UIFont.boldSystemFontOfSize(:small.uifontsize)
 :large.uiactivityindicatorstyle  # :large, :white, :gray
+
+# UITableView and UITableViewCell have LOTS of associated constants... I'm
+# adding them as I come across them.
+:automatic.uitablerowanimation   # or .uitableviewrowanimation
+:default.uitablecellstyle        # or .uitableviewcellstyle
+:disclosue.uitablecellaccessory  # or .uitableviewcellaccessorytype
+:blue.uitablecellselectionstyle  # or .uitableviewcellselectionstyle
 ```
 
  UIImage
@@ -228,10 +235,14 @@ UIButton.contact_add       => UIButton.buttonWithType(:contact_add.uibuttontype)
 
 ```ruby
 UITableView.alloc.initWithFrame([[0, 0], [320, 480]], style: :plain.uitableviewstyle)
-UITableView.alloc.initWithFrame([[0, 0], [320, 480]], style: :grouped.uitableviewstyle)
+# custom frame:
+UITableView.alloc.initWithFrame([[0, 0], [320, 400]], style: :grouped.uitableviewstyle)
+
 # =>
+
 UITableView.plain
-UITableView.grouped
+# custom frame:
+UITableView.grouped([[0, 0], [320, 400]])
 ```
 
  UIControl
@@ -273,6 +284,24 @@ nav_ctlr.!
 nav_ctlr.!(another_view_ctlr)
 ```
 
+ UITabBarController
+------------------------
+
+I have mixed feelings about adding this extension, but **I** needed it, so maybe
+you will, too...  Usually `UITabBarController`s have a static number of tabs,
+but in my case, I needed to be able to add one later, when a certain condition
+was met.
+
+```ruby
+controllers = tabbar_ctlr.viewControllers
+controllers << new_ctlr
+tabbar_ctlr.setViewControllers(controllers, animated: true)
+
+# =>
+
+tabbar_ctlr << new_ctlr
+```
+
  NSNotificationCenter
 ----------------------
 
@@ -290,6 +319,11 @@ Makes it easy to post a notification to some or all objects.
 
 ```ruby
 1.second.later do
+  @view.shake
+end
+
+# if you have a better name, I'll use it ;-)
+1.second.every do
   @view.shake
 end
 ```
@@ -361,7 +395,7 @@ f = Rect(p, s)
 f = Rect([[x, y], [w, h]])
 ```
 
-###### {CGRect,CGPoint,CGSize} is a *real boy*!
+###### CG{Rect,Point,Size} is a *real boy*!
 
 These methods get defined in a module (`SugarCube::CG{Rect,Size,Point}Extensions`),
 and included in `CGRect` *and* `Rect`.  The idea is that you do not have to
@@ -427,14 +461,26 @@ view.frame + a_size  # => CGRectInset(view.frame, -a_size.width, -a_size.height)
 # See?  It's bigger, but the center hasn't moved.
 ```
 
-`to_hash/from_hash`, and notice here that I used `puts`, to show that the `to_s`
-method is a little more readable.
+`to_hash/from_hash`, and notice here that I used `inspect`, to show that it is a
+little more readable.
+
+**NOTE** As of today, Aug. 25, 2012, rubymotion v1.22, the `inspect` method in SugarCube is not
+being called.  I think this is a bug... this worked before!
 
 ```ruby
 > Rect(0, 0, 10, 10).to_hash
 => {"Width"=>10.0, "Height"=>10.0, "Y"=>0.0, "X"=>0.0}
-> puts CGRect.from_hash Rect(0, 0, 1, 1).to_hash
+> puts CGRect.from_hash(Rect(0, 0, 1, 1).to_hash).inspect
 CGRect([0.0, 0.0],{1.0 × 1.0})
+```
+
+`to_s/from_s`, which rely on `NSStringFromCGRect/CGRectFromString` (et. al.)
+
+```ruby
+> Rect(0, 0, 10, 10).to_s
+=> "{{0, 0}, {10, 10}}"
+> puts CGRect.from_s Rect(0, 0, 10, 10).to_s
+{{0, 0}, {10, 10}}
 ```
 
 [CGGeometry Reference]: https://developer.apple.com/library/mac/documentation/graphicsimaging/reference/CGGeometry/Reference/reference.html
