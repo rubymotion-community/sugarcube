@@ -1,10 +1,13 @@
 class UITableView
   class << self
-    def plain
-      UITableView.alloc.initWithFrame([[0, 0], [320, 480]], style: :plain.uitableviewstyle)
+
+    def plain(frame=[[0, 0], [320, 480]])
+      UITableView.alloc.initWithFrame(frame, style: :plain.uitableviewstyle)
     end
-    def grouped
-      UITableView.alloc.initWithFrame([[0, 0], [320, 480]], style: :grouped.uitableviewstyle)
+
+    def grouped(frame=[[0, 0], [320, 480]])
+      UITableView.alloc.initWithFrame(frame, style: :grouped.uitableviewstyle)
     end
+
   end
 end
