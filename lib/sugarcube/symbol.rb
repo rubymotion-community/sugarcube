@@ -38,6 +38,10 @@ class Symbol
     attr_accessor :returnkeys
     attr_accessor :activityindicator_styles
     attr_accessor :tableview_styles
+    attr_accessor :tableview_rowanimation
+    attr_accessor :tableview_cellstyles
+    attr_accessor :tableview_cellaccessorytype
+    attr_accessor :tableview_cellselectionstyle
     attr_accessor :statusbar_styles
     attr_accessor :barmetrics
     attr_accessor :barbuttomitems
@@ -173,6 +177,39 @@ class Symbol
     grouped: UITableViewStyleGrouped,
   }
 
+  @tableview_rowanimation = {
+    fade:      UITableViewRowAnimationFade,
+    right:     UITableViewRowAnimationRight,
+    left:      UITableViewRowAnimationLeft,
+    top:       UITableViewRowAnimationTop,
+    bottom:    UITableViewRowAnimationBottom,
+    none:      UITableViewRowAnimationNone,
+    middle:    UITableViewRowAnimationMiddle,
+    automatic: UITableViewRowAnimationAutomatic,
+  }
+
+  @tableview_cellstyles = {
+    default:  UITableViewCellStyleDefault,
+    value1:   UITableViewCellStyleValue1,
+    value2:   UITableViewCellStyleValue2,
+    subtitle: UITableViewCellStyleSubtitle,
+  }
+
+  @tableview_cellaccessorytype = {
+    none:                   UITableViewCellAccessoryNone,
+    disclosure:             UITableViewCellAccessoryDisclosureIndicator,
+    disclosureindicator:    UITableViewCellAccessoryDisclosureIndicator,
+    detail:                 UITableViewCellAccessoryDetailDisclosureButton,
+    detaildisclosurebutton: UITableViewCellAccessoryDetailDisclosureButton,
+    checkmark:              UITableViewCellAccessoryCheckmark,
+  }
+
+  @tableview_cellselectionstyle = {
+    none: UITableViewCellSelectionStyleNone,
+    blue: UITableViewCellSelectionStyleBlue,
+    gray: UITableViewCellSelectionStyleGray,
+  }
+
   @statusbar_styles = {
     default:     UIStatusBarStyleDefault,
     black:       UIStatusBarStyleBlackOpaque,
@@ -281,6 +318,26 @@ class Symbol
     look_in(Symbol.tableview_styles)
   end
   alias :uitableviewstyle :uitablestyle
+
+  def uitablerowanimation
+    look_in(Symbol.tableview_rowanimation)
+  end
+  alias :uitableviewrowanimation :uitablerowanimation
+
+  def uitablecellstyle
+    look_in(Symbol.tableview_cellstyles)
+  end
+  alias :uitableviewcellstyle :uitablecellstyle
+
+  def uitablecellaccessory
+    look_in(Symbol.tableview_cellaccessorytype)
+  end
+  alias :uitableviewcellaccessorytype :uitablecellaccessory
+
+  def uitablecellselectionstyle
+    look_in(Symbol.tableview_cellselectionstyle)
+  end
+  alias :uitableviewcellselectionstyle :uitablecellselectionstyle
 
   def uistatusbarstyle
     look_in(Symbol.statusbar_styles)
