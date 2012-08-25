@@ -23,4 +23,8 @@ class Numeric
     NSTimer.scheduledTimerWithTimeInterval(self.to_f, target: fire, selector: 'call:', userInfo: user_info, repeats: false)
   end
 
+  def every(user_info=nil, &fire)
+    NSTimer.scheduledTimerWithTimeInterval(self.to_f, target: fire, selector: 'call:', userInfo: user_info, repeats: true)
+  end
+
 end
