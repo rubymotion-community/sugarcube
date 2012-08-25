@@ -326,6 +326,18 @@ end
 1.second.every do
   @view.shake
 end
+
+# other time-related methods
+1.second  || 2.seconds
+1.minute  || 2.minutes  # 60 seconds
+1.hour    || 2.hours    # 60 minutes
+1.day     || 2.days     # 24 hours
+1.week    || 2.weeks    # 7 days
+# with sensible values for 'month' and 'year', even though we all know you can't
+# **really** define them this way (go back to python if you find your brain
+# hemorrhaging):
+1.month   || 2.months   # 30 days
+1.year    || 2.years    # 365 days
 ```
 
  NSUserDefaults
