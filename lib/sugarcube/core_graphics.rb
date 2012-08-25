@@ -22,6 +22,10 @@ module SugarCube
           nil
         end
       end
+
+      def from_s(s)
+        CGRectFromString(s)
+      end
     end
 
     def self.included(base)
@@ -69,14 +73,16 @@ module SugarCube
     end
 
     def to_s
+      NSStringFromCGRect(self)
+    end
+
+    def inspect
       "#{self.class.name}([#{self.origin.x}, #{self.origin.y}],{#{self.size.width} × #{self.size.height}})"
     end
 
     def to_hash
       CGRectCreateDictionaryRepresentation(self)
     end
-
-    def inspect ; to_s ; end
 
     # # returns an intersection of self and rect, or moves the Rect using Point,
     # or increases the size using Size
@@ -140,6 +146,10 @@ module SugarCube
           nil
         end
       end
+
+      def from_s(s)
+        CGPointFromString(s)
+      end
     end
 
     def self.included(base)
@@ -155,14 +165,16 @@ module SugarCube
     end
 
     def to_s
+      NSStringFromCGPoint(self)
+    end
+
+    def inspect
       "#{self.class.name}(#{self.x}, #{self.y})"
     end
 
     def to_hash
       CGPointCreateDictionaryRepresentation(self)
     end
-
-    def inspect ; to_s ; end
 
   end
 
@@ -182,6 +194,10 @@ module SugarCube
           nil
         end
       end
+
+      def from_s(s)
+        CGSizeFromString(s)
+      end
     end
 
     def self.included(base)
@@ -198,14 +214,16 @@ module SugarCube
     end
 
     def to_s
+      NSStringFromCGSize(self)
+    end
+
+    def inspect
       "#{self.class.name}(#{self.width} × #{self.height})"
     end
 
     def to_hash
       CGSizeCreateDictionaryRepresentation(self)
     end
-
-    def inspect ; to_s ; end
 
   end
 end
