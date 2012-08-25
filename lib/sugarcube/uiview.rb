@@ -42,6 +42,12 @@ class UIView
                        options: options[:options] || UIViewAnimationOptionCurveLinear,
                     animations: proc{
                                   self.layer.opacity = options[:opacity] || 0
+
+                                  if assign = options[:assign]
+                                    assign.each_pair do |key, value|
+                                      self.send("#{key}=", value)
+                                    end
+                                  end
                                 }, completion:after
                               )
     self
@@ -76,6 +82,12 @@ class UIView
                                   f = self.frame
                                   f.origin = SugarCube::CoreGraphics::Point(position)
                                   self.frame = f
+
+                                  if assign = options[:assign]
+                                    assign.each_pair do |key, value|
+                                      self.send("#{key}=", value)
+                                    end
+                                  end
                                 }, completion:after
                               )
     self
