@@ -45,6 +45,13 @@ Installation
 Examples
 ========
 
+ Array
+-------
+
+```ruby
+[1, 3].uiindexpath  # NSIndexPath.indexPathWithIndex(1).indexPathByAddingIndex(3)
+```
+
  Fixnum
 --------
 
