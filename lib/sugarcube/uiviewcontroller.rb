@@ -25,3 +25,15 @@ class UINavigationController
   end
 
 end
+
+
+class UITabBarController
+
+  def <<(view_controller)
+    view_controllers = [] + self.viewControllers
+    viewControllers << view_controller
+    self.setViewControllers(view_controllers, animated: true)
+    self
+  end
+
+end
