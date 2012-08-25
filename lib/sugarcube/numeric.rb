@@ -19,6 +19,26 @@ class Numeric
   end
   alias :hour :hours
 
+  def days
+    self.hours * 24
+  end
+  alias :day :days
+
+  def weeks
+    self.days * 7
+  end
+  alias :week :weeks
+
+  def months
+    self.days * 30
+  end
+  alias :month :months
+
+  def years
+    self.days * 365
+  end
+  alias :year :years
+
   def later(user_info=nil, &fire)
     NSTimer.scheduledTimerWithTimeInterval(self.to_f, target: fire, selector: 'call:', userInfo: user_info, repeats: false)
   end
