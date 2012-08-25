@@ -108,6 +108,7 @@ class Symbol
 
   @controlevents = {
     touch: UIControlEventTouchUpInside,
+    touch_up: UIControlEventTouchUpInside,
     touch_down: UIControlEventTouchDown,
 
     touch_down_repeat: UIControlEventTouchDownRepeat,
@@ -173,8 +174,8 @@ class Symbol
   }
 
   @statusbar_styles = {
-    default:   UIStatusBarStyleDefault,
-    black:     UIStatusBarStyleBlackOpaque,
+    default:     UIStatusBarStyleDefault,
+    black:       UIStatusBarStyleBlackOpaque,
     translucent: UIStatusBarStyleBlackTranslucent,
   }
 

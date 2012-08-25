@@ -2,7 +2,6 @@ module SugarCube
   # Extensions to make CGRect a "real class"
   module CGRectExtensions
     module ClassMethods
-
       def empty
         SugarCube::CoreGraphics::Rect(CGRectZero)
       end
