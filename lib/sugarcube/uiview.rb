@@ -102,16 +102,23 @@ class UIView
   end
 
   def slide(direction, options={}, &after)
-    size = UIScreen.mainScreen.bounds.size
+    if options.is_a? Numeric
+      options = {size: options}
+    end
+
     case direction
     when :left
-      delta_to([-size.width, 0], options, &after)
+      size = options[:size] || UIScreen.mainScreen.bounds.size.width
+      delta_to([-size, 0], options, &after)
     when :right
-      delta_to([+size.width, 0], options, &after)
+      size = options[:size] || UIScreen.mainScreen.bounds.size.width
+      delta_to([+size, 0], options, &after)
     when :up
-      delta_to([0, -size.height], options, &after)
+      size = options[:size] || UIScreen.mainScreen.bounds.size.height
+      delta_to([0, -size], options, &after)
     when :down
-      delta_to([0, +size.height], options, &after)
+      size = options[:size] || UIScreen.mainScreen.bounds.size.height
+      delta_to([0, +size], options, &after)
     else
       raise "Unknown direction #{direction.inspect}"
     end
