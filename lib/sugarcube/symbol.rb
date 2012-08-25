@@ -118,6 +118,7 @@ class Symbol
     touch: UIControlEventTouchUpInside,
     touch_up: UIControlEventTouchUpInside,
     touch_down: UIControlEventTouchDown,
+    changed: UIControlEventValueChanged,
 
     touch_down_repeat: UIControlEventTouchDownRepeat,
     touch_drag_inside: UIControlEventTouchDragInside,
