@@ -25,27 +25,31 @@ You can extend the defaults by adding entries:
 class Symbol
   class << self
     attr_accessor :devices
+    attr_accessor :orientations
+    attr_accessor :returnkeys
+    attr_accessor :statusbar_styles
+    attr_accessor :barmetrics
+    attr_accessor :barbuttomitems
+    attr_accessor :keyboardtypes
+
     attr_accessor :textalignments
     attr_accessor :linebreakmodes
     attr_accessor :baselineadjustments
-    attr_accessor :orientations
+    attr_accessor :system_fonts
+    attr_accessor :font_sizes
+
     attr_accessor :buttontypes
     attr_accessor :bordertypes
     attr_accessor :controlstates
     attr_accessor :controlevents
-    attr_accessor :system_fonts
-    attr_accessor :font_sizes
-    attr_accessor :returnkeys
     attr_accessor :activityindicator_styles
+    attr_accessor :segmented_styles
+
     attr_accessor :tableview_styles
     attr_accessor :tableview_rowanimation
     attr_accessor :tableview_cellstyles
     attr_accessor :tableview_cellaccessorytype
     attr_accessor :tableview_cellselectionstyle
-    attr_accessor :statusbar_styles
-    attr_accessor :barmetrics
-    attr_accessor :barbuttomitems
-    attr_accessor :keyboardtypes
   end
 
   @devices = {
@@ -170,6 +174,13 @@ class Symbol
     whitelarge: UIActivityIndicatorViewStyleWhiteLarge,
     white:      UIActivityIndicatorViewStyleWhite,
     gray:       UIActivityIndicatorViewStyleGray,
+  }
+
+  @segmented_styles = {
+    plain: UISegmentedControlStylePlain,
+    bordered: UISegmentedControlStyleBordered,
+    bar: UISegmentedControlStyleBar,
+    bezeled: UISegmentedControlStyleBezeled,
   }
 
   @tableview_styles = {
@@ -313,6 +324,11 @@ class Symbol
     look_in(Symbol.activityindicator_styles)
   end
   alias :uiactivityindicatorviewstyle :uiactivityindicatorstyle
+
+  def uisegmentedstyle
+    look_in(Symbol.segmented_styles)
+  end
+  alias :uisegmentedcontrolstyle :uisegmentedstyle
 
   def uitablestyle
     look_in(Symbol.tableview_styles)

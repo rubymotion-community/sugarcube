@@ -130,6 +130,7 @@ This is the "big daddy".  Lots of sugar here...
 :small.uifont  # => UIFont.systemFontOfSize(:small.uifontsize)
 :bold.uifont(:small)  # UIFont.boldSystemFontOfSize(:small.uifontsize)
 :large.uiactivityindicatorstyle  # :large, :white, :gray
+:bar.uisegmentedstyle   # :plain, :bordered, :bar, :bezeled
 
 # UITableView and UITableViewCell have LOTS of associated constants... I'm
 # adding them as I come across them.
@@ -214,7 +215,9 @@ view.shake offset: 20, repeat: 10, duration: 5, keypath: 'transform.translation.
 superview.shake offset: 0.1, repeat: 2, duration: 0.5, keypath: 'transform.rotation'
 ```
 
-###### View factories
+##### View factories
+
+###### UIButton
 
 ```ruby
 UIButton.buttonWithType(:custom.uibuttontype)
@@ -233,6 +236,8 @@ UIButton.contact           => UIButton.buttonWithType(:contact.uibuttontype)
 UIButton.contact_add       => UIButton.buttonWithType(:contact_add.uibuttontype)
 ```
 
+###### UITableView
+
 ```ruby
 UITableView.alloc.initWithFrame([[0, 0], [320, 480]], style: :plain.uitableviewstyle)
 # custom frame:
@@ -243,6 +248,17 @@ UITableView.alloc.initWithFrame([[0, 0], [320, 400]], style: :grouped.uitablevie
 UITableView.plain
 # custom frame:
 UITableView.grouped([[0, 0], [320, 400]])
+```
+
+###### UISegmentedControle
+
+```ruby
+control = UISegmentedControl.alloc.initItems(["one", "ah-two-whoo", "thr-r-r-ree"])
+control.segmentedControlStyle = :bar.uisegmentedstyle
+
+# =>
+
+UISegmentedControl.bar(["one", "ah-two-whoo", "thr-r-r-ree"])
 ```
 
  UIControl
