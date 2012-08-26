@@ -190,8 +190,7 @@ module SugarCube
         print "  "
       elsif views_index < 100
         print " "
-      elsif views_index > 999
-        # good god, man!
+      elsif views_index > 999  # good god, man!
         space = ''
       end
       print views_index.to_s + ":" + space
