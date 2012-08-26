@@ -203,7 +203,7 @@ module SugarCube
         print ". "
         tab = ""
       end
-      puts view.inspect
+      puts "#{view.class.name}(##{view.object_id}, #{view.frame.to_s})"
 
       view.subviews.each_index {|index|
         subview = view.subviews[index]
