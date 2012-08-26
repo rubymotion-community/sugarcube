@@ -258,10 +258,10 @@ module SugarCube
           super [Point.new([args[0], args[1]]), Size.new([args[2], args[3]])]
         else
           unless args[0].is_a? Point
-            args[0] = Point(args[0])
+            args[0] = SugarCube::CoreGraphics::Point(args[0])
           end
           unless args[1].is_a? Size
-            args[1] = Size(args[1])
+            args[1] = SugarCube::CoreGraphics::Size(args[1])
           end
           super [args[0], args[1]]
         end
@@ -272,7 +272,7 @@ module SugarCube
       end
 
       def origin= val
-        self[0] = Point(val)
+        self[0] = SugarCube::CoreGraphics::Point(val)
       end
 
       def size
@@ -280,7 +280,7 @@ module SugarCube
       end
 
       def size= val
-        self[1] = Size(val)
+        self[1] = SugarCube::CoreGraphics::Size(val)
       end
     end
 
@@ -307,11 +307,11 @@ module SugarCube
       # adds a vector to this point, or creates a Rect by adding a size
       def +(point)
         case point
-        when Point, CGPoint
+        when SugarCube::CoreGraphics::Point, CGPoint
           x = self.x + point.x
           y = self.y + point.y
           Point[x, y]
-        when Size, CGSize
+        when SugarCube::CoreGraphics::Size, CGSize
           Rect[self, point]
         else
           super
@@ -491,10 +491,10 @@ module SugarCube
           raise RuntimeError.new("Invalid argument sent to Rect(#{x_or_origin.inspect})")
         end
       elsif not w and not h
-        x_or_origin = Point(x_or_origin) unless x_or_origin.is_a? Point
+        x_or_origin = SugarCube::CoreGraphics::Point(x_or_origin) unless x_or_origin.is_a? SugarCube::CoreGraphics::Point
         x = x_or_origin.x
         y = x_or_origin.y
-        y_or_size = Size(y_or_size) unless y_or_size.is_a? Size
+        y_or_size = SugarCube::CoreGraphics::Size(y_or_size) unless y_or_size.is_a? SugarCube::CoreGraphics::Size
         w = y_or_size.width
         h = y_or_size.height
       else
