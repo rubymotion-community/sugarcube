@@ -24,4 +24,19 @@ class Array
     return path
   end
 
+  def uiindexset
+    if self.length == 0
+      raise "An index set must have at least one index"
+    end
+
+    set = NSMutableIndexSet.indexSet
+    self.each do |val|
+      set.addIndex val
+    end
+    set
+  end
+  
+  alias :nsindexpath, :uiindexpath
+  alias :nsindexset, :uiindexset
+
 end
