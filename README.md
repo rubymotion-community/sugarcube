@@ -49,7 +49,7 @@ Examples
 -------
 
 ```ruby
-[1, 3].uiindexpath  # NSIndexPath.indexPathWithIndex(1).indexPathByAddingIndex(3)
+[1, 3].nsindexpath  # NSIndexPath.indexPathWithIndex(1).indexPathByAddingIndex(3)
 ```
 
  Fixnum

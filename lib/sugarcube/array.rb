@@ -8,7 +8,7 @@ class Array
     ret
   end
 
-  def uiindexpath
+  def nsindexpath
     if self.length == 0
       raise "An index path must have at least one index"
     end
@@ -24,7 +24,7 @@ class Array
     return path
   end
 
-  def uiindexset
+  def nsindexset
     if self.length == 0
       raise "An index set must have at least one index"
     end
@@ -35,8 +35,5 @@ class Array
     end
     set
   end
-  
-  alias :nsindexpath, :uiindexpath
-  alias :nsindexset, :uiindexset
 
 end
