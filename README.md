@@ -346,9 +346,19 @@ Makes it easy to post a notification to some or all objects.
   @view.shake
 end
 
-# if you have a better name, I'll use it ;-)
 1.second.every do
   @view.shake
+end
+
+# since that looks funny, an every method is available in the SugarCube::Timer module
+include SugarCube::Timer
+every 1.minute do
+  puts "tick"
+end
+
+# might as well make an alias
+after 1.minute do
+  puts "ding!"
 end
 
 # other time-related methods
