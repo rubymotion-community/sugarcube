@@ -293,7 +293,8 @@ class Symbol
   def uitextalignment
     look_in(Symbol.textalignments)
   end
-  alias :uialignment :uitextalignment
+  alias uialignment uitextalignment
+
 
   def uilinebreakmode
     look_in(Symbol.linebreakmodes)
@@ -302,7 +303,8 @@ class Symbol
   def uibaselineadjustment
     look_in(Symbol.baselineadjustments)
   end
-  alias :uibaseline :uibaselineadjustment
+  alias uibaseline uibaselineadjustment
+
 
   def uiorientation
     look_in(Symbol.orientations)
@@ -319,7 +321,8 @@ class Symbol
   def uicontrolstate
     look_in(Symbol.controlstates)
   end
-  alias :uistate :uicontrolstate
+  alias uistate uicontrolstate
+
 
   def uicontrolevent
     look_in(Symbol.controlevents)
@@ -332,12 +335,14 @@ class Symbol
   def uiactivityindicatorstyle
     look_in(Symbol.activityindicator_styles)
   end
-  alias :uiactivityindicatorviewstyle :uiactivityindicatorstyle
+  alias uiactivityindicatorviewstyle uiactivityindicatorstyle
+
 
   def uisegmentedstyle
     look_in(Symbol.segmented_styles)
   end
-  alias :uisegmentedcontrolstyle :uisegmentedstyle
+  alias uisegmentedcontrolstyle uisegmentedstyle
+
 
   def uidatepickermode
     look_in(Symbol.datepicker_modes)
@@ -346,27 +351,32 @@ class Symbol
   def uitablestyle
     look_in(Symbol.tableview_styles)
   end
-  alias :uitableviewstyle :uitablestyle
+  alias uitableviewstyle uitablestyle
+
 
   def uitablerowanimation
     look_in(Symbol.tableview_rowanimation)
   end
-  alias :uitableviewrowanimation :uitablerowanimation
+  alias uitableviewrowanimation uitablerowanimation
+
 
   def uitablecellstyle
     look_in(Symbol.tableview_cellstyles)
   end
-  alias :uitableviewcellstyle :uitablecellstyle
+  alias uitableviewcellstyle uitablecellstyle
+
 
   def uitablecellaccessory
     look_in(Symbol.tableview_cellaccessorytype)
   end
-  alias :uitableviewcellaccessorytype :uitablecellaccessory
+  alias uitableviewcellaccessorytype uitablecellaccessory
+
 
   def uitablecellselectionstyle
     look_in(Symbol.tableview_cellselectionstyle)
   end
-  alias :uitableviewcellselectionstyle :uitablecellselectionstyle
+  alias uitableviewcellselectionstyle uitablecellselectionstyle
+
 
   def uistatusbarstyle
     look_in(Symbol.statusbar_styles)

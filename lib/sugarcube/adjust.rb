@@ -21,7 +21,7 @@ module SugarCube
 
       view
     end
-    alias :a :adjust
+    alias a adjust
 
     ##|  FRAME
     def frame f=nil
@@ -32,13 +32,13 @@ module SugarCube
 
       @@sugarcube_view.frame = f
     end
-    alias :f :frame
+    alias f frame
 
     ##|  ORIGIN
     def left val=1
       SugarCube::Adjust::right -val
     end
-    alias :l :left
+    alias l left
 
     def right val=1
       @@sugarcube_view ||= nil
@@ -48,12 +48,12 @@ module SugarCube
       f.origin.x += val
       @@sugarcube_view.frame = f
     end
-    alias :r :right
+    alias r right
 
     def up val=1
       SugarCube::Adjust::down -val
     end
-    alias :u :up
+    alias u up
 
     def down val=1
       @@sugarcube_view ||= nil
@@ -63,7 +63,7 @@ module SugarCube
       f.origin.y += val
       @@sugarcube_view.frame = f
     end
-    alias :d :down
+    alias d down
 
     def origin x=nil, y=nil
       @@sugarcube_view ||= nil
@@ -80,13 +80,13 @@ module SugarCube
       end
       @@sugarcube_view.frame = f
     end
-    alias :o :origin
+    alias o origin
 
     ##|  SIZE
     def thinner val=1
       SugarCube::Adjust::wider -val
     end
-    alias :n :thinner
+    alias n thinner
 
     def wider val=1
       @@sugarcube_view ||= nil
@@ -96,12 +96,12 @@ module SugarCube
       f.size.width += val
       @@sugarcube_view.frame = f
     end
-    alias :w :wider
+    alias w wider
 
     def shorter val=1
       SugarCube::Adjust::taller -val
     end
-    alias :s :shorter
+    alias s shorter
 
     def taller val=1
       @@sugarcube_view ||= nil
@@ -111,7 +111,7 @@ module SugarCube
       f.size.height += val
       @@sugarcube_view.frame = f
     end
-    alias :t :taller
+    alias t taller
 
     def size w=nil, h=nil
       @@sugarcube_view ||= nil
@@ -128,7 +128,7 @@ module SugarCube
       end
       @@sugarcube_view.frame = f
     end
-    alias :z :size
+    alias z size
 
     ##|  SHADOW
     def shadow shadow=nil
@@ -163,7 +163,7 @@ module SugarCube
         }
       end
     end
-    alias :h :shadow
+    alias h shadow
 
     ##|  TREE
     def tree(view=nil, tab=nil, is_last=true, views_index=nil)

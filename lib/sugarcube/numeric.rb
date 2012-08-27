@@ -7,37 +7,37 @@ class Numeric
   def seconds
     self
   end
-  alias :second :seconds
+  alias second seconds
 
   def minutes
     self * 60
   end
-  alias :minute :minutes
+  alias minute minutes
 
   def hours
     self * 3600
   end
-  alias :hour :hours
+  alias hour hours
 
   def days
     self.hours * 24
   end
-  alias :day :days
+  alias day days
 
   def weeks
     self.days * 7
   end
-  alias :week :weeks
+  alias week weeks
 
   def months
     self.days * 30
   end
-  alias :month :months
+  alias month months
 
   def years
     self.days * 365
   end
-  alias :year :years
+  alias year years
 
   def later(user_info=nil, &fire)
     NSTimer.scheduledTimerWithTimeInterval(self.to_f, target: fire, selector: 'call:', userInfo: user_info, repeats: false)
