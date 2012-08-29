@@ -39,7 +39,7 @@ class UIView
 
     UIView.animateWithDuration(duration,
                          delay: options[:delay] || 0,
-                       options: options[:options] || UIViewAnimationOptionCurveLinear,
+                       options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
                     animations: proc{
                                   self.layer.opacity = options[:opacity] || 0
 
@@ -77,7 +77,7 @@ class UIView
 
     UIView.animateWithDuration(duration,
                          delay: options[:delay] || 0,
-                       options: options[:options] || UIViewAnimationOptionCurveLinear,
+                       options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
                     animations: proc{
                                   f = self.frame
                                   f.origin = SugarCube::CoreGraphics::Point(position)
