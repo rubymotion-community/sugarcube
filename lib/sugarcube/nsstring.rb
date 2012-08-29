@@ -5,11 +5,11 @@ class NSString
   end
 
   def uiimage
-    @uiimage = UIImage.imageNamed(self)
+    UIImage.imageNamed(self)
   end
 
   def uiimageview
-    @uiimageview ||= (self.uiimage and self.uiimage.uiimageview or UIImageView.alloc.initWithImage(nil))
+    (self.uiimage and self.uiimage.uiimageview or UIImageView.alloc.initWithImage(nil))
   end
 
   def uifont(size=UIFont.systemFontSize)
