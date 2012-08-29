@@ -31,6 +31,15 @@ don't even *drink* coffee, if you can imagine that... All I'm saying is: to each
 their own.  You should checkout [BubbleWrap][] for another take on
 Cocoa-wrappage.
 
+**CONTRIBUTIONS**
+
+SugarCube started out as a [Fusionbox][] project (see the
+[announcement][fusionbox announcement]), but as its popularity increased, the
+decision was made to offer it to the rubymotion community, in the spirit of
+open-source and collaboration.  It is a great compliment to [teacup][],
+especially when paired with [sweettea][]!
+
+
 Installation
 ============
 
@@ -621,3 +630,6 @@ Quick wrapper for `CFUUIDCreate()` and `CFUUIDCreateString()`.  Identical to the
 
 [BubbleWrap]: https://github.com/rubymotion/BubbleWrap
 [sweettea]: https://github.com/colinta/sweettea
+[teacup]: https://github.com/rubymotion/teacup
+[Fusionbox]: http://www.fusionbox.com/
+[fusionbox announcement]: http://fusionbox.org/projects/rubymotion-sugarcube/
