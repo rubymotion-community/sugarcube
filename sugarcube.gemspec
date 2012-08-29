@@ -5,8 +5,8 @@ Gem::Specification.new do |gem|
   gem.name          = 'sugarcube'
   gem.version       = SugarCube::Version
 
-  gem.email   = ['colin@fusionbox.com']
   gem.authors = ['Colin Thomas-Arnold', 'Fusionbox']
+  gem.email   = ['colinta@gmail.com']
   gem.summary     = %{Extensions for Ruby to make Rubymotion development more enjoyable, and hopefully more rubyesque!}
   gem.description = <<-DESC
 CocoaTouch/iOS is a *verbose* framework.  These extensions hope to make
