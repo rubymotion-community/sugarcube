@@ -4,6 +4,24 @@ class NSString
     @url ||= NSURL.alloc.initWithString(self)
   end
 
+  def escape_url
+    CFURLCreateStringByAddingPercentEscapes(
+            nil,
+            self,
+            nil,
+            "!*'();:@&=+$,/?%#[]",
+            CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)
+            )
+  end
+
+  def unescape_url
+    CFURLCreateStringByReplacingPercentEscapes(
+            nil,
+            self,
+            ""
+            )
+  end
+
   def uiimage
     UIImage.imageNamed(self)
   end
