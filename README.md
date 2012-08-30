@@ -124,6 +124,22 @@ end
 "https://github.com".nsurl  # => NSURL.URLWithString("https://github.com")
 ```
 
+ NSIndexPath
+-------------
+
+Use the `IndexPath` class to match `NSIndexPath` objects, for instance in a
+`UITableViewDelegate`.
+
+```ruby
+index_path = [0, 2].nsindexpath
+case index_path
+when IndexPath[0]
+when IndexPath[1, 0..5]
+when IndexPath[1, 5..objects.length]
+end
+[0, 2].nsindexpath.to_a == [0, 2]  # => true
+```
+
  Symbol
 --------
 
