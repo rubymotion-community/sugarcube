@@ -2,7 +2,9 @@ class UIAlertView
 
   # UIAlertView.alert("title",
   #   message: "help!",
-  #   buttons: %w"OK Cancel No-way",
+  #   # The first button is considered the 'cancel' button, for the purposes of
+  #   # whether the cancel or success handler gets called
+  #   buttons: %w"Cancel OK No-way",
   #   cancel: proc{ puts "nevermind" },
   #   success: proc{ |pressed| puts "pressed: #{pressed}" },
   #   )
@@ -11,7 +13,7 @@ class UIAlertView
     puts block
     # create the delegate
     delegate = SugarCube::AlertViewDelegate.new
-    delegate.on_success = block || options[:success]
+    delegate.on_success = options[:success] || block
     delegate.on_cancel = options[:cancel]
     delegate.send(:retain)
 
@@ -52,7 +54,7 @@ module SugarCube
     attr_accessor :on_success
 
     def alertView(alert, didDismissWithButtonIndex:index)
-      if on_cancel
+      if index == 0 && on_cancel
         on_cancel.call
       elsif on_success
         if on_success.arity == 0
