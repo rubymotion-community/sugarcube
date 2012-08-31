@@ -169,7 +169,7 @@ This is the "big daddy".  Lots of sugar here...
 # adding them as I come across them.
 :automatic.uitablerowanimation   # or .uitableviewrowanimation
 :default.uitablecellstyle        # or .uitableviewcellstyle
-:disclosue.uitablecellaccessory  # or .uitableviewcellaccessorytype
+:disclosure.uitablecellaccessory  # or .uitableviewcellaccessorytype
 :blue.uitablecellselectionstyle  # or .uitableviewcellselectionstyle
 ```
 
