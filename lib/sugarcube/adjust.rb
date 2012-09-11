@@ -207,7 +207,13 @@ module SugarCube
       if not view
         puts "View is nil (no window or view to display)"
       else
+        if self == view
+          print "\033[1m"
+        end
         puts "#{view.class.name}(##{view.object_id.to_s(16)}, #{view.frame.to_s})"
+        if self == view
+          print "\033[0m"
+        end
 
         view.subviews.each_index {|index|
           subview = view.subviews[index]
