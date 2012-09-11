@@ -42,6 +42,11 @@ class UIAlertView
     alert
   end
 
+  private
+  def dummy
+    self.initWithTitle(nil, message:nil, delegate:nil, cancelButtonTitle:nil, otherButtonTitles:nil)
+  end
+
 end
 
 
