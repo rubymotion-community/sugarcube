@@ -203,13 +203,18 @@ module SugarCube
         print ". "
         tab = ""
       end
-      puts "#{view.class.name}(##{view.object_id.to_s(16)}, #{view.frame.to_s})"
 
-      view.subviews.each_index {|index|
-        subview = view.subviews[index]
-        views_index += 1
-        views_index = tree(subview, tab, index == view.subviews.length - 1, views_index)
-      }
+      if not view
+        puts "View is nil (no window or view to display)"
+      else
+        puts "#{view.class.name}(##{view.object_id.to_s(16)}, #{view.frame.to_s})"
+
+        view.subviews.each_index {|index|
+          subview = view.subviews[index]
+          views_index += 1
+          views_index = tree(subview, tab, index == view.subviews.length - 1, views_index)
+        }
+      end
 
       return is_first ? view : views_index
     end
