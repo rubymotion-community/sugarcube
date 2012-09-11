@@ -9,8 +9,6 @@ class UIAlertView
   #   success: proc{ |pressed| puts "pressed: #{pressed}" },
   #   )
   def self.alert(title, options={}, &block)
-    puts options
-    puts block
     # create the delegate
     delegate = SugarCube::AlertViewDelegate.new
     delegate.on_success = options[:success] || block
