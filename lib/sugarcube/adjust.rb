@@ -168,12 +168,7 @@ module SugarCube
     ##|  TREE
     def tree(view=nil, tab=nil, is_last=true, views_index=nil)
       unless view
-        @@sugarcube_view ||= nil
-        if @@sugarcube_view
-          view = @@sugarcube_view
-        else
-          view = UIApplication.sharedApplication.keyWindow
-        end
+        view = UIApplication.sharedApplication.keyWindow
       end
 
       if not views_index
