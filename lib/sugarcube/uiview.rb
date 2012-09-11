@@ -1,5 +1,27 @@
 class UIView
 
+  class << self
+    # returns the first responder, starting at the Window and searching every subview
+    def first_responder
+      UIApplication.sharedApplication.keyWindow.first_responder
+    end
+  end
+
+  # returns the first responder, or nil if it cannot be found
+  def first_responder
+    if self.firstResponder?
+      return self
+    end
+
+    found = nil
+    self.subviews.each do |subview|
+      found = subview.first_responder
+      break if found
+    end
+
+    return found
+  end
+
   def <<(view)
     self.addSubview view
   end

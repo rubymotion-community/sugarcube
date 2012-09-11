@@ -211,6 +211,8 @@ UIAlertView.alert "I mean, is this cool?", buttons: %w[No! Sure! Hmmmm]
 --------
 
 ```ruby
+UIView.first_responder  # => returns the first responder, starting at UIApplication.sharedApplication.keyWindow
+my_view.first_responder  # => also returns the first responder, but starts looking in my_view
 self.view << subview  # => self.view.addSubview(subview)
 self.view.show  # => self.hidden = false
 self.view.hide  # => self.hidden = true
