@@ -201,10 +201,10 @@ UIAlertView.alert("This is happening, OK?", buttons: ["Nevermind", "OK"],
 # Full on whiz bangery.  Note the success block takes the pressed button, but as
 # a string instead of an index.  The cancel button should be the first entry in
 # `buttons:`
-UIAlertView.alert "I mean, is this cool?", buttons: %w[No! Sure! Hmmmm]
+UIAlertView.alert "I mean, is this cool?", buttons: %w[No! Sure! Hmmmm],
   message: "No going back now",
-  cancel: { self.cancel },
-  success: { |pressed| self.proceed if pressed == "Sure!" }
+  cancel: proc { self.cancel },
+  success: proc { |pressed| self.proceed if pressed == "Sure!" }
 ```
 
  UIView
