@@ -85,6 +85,74 @@ Examples
 end
 ```
 
+ NSDate
+--------
+
+NSDate does not make it easy to get the sensible attributes of your datetime
+object.  This *does* make sense, if you are truly thinking globally, but I am
+not.  :-P
+
+Adds the following methods to get a date component: `year, month, day, hour, minute, second, yms, hms, datetime`
+
+`ymd`, `hms`, and `datetime` return arrays, so that comparing dates, times, or
+both become simple `date1.ymd == date2.ymd`.  If you need to *compare* dates,
+use the Foundation method `date1.compare(date2)` => `-1 or 0 or 1`.
+
+```
+(main)> now = NSDate.new
+=> 2012-09-13 09:19:06 -0600
+(main)> now.year
+=> 2012
+(main)> now.month
+=> 9
+(main)> now.day
+=> 13
+(main)> now.hour
+=> 9
+(main)> now.minute
+=> 19
+(main)> now.second
+=> 6
+(main)> now.weekday
+=> 5
+(main)> now.ymd
+=> [2012, 9, 13]
+(main)> now.hms
+=> [9, 19, 6]
+(main)> now.datetime
+=> [2012, 9, 13, 9, 19, 6]
+```
+
+And it is easy to add seconds to the date, and don't forget about the
+time-related methods added to `Numeric`!
+
+```ruby
+(main)> now + 5
+=> 2012-09-13 09:19:11 -0600
+(main)> now - 5
+=> 2012-09-13 09:19:01 -0600
+(main)> now + 5.minutes
+=> 2012-09-13 09:24:06 -0600
+(main)> now + 5.days
+=> 2012-09-18 09:19:06 -0600
+```
+
+Time zone objects are available, but the `utc_offset` is a little more
+immediately useful.  It returns the offset *in seconds*, so divide by `1.0.hour`
+to get the offset in hours.
+
+```ruby
+(main)> now.timezone
+=> #<__NSTimeZone:0x9384c70>
+(main)> now.timezone.name
+=> "America/Denver"
+(main)> now.utc_offset
+=> -21600
+(main)> now.utc_offset / 1.0.hour
+=> -6.0
+```
+
+
  NSURL
 -------
 
