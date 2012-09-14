@@ -1,4 +1,10 @@
 class NSDate
+  include Comparable
+
+  def <=>(date)
+    self.compare(date)
+  end
+
   def year
     return components(NSYearCalendarUnit).year
   end
