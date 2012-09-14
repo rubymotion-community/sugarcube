@@ -88,43 +88,38 @@ end
  NSDate
 --------
 
-NSDate does not make it easy to get the sensible attributes of your datetime
-object.  This *does* make sense, if you are truly thinking globally, but I am
-not.  :-P
+`NSDate` objects are converted to `Time` objects automatically by rubymotion.
+That's the good news.  The bad news?  That still doesn't help a lot with some of
+the everyday date&time crap we have to deal with. (I hate dates, especially
+recurring events)
 
-Adds the following methods to get a date component: `year, month, day, hour, minute, second, yms, hms, datetime`
+1. Adds the following methods to get date and time components: `date, time, datetime`.
 
-`ymd`, `hms`, and `datetime` return arrays, so that comparing dates, times, or
-both become simple `date1.ymd == date2.ymd`.  If you need to *compare* dates,
-use the Foundation method `date1.compare(date2)` => `-1 or 0 or 1`.
+   These methods return arrays.  Comparing dates, times, or both become
+   simple `date1.date == date2.date`.
+2. While I would love to support `date + 1.month` and have that support "smart"
+   calendar math (e.g. "2/13/2013" + 1.month => "3/13/2013"), I can't fudge with
+   the return value of `1.month` (=> `Fixnum`), and I won't make the terrible
+   assumption that "30 days of seconds is *about* one month".  So instead, a new
+   method that accepts date components as options is introduced.  `date.delta(month:1)`
+3. Something that is often done is checking whether two dates are the same,
+   ignoring the time components.  `start_of_day` and `end_of_day` methods help
+   you here.  They are akin to `floor` and `ceil`, if you consider the time to
+   be the "floating" component, and the date to be the nearest "integer".
 
 ```
-(main)> now = NSDate.new
+(main)> now = NSDate.new  # Time.new is the same thing
 => 2012-09-13 09:19:06 -0600
-(main)> now.year
-=> 2012
-(main)> now.month
-=> 9
-(main)> now.day
-=> 13
-(main)> now.hour
-=> 9
-(main)> now.minute
-=> 19
-(main)> now.second
-=> 6
-(main)> now.weekday
-=> 5
-(main)> now.ymd
+(main)> now.date
 => [2012, 9, 13]
-(main)> now.hms
+(main)> now.time
 => [9, 19, 6]
 (main)> now.datetime
 => [2012, 9, 13, 9, 19, 6]
 ```
 
-And it is easy to add seconds to the date, and don't forget about the
-time-related methods added to `Numeric`!
+And it is easy to add seconds to the date using the time-related methods added
+to `Numeric`, and the useful `start_of_day`/`end_of_day` methods.
 
 ```ruby
 (main)> now + 5
@@ -135,11 +130,15 @@ time-related methods added to `Numeric`!
 => 2012-09-13 09:24:06 -0600
 (main)> now + 5.days
 => 2012-09-18 09:19:06 -0600
+(main)> now.start_of_day
+=> 2012-09-13 00:00:00 -0600
+(main)> now.end_of_day
+=> 2012-09-14 00:00:00 -0600
 ```
 
-Time zone objects are available, but the `utc_offset` is a little more
-immediately useful.  It returns the offset *in seconds*, so divide by `1.0.hour`
-to get the offset in hours.
+Time zone objects are available, but the `Time#utc_offset` method is a little
+more useful.  It returns the offset *in seconds*, so divide by `1.0.hour` to get
+the offset in hours.  `utc_offset` is built into `Time`, not added by SugarCube.
 
 ```ruby
 (main)> now.timezone
@@ -148,10 +147,63 @@ to get the offset in hours.
 => "America/Denver"
 (main)> now.utc_offset
 => -21600
-(main)> now.utc_offset / 1.0.hour
-=> -6.0
+(main)> now.utc_offset / 1.hour
+=> -6
 ```
 
+The `delta` method is smart.
+
+```ruby
+(main)> feb_28_2012_stamp = 1330473600  # what, you don't have this memorized?
+=> 1330473600
+(main)> feb_28_2012 = Time.at(feb_28_2012_stamp)
+=> 2012-02-28 17:00:00 -0700
+
+(main)> feb_28_2012.delta(hours:1)
+=> 2012-02-28 18:00:00 -0700
+(main)> feb_28_2012.delta(hours:2)
+=> 2012-02-28 19:00:00 -0700
+
+(main)> feb_28_2012.delta(days:1)
+=> 2012-02-29 17:00:00 -0700
+(main)> feb_28_2012.delta(days:2)
+=> 2012-03-01 17:00:00 -0700
+
+(main)> feb_28_2012.delta(months:1)
+=> 2012-03-28 17:00:00 -0600  # look, the time didn't change, event though there was a DST change!
+(main)> feb_28_2012.delta(months:1, hours:0)
+=> 2012-03-28 18:00:00 -0600  # disable the DST fix by specifying hours, minutes, or seconds (a "precise" delta)
+
+(main)> feb_28_2012.delta(years:1)
+=> 2013-02-28 17:00:00 -0700
+(main)> feb_28_2012.delta(days:1, years:1)
+=> 2013-02-28 17:00:00 -0700
+(main)> feb_28_2012.delta(days:1, years:1, months:1)
+=> 2013-03-29 17:00:00 -0600
+
+(main)> jan_29_2013 = feb_28_2012.delta(days:1, months:11)
+=> 2013-01-29 17:00:00 -0700
+
+# what is 1/29/2013 plus two months?  easy!  march 29, 2013
+(main)> jan_29_2013.delta(months:2)
+=> 2013-03-29 17:00:00 -0600
+
+# yeah, smart guy? well then what is 1/29/2013 plus ONE month.
+# it's feb 28th.  trust me.  when someone says "see you in a month!"
+# they mean "next month", not "in the early part of two months in the future",
+# which is where the math will take you if you don't add a "day of month" correction.
+(main)> jan_29_2013.delta(months:1)
+=> 2013-02-28 17:00:00 -0700
+
+# does it work in reverse?  fuuuuuu...
+(main)> jan_29_2013.delta(months:-11)
+=> 2012-02-29 17:00:00 -0700
+# ...ck yeah!  :-)
+
+# unfortunately you will end up with stuff like this:
+(main)> feb_28_2012 == feb_28_2012.delta(days:1, months:12).delta(months:-12)
+=> true
+```
 
  NSURL
 -------
@@ -465,16 +517,20 @@ after 1.minute do
 end
 
 # other time-related methods
+# for compatibility with Time methods, the mins/secs (and min/sec) aliases are provided.  Personally,
+# I like the more verbose minutes/seconds.
 1.second  || 2.seconds
-1.minute  || 2.minutes  # 60 seconds
-1.hour    || 2.hours    # 60 minutes
-1.day     || 2.days     # 24 hours
-1.week    || 2.weeks    # 7 days
-# with sensible values for 'month' and 'year', even though we all know you can't
+1.sec     || 2.secs     # aliases
+1.minute  || 2.minutes  # 1.minute = 60 seconds
+1.min     || 2.mins     # aliases
+1.hour    || 2.hours    # 1.hour = 60 minutes
+1.day     || 2.days     # 1.day = 24 hours
+1.week    || 2.weeks    # 1.week = 7 days
+# sensible values for 'month' and 'year', even though we all know you can't
 # **really** define them this way (go back to python if you find your brain
 # hemorrhaging):
-1.month   || 2.months   # 30 days
-1.year    || 2.years    # 365 days
+1.month   || 2.months   # 1.month = 30 days
+1.year    || 2.years    # 1.year = 365 days
 ```
 
  NSUserDefaults

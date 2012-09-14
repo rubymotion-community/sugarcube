@@ -1,44 +1,6 @@
 class NSDate
-  include Comparable
-
-  def <=>(date)
-    self.compare(date)
-  end
-
-  def year
-    return components(NSYearCalendarUnit).year
-  end
-
-  def month
-    return components(NSMonthCalendarUnit).month
-  end
-
-  def day
-    return components(NSDayCalendarUnit).day
-  end
-
-  def ymd
-    return [self.year, self.month, self.day]
-  end
-
-  def weekday
-    return components(NSWeekdayCalendarUnit).weekday
-  end
-
-  def hour
-    return components(NSHourCalendarUnit).hour
-  end
-
-  def minute
-    return components(NSMinuteCalendarUnit).minute
-  end
-
-  def second
-    return components(NSSecondCalendarUnit).second
-  end
-
   def timezone
-    return components(NSTimeZoneCalendarUnit).timeZone
+    return _calendar_components(NSTimeZoneCalendarUnit).timeZone
   end
   alias timeZone timezone
 
@@ -46,23 +8,42 @@ class NSDate
     return self.timezone.secondsFromGMT
   end
 
-  def hms
-    return [self.hour, self.minute, self.second]
+  def leap?
+    self.year % 4 == 0 and self.year % 100 != 0 or self.year % 400 == 0
+  end
+
+  def date
+    return [self.year, self.month, self.day]
+  end
+
+  def time
+    return [self.hour, self.min, self.sec]
   end
 
   def datetime
-    return [self.year, self.month, self.day, self.hour, self.minute, self.second]
+    return [self.year, self.month, self.day, self.hour, self.min, self.sec]
   end
 
-  def +(time_interval)
-    return self.dateByAddingTimeInterval(time_interval)
+  def start_of_day
+    time_interval = self.hour.hours + self.min.minutes + self.sec
+    return self - time_interval
+  end
+
+  def end_of_day
+    time_interval = (23 - self.hour).hours + (59 - self.min).minutes + 60 - self.sec
+    return self + time_interval
+  end
+
+  def days_in_month
+    NSCalendar.currentCalendar.rangeOfUnit(NSDayCalendarUnit, inUnit:NSMonthCalendarUnit, forDate:self).length
+  end
+
+  def days_in_year
+    NSCalendar.currentCalendar.rangeOfUnit(NSDayCalendarUnit, inUnit:NSYearCalendarUnit, forDate:self).length
   end
 
   private
-  def components(components)
-    unless (@@calendar ||= nil)
-      @@calendar = NSCalendar.alloc.initWithCalendarIdentifier(NSGregorianCalendar)
-    end
-    return @@calendar.components(components, fromDate:self)
+  def _calendar_components(components)
+    return NSCalendar.currentCalendar.components(components, fromDate:self)
   end
 end

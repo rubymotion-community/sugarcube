@@ -8,11 +8,15 @@ class Numeric
     self
   end
   alias second seconds
+  alias sec seconds
+  alias secs seconds
 
   def minutes
     self * 60
   end
   alias minute minutes
+  alias min minutes
+  alias mins minutes
 
   def hours
     self * 3600
