@@ -8,7 +8,7 @@ class NSDate
     return self.timezone.secondsFromGMT
   end
 
-  def leap?
+  def leap_year?
     self.year % 4 == 0 and self.year % 100 != 0 or self.year % 400 == 0
   end
 
