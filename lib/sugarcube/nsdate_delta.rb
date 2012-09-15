@@ -1,12 +1,5 @@
 class NSDate
 
-  def +(val)
-    if val.is_a?(Hash)
-      return self.delta(val)
-    end
-    super
-  end
-
   def delta(_components)
     components = {}.update(_components)
     is_very_specific = components.has_key?(:seconds)
