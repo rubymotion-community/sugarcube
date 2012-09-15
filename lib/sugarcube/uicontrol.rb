@@ -15,7 +15,7 @@ class UIControl
   #   button.on(:touchupoutside, :touchcancel) { my_code }
   def on(*events, &block)
     events.each do |event|
-      event = event.uicontrolevent unless Fixnum === event
+      event = event.uicontrolevent unless event.is_a? Fixnum
 
       sugarcube_callbacks[event].push block
       addTarget(block, action: :call, forControlEvents:event)
@@ -31,7 +31,7 @@ class UIControl
   #   button.off(:touchupoutside, :touchcancel)
   def off(*events)
     events.each do |event|
-      event = event.uicontrolevent unless Fixnum === event
+      event = event.uicontrolevent unless event.is_a? Fixnum
 
       sugarcube_callbacks[event].each do |block|
         self.removeTarget(block, action: :call, forControlEvents:event)
