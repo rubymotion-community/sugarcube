@@ -441,6 +441,31 @@ button.off(:all)
 You can only remove handlers by "type", not by the action.  e.g. If you bind
 three `:touch` events, calling `button.off(:touch)` will remove all three.
 
+ UIViewController
+------------------
+
+It is nice that *any* `UIViewController` can present a modal, but if you have
+tabs or navs or crap in the way, this is actually *NOT* what you want.  You
+should use the `rootViewController` (whatever it may be) to present to modal.
+
+And since this is a property on `UIWindow`, which is more-or-less a constant, we
+can make this the easiest to do!
+
+```ruby
+include SugarCube::Modal
+view_ctlr = EditSomethingViewController.new
+present_modal(view_ctlr)
+# ...later, when all is well...
+dismiss_modal
+```
+
+These accept completion blocks:
+
+```ruby
+present_modal(view_ctlr) { puts "here!" }
+dismiss_modal { puts "gone!" }
+```
+
  UINavigationController
 ------------------------
 
