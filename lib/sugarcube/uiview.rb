@@ -164,17 +164,12 @@ class UIView
     left = -offset
     right = +offset
 
-    CATransaction.begin
-    CATransaction.setValue(duration, forKey:KCATransactionAnimationDuration)
-
     animation = CAKeyframeAnimation.animationWithKeyPath(keypath)
-    # animation.duration = duration
+    animation.duration = duration
     animation.repeatCount = repeat
     animation.values = [origin, left, right, origin]
     animation.keyTimes = [0, 0.25, 0.75, 1.0]
     self.layer.addAnimation(animation, forKey:'shake')
-
-    CATransaction.commit
     self
   end
 
