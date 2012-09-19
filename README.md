@@ -488,9 +488,11 @@ Makes it easy to post a notification to some or all objects.
 
 # very similar to add or remove an observer
 "my notification".add_observer(observer, :method_name)
-"my notification".add_observer(observer, :method_name, target)
+"my notification".add_observer(observer, :method_name, object)
+
+# remove the observer
 "my notification".remove_observer(observer)
-"my notification".remove_observer(observer, target)
+"my notification".remove_observer(observer, object)
 ```
 
  NSTimer

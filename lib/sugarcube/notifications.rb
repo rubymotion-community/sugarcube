@@ -12,15 +12,15 @@ class NSString
     end
   end
 
-  def add_observer(observer, message, object=nil)
-    NSNotificationCenter.defaultCenter.addObserver(observer,
-            selector: message,
+  def add_observer(target=nil, action=nil, object=nil)
+    NSNotificationCenter.defaultCenter.addObserver(target,
+            selector: action,
             name: self,
             object: object)
   end
 
-  def remove_observer(observer, object=nil)
-    NSNotificationCenter.defaultCenter.removeObserver(observer, name:self, object:object)
+  def remove_observer(target, object=nil)
+    NSNotificationCenter.defaultCenter.removeObserver(target, name:self, object:object)
   end
 
 end
