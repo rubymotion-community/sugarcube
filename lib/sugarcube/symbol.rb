@@ -159,6 +159,7 @@ class Symbol
 
   @returnkeys = {
     default:       UIReturnKeyDefault,
+    return:        UIReturnKeyDefault,
     go:            UIReturnKeyGo,
     google:        UIReturnKeyGoogle,
     join:          UIReturnKeyJoin,
