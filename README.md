@@ -80,6 +80,12 @@ Examples
 100.0.percent # => 1.00
 55.0.percent # => 0.55
 
+# convert to radians.  does this look weird?
+180.degrees # => Math::PI
+
+# convert multiples of pi
+2.pi   # => 2 * Math::PI
+0.5.pi # => 0.5 * Math::PI
 ```
 
  NSDate
