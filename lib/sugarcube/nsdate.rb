@@ -4,6 +4,8 @@ class NSDate
   end
   alias timeZone timezone
 
+  # In the rare case you actually get an NSDate object - not a Time object - this
+  # method is actually useful.
   def utc_offset
     return self.timezone.secondsFromGMT
   end
@@ -12,34 +14,45 @@ class NSDate
     self.year % 4 == 0 and self.year % 100 != 0 or self.year % 400 == 0
   end
 
-  def date
+  #  (main)> t = Time.new
+  #  => 2012-09-27 11:29:12 +0900
+  #  (main)> t.time_array
+  #  => [2012, 9, 27]
+  def date_array
     return [self.year, self.month, self.day]
   end
 
-  # Cause of an error "unrecognized runtime type `{_CMTime=qiIq}' (TypeError)" is this method name
-  #
-  # I changed its name to time_. time_ method was works.
-  #
   #  (main)> t = Time.new
   #  => 2012-09-27 11:29:12 +0900
-  #  (main)> t.time_
+  #  (main)> t.time_array
   #  => [11, 29, 12]
-#  def time
-  def time_
+  def time_array
     return [self.hour, self.min, self.sec]
   end
 
-  def datetime
+  #  (main)> t = Time.new
+  #  => 2012-09-27 11:29:12 +0900
+  #  (main)> t.time_array
+  #  => [2012, 9, 12, 11, 29, 12]
+  def datetime_array
     return [self.year, self.month, self.day, self.hour, self.min, self.sec]
   end
 
+  #  (main)> t = Time.new
+  #  => 2012-09-27 11:29:12 +0900
+  #  (main)> t.start_of_day
+  #  => 2012-09-27 00:00:00 +0900
   def start_of_day
     time_interval = self.hour.hours + self.min.minutes + self.sec
     return self - time_interval
   end
 
+  #  (main)> t = Time.new
+  #  => 2012-09-27 11:29:12 +0900
+  #  (main)> t.end_of_day
+  #  => 2012-09-28 00:00:00 +0900
   def end_of_day
-    time_interval = (23 - self.hour).hours + (59 - self.min).minutes + 60 - self.sec
+    time_interval = (23 - self.hour).hours + (59 - self.min).minutes - self.sec + 60
     return self + time_interval
   end
 
