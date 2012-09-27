@@ -12,7 +12,7 @@ class NSString
     end
   end
 
-  def add_observer(target, action=nil, object=nil)
+  def add_observer(target, action, object=nil)
     NSNotificationCenter.defaultCenter.addObserver(target,
             selector: action,
             name: self,
