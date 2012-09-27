@@ -80,9 +80,6 @@ Examples
 100.0.percent # => 1.00
 55.0.percent # => 0.55
 
-1.3.seconds.later do
-  @someview.fade_out
-end
 ```
 
  NSDate
