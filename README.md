@@ -276,7 +276,7 @@ This is the "big daddy".  Lots of sugar here...
 :rounded.uibuttontype  # => UIButtonTypeRoundedRect
 :highlighted.uicontrolstate  # => UIControlStateHighlighted
 :touch.uicontrolevent  # => UIControlEventTouchUpInside
-:changed.uicontrolevent  # => UIControlEventValueChanged
+:change.uicontrolevent  # => UIControlEventValueChanged
 :all.uicontrolevent  # => UIControlEventAllEvents
 :blue.uicolor  # UIColor.blueColor
 # all CSS colors are supported, and alpha

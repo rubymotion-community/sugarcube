@@ -119,6 +119,9 @@ class Symbol
     touch: UIControlEventTouchUpInside,
     touch_up: UIControlEventTouchUpInside,
     touch_down: UIControlEventTouchDown,
+    change:  UIControlEventValueChanged|UIControlEventEditingChanged,
+    # I'm leaving this for backwards compatibility.  please use 'change' or
+    # 'editing_did_change':
     changed: UIControlEventValueChanged|UIControlEventEditingChanged,
 
     touch_down_repeat: UIControlEventTouchDownRepeat,
@@ -133,7 +136,10 @@ class Symbol
     value_changed: UIControlEventValueChanged,
 
     editing_did_begin: UIControlEventEditingDidBegin,
+    # nice.  very consistent APPLE:
     editing_changed: UIControlEventEditingChanged,
+    # now here's consistency:
+    editing_did_change: UIControlEventEditingChanged,
     editing_did_end: UIControlEventEditingDidEnd,
     editing_did_endonexit: UIControlEventEditingDidEndOnExit,
 
@@ -272,12 +278,17 @@ class Symbol
   @keyboardtypes = {
     default:               UIKeyboardTypeDefault,
     asciicapable:          UIKeyboardTypeASCIICapable,
+    ascii:                 UIKeyboardTypeASCIICapable,
     numbersandpunctuation: UIKeyboardTypeNumbersAndPunctuation,
     url:                   UIKeyboardTypeURL,
     numberpad:             UIKeyboardTypeNumberPad,
+    number:                UIKeyboardTypeNumberPad,
     phonepad:              UIKeyboardTypePhonePad,
+    phone:                 UIKeyboardTypePhonePad,
     namephonepad:          UIKeyboardTypeNamePhonePad,
+    nameandphone:          UIKeyboardTypeNamePhonePad,
     emailaddress:          UIKeyboardTypeEmailAddress,
+    email:                 UIKeyboardTypeEmailAddress,
   }
 
   private
