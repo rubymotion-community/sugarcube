@@ -3,20 +3,16 @@ class UITextView
   def sugarcube_callbacks
     @sugarcube_callbacks ||= Hash.new { |h,k| h[k] = [] }
   end
-  def finish_callbacks
-    self.sugarcube_callbacks[:finish]
-  end
-  def change_callbacks
-    self.sugarcube_callbacks[:change]
-  end
 
   def on(*events, &block)
     events.each do |event|
       case event
-      when :change, UITextViewTextDidChangeNotification
-        onFinish(&block)
-      when :editing_did_end, UITextViewTextDidEndEditingNotification
-        onChange(&block)
+      when :editing_did_begin, :begin, UITextViewTextDidBeginEditingNotification
+        _onEventNotification(UITextViewTextDidBeginEditingNotification, &block)
+      when :editing_did_change, :change, UITextViewTextDidChangeNotification
+        _onEventNotification(UITextViewTextDidChangeNotification, &block)
+      when :editing_did_end, :end, UITextViewTextDidEndEditingNotification
+        _onEventNotification(UITextViewTextDidEndEditingNotification, &block)
       else
         raise "Unknown or unsupported event #{event} in UITextView#on"
       end
@@ -26,12 +22,18 @@ class UITextView
   end
 
   def off(*events)
+    if events.length == 0
+      events = self.sugarcube_callbacks.keys
+    end
+
     events.each do |event|
       case event
-      when :change, UITextViewTextDidChangeNotification
-        offFinish
-      when :editing_did_end, UITextViewTextDidEndEditingNotification
-        offChange
+      when :editing_did_begin, :begin, UITextViewTextDidBeginEditingNotification
+        _offEventNotification(UITextViewTextDidBeginEditingNotification)
+      when :editing_did_change, :change, UITextViewTextDidChangeNotification
+        _offEventNotification(UITextViewTextDidChangeNotification)
+      when :editing_did_end, :end, UITextViewTextDidEndEditingNotification
+        _offEventNotification(UITextViewTextDidEndEditingNotification)
       else
         raise "Unknown or unsupported event #{event} in UITextView#on"
       end
@@ -40,36 +42,18 @@ class UITextView
     self
   end
 
-  def onFinish(&block)
-    notication = UITextViewTextDidEndEditingNotification
-    self.sugarcube_callbacks[:finish] << NSNotificationCenter.defaultCenter.addObserverForName(notication,
+private
+  def _onEventNotification(notication, &block)
+    self.sugarcube_callbacks[notication] << NSNotificationCenter.defaultCenter.addObserverForName(notication,
           object: self,
            queue: NSOperationQueue.mainQueue,
       usingBlock: block)
-    self
   end
 
-  def offFinish
-    self.sugarcube_callbacks[:finish].each do |callback_observer|
+  def _offEventNotification(nofication)
+    self.sugarcube_callbacks[nofication].each do |callback_observer|
       NSNotificationCenter.defaultCenter.removeObserver(callback_observer)
     end
-    self
-  end
-
-  def onChange(&block)
-    notication = UITextViewTextDidChangeNotification
-    self.sugarcube_callbacks[:change] << NSNotificationCenter.defaultCenter.addObserverForName(notication,
-          object: self,
-           queue: NSOperationQueue.mainQueue,
-      usingBlock: block)
-    self
-  end
-
-  def offChange
-    self.sugarcube_callbacks[:change].each do |callback_observer|
-      NSNotificationCenter.defaultCenter.removeObserver(callback_observer)
-    end
-    self
   end
 
 end

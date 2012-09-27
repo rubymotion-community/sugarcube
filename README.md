@@ -503,6 +503,37 @@ tabbar_ctlr.setViewControllers(controllers, animated: true)
 tabbar_ctlr << new_ctlr
 ```
 
+ UITextView
+------------
+
+Added some `UIControl`-like event binding.  You MUST call the `off` methods,
+because these methods use `NSNotification`s, and you must turn off listeners.
+
+There are two aliases for each event. I prefer the present tense (jQuery-style `on :change`),
+but UIKit prefers past simple (`UITextViewTextDidBeginEditingNotification`).
+
+So these are all the same:
+
+    :editing_did_begin  :begin
+    :editing_did_change :change
+    :editing_did_end    :end
+
+```ruby
+text_view = UITextView.new
+text_view.on :editing_did_begin do
+  p 'wait for it...'
+end
+text_view.on :editing_did_change do
+  p text_view.text
+end
+text_view.on :editing_did_end do
+  p 'done!'
+end
+
+# later... like in `viewWillDisappear`.  I'll use the alternative aliases here
+text_view.off :change, :end, :begin
+```
+
  NSNotificationCenter
 ----------------------
 
