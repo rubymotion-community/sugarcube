@@ -7,7 +7,8 @@ class UIControl
     @sugarcube_callbacks ||= Hash.new { |hash, key| hash[key] = [] }
   end
 
-  # Add event handlers to UIControls
+  # Add event handlers to UIControls.  See symbol.rb for the uicontrolevent
+  # constant aliases.
   #
   # @example
   #   button = UIButton.alloc.initWithFrame([0, 0, 10, 10])
@@ -24,12 +25,18 @@ class UIControl
     self
   end
 
-  # Removes all events that were bound with `on`.
+  # Removes all events that were bound with `on`.  See symbol.rb for the
+  # uicontrolevent constant aliases.
   #
   # @example
   #   button.off(:touch)
   #   button.off(:touchupoutside, :touchcancel)
+  #   button.off  # all events
   def off(*events)
+    if events.length == 0
+      events = sugarcube_callbacks.keys
+    end
+
     events.each do |event|
       event = event.uicontrolevent unless event.is_a? Fixnum
 
