@@ -16,7 +16,16 @@ class NSDate
     return [self.year, self.month, self.day]
   end
 
-  def time
+  # Cause of an error "unrecognized runtime type `{_CMTime=qiIq}' (TypeError)" is this method name
+  #
+  # I changed its name to time_. time_ method was works.
+  #
+  #  (main)> t = Time.new
+  #  => 2012-09-27 11:29:12 +0900
+  #  (main)> t.time_
+  #  => [11, 29, 12]
+#  def time
+  def time_
     return [self.hour, self.min, self.sec]
   end
 
