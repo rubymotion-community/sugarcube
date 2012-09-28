@@ -2,28 +2,6 @@
 class UIColor
   def uicolor ; self ; end
 
-
-  def to_s
-    alpha = self.alpha.to_s
-
-    Symbol.uicolors.each_pair do |color, method|
-      if UIColor.send(method) == self
-        return "UIColor.#{method}(#{alpha})"
-      end
-    end
-
-    red = (self.red * 255).to_i << 16
-    green = (self.green * 255).to_i << 8
-    blue = (self.blue * 255).to_i
-    my_color = red + green + blue
-    Symbol.css_colors.each_pair do |color, hex|
-      if hex == my_color
-        return "UIColor.color(#{color.inspect}, #{alpha})"
-      end
-    end
-    return "UIColor.color(#{red}, #{green}, #{blue}, #{alpha})"
-  end
-
   def color
     if not @color
       red = Pointer.new(:float)
