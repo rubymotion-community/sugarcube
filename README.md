@@ -747,6 +747,49 @@ Assume I ran `include SugarCube::Adjust` in these examples.
 => {UITextField @ x: 46.0 y:214.0, 280.0×33.0} child of UIView
 ```
 
+The most useful feature of the REPL adjustment is the ability to quickly position and size your UI elements __visually__ and then paste the final values into your code.  In order to better accomodate that, `adjust` has an option to modify the output format.
+
+This better facilitates copy/paste of the values.  Currently supported is
+* Default (RubyMotion)
+* Objective-C
+* JSON
+
+Here are some quick examples
+## Objective-C style (default)
+```
+(UIImageView(#8d67e00, {{0, 0},...)> tree
+  0: . UIWindow(#6e27180: {{0, 0}, {320, 480}})
+  1: `-- UIView(#8d631b0: {{0, 20}, {320, 460}})
+  2:     +-- UIButton(#6d6c090: {{10, 10}, {320, 463.401}})
+  3:     |   `-- UIImageView(#8d67e00: {{0, 0}, {320, 463.401}})
+  4:     `-- UIRoundedRectButton(#8d68170: {{10, 30}, {30, 200}})
+  5:         `-- UIButtonLabel(#8d69c30: {{2, 90}, {26, 19}})
+=> UIWindow(#6e27180, {{0, 0}, {320, 480}}, 
+(UIImageView(#8d67e00, {{0, 0},...)> a 4, :objc
+=> "UIRoundedRectButton(#8d68170: [[10.0, 30.0], [200.0, 30.0]])"
+(UIImageView(#8d67e00, {{0, 0},...)> wider 15
+=> "CGRect(#8d84630: [[10.0, 30.0], [200.0, 45.0]])"
+```
+## JSON (or GeoMotion)
+```
+(UIImageView(#8d67e00, {{0, 0},...)> a 1, :json
+=> "UIView(#8d631b0: [x: 0.0, y: 20.0, height: 460.0, width: 320.0])"
+(UIImageView(#8d67e00, {{0, 0},...)> wider 30
+=> "CGRect(#6e9c9f0: [x: 0.0, y: 20.0, height: 460.0, width: 350.0])"
+(UIImageView(#8d67e00, {{0, 0},...)> right 130
+=> "CGRect(#8dc6a40: [x: 130.0, y: 20.0, height: 460.0, width: 350.0])"
+(UIImageView(#8d67e00, {{0, 0},...)> tree
+  0: . UIWindow(#6e27180: [x: 0.0, y: 0.0, height: 480.0, width: 320.0])
+  1: `-- UIView(#8d631b0: [x: 130.0, y: 20.0, height: 460.0, width: 350.0])
+  2:     +-- UIButton(#6d6c090: [x: 10.0, y: 10.0, height: 463.400512695312, width: 320.0])
+  3:     |   `-- UIImageView(#8d67e00: [x: 0.0, y: 0.0, height: 463.400512695312, width: 320.0])
+  4:     `-- UIRoundedRectButton(#8d68170: [x: 10.0, y: 30.0, height: 200.0, width: 45.0])
+  5:         `-- UIButtonLabel(#8d69c30: [x: 4.0, y: 90.0, height: 19.0, width: 37.0])
+=> UIWindow(#6e27180, {{0, 0}, {320, 480}}, 
+```
+Note: The __format__ parameter can be passed as either a symbol or a string
+
+
  Pointers
 ----------
 
