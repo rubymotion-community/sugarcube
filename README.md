@@ -841,7 +841,7 @@ position and size your UI elements __visually__ and then paste the final values
 into your code.  In order to better accomodate that, `adjust` has an option to
 modify the output format.
 
-This better facilitates copy/paste of the values.  Currently supported is
+This better facilitates copy/paste of the values.  Currently supported is:
 * Default (RubyMotion) (`nil`, `:default`)
 * Objective-C (`:objc`)
 * JSON (`:json`)
@@ -857,10 +857,19 @@ This better facilitates copy/paste of the values.  Currently supported is
   4:     `-- UIRoundedRectButton(#8d68170: {{10, 30}, {30, 200}})
   5:         `-- UIButtonLabel(#8d69c30: {{2, 90}, {26, 19}})
 => UIWindow(#6e27180, {{0, 0}, {320, 480}},
+
+# you can pass the format into the adjust method:
 (UIImageView(#8d67e00, {{0, 0},...)> a 4, :objc
 => "UIRoundedRectButton(#8d68170: [[10.0, 30.0], [200.0, 30.0]])"
+
+# or you can assign repl_format explicitly (adjust does this for you when you hand it a format)
+(UIImageView(#8d67e00, {{0, 0},...)> repl_format :objc
+=> :objc
+
+# either way, it will continue to be used in subsequent calls
 (UIImageView(#8d67e00, {{0, 0},...)> wider 15
-=> "CGRect(#8d84630: [[10.0, 30.0], [200.0, 45.0]])"
+[[10.0, 30.0], [200.0, 45.0]]
+=> "UIRoundedRectButton(#8d68170: [[10.0, 30.0], [200.0, 45.0]]) child of UIView(#8d631b0)"
 ```
 
 #### JSON (or GeoMotion)
@@ -881,7 +890,8 @@ This better facilitates copy/paste of the values.  Currently supported is
   5:         `-- UIButtonLabel(#8d69c30: [x: 4.0, y: 90.0, height: 19.0, width: 37.0])
 => UIWindow(#6e27180, {{0, 0}, {320, 480}},
 ```
-Note: The __format__ parameter can be passed as either a symbol or a string
+
+Note: The `format` parameter can be passed as either a symbol or a string
 
 
  Pointers

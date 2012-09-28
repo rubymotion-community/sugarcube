@@ -2,9 +2,19 @@ module SugarCube
   module Adjust
     module_function
 
-    def adjust(view=nil, format=:default)
-      @@repl_format = format.to_sym
-      @@sugarcube_view ||= nil
+    def repl_format(format=nil)
+      if format
+        @@repl_format = format
+      else
+        # if adjust has not been called, the instance variable has not yet been set
+        @@repl_format ||= :ruby
+      end
+      @@repl_format
+    end
+
+    def adjust(view=nil, format=nil)
+      SugarCube::Adjust::repl_format(format.to_sym) if format
+      @@sugarcube_view ||= nil  #  this looks like a NOOP, but ||= also checks whether the variable exists.  aka: errors happen if we don't do this.
       return @@sugarcube_view if not view
 
       if view.is_a? Fixnum
@@ -20,7 +30,10 @@ module SugarCube
         shadow: SugarCube::Adjust.shadow,
       }
 
-      interpolated view
+      if format
+        puts format_frame view.frame
+      end
+      view
     end
     alias a adjust
 
@@ -32,7 +45,9 @@ module SugarCube
       return SugarCube::CoreGraphics::Rect(@@sugarcube_view.frame) if not f
 
       @@sugarcube_view.frame = f
-      interpolated f
+      puts format_frame(f)
+
+      @@sugarcube_view
     end
     alias f frame
 
@@ -49,7 +64,9 @@ module SugarCube
       f = @@sugarcube_view.frame
       f.origin.x += val
       @@sugarcube_view.frame = f
-      interpolated f
+      puts format_frame(f)
+
+      @@sugarcube_view
     end
     alias r right
 
@@ -65,7 +82,9 @@ module SugarCube
       f = @@sugarcube_view.frame
       f.origin.y += val
       @@sugarcube_view.frame = f
-      interpolated f
+      puts format_frame(f)
+
+      @@sugarcube_view
     end
     alias d down
 
@@ -83,7 +102,9 @@ module SugarCube
         f.origin = x
       end
       @@sugarcube_view.frame = f
-      interpolated f
+      puts format_frame(f)
+
+      @@sugarcube_view
     end
     alias o origin
 
@@ -100,7 +121,9 @@ module SugarCube
       f = @@sugarcube_view.frame
       f.size.width += val
       @@sugarcube_view.frame = f
-      interpolated f
+      puts format_frame(f)
+
+      @@sugarcube_view
     end
     alias w wider
 
@@ -116,7 +139,9 @@ module SugarCube
       f = @@sugarcube_view.frame
       f.size.height += val
       @@sugarcube_view.frame = f
-      interpolated f
+      puts format_frame(f)
+
+      @@sugarcube_view
     end
     alias t taller
 
@@ -134,7 +159,9 @@ module SugarCube
         f.size = w
       end
       @@sugarcube_view.frame = f
-      interpolated f
+      puts format_frame(f)
+
+      @@sugarcube_view
     end
     alias z size
 
@@ -213,7 +240,7 @@ module SugarCube
         if self == view
           print "\033[1m"
         end
-        puts interpolated(view)
+        puts "#{view.class.name}(##{view.object_id.to_s(16)}: #{format_frame(view.frame)})"
         if self == view
           print "\033[0m"
         end
@@ -238,16 +265,15 @@ module SugarCube
       end
     end
 
-    def interpolated(view=UIApplication.sharedApplication.keyWindow)
-      @@repl_format ||= :default  #if adjust has not been called, the instance variable has not yet been set
-      frame_params = case @@repl_format
-        when :json then "[x: #{view.frame.origin.x}, y: #{view.frame.origin.y}, height: #{view.frame.size.height}, width: #{view.frame.size.width}]"
-        when :objc then "[[#{view.frame.origin.x}, #{view.frame.origin.y}], [#{view.frame.size.height}, #{view.frame.size.width}]]"
-#        when nil, "default" then view.frame.to_s
+    def format_frame(frame)
+      case SugarCube::Adjust::repl_format
+        when :json then "[x: #{frame.origin.x}, y: #{frame.origin.y}, height: #{frame.size.height}, width: #{frame.size.width}]"
+        when :ruby then "[[#{frame.origin.x}, #{frame.origin.y}], [#{frame.size.height}, #{frame.size.width}]]"
+        when nil, :objc
+          frame.to_s
         else
-          view.frame.to_s
+          raise "Unknown repl_format #{SugarCube::Adjust::repl_format.inspect}"
       end
-      "#{view.class.name}(##{view.object_id.to_s(16)}: #{frame_params})"
     end
 
   end
