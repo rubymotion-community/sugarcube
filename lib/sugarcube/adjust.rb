@@ -2,7 +2,8 @@ module SugarCube
   module Adjust
     module_function
 
-    def adjust view=nil
+    def adjust(view=nil, format=:default)
+      @@repl_format = format.to_sym
       @@sugarcube_view ||= nil
       return @@sugarcube_view if not view
 
@@ -19,7 +20,7 @@ module SugarCube
         shadow: SugarCube::Adjust.shadow,
       }
 
-      view
+      interpolated view
     end
     alias a adjust
 
@@ -31,6 +32,7 @@ module SugarCube
       return SugarCube::CoreGraphics::Rect(@@sugarcube_view.frame) if not f
 
       @@sugarcube_view.frame = f
+      interpolated f
     end
     alias f frame
 
@@ -47,6 +49,7 @@ module SugarCube
       f = @@sugarcube_view.frame
       f.origin.x += val
       @@sugarcube_view.frame = f
+      interpolated f
     end
     alias r right
 
@@ -62,6 +65,7 @@ module SugarCube
       f = @@sugarcube_view.frame
       f.origin.y += val
       @@sugarcube_view.frame = f
+      interpolated f
     end
     alias d down
 
@@ -79,6 +83,7 @@ module SugarCube
         f.origin = x
       end
       @@sugarcube_view.frame = f
+      interpolated f
     end
     alias o origin
 
@@ -95,6 +100,7 @@ module SugarCube
       f = @@sugarcube_view.frame
       f.size.width += val
       @@sugarcube_view.frame = f
+      interpolated f
     end
     alias w wider
 
@@ -110,6 +116,7 @@ module SugarCube
       f = @@sugarcube_view.frame
       f.size.height += val
       @@sugarcube_view.frame = f
+      interpolated f
     end
     alias t taller
 
@@ -127,6 +134,7 @@ module SugarCube
         f.size = w
       end
       @@sugarcube_view.frame = f
+      interpolated f
     end
     alias z size
 
@@ -205,7 +213,7 @@ module SugarCube
         if self == view
           print "\033[1m"
         end
-        puts "#{view.class.name}(##{view.object_id.to_s(16)}, #{view.frame.to_s})"
+        puts interpolated(view)
         if self == view
           print "\033[0m"
         end
@@ -228,6 +236,18 @@ module SugarCube
       @@sugarcube_restore.each do |msg, value|
         SugarCube::Adjust.send(msg, value)
       end
+    end
+
+    def interpolated(view=UIApplication.sharedApplication.keyWindow)
+      @@repl_format ||= :default  #if adjust has not been called, the instance variable has not yet been set
+      frame_params = case @@repl_format
+        when :json then "[x: #{view.frame.origin.x}, y: #{view.frame.origin.y}, height: #{view.frame.size.height}, width: #{view.frame.size.width}]"
+        when :objc then "[[#{view.frame.origin.x}, #{view.frame.origin.y}], [#{view.frame.size.height}, #{view.frame.size.width}]]"
+#        when nil, "default" then view.frame.to_s
+        else
+          view.frame.to_s
+      end
+      "#{view.class.name}(##{view.object_id.to_s(16)}: #{frame_params})"
     end
 
   end
