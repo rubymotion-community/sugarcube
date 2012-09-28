@@ -833,7 +833,7 @@ Assume I ran `include SugarCube::Adjust` in these examples.
 
 # if you forget what view you are adjusting, run `adjust` again
 > a
-=> {UITextField @ x: 46.0 y:214.0, 280.0×33.0} child of UIView
+=> UITextField(#9ce6470, {{46, 214}, {280, 33}},  child of UIView(#10a6da20)
 ```
 
 The most useful feature of the REPL adjustment is the ability to quickly position and size your UI elements __visually__ and then paste the final values into your code.  In order to better accomodate that, `adjust` has an option to modify the output format.
