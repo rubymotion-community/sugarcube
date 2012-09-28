@@ -3,7 +3,7 @@ class UIColor
   def uicolor ; self ; end
 
   def color
-    if not @color
+    @color ||= begin
       red = Pointer.new(:float)
       green = Pointer.new(:float)
       blue = Pointer.new(:float)
@@ -16,7 +16,6 @@ class UIColor
         alpha: alpha[0],
       }
     end
-    @color
   end
 
   def red
