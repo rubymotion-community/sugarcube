@@ -37,7 +37,13 @@ class Symbol
     white:     :whiteColor,
     clear:     :clearColor,
 
-    table_view: :groupTableViewBackgroundColor,
+    light_text: :lightTextColor,
+    dark_text:  :darkTextColor,
+
+    table_view:  :groupTableViewBackgroundColor,
+    scroll_view: :scrollViewTexturedBackgroundColor,
+    flipside:    :viewFlipsideBackgroundColor,
+    under_page:  :underPageBackgroundColor,
   }
 
   @css_colors = {

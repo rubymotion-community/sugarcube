@@ -2,7 +2,24 @@
 class UIColor
   def uicolor ; self ; end
 
-  def color
+  def red
+    _sugarcube_colors[:red]
+  end
+
+  def green
+    _sugarcube_colors[:green]
+  end
+
+  def blue
+    _sugarcube_colors[:blue]
+  end
+
+  def alpha
+    _sugarcube_colors[:alpha]
+  end
+
+private
+  def _sugarcube_colors
     @color ||= begin
       red = Pointer.new(:float)
       green = Pointer.new(:float)
@@ -17,22 +34,5 @@ class UIColor
       }
     end
   end
-
-  def red
-    self.color[:red]
-  end
-
-  def green
-    self.color[:green]
-  end
-
-  def blue
-    self.color[:blue]
-  end
-
-  def alpha
-    self.color[:alpha]
-  end
-
 
 end

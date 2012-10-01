@@ -1,17 +1,17 @@
 class UIColor
   def to_s
-    inside = nil
+    system_color = nil
     Symbol.uicolors.each_pair do |color, method|
       if UIColor.send(method) == self
         if self.alpha < 1
-          inside = "UIColor.#{method}(#{alpha})"
+          system_color = "UIColor.#{method}(#{alpha})"
         else
-          inside = "UIColor.#{method}"
+          system_color = "UIColor.#{method}"
         end
         break
       end
     end
-    return inside if inside
+    return system_color if system_color
 
     red = (self.red * 255).round << 16
     green = (self.green * 255).round << 8
