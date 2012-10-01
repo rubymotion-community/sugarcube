@@ -71,6 +71,4 @@ class NSCoder
     return self
   end
 
-
-
-@end
+end
