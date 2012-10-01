@@ -24,6 +24,7 @@ class UIView
 
   def <<(view)
     self.addSubview view
+    return self
   end
 
   def show
