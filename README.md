@@ -903,22 +903,23 @@ This better facilitates copy/paste of the values.  Currently supported is:
 
 Note: The `format` parameter can be passed as either a symbol or a string
 
-##|  CENTER (in parent frame)
-It is called as `center(which_element, of_total_number, horizontal_or_vertical, verbose_output)
-# you can set 'direction' with any number of forms: 'horiz', 'vert', 'x', 'x and y'
+###  CENTER (in parent frame)
+It is called as `center(which_element, of_total_number, horizontal_or_vertical, verbose_output)`
+#### you can set 'direction' with any number of forms: 'horiz', 'vert', 'x', 'x and y'
 
 Here are a few examples:
 
 The default is to center the current element _horizontally_
 
-```(main)> center
+```
+(main)> center
 [[145.0, 30.0], [30.0, 200.0]]
 UIRoundedRectButton.origin = [145.0, 30.0]
 => "[[145.0, 30.0], [30.0, 200.0]]"
 ```
 
 In order to place that same button in the CENTER of the screen, you can use this shorthand syntax:
-```center 1,1,"xy"``` or ```center 1,1,:xy```
+`center 1,1,"xy"` or `center 1,1,:xy`
 
 For the `horizontal_or_vertical` parameter, strings and symbols are interchangable
 
