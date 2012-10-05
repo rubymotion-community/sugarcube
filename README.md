@@ -806,15 +806,18 @@ Assume I ran `include SugarCube::Adjust` in these examples.
 > adjust superview.subviews[4].subviews[1]
 > up 1
 > down 1  # same as up -1, obviously
+> down  # defaults to 1 anyway
 > left 1
 > right 1  # same as up -1, obviously
+> left  # => left 1
 > origin 10, 12  # move to x:10, y:12
 > wider 1
 > thinner 1
-> taller 1
-> shorter 1
+> taller  # => taller 1
+> shorter  # => shorter 1
 > size 100, 10  # set size to width:100, height: 10
 > shadow(opacity: 0.5, offset: [0, 0], color: :black, radius: 1) # and path, which is a CGPath object.
+> center  # See `Centering` section below
 > restore  # original frame and shadow is saved when you call `adjust`
 ```
 
