@@ -165,11 +165,27 @@ module SugarCube
     end
     alias z size
 
-    def center(element=1, total=1, sdirection='horizontal', verbose=true)
+    def center(*args)
       @@sugarcube_view ||= nil
       raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
 
-      direction = sdirection.to_s  #accept string or symbol
+      element = nil
+      total = nil
+      direction = 'h'
+      args.each do |option|
+        case option
+        when String, Symbol  # accept string or symbol
+          direction = option.to_s
+        when Numeric
+          if total
+            element = total
+          end
+          total = option
+        end
+      end
+      element = 1 unless element
+      total = 1 unless total
+
       view = @@sugarcube_view
 
       left = view.origin.x
