@@ -453,10 +453,14 @@ UISegmentedControl.bar(["one", "ah-two-whoo", "thr-r-r-ree"])
 
 ```ruby
 UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(:white.uiactivityindicatorstyle)
+UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(:large.uiactivityindicatorstyle)
+UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(:gray.uiactivityindicatorstyle)
 
 # =>
 
 UIActivityIndicatorView.white
+UIActivityIndicatorView.large
+UIActivityIndicatorView.gray
 ```
 
  UIControl
