@@ -165,23 +165,30 @@ module SugarCube
     end
     alias z size
 
-     def center(element=1, total=1, sdirection='horizontal', verbose=true)
+    def center(element=1, total=1, sdirection='horizontal', verbose=true)
       @@sugarcube_view ||= nil
       raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
 
       direction = sdirection.to_s  #accept string or symbol
       view = @@sugarcube_view
+
       left = view.origin.x
       top = view.origin.y
-      pwidth = view.superview.frame.width
-      pheight = view.superview.frame.height
-      left = ((pwidth - view.frame.width) * element) / (total + 1) if /h|x/.match(direction.downcase)
-      top = ((pheight - view.frame.height) * element) / (total + 1) if /v|y/.match(direction.downcase)
-      self.origin left, top
 
-      puts "#{view.class.name}.origin = [#{left}, #{top}]" if verbose # output in a format to be copied and pasted into your source
-      format_frame(@@sugarcube_view.frame)
+      if /h|x/.match(direction.downcase)
+        swidth = view.frame.width
+        pwidth = view.superview.frame.width / total
+        left = (pwidth - swidth) / 2 + pwidth * (element - 1)
+      end
+      if /v|y/.match(direction.downcase)
+        sheight = view.frame.height
+        pheight = view.superview.frame.height / total
+        top = (pheight - sheight) / 2 + pheight * (element - 1)
+      end
+
+      self.origin left, top
     end
+    alias c center
 
     ##|  SHADOW
     def shadow shadow=nil
