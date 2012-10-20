@@ -907,6 +907,58 @@ This better facilitates copy/paste of the values.  Currently supported is:
 
 Note: The `format` parameter can be passed as either a symbol or a string
 
+###  CENTER (in parent frame)
+It is called as `center(which_element, of_total_number, horizontal_or_vertical, verbose_output)`
+#### you can set 'direction' with any number of forms: 'horiz', 'vert', 'x', 'x and y'
+
+Here are a few examples:
+
+The default is to center the current element _horizontally_
+
+```
+(main)> center
+[[145.0, 30.0], [30.0, 200.0]]
+UIRoundedRectButton.origin = [145.0, 30.0]
+=> "[[145.0, 30.0], [30.0, 200.0]]"
+```
+
+In order to place that same button in the CENTER of the screen, you can use this shorthand syntax:
+`center 1,1,"xy"` or `center 1,1,:xy`
+
+For the `horizontal_or_vertical` parameter, strings and symbols are interchangable
+
+If you have three buttons and want them spaced evenly (vertically) across their parent frame, you can call it this way:
+```
+(main)> tree
+  0: . UIWindow(#6e1f950: [[0.0, 0.0], [320.0, 480.0]])
+  1: `-- UIView(#8b203b0: [[0.0, 20.0], [320.0, 460.0]])
+  2:     +-- UIButton(#d028de0: [[10.0, 10.0], [320.0, 463.400512695312]])
+  3:     |   `-- UIImageView(#d02aaa0: [[0.0, 0.0], [320.0, 463.400512695312]])
+  4:     +-- UIRoundedRectButton(#d02adb0: [[55.0, 110.0], [210.0, 20.0]])
+  5:     |   `-- UIButtonLabel(#d02af00: [[73.0, 0.0], [63.0, 19.0]])
+  6:     +-- UIRoundedRectButton(#d028550: [[60.0, 30.0], [200.0, 20.0]])
+  7:     |   `-- UIButtonLabel(#d02afb0: [[68.0, 0.0], [63.0, 19.0]])
+  8:     `-- UIRoundedRectButton(#d02b220: [[70.0, 30.0], [300.0, 20.0]])
+  9:         `-- UIButtonLabel(#d02b300: [[118.0, 0.0], [63.0, 19.0]])
+=> UIWindow(#6e1f950, [[0.0, 0.0], [320.0, 480.0]])
+(main)> a 4; center 1, 3, :vert, false; center
+[[55.0, 110.0], [210.0, 20.0]]
+[[55.0, 110.0], [210.0, 20.0]]
+UIRoundedRectButton.origin = [55.0, 110.0]
+=> "[[55.0, 110.0], [210.0, 20.0]]"
+(main)> a 6; center 2, 3, :vert, false; center
+[[60.0, 220.0], [200.0, 20.0]]
+[[60.0, 220.0], [200.0, 20.0]]
+UIRoundedRectButton.origin = [60.0, 220.0]
+=> "[[60.0, 220.0], [200.0, 20.0]]"
+(main)> a 8; center 3, 3, :vert, false; center
+[[70.0, 330.0], [300.0, 20.0]]
+[[10.0, 330.0], [300.0, 20.0]]
+UIRoundedRectButton.origin = [10.0, 330.0]
+=> "[[10.0, 330.0], [300.0, 20.0]]"
+```
+The calculated positions (x,y) are in the REPL output
+
 
  Pointers
 ----------
