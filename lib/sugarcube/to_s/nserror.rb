@@ -1,4 +1,9 @@
 class NSError
+  def localized
+    localizedDescription
+  end
+  alias _ localized
+
   def to_s
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)}, "+
       "description=#{self.localizedDescription.inspect}, code=#{code}, "+
