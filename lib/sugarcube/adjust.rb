@@ -24,14 +24,16 @@ module SugarCube
         view = @@sugarcube_views[view]
       end
 
-      @@sugarcube_view = view
-      @@sugarcube_restore = {
-        frame: SugarCube::Adjust.frame,
-        shadow: SugarCube::Adjust.shadow,
-      }
+      if view.is_a?(UIView)
+        @@sugarcube_view = view
+        @@sugarcube_restore = {
+          frame: SugarCube::Adjust.frame,
+          shadow: SugarCube::Adjust.shadow,
+        }
 
-      if format
-        puts format_frame view.frame
+        if format
+          puts format_frame view.frame
+        end
       end
       view
     end
@@ -246,6 +248,10 @@ module SugarCube
       unless view
         view = UIApplication.sharedApplication.keyWindow
       end
+      if not view
+        puts "View is nil (no window, view, or controller to display)"
+        return
+      end
 
       if not views_index
         is_first = true
@@ -275,23 +281,24 @@ module SugarCube
         tab = ""
       end
 
-      if not view
-        puts "View is nil (no window or view to display)"
-      else
-        if self == view
-          print "\033[1m"
-        end
-        puts "#{view.class.name}(##{view.object_id.to_s(16)}: #{format_frame(view.frame)})"
-        if self == view
-          print "\033[0m"
-        end
-
-        view.subviews.each_index {|index|
-          subview = view.subviews[index]
-          views_index += 1
-          views_index = tree(subview, tab, index == view.subviews.length - 1, views_index)
-        }
+      if self == view
+        print "\033[1m"
       end
+      if view.is_a? UIView
+        puts view.to_s superview: false
+      else
+        puts view.to_s
+      end
+      if self == view
+        print "\033[0m"
+      end
+
+      items = view.is_a?(UIView) ? view.subviews : view.childViewControllers
+      items.each_index {|index|
+        subview = items[index]
+        views_index += 1
+        views_index = SugarCube::Adjust::tree(subview, tab, index == items.length - 1, views_index)
+      }
 
       return is_first ? view : views_index
     end
