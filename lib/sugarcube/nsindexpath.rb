@@ -34,7 +34,7 @@ class IndexPath
       @values.each do |val|
         next_val = other[other_i]
         other_i += 1
-        unless val === next_val
+        unless val == true || val === next_val
           ret = false
           break
         end
