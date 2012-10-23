@@ -121,6 +121,8 @@ class Symbol
     touch_up: UIControlEventTouchUpInside,
     touch_down: UIControlEventTouchDown,
     change:  UIControlEventValueChanged|UIControlEventEditingChanged,
+    begin: UIControlEventEditingDidBegin,
+    end: UIControlEventEditingDidEnd,
     # I'm leaving this for backwards compatibility.  please use 'change' or
     # 'editing_did_change':
     changed: UIControlEventValueChanged|UIControlEventEditingChanged,
