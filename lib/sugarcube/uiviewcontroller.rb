@@ -15,6 +15,7 @@ class UINavigationController
     self.pushViewController(view_controller, animated: true)
     self
   end
+  alias << push
 
   def pop(to_view=nil)
     if to_view
@@ -29,11 +30,12 @@ end
 
 class UITabBarController
 
-  def <<(view_controller)
+  def push(view_controller)
     view_controllers = [] + self.viewControllers
     view_controllers << view_controller
     self.setViewControllers(view_controllers, animated: true)
     self
   end
+  alias << push
 
 end
