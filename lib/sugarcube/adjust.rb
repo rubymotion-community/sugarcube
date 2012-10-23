@@ -303,6 +303,10 @@ module SugarCube
       return is_first ? view : views_index
     end
 
+    def root
+      (UIApplication.sharedApplication.keyWindow || UIApplication.sharedApplication.windows[0]).rootViewController
+    end
+
     ##|  RESTORE
     def restore
       @@sugarcube_view ||= nil

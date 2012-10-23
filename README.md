@@ -963,6 +963,26 @@ UIRoundedRectButton.origin = [10.0, 330.0]
 The calculated positions (x,y) are in the REPL output
 
 
+**Don't stop there!**
+
+You can analyze `UIViewController` hierarchies, too.  There's even a handy
+`root` method to grab the `rootViewController`:
+
+```ruby
+(main)> tree root
+  0: . #<MainScreenController:0xac23b80>
+  1: +-- #<ScheduleViewController:0x13185d00>
+  2: |   +-- #<ScheduleTableController:0x131862f0>
+  3: |   `-- #<ScheduleCalendarController:0x131bba90>
+  4: +-- #<CameraViewController:0x13191380>
+  5: +-- #<UINavigationController:0xac01ea0>
+  6: |   `-- #<UITableController:0xac04e30>
+  7: +-- #<PicturesViewController:0x1403ede0>
+  8: `-- #<MessagesViewController:0x131a1bc0>
+=> #<MainScreenController:0xac23b80>
+```
+
+
  Pointers
 ----------
 
