@@ -1,12 +1,12 @@
- class UIViewController
+class UIViewController
 
-   def push(view_controller)
-     self.addChildViewController(view_controller)
-     self
-   end
-   alias << push
+  def push(view_controller)
+    self.addChildViewController(view_controller)
+    self
+  end
+  alias << push
 
- end
+end
 
 
 class UINavigationController
