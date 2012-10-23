@@ -1,11 +1,17 @@
+ class UIViewController
+
+   def push(view_controller)
+     self.addChildViewController(view_controller)
+     self
+   end
+   alias << push
+
+ end
+
+
 class UINavigationController
 
   def push(view_controller)
-    self.pushViewController(view_controller, animated: true)
-    self
-  end
-
-  def <<(view_controller)
     self.pushViewController(view_controller, animated: true)
     self
   end
