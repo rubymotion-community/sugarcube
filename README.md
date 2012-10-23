@@ -1019,3 +1019,21 @@ Quick wrapper for `CFUUIDCreate()` and `CFUUIDCreateString()`.  Identical to the
 [teacup]: https://github.com/rubymotion/teacup
 [Fusionbox]: http://www.fusionbox.com/
 [fusionbox announcement]: http://fusionbox.org/projects/rubymotion-sugarcube/
+
+ Ruby on Rails Ripoffs (RoR-R?)
+---------------
+
+```ruby
+# truthiness with `blank?`
+nil.blank?    # => true
+false.blank?  # => true
+''.blank?     # => true
+[].blank?     # => true
+{}.blank?     # => true
+
+0.blank?        # => false
+true.blank?     # => false
+'a'.blank?      # => false
+['a'].blank?    # => false
+{a: 'a'}.blank? # => false
+```
