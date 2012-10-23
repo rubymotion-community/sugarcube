@@ -31,6 +31,7 @@ class Symbol
     attr_accessor :barmetrics
     attr_accessor :barbuttomitems
     attr_accessor :keyboardtypes
+    attr_accessor :autoresizemasks
 
     attr_accessor :textalignments
     attr_accessor :linebreakmodes
@@ -291,6 +292,25 @@ class Symbol
     email:                 UIKeyboardTypeEmailAddress,
   }
 
+  @autoresizemasks = {
+    none: UIViewAutoresizingNone,
+
+    flexibleleft:   UIViewAutoresizingFlexibleLeftMargin,
+    flexiblewidth:  UIViewAutoresizingFlexibleWidth,
+    flexibleright:  UIViewAutoresizingFlexibleRightMargin,
+    flexibletop:    UIViewAutoresizingFlexibleTopMargin,
+    flexibleheight: UIViewAutoresizingFlexibleHeight,
+    flexiblebottom: UIViewAutoresizingFlexibleBottomMargin,
+
+    # aliases
+    left:   UIViewAutoresizingFlexibleLeftMargin,
+    width:  UIViewAutoresizingFlexibleWidth,
+    right:  UIViewAutoresizingFlexibleRightMargin,
+    top:    UIViewAutoresizingFlexibleTopMargin,
+    height: UIViewAutoresizingFlexibleHeight,
+    bottom: UIViewAutoresizingFlexibleBottomMargin,
+  }
+
   private
   def look_in(here)
     return here[self] if here.has_key? self
@@ -405,6 +425,11 @@ class Symbol
   def uikeyboardtype
     look_in(Symbol.keyboardtypes)
   end
+
+  def uiautoresize
+    look_in(Symbol.autoresizemasks)
+  end
+  alias uiviewautoresizing uiautoresize
 
   def uifont(size=UIFont.systemFontSize)
     # system fonts
