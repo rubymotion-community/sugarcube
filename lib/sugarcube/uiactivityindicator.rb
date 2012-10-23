@@ -13,4 +13,5 @@ class UIActivityIndicatorView
       self.alloc.initWithActivityIndicatorStyle(:gray.uiactivityindicatorstyle)
     end
   end
+
 end
