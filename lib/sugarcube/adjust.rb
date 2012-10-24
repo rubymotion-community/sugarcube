@@ -250,7 +250,7 @@ module SugarCube
     alias h shadow
 
     ##|  TREE
-    def tree(item=nil, selector=nil)
+    def tree(item=nil, selector=nil, &sel_blk)
       unless item
         item = UIApplication.sharedApplication.keyWindow
       end
@@ -259,7 +259,15 @@ module SugarCube
         return
       end
 
-      unless selector
+      if sel_blk
+        if selector
+          raise "You can't hand me a block AND a selector.  I don't know what to do with them!"
+        end
+        if sel_blk.arity != 1
+          raise "The block you passed should accept one and only one object"
+        end
+        selector = sel_blk
+      elsif ! selector
         if item.is_a? UIView
           selector = :subviews
         elsif item.is_a? UIViewController
