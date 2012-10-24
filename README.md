@@ -88,6 +88,41 @@ Examples
 0.5.pi # => 0.5 * Math::PI
 ```
 
+ NSCoder
+---------
+
+Shorthands and hash-like access to the coder/decoder objects.
+
+```ruby
+# hash access is the handiest
+coder['key'] = self.value
+self.value = decoder['key']
+
+# but if you want to store booleans and such in the MOST compact way:
+coder.set('sugarcube_is_neat', toBool:self.is_sugarcube_neat?)
+self.sugarcube_is_neat = decoder.bool('sugarcube_is_neat')
+
+coder.set('number_of_things', toInt:self.number_of_things)
+self.number_of_things = decoder.int('number_of_things')
+
+# the entire list:
+coder.set(key, toBool:value)
+coder.set(key, toDouble:value)
+coder.set(key, toFloat:value)
+coder.set(key, toInt:value)
+coder.set(key, toPoint:value)
+coder.set(key, toRect:value)
+coder.set(key, toSize:value)
+
+decoder.bool(key)
+decoder.double(key)
+decoder.float(key)
+decoder.int(key)
+decoder.point(key)
+decoder.rect(key)
+decoder.size(key)
+```
+
  NSDate
 --------
 
@@ -332,6 +367,14 @@ This is the "big daddy".  Lots of sugar here...
 ```ruby
 image = "my_image".uiimage
 image.uicolor # => UIColor.colorWithPatternImage(image)
+```
+
+###### Image Manipulation
+
+```ruby
+image.scale_to [37, 37]
+image.rounded  # default: 5 pt radius
+image.rounded(10)
 ```
 
  UIAlertView
