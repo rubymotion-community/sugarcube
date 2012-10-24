@@ -364,7 +364,7 @@ module SugarCube
       case SugarCube::Adjust::repl_format
         when :json then "{x: #{frame.origin.x}, y: #{frame.origin.y}, width: #{frame.size.width}, height: #{frame.size.height}}"
         when :ruby then "[[#{frame.origin.x}, #{frame.origin.y}], [#{frame.size.width}, #{frame.size.height}]]"
-        when nil, :objc
+        when :objc
           frame.to_s
         else
           raise "Unknown repl_format #{SugarCube::Adjust::repl_format.inspect}"
