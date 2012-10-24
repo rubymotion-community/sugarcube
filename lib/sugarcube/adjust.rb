@@ -340,7 +340,7 @@ module SugarCube
 
     def format_frame(frame)
       case SugarCube::Adjust::repl_format
-        when :json then "[x: #{frame.origin.x}, y: #{frame.origin.y}, height: #{frame.size.width}, width: #{frame.size.height}]"
+        when :json then "{x: #{frame.origin.x}, y: #{frame.origin.y}, width: #{frame.size.width}, height: #{frame.size.height}}"
         when :ruby then "[[#{frame.origin.x}, #{frame.origin.y}], [#{frame.size.width}, #{frame.size.height}]]"
         when nil, :objc
           frame.to_s
