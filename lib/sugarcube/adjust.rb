@@ -249,7 +249,7 @@ module SugarCube
         view = UIApplication.sharedApplication.keyWindow
       end
       if not view
-        puts "View is nil (no window, view, or controller to display)"
+        puts 'View is nil (no window, view, or controller to display)'
         return
       end
 
@@ -264,9 +264,9 @@ module SugarCube
 
       space = ' '
       if views_index < 10
-        print "  "
+        print '  '
       elsif views_index < 100
-        print " "
+        print ' '
       elsif views_index > 999  # good god, man!
         space = ''
       end
@@ -274,11 +274,16 @@ module SugarCube
 
       if tab
         print tab
-        print is_last ? "`-- " : "+-- "
-        tab += is_last ? "    " : "|   "
+        if is_last
+          print '`-- '
+          tab += '    '
+        else
+          print '+-- '
+          tab += '|   '
+        end
       else
-        print ". "
-        tab = ""
+        print '. '
+        tab = ''
       end
 
       if self == view
@@ -310,7 +315,7 @@ module SugarCube
     ##|  RESTORE
     def restore
       @@sugarcube_view ||= nil
-      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+      raise 'no view has been assigned to SugarCube::Adjust::adjust' unless @@sugarcube_view
 
       @@sugarcube_restore.each do |msg, value|
         SugarCube::Adjust.send(msg, value)
