@@ -263,14 +263,24 @@ module SugarCube
         if item.is_a? UIView
           selector = :subviews
         elsif item.is_a? UIViewController
-          selector = :childViewControllers
+          selector = lambda { |ctlr|
+                      ret = Array.new ctlr.childViewControllers
+                      if ctlr.presentedViewController && ctlr.presentedViewController.presentingViewController == ctlr
+                        ret << ctlr.presentedViewController
+                      end
+                      ret
+                    }
         else
           raise "Unable to determine a SugarCube::Adjust::tree selector for #{item.class.name}"
         end
       end
 
       @@sugarcube_items = []
-      total = SugarCube::Adjust::draw_tree(item, selector)
+      if self.respond_to? :draw_tree
+        total = draw_tree(item, selector)
+      else
+        total = SugarCube::Adjust::draw_tree(item, selector)
+      end
       puts ''
 
       return item
@@ -315,7 +325,11 @@ module SugarCube
         print "\033[0m"
       end
 
-      items = item.send(selector)
+      if selector.is_a? Proc
+        items = selector.call(item)
+      else
+        items = item.send(selector)
+      end
       items.each_with_index { |subview, index|
         items_index += 1
         items_index = SugarCube::Adjust::draw_tree(subview, selector, tab, index == items.length - 1, items_index)
