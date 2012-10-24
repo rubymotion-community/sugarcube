@@ -18,10 +18,10 @@ module SugarCube
       return @@sugarcube_view if not view
 
       if view.is_a? Fixnum
-        @@sugarcube_views ||= nil
-        raise "no views have been assigned to SugarCube::Adjust::tree" unless @@sugarcube_views
+        @@sugarcube_items ||= nil
+        raise "no views have been assigned to SugarCube::Adjust::tree" unless @@sugarcube_items
 
-        view = @@sugarcube_views[view]
+        view = @@sugarcube_items[view]
       end
 
       if view.is_a?(UIView)
@@ -35,6 +35,7 @@ module SugarCube
           puts format_frame view.frame
         end
       end
+
       view
     end
     alias a adjust
@@ -244,33 +245,44 @@ module SugarCube
     alias h shadow
 
     ##|  TREE
-    def tree(view=nil, tab=nil, is_last=true, views_index=nil)
-      unless view
-        view = UIApplication.sharedApplication.keyWindow
+    def tree(item=nil, selector=nil)
+      unless item
+        item = UIApplication.sharedApplication.keyWindow
       end
-      if not view
+      if not item
         puts 'View is nil (no window, view, or controller to display)'
         return
       end
 
-      if not views_index
-        is_first = true
-        @@sugarcube_views = [view]
-        views_index = 0
-      else
-        is_first = false
-        @@sugarcube_views << view
+      unless selector
+        if item.is_a? UIView
+          selector = :subviews
+        elsif item.is_a? UIViewController
+          selector = :childViewControllers
+        else
+          raise "Unable to determine a SugarCube::Adjust::tree selector for #{item.class.name}"
+        end
       end
 
+      @@sugarcube_items = [item]
+      total = SugarCube::Adjust::draw_tree(item, selector)
+      puts ''
+
+      return item
+    end
+
+    def draw_tree(item, selector, tab=nil, is_last=true, items_index=0)
+      @@sugarcube_items << item
+
       space = ' '
-      if views_index < 10
+      if items_index < 10
         print '  '
-      elsif views_index < 100
+      elsif items_index < 100
         print ' '
-      elsif views_index > 999  # good god, man!
+      elsif items_index > 999  # good god, man!
         space = ''
       end
-      print views_index.to_s + ":" + space
+      print items_index.to_s + ":" + space
 
       if tab
         print tab
@@ -286,26 +298,25 @@ module SugarCube
         tab = ''
       end
 
-      if self == view
+      if self == item
         print "\033[1m"
       end
-      if view.is_a? UIView
-        puts view.to_s superview: false
+      if item.is_a? UIView
+        puts item.to_s superview: false
       else
-        puts view.to_s
+        puts item.to_s
       end
-      if self == view
+      if self == item
         print "\033[0m"
       end
 
-      items = view.is_a?(UIView) ? view.subviews : view.childViewControllers
-      items.each_index {|index|
-        subview = items[index]
-        views_index += 1
-        views_index = SugarCube::Adjust::tree(subview, tab, index == items.length - 1, views_index)
+      items = item.send(selector)
+      items.each_with_index { |subview, index|
+        items_index += 1
+        items_index = SugarCube::Adjust::draw_tree(subview, selector, tab, index == items.length - 1, items_index)
       }
 
-      return is_first ? view : views_index
+      return items_index
     end
 
     def root
