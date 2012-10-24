@@ -269,7 +269,7 @@ module SugarCube
         end
       end
 
-      @@sugarcube_items = [item]
+      @@sugarcube_items = []
       total = SugarCube::Adjust::draw_tree(item, selector)
       puts ''
 
