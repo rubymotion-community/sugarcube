@@ -180,10 +180,15 @@ module SugarCube
         when String, Symbol  # accept string or symbol
           direction = option.to_s
         when Numeric
-          if total
-            element = total
+          if not total
+            total = option
+          elsif not element
+            element = option
+          else
+            raise "I don't know what to do with #{option.inspect}"
           end
-          total = option
+        else
+          raise "I don't know what to do with #{option.inspect}"
         end
       end
       element = 1 unless element
