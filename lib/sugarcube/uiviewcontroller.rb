@@ -4,7 +4,12 @@ class UIViewController
     self.addChildViewController(view_controller)
     self
   end
-  alias << push
+
+  # `alias << push` won't work. it doesn't "respect" subclasses overriding the
+  # `push` method.
+  def <<(view_controller)
+    push view_controller
+  end
 
 end
 
@@ -15,7 +20,6 @@ class UINavigationController
     self.pushViewController(view_controller, animated: true)
     self
   end
-  alias << push
 
   def pop(to_view=nil)
     if to_view
@@ -36,6 +40,5 @@ class UITabBarController
     self.setViewControllers(view_controllers, animated: true)
     self
   end
-  alias << push
 
 end
