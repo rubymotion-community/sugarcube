@@ -52,6 +52,11 @@ class Symbol
     attr_accessor :tableview_cellstyles
     attr_accessor :tableview_cellaccessorytype
     attr_accessor :tableview_cellselectionstyle
+
+    attr_accessor :image_sourcetypes
+    attr_accessor :image_capturemode
+    attr_accessor :image_cameradevice
+    attr_accessor :image_quality
   end
 
   @devices = {
@@ -313,6 +318,32 @@ class Symbol
     bottom: UIViewAutoresizingFlexibleBottomMargin,
   }
 
+  @image_sourcetypes = {
+    camera:  UIImagePickerControllerSourceTypeCamera,
+    library: UIImagePickerControllerSourceTypePhotoLibrary,
+    album:   UIImagePickerControllerSourceTypeSavedPhotosAlbum,
+  }
+  @image_capturemode = {
+    photo: UIImagePickerControllerCameraCaptureModePhoto,
+    video: UIImagePickerControllerCameraCaptureModeVideo,
+  }
+  @image_cameradevice = {
+    front: UIImagePickerControllerCameraDeviceFront,
+    rear:  UIImagePickerControllerCameraDeviceRear,
+  }
+  @image_quality = {
+    high:       UIImagePickerControllerQualityTypeHigh,
+    medium:     UIImagePickerControllerQualityTypeMedium,
+    low:        UIImagePickerControllerQualityTypeLow,
+    vga:        UIImagePickerControllerQualityType640x480,
+    i1280x720:  UIImagePickerControllerQualityTypeIFrame1280x720,
+    i1280:      UIImagePickerControllerQualityTypeIFrame1280x720,
+    i720:       UIImagePickerControllerQualityTypeIFrame1280x720,
+    i960x540:   UIImagePickerControllerQualityTypeIFrame960x540,
+    i960:       UIImagePickerControllerQualityTypeIFrame960x540,
+    i540:       UIImagePickerControllerQualityTypeIFrame960x540,
+  }
+
   private
   def look_in(here)
     return here[self] if here.has_key? self
@@ -432,6 +463,27 @@ class Symbol
     look_in(Symbol.autoresizemasks)
   end
   alias uiviewautoresizing uiautoresize
+
+  def uiimagesource
+    look_in(Symbol.image_sourcetypes)
+  end
+  alias uiimagesourcetype uiimagesource
+
+  def uiimagecapture
+    look_in(Symbol.image_capturemode)
+  end
+  alias uiimagecapturemode uiimagecapture
+
+  def uiimagecamera
+    look_in(Symbol.image_cameradevice)
+  end
+  alias uiimagecameradevice uiimagecamera
+  alias uiimagedevice uiimagecamera
+
+  def uiimagequality
+    look_in(Symbol.image_quality)
+  end
+  alias uiimagequalitytype uiimagequality
 
   def uifont(size=UIFont.systemFontSize)
     # system fonts
