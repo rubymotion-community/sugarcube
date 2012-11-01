@@ -70,6 +70,16 @@ Examples
 # create a UIColor from a hex value
 0xffffff.uicolor # => UIColor.colorWithRed(1.0, green:1.0, blue:1.0, alpha:1.0)
 0xffffff.uicolor(0.5) # => UIColor.colorWithRed(1.0, green:1.0, blue:1.0, alpha:0.5)
+
+# some number-to-string stuff
+1.nth  # => 'st'
+2.nth  # => 'nd'
+3.nth  # => 'rd'
+4.nth  # => 'th'
+11.nth  # => 'th'
+13.nth  # => 'th'
+21.nth  # => 'st'
+23.nth  # => 'rd'
 ```
 
  Numeric
