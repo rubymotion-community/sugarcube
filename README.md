@@ -391,6 +391,10 @@ image.uicolor # => UIColor.colorWithPatternImage(image)
 image.scale_to [37, 37]
 image.rounded  # default: 5 pt radius
 image.rounded(10)
+
+# these both use UIEdgeInsetsZero (for now)
+image.tileable
+image.stretchable
 ```
 
  UIAlertView

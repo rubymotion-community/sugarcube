@@ -36,4 +36,12 @@ class UIImage
     return image
   end
 
+  def tileable
+    resizableImageWithCapInsets(UIEdgeInsetsZero, resizingMode:UIImageResizingModeTile)
+  end
+
+  def stretchable
+    resizableImageWithCapInsets(UIEdgeInsetsZero, resizingMode:UIImageResizingModeStretch)
+  end
+
 end
