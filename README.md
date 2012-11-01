@@ -96,6 +96,12 @@ Examples
 # convert multiples of pi
 2.pi   # => 2 * Math::PI
 0.5.pi # => 0.5 * Math::PI
+
+# if you thought conversion from degrees to radians looks weird, you'll hate
+# conversion from meters to miles:
+distance = 1500  # this is in meters.  why?  because all the methods that return
+  # a "distance" return it in meters
+distance.miles  # => 0.932056427001953
 ```
 
  NSCoder
