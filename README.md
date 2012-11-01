@@ -677,6 +677,10 @@ end
 # hemorrhaging):
 1.month   || 2.months   # 1.month = 30 days
 1.year    || 2.years    # 1.year = 365 days
+
+# some comparison methods
+date1.today?
+date2.same_day? date1
 ```
 
  NSUserDefaults

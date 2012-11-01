@@ -4,6 +4,22 @@ class NSDate
   end
   alias timeZone timezone
 
+  def era
+    return _calendar_components(NSEraCalendarUnit).era
+  end
+
+  def today?
+    today = self.class.new
+    return same_day?(today)
+  end
+
+  def same_day?(other)
+    return other.day == self.day &&
+           other.month == self.month &&
+           other.year == self.year &&
+           other.era == self.era
+  end
+
   # In the rare case you actually get an NSDate object - not a Time object - this
   # method is actually useful.
   def utc_offset
