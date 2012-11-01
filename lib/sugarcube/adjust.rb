@@ -18,9 +18,7 @@ module SugarCube
       return @@sugarcube_view if not view
 
       if view.is_a? Fixnum
-        @@sugarcube_items ||= nil
-        raise "no views have been assigned to SugarCube::Adjust::tree" unless @@sugarcube_items
-
+        @@sugarcube_items ||= SugarCube::Adjust::build_tree(UIApplication.sharedApplication.keyWindow, :subviews)
         view = @@sugarcube_items[view]
       end
 
@@ -283,7 +281,7 @@ module SugarCube
         end
       end
 
-      @@sugarcube_items = []
+      @@sugarcube_items = SugarCube::Adjust::build_tree(item, selector)
       if self.respond_to? :draw_tree
         total = draw_tree(item, selector)
       else
@@ -295,8 +293,6 @@ module SugarCube
     end
 
     def draw_tree(item, selector, tab=nil, is_last=true, items_index=0)
-      @@sugarcube_items << item
-
       space = ' '
       if items_index < 10
         print '  '
@@ -344,6 +340,19 @@ module SugarCube
       }
 
       return items_index
+    end
+
+    def build_tree(item, selector)
+      if selector.is_a? Proc
+        items = selector.call(item)
+      else
+        items = item.send(selector)
+      end
+      ret = [item]
+      items.each_with_index { |subview, index|
+        ret.concat SugarCube::Adjust::build_tree(subview, selector)
+      }
+      ret
     end
 
     def root
