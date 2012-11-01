@@ -1,11 +1,11 @@
 class NSURL
 
   def open
-    UIApplication.sharedApplication.openURL(NSURL.URLWithString(self))
+    UIApplication.sharedApplication.openURL(self)
   end
 
   def can_open?
-    UIApplication.sharedApplication.canOpenURL(NSURL.URLWithString(self))
+    UIApplication.sharedApplication.canOpenURL(self)
   end
 
 end
