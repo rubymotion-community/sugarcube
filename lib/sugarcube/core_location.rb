@@ -1,3 +1,7 @@
+# denver = CLLocationCoordinate2D.new(39.764032,-104.963112)
+# cincinnati = CLLocationCoordinate2D.new(39.267024,-84.251736)
+# denver.distance_to(cincinnati).miles
+# denver.delta_miles()
 class CLLocationCoordinate2D
 
   def delta_miles(dx, dy)

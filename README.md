@@ -860,6 +860,28 @@ CGRect([0.0, 0.0],{1.0 × 1.0})
 
 [CGGeometry Reference]: https://developer.apple.com/library/mac/documentation/graphicsimaging/reference/CGGeometry/Reference/reference.html
 
+ CoreLocation
+--------------
+
+Open up `CLLocationCoordinate2D` to provide handy-dandies
+
+```ruby
+> denver_co = CLLocationCoordinate2D.new(39.739188,-104.985223)
+=> #<CLLocationCoordinate2D latitude=39.7391815185547 longitude=-104.985198974609>
+> loveland_oh = CLLocationCoordinate2D.new(39.268128,-84.257648)
+=> #<CLLocationCoordinate2D latitude=39.2681274414062 longitude=-84.2576293945312>
+> denver_co.distance_to(loveland_oh)
+=> 1773425.5  # in meters
+> denver_co.distance_to(loveland_oh).miles
+=> 1101.955078125
+> denver_co.delta_miles(1101.6, -32.556)
+=> #<CLLocationCoordinate2D latitude=39.2681427001953 longitude=-84.2577209472656>
+> denver_co.delta_miles(1101.6, -32.556).distance_to(loveland_oh)
+=> 8.0804328918457   # this is in meters
+> denver_co.delta_miles(1101.6, -32.556).distance_to(loveland_oh).miles
+=> 0.00502094626426697
+```
+
  REPL View adjustments
 -----------------------
 
