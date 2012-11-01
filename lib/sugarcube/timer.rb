@@ -39,11 +39,11 @@ class Numeric
   alias year years
 
   def later(user_info=nil, &fire)
-    NSTimer.scheduledTimerWithTimeInterval(self.to_f, target: fire, selector: 'call:', userInfo: user_info, repeats: false)
+    NSTimer.scheduledTimerWithTimeInterval(self, target: fire, selector: 'call:', userInfo: user_info, repeats: false)
   end
 
   def every(user_info=nil, &fire)
-    NSTimer.scheduledTimerWithTimeInterval(self.to_f, target: fire, selector: 'call:', userInfo: user_info, repeats: true)
+    NSTimer.scheduledTimerWithTimeInterval(self, target: fire, selector: 'call:', userInfo: user_info, repeats: true)
   end
 end
 
