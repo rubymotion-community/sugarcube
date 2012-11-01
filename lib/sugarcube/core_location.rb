@@ -5,7 +5,7 @@
 class CLLocationCoordinate2D
 
   def delta_miles(dx, dy)
-    earth_radius = 3960.0
+    earth_radius = 3963.1
 
     radius_at_latitude = earth_radius * Math.cos(self.latitude * Math::PI / 180.0)
     if radius_at_latitude > 0
