@@ -38,6 +38,7 @@ class Symbol
     attr_accessor :baselineadjustments
     attr_accessor :system_fonts
     attr_accessor :font_sizes
+    attr_accessor :date_styles
 
     attr_accessor :buttontypes
     attr_accessor :bordertypes
@@ -57,6 +58,8 @@ class Symbol
     attr_accessor :image_capturemode
     attr_accessor :image_cameradevice
     attr_accessor :image_quality
+
+    attr_accessor :ca_timingfunctions
   end
 
   @devices = {
@@ -169,6 +172,15 @@ class Symbol
     button: :buttonFontSize,
     small:  :smallSystemFontSize,
     system: :systemFontSize,
+  }
+
+  @date_styles = {
+    no: NSDateFormatterNoStyle,
+    none: NSDateFormatterNoStyle,
+    short: NSDateFormatterShortStyle,
+    medium: NSDateFormatterMediumStyle,
+    long: NSDateFormatterLongStyle,
+    full: NSDateFormatterFullStyle,
   }
 
   @returnkeys = {
@@ -344,6 +356,18 @@ class Symbol
     i540:       UIImagePickerControllerQualityTypeIFrame960x540,
   }
 
+  @ca_timingfunctions = {
+    linear:            KCAMediaTimingFunctionLinear,
+    easein:            KCAMediaTimingFunctionEaseIn,
+    ease_in:           KCAMediaTimingFunctionEaseIn,
+    easeout:           KCAMediaTimingFunctionEaseOut,
+    ease_out:          KCAMediaTimingFunctionEaseOut,
+    easeinout:         KCAMediaTimingFunctionEaseInEaseOut,
+    ease_in_out:       KCAMediaTimingFunctionEaseInEaseOut,
+    ease_in_ease_out:  KCAMediaTimingFunctionEaseInEaseOut,
+    default:           KCAMediaTimingFunctionDefault,
+  }
+
   private
   def look_in(here)
     return here[self] if here.has_key? self
@@ -485,6 +509,11 @@ class Symbol
   end
   alias uiimagequalitytype uiimagequality
 
+  def catimingfunction
+    look_in(Symbol.ca_timingfunctions)
+  end
+  alias catiming catimingfunction
+
   def uifont(size=UIFont.systemFontSize)
     # system fonts
     if Symbol.system_fonts.has_key? self
@@ -507,5 +536,10 @@ class Symbol
     end
     return size.to_f
   end
+
+  def nsdatestyle
+    look_in(Symbol.date_styles)
+  end
+  alias nsdateformatterstyle nsdatestyle
 
 end
