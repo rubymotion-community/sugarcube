@@ -61,7 +61,7 @@ module SugarCube
     attr_accessor :on_success
 
     def alertView(alert, didDismissWithButtonIndex:index)
-      if index == 0 && on_cancel
+      if index == alert.cancelButtonIndex && on_cancel
         on_cancel.call
       elsif on_success
         if on_success.arity == 0
