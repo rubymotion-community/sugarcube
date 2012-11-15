@@ -36,6 +36,36 @@ class UIImage
     return image
   end
 
+  # Accepts two options: brightness (default: -0.5) and saturation (default: -0.2)
+  # Returns a darkened version of the image.
+  def darken(options={})
+    filter_name = 'CIColorControls'
+    filter_options = {
+      inputBrightness: options[:brightness] || -0.5,
+      inputSaturation: options[:saturation] || -0.2,
+    }
+
+    cg_input_image = CIImage.alloc.initWithImage(self)
+    darken_filter = CIFilter.filterWithName(filter_name)
+    raise Exception.new("Filter not found: #{filter_name}") unless darken_filter
+
+    darken_filter.setDefaults
+    darken_filter.setValue(cg_input_image, forKey:'inputImage')
+    filter_options.each_pair do |key, value|
+      darken_filter.setValue(value, forKey:key)
+    end
+    output = darken_filter.valueForKey('outputImage')
+
+    context = CIContext.contextWithOptions(nil)
+    cg_output_image = context.createCGImage(output, fromRect:output.extent)
+    output_image = UIImage.imageWithCGImage(cg_output_image)
+
+    return output_image
+  end
+
+  ##|
+  ##|  resizableImageWithCapInsets
+  ##|
   def tileable
     resizableImageWithCapInsets(UIEdgeInsetsZero, resizingMode:UIImageResizingModeTile)
   end
