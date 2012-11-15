@@ -1,3 +1,7 @@
+$sugarcube_view = nil
+$sugarcube_items = nil
+$sugarcube_restore = nil
+
 module SugarCube
   module Adjust
     module_function
@@ -14,17 +18,16 @@ module SugarCube
 
     def adjust(view=nil, format=nil)
       SugarCube::Adjust::repl_format(format.to_sym) if format
-      @@sugarcube_view ||= nil  #  this looks like a NOOP, but ||= also checks whether the variable exists.  aka: errors happen if we don't do this.
-      return @@sugarcube_view if not view
+      return $sugarcube_view if not view
 
       if view.is_a? Fixnum
-        @@sugarcube_items ||= SugarCube::Adjust::build_tree(UIApplication.sharedApplication.keyWindow, :subviews)
-        view = @@sugarcube_items[view]
+        $sugarcube_items ||= SugarCube::Adjust::build_tree(UIApplication.sharedApplication.keyWindow, :subviews)
+        view = $sugarcube_items[view]
       end
 
       if view.is_a?(UIView)
-        @@sugarcube_view = view
-        @@sugarcube_restore = {
+        $sugarcube_view = view
+        $sugarcube_restore = {
           frame: SugarCube::Adjust.frame,
           shadow: SugarCube::Adjust.shadow,
         }
@@ -40,15 +43,14 @@ module SugarCube
 
     ##|  FRAME
     def frame f=nil
-      @@sugarcube_view ||= nil
-      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
-      return SugarCube::CoreGraphics::Rect(@@sugarcube_view.frame) if not f
+      return SugarCube::CoreGraphics::Rect($sugarcube_view.frame) if not f
 
-      @@sugarcube_view.frame = f
+      $sugarcube_view.frame = f
       puts format_frame(f)
 
-      @@sugarcube_view
+      $sugarcube_view
     end
     alias f frame
 
@@ -59,15 +61,14 @@ module SugarCube
     alias l left
 
     def right val=1
-      @@sugarcube_view ||= nil
-      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
-      f = @@sugarcube_view.frame
+      f = $sugarcube_view.frame
       f.origin.x += val
-      @@sugarcube_view.frame = f
+      $sugarcube_view.frame = f
       puts format_frame(f)
 
-      @@sugarcube_view
+      $sugarcube_view
     end
     alias r right
 
@@ -77,23 +78,21 @@ module SugarCube
     alias u up
 
     def down val=1
-      @@sugarcube_view ||= nil
-      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
-      f = @@sugarcube_view.frame
+      f = $sugarcube_view.frame
       f.origin.y += val
-      @@sugarcube_view.frame = f
+      $sugarcube_view.frame = f
       puts format_frame(f)
 
-      @@sugarcube_view
+      $sugarcube_view
     end
     alias d down
 
     def origin x=nil, y=nil
-      @@sugarcube_view ||= nil
-      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
-      f = @@sugarcube_view.frame
+      f = $sugarcube_view.frame
       return SugarCube::CoreGraphics::Point(f.origin) if not x
 
       if y
@@ -102,10 +101,10 @@ module SugarCube
       else
         f.origin = x
       end
-      @@sugarcube_view.frame = f
+      $sugarcube_view.frame = f
       puts format_frame(f)
 
-      @@sugarcube_view
+      $sugarcube_view
     end
     alias o origin
 
@@ -116,15 +115,14 @@ module SugarCube
     alias n thinner
 
     def wider val=1
-      @@sugarcube_view ||= nil
-      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
-      f = @@sugarcube_view.frame
+      f = $sugarcube_view.frame
       f.size.width += val
-      @@sugarcube_view.frame = f
+      $sugarcube_view.frame = f
       puts format_frame(f)
 
-      @@sugarcube_view
+      $sugarcube_view
     end
     alias w wider
 
@@ -134,23 +132,21 @@ module SugarCube
     alias s shorter
 
     def taller val=1
-      @@sugarcube_view ||= nil
-      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
-      f = @@sugarcube_view.frame
+      f = $sugarcube_view.frame
       f.size.height += val
-      @@sugarcube_view.frame = f
+      $sugarcube_view.frame = f
       puts format_frame(f)
 
-      @@sugarcube_view
+      $sugarcube_view
     end
     alias t taller
 
     def size w=nil, h=nil
-      @@sugarcube_view ||= nil
-      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
-      f = @@sugarcube_view.frame
+      f = $sugarcube_view.frame
       return SugarCube::CoreGraphics::Size(f.size) if not w
 
       if h
@@ -159,16 +155,15 @@ module SugarCube
       else
         f.size = w
       end
-      @@sugarcube_view.frame = f
+      $sugarcube_view.frame = f
       puts format_frame(f)
 
-      @@sugarcube_view
+      $sugarcube_view
     end
     alias z size
 
     def center(*args)
-      @@sugarcube_view ||= nil
-      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
       element = nil
       total = nil
@@ -192,7 +187,7 @@ module SugarCube
       element = 1 unless element
       total = 1 unless total
 
-      view = @@sugarcube_view
+      view = $sugarcube_view
 
       left = view.origin.x
       top = view.origin.y
@@ -214,8 +209,7 @@ module SugarCube
 
     ##|  SHADOW
     def shadow shadow=nil
-      @@sugarcube_view ||= nil
-      raise "no view has been assigned to SugarCube::Adjust::adjust" unless @@sugarcube_view
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
       if shadow
         {
@@ -229,19 +223,19 @@ module SugarCube
             if key == :color and [Symbol, Fixnum, NSString, UIImage, UIColor].any?{|klass| value.is_a? klass}
               value = value.uicolor.CGColor
             end
-            @@sugarcube_view.layer.send(msg, value)
-            @@sugarcube_view.layer.masksToBounds = false
-            @@sugarcube_view.layer.shouldRasterize = true
+            $sugarcube_view.layer.send(msg, value)
+            $sugarcube_view.layer.masksToBounds = false
+            $sugarcube_view.layer.shouldRasterize = true
           end
         }
-        @@sugarcube_view
+        $sugarcube_view
       else
         {
-          opacity: @@sugarcube_view.layer.shadowOpacity,
-          radius: @@sugarcube_view.layer.shadowRadius,
-          offset: @@sugarcube_view.layer.shadowOffset,
-          color: @@sugarcube_view.layer.shadowColor,
-          path: @@sugarcube_view.layer.shadowPath,
+          opacity: $sugarcube_view.layer.shadowOpacity,
+          radius: $sugarcube_view.layer.shadowRadius,
+          offset: $sugarcube_view.layer.shadowOffset,
+          color: $sugarcube_view.layer.shadowColor,
+          path: $sugarcube_view.layer.shadowPath,
         }
       end
     end
@@ -281,11 +275,11 @@ module SugarCube
         end
       end
 
-      @@sugarcube_items = SugarCube::Adjust::build_tree(item, selector)
+      $sugarcube_items = SugarCube::Adjust::build_tree(item, selector)
       if self.respond_to? :draw_tree
-        total = draw_tree(item, selector)
+        draw_tree(item, selector)
       else
-        total = SugarCube::Adjust::draw_tree(item, selector)
+        SugarCube::Adjust::draw_tree(item, selector)
       end
       puts ''
 
@@ -317,7 +311,7 @@ module SugarCube
         tab = ''
       end
 
-      if self == item
+      if self == item || $sugarcube_view == item
         print "\033[1m"
       end
       if item.is_a? UIView
@@ -325,7 +319,7 @@ module SugarCube
       else
         puts item.to_s
       end
-      if self == item
+      if self == item || $sugarcube_view == item
         print "\033[0m"
       end
 
@@ -336,7 +330,11 @@ module SugarCube
       end
       items.each_with_index { |subview, index|
         items_index += 1
-        items_index = SugarCube::Adjust::draw_tree(subview, selector, tab, index == items.length - 1, items_index)
+        if self.respond_to? :draw_tree
+          items_index = draw_tree(subview, selector, tab, index == items.length - 1, items_index)
+        else
+          items_index = SugarCube::Adjust::draw_tree(subview, selector, tab, index == items.length - 1, items_index)
+        end
       }
 
       return items_index
@@ -361,10 +359,9 @@ module SugarCube
 
     ##|  RESTORE
     def restore
-      @@sugarcube_view ||= nil
-      raise 'no view has been assigned to SugarCube::Adjust::adjust' unless @@sugarcube_view
+      raise 'no view has been assigned to SugarCube::Adjust::adjust' unless $sugarcube_view
 
-      @@sugarcube_restore.each do |msg, value|
+      $sugarcube_restore.each do |msg, value|
         SugarCube::Adjust.send(msg, value)
       end
     end
