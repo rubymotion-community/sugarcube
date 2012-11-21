@@ -1,4 +1,23 @@
 class NSDate
+
+  def string_with_style(style)
+    date_formatter = NSDateFormatter.new
+    if style.is_a? Symbol
+      style = style.nsdatesyle
+    end
+    date_formatter.setDateStyle(style)
+    date_formatter.stringFromDate(self)
+  end
+
+
+  def string_with_format(format)
+    format_template = NSDateFormatter.dateFormatFromTemplate(format, options:0,
+                                                      locale:NSLocale.currentLocale)
+    date_formatter = NSDateFormatter.new
+    date_formatter.setDateFormat(format_template)
+    date_formatter.stringFromDate(self)
+  end
+
   def timezone
     return _calendar_components(NSTimeZoneCalendarUnit).timeZone
   end

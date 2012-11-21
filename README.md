@@ -160,6 +160,11 @@ recurring events)
    ignoring the time components.  `start_of_day` and `end_of_day` methods help
    you here.  They are akin to `floor` and `ceil`, if you consider the time to
    be the "floating" component, and the date to be the nearest "integer".
+4. Formatting is made easier with `NSDate#string_with_style(NSDateStyleConstant or Symbol)`
+   and `NSDate#string_with_format(format_string)`.  See
+   <http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns> for
+   the formatters, they take getting used to, coming from `strftime`, but they
+   are much more powerful and locale-aware.
 
 ```
 (main)> now = NSDate.new  # Time.new is the same thing
