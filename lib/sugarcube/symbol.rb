@@ -25,6 +25,7 @@ You can extend the defaults by adding entries:
 class Symbol
   class << self
     attr_accessor :devices
+    attr_accessor :device_orientations
     attr_accessor :orientations
     attr_accessor :returnkeys
     attr_accessor :statusbar_styles
@@ -41,12 +42,13 @@ class Symbol
     attr_accessor :date_styles
 
     attr_accessor :buttontypes
-    attr_accessor :bordertypes
-    attr_accessor :controlstates
-    attr_accessor :controlevents
+    attr_accessor :border_types
+    attr_accessor :control_states
+    attr_accessor :control_events
     attr_accessor :activityindicator_styles
     attr_accessor :segmented_styles
     attr_accessor :datepicker_modes
+    attr_accessor :content_modes
 
     attr_accessor :tableview_styles
     attr_accessor :tableview_rowanimation
@@ -65,6 +67,16 @@ class Symbol
   @devices = {
     iphone: UIUserInterfaceIdiomPhone,
     ipad: UIUserInterfaceIdiomPad,
+  }
+
+  @device_orientations = {
+    unknown: UIDeviceOrientationUnknown,
+    portrait: UIDeviceOrientationPortrait,
+    upside_down: UIDeviceOrientationPortraitUpsideDown,
+    left: UIDeviceOrientationLandscapeLeft,
+    right: UIDeviceOrientationLandscapeRight,
+    face_up: UIDeviceOrientationFaceUp,
+    face_down: UIDeviceOrientationFaceDown
   }
 
   @textalignments = {
@@ -108,7 +120,7 @@ class Symbol
     contact_add: UIButtonTypeContactAdd,
   }
 
-  @bordertypes = {
+  @border_types = {
     none: UITextBorderStyleNone,
     line: UITextBorderStyleLine,
     bezel: UITextBorderStyleBezel,
@@ -116,7 +128,7 @@ class Symbol
     rounded_rect: UITextBorderStyleRoundedRect,
   }
 
-  @controlstates = {
+  @control_states = {
     normal: UIControlStateNormal,
     highlighted: UIControlStateHighlighted,
     disabled: UIControlStateDisabled,
@@ -124,7 +136,7 @@ class Symbol
     application: UIControlStateApplication,
   }
 
-  @controlevents = {
+  @control_events = {
     touch: UIControlEventTouchUpInside,
     touch_up: UIControlEventTouchUpInside,
     touch_down: UIControlEventTouchDown,
@@ -219,6 +231,28 @@ class Symbol
     date:           UIDatePickerModeDate,
     dateandtime:    UIDatePickerModeDateAndTime,
     countdowntimer: UIDatePickerModeCountDownTimer
+  }
+
+  @content_modes = {
+    scale: UIViewContentModeScaleToFill,
+    scale_to_fill: UIViewContentModeScaleToFill,
+    scaletofill: UIViewContentModeScaleToFill,
+    fit: UIViewContentModeScaleAspectFit,
+    scaleaspectfit: UIViewContentModeScaleAspectFit,
+    scale_aspect_fit: UIViewContentModeScaleAspectFit,
+    fill: UIViewContentModeScaleAspectFill,
+    scaleaspectfill: UIViewContentModeScaleAspectFill,
+    scale_aspect_fill: UIViewContentModeScaleAspectFill,
+    redraw: UIViewContentModeRedraw,
+    center: UIViewContentModeCenter,
+    top: UIViewContentModeTop,
+    bottom: UIViewContentModeBottom,
+    left: UIViewContentModeLeft,
+    right: UIViewContentModeRight,
+    topleft: UIViewContentModeTopLeft,
+    topright: UIViewContentModeTopRight,
+    bottomleft: UIViewContentModeBottomLeft,
+    bottomright: UIViewContentModeBottomRight,
   }
 
   @tableview_styles = {
@@ -381,6 +415,10 @@ class Symbol
     look_in(Symbol.devices)
   end
 
+  def uideviceorientation
+    look_in(Symbol.device_orientations)
+  end
+
   def uitextalignment
     look_in(Symbol.textalignments)
   end
@@ -397,26 +435,27 @@ class Symbol
   alias uibaseline uibaselineadjustment
 
 
-  def uiorientation
+  def uiinterfaceorientation
     look_in(Symbol.orientations)
   end
+  alias uiorientation uiinterfaceorientation
 
   def uibuttontype
     look_in(Symbol.buttontypes)
   end
 
   def uibordertype
-    look_in(Symbol.bordertypes)
+    look_in(Symbol.border_types)
   end
 
   def uicontrolstate
-    look_in(Symbol.controlstates)
+    look_in(Symbol.control_states)
   end
   alias uistate uicontrolstate
 
 
   def uicontrolevent
-    look_in(Symbol.controlevents)
+    look_in(Symbol.control_events)
   end
 
   def uireturnkey
@@ -438,6 +477,11 @@ class Symbol
   def uidatepickermode
     look_in(Symbol.datepicker_modes)
   end
+
+  def uicontentmode
+    look_in(Symbol.content_modes)
+  end
+  alias uiviewcontentmode uicontentmode
 
   def uitablestyle
     look_in(Symbol.tableview_styles)
