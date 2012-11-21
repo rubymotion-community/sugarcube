@@ -395,16 +395,28 @@ image = "my_image".uiimage
 image.uicolor # => UIColor.colorWithPatternImage(image)
 ```
 
-###### Image Manipulation
+###### Image Manipulation - VERY handy!
 
 ```ruby
 image.scale_to [37, 37]
 image.rounded  # default: 5 pt radius
 image.rounded(10)
 
-# these both use UIEdgeInsetsZero (for now)
+image.in_rect([[10, 10], [100, 100]])  # get part of an image
+
+image.darken  # => good for "pressed" buttons
+image.darken(brightness: -0.5, saturation: -0.2)  # these are the defaults
+
+image.rotate(:left)
+image.rotate(:right)
+image.rotate(:flip)  # 180° - if you have a better name, let me know!
+image.rotate(45.degrees)
+
+# default insets are UIEdgeInsetsZero
 image.tileable
+image.tileable(insets)
 image.stretchable
+image.stretchable(insets)
 ```
 
  UIAlertView
