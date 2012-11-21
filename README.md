@@ -358,6 +358,11 @@ This is the "big daddy".  Lots of sugar here...
 :change.uicontrolevent  # => UIControlEventValueChanged
 :all.uicontrolevent  # => UIControlEventAllEvents
 :blue.uicolor  # UIColor.blueColor
+
+# these are really handy for custom buttons - touch_start means the finger is inside the button, touch_stop is outside the button or canceled
+:touch_start  # => UIControlEventTouchDown | UIControlEventTouchDragEnter
+:touch_stop   # => UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchDragExit
+
 # all CSS colors are supported, and alpha
 # (no "grey"s, only "gray"s, consistent with UIKit, which only provides "grayColor")
 :firebrick.uicolor(0.25)  # => 0xb22222.uicolor(0.25)

@@ -128,12 +128,14 @@ class Symbol
     touch: UIControlEventTouchUpInside,
     touch_up: UIControlEventTouchUpInside,
     touch_down: UIControlEventTouchDown,
-    change:  UIControlEventValueChanged|UIControlEventEditingChanged,
+    touch_start: UIControlEventTouchDown | UIControlEventTouchDragEnter,
+    touch_stop: UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchDragExit,
+    change:  UIControlEventValueChanged | UIControlEventEditingChanged,
     begin: UIControlEventEditingDidBegin,
     end: UIControlEventEditingDidEnd,
     # I'm leaving this for backwards compatibility.  please use 'change' or
     # 'editing_did_change':
-    changed: UIControlEventValueChanged|UIControlEventEditingChanged,
+    changed: UIControlEventValueChanged | UIControlEventEditingChanged,
 
     touch_down_repeat: UIControlEventTouchDownRepeat,
     touch_drag_inside: UIControlEventTouchDragInside,
