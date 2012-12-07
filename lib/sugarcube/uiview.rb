@@ -22,6 +22,19 @@ class UIView
     return found
   end
 
+  # returns the nearest nextResponder instance that is a UIViewController. Goes
+  # up the responder chain until the nextResponder is a UIViewController
+  # subclass, or returns nil if none is found.
+  def controller
+    if nextResponder && nextResponder.is_a?(UIViewController)
+      nextResponder
+    elsif nextResponder
+      nextResponder.controller
+    else
+      nil
+    end
+  end
+
   def <<(view)
     self.addSubview view
     return self
