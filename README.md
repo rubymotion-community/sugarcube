@@ -765,19 +765,26 @@ test[:my] = 'new'
  CoreGraphics
 --------------
 
-###### Is it `CGMakeRect` or `CGRectMake`?
+###### Is it `CGMakeRect` or `CGRectMake`?  What arguments does `CGRect.new` take?
 
-Instead, just use `Rect`, `Size` and `Point`.  They will happily convert most
-sensible arguments into a `Rect/Size/Point`, which can be treated as a `CGRect`
-object OR as an `Array` (woah).
+Instead, just use the coercion methods `Rect()`, `Size()` and `Point()`.  They
+will happily convert most sensible (and some non-sensible) arguments into a
+`CGRect/CGSize/CGPoint` struct.  For more CoreGraphics additions, you should use
+[geomotion][] by [Clay Allsopp][].  It adds methods to `CGRect`, `CGPoint`, and
+`CGSize` to make these structures more rubyesque (these methods used to be part
+of SugarCube, but were removed in an attempt to decrease the amount of
+duplicated code).
 
-These are namespaced in `SugarCube::CoreGraphics` module, but I recommend you
-`include SugarCube::CoreGraphics` in app_delegate.rb.
+[geomotion]: https://github.com/clayallsopp
+[Clay Allsopp]: https://github.com/clayallsopp/geomotion
+
+These are namespaced in the `SugarCube::CoreGraphics` module, but I recommend
+you `include SugarCube::CoreGraphics` in app_delegate.rb.
 
 ```ruby
-f = Rect(view.frame)  # converts a CGRect into a Rect
-o = Point(view.frame.origin)  # converts a CGPoint into a Point
-s = Size(view.frame.size)  # converts a CGSize into a Size
+f = Rect(view.frame)  # the identity function - returns a copy of the CGRect
+o = Point(view.frame.origin)  # returns a copy of CGPoint
+s = Size(view.frame.size)  # returns a copy of CGSize
 
 # lots of other conversions are possible.
 # a UIView or CALayer => view.frame
@@ -785,102 +792,18 @@ f = Rect(view)
 # 4 numbers
 f = Rect(x, y, w, h)
 # or two arrays
+f = Rect([x, y], [w, h])
+# one array
+f = Rect([[x, y], [w, h]])
+f = Rect([x, y, w, h])
+# a CGPoint and CGSize
 p = Point(x, y)  # or just [x, y] works, too
 s = Size(w, h)  # again, [w, h] is fine
 f = Rect(p, s)
-# like I said, a straight-up array of nested arrays is fine, too.
-f = Rect([[x, y], [w, h]])
+# any combination of the two
+f = Rect(p, [w, h])
+f = Rect([x, y], s)
 ```
-
-###### CG{Rect,Point,Size} is a *real boy*!
-
-These methods get defined in a module (`SugarCube::CG{Rect,Size,Point}Extensions`),
-and included in `CGRect` *and* `Rect`.  The idea is that you do not have to
-distinguish between the two objects.
-
-These methods all use the methods as described in [CGGeometry Reference][], e.g.
-`CGRectContainsPoint`, `CGRectIntersectsRect`, etc.
-
-```ruby
-# intersection / contains
-Point(0, 0).intersects?(Rect(-1, -1, 2, 2))  # => true
-# if a Point intersects a Rect, the Rect intersects the Point, right?
-Rect(-1, -1, 2, 2).intersects? Point(0, 0)  # => true
-
-# CGRect and the gang are real Ruby objects.  Let's treat 'em that way!
-view.frame.contains? Point(10, 10)  # in this case, contains? and intersects? are synonyms
-view.frame.intersects? Rect(0, 0, 10, 10)  #  <= but this one
-view.frame.contains? Rect(0, 0, 10, 10)    #  <= and this one are different.
-
-# CGRect has factory methods for CGRectEmpty, CGRectNull, and - KINDA - CGRectInfinite
-# BUT, there is a bug (?) right now where CGRectIsInfinite(CGRectInfinite) returns false.
-# so instead, I've built my own infinite? method that checks for the special "Infinite" value
-> CGRect.infinite
-=> [[0, 0], [Infinity, Infinity]]
-> CGRect.infinite.infinite?
-=> true
-> CGRect.null
-=> [[Infinity, Infinity], [0.0, 0.0]]
-> CGRect.null.null?
-=> true
-> CGRect.empty
-=> [[0.0, 0.0], [0.0, 0.0]]
-> CGRect.empty.empty?
-=> true
-```
-
-A lot of the methods in CGGeometry Reference are available as instance methods
-
-```ruby
-view.frame.left    # => CGRectGetMinX(view.frame)
-view.frame.right   # => CGRectGetMaxX(view.frame)
-view.frame.top     # => CGRectGetMinY(view.frame)
-view.frame.bottom  # => CGRectGetMaxY(view.frame)
-view.frame.width   # => CGRectGetWidth(view.frame)
-view.frame.height  # => CGRectGetHeight(view.frame)
-view.frame.center  # => Point(CGRectGetMidX(view.frame), CGRectGetMidY(view.frame))
-
-view.frame.intersection(another_rect)  # => CGRectIntersection(view.frame, another_rect)
-view.frame + another_rect  # => CGRectUnion(view.frame, another_rect)
-view.frame + a_point  # => CGRectOffset(view.frame, a_point.x, a_point.y)
-view.frame + a_offset  # => CGRectOffset(view.frame, a_offset.horizontal, a_offset.vertical)
-view.frame + edgeinsets  # => UIEdgeInsetsInsetRect(view.frame, edgeinsets)
-view.frame + a_size  # => CGRectInset(view.frame, -a_size.width, -a_size.height)
-# Adding a size to a view keeps the view's CENTER in the same place, but
-# increases its size by `size.width,size.height`. it's the same as using
-# UIEdgeInsets with top == bottom, and left == right
-> Rect(0, 0, 10, 10).center
-=> Point(5.0, 5.0)  # note the center
-> Rect(0, 0, 10, 10) + Size(10, 10)
-=> Rect([-10.0, -10.0],{30.0 × 30.0})  # origin and size changed, but...
-> (Rect(0, 0, 10, 10) + Size(10, 10)).center
-=> Point(5.0, 5.0)
-# See?  It's bigger, but the center hasn't moved.
-```
-
-`to_hash/from_hash`, and notice here that I used `inspect`, to show that it is a
-little more readable.
-
-**NOTE** As of today, Aug. 25, 2012, rubymotion v1.22, the `inspect` method in SugarCube is not
-being called.  I think this is a bug... this worked before!
-
-```ruby
-> Rect(0, 0, 10, 10).to_hash
-=> {"Width"=>10.0, "Height"=>10.0, "Y"=>0.0, "X"=>0.0}
-> puts CGRect.from_hash(Rect(0, 0, 1, 1).to_hash).inspect
-CGRect([0.0, 0.0],{1.0 × 1.0})
-```
-
-`to_s/from_s`, which rely on `NSStringFromCGRect/CGRectFromString` (et. al.)
-
-```ruby
-> Rect(0, 0, 10, 10).to_s
-=> "{{0, 0}, {10, 10}}"
-> puts CGRect.from_s Rect(0, 0, 10, 10).to_s
-{{0, 0}, {10, 10}}
-```
-
-[CGGeometry Reference]: https://developer.apple.com/library/mac/documentation/graphicsimaging/reference/CGGeometry/Reference/reference.html
 
  CoreLocation
 --------------
