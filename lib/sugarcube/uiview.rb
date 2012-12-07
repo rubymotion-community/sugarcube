@@ -65,7 +65,7 @@ class UIView
   # If options is a Numeric, it is used as the duration.  Otherwise, duration
   # is an option, and defaults to 0.3.  All the transition methods work this
   # way.
-  def fade_out(options={}, &after)
+  def animate(options={}, &animations)
     if options.is_a? Numeric
       duration = options
       options = {}
@@ -73,62 +73,73 @@ class UIView
       duration = options[:duration] || 0.3
     end
 
-    after = _after_proc(after)
-
-    UIView.animateWithDuration(duration,
+    UIView.animateWithDuration( duration,
                          delay: options[:delay] || 0,
                        options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
-                    animations: proc{
-                                  self.layer.opacity = options[:opacity] || 0
-
-                                  if assign = options[:assign]
-                                    assign.each_pair do |key, value|
-                                      self.send("#{key}=", value)
-                                    end
-                                  end
-                                }, completion:after
+                    animations: animations,
+                    completion: _after_proc(options[:after])
                               )
     self
   end
 
-  def fade_in(options={}, &after)
+  # Changes the layer opacity.
+  def fade(options={}, &after)
     if options.is_a? Numeric
-      duration = options
-      options = {}
-    else
-      duration = options[:duration] || 0.3
+      options = { opacity: options }
     end
 
-    options[:opacity] = 1.0
-    fade_out(options, &after)
+    options[:after] ||= _after_proc(after)
+
+    animate(options) {
+      self.layer.opacity = options[:opacity]
+
+      if assign = options[:assign]
+        assign.each_pair do |key, value|
+          self.send("#{key}=", value)
+        end
+      end
+    }
+  end
+
+  # Changes the layer opacity to 0.
+  # @see #fade
+  def fade_out(options={}, &after)
+    if options.is_a? Numeric
+      options = { duration: options }
+    end
+
+    options[:opacity] ||= 0.0
+    fade(options, &after)
+  end
+
+  # Changes the layer opacity to 1.
+  # @see #fade
+  def fade_in(options={}, &after)
+    if options.is_a? Numeric
+      options = { duration: options }
+    end
+
+    options[:opacity] ||= 1.0
+    fade(options, &after)
   end
 
   def move_to(position, options={}, &after)
     if options.is_a? Numeric
-      duration = options
-      options = {}
-    else
-      duration = options[:duration] || 0.3
+      options = { duration: options }
     end
 
-    after = _after_proc(after)
+    options[:after] ||= _after_proc(after)
+    animate(options) {
+      f = self.frame
+      f.origin = SugarCube::CoreGraphics::Point(position)
+      self.frame = f
 
-    UIView.animateWithDuration(duration,
-                         delay: options[:delay] || 0,
-                       options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
-                    animations: proc{
-                                  f = self.frame
-                                  f.origin = SugarCube::CoreGraphics::Point(position)
-                                  self.frame = f
-
-                                  if assign = options[:assign]
-                                    assign.each_pair do |key, value|
-                                      self.send("#{key}=", value)
-                                    end
-                                  end
-                                }, completion:after
-                              )
-    self
+      if assign = options[:assign]
+        assign.each_pair do |key, value|
+          self.send("#{key}=", value)
+        end
+      end
+    }
   end
 
   def delta_to(delta, options={}, &after)
