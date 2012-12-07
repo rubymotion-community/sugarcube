@@ -51,13 +51,15 @@ class UIView
   end
 
   def _after_proc(after)
-    after ? proc  { |finished|
-                    if after.arity == 0
-                      after.call
-                    else
-                      after.call(finished)
-                    end
-                  } : nil
+    if after
+      proc{ |finished|
+            if after.arity == 0
+              after.call
+            else
+              after.call(finished)
+            end
+          }
+    end
   end
 
   # If options is a Numeric, it is used as the duration.  Otherwise, duration
