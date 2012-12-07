@@ -447,6 +447,7 @@ class Symbol
   def uibordertype
     look_in(Symbol.border_types)
   end
+  alias uiborderstyle uibordertype
 
   def uicontrolstate
     look_in(Symbol.control_states)
