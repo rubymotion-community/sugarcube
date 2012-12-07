@@ -73,10 +73,18 @@ class UIView
       duration = options[:duration] || 0.3
     end
 
+    assign = options[:assign] || {}
+
     UIView.animateWithDuration( duration,
                          delay: options[:delay] || 0,
                        options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
-                    animations: animations,
+                    animations: proc {
+                        animations.call if animations
+
+                        assign.each_pair do |key, value|
+                          self.send("#{key}=", value)
+                        end
+                      },
                     completion: _after_proc(options[:after])
                               )
     self
@@ -92,12 +100,6 @@ class UIView
 
     animate(options) {
       self.layer.opacity = options[:opacity]
-
-      if assign = options[:assign]
-        assign.each_pair do |key, value|
-          self.send("#{key}=", value)
-        end
-      end
     }
   end
 
@@ -109,6 +111,7 @@ class UIView
     end
 
     options[:opacity] ||= 0.0
+
     fade(options, &after)
   end
 
@@ -120,6 +123,7 @@ class UIView
     end
 
     options[:opacity] ||= 1.0
+
     fade(options, &after)
   end
 
@@ -129,16 +133,11 @@ class UIView
     end
 
     options[:after] ||= _after_proc(after)
+
     animate(options) {
       f = self.frame
       f.origin = SugarCube::CoreGraphics::Point(position)
       self.frame = f
-
-      if assign = options[:assign]
-        assign.each_pair do |key, value|
-          self.send("#{key}=", value)
-        end
-      end
     }
   end
 
