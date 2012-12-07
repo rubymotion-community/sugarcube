@@ -50,21 +50,38 @@ class UIView
     self
   end
 
-  def _after_proc(after)
-    if after
-      proc{ |finished|
-            if after.arity == 0
-              after.call
-            else
-              after.call(finished)
-            end
-          }
-    end
-  end
-
   # If options is a Numeric, it is used as the duration.  Otherwise, duration
   # is an option, and defaults to 0.3.  All the transition methods work this
   # way.
+  def self.animate(options={}, &animations)
+    if options.is_a? Numeric
+      duration = options
+      options = {}
+    else
+      duration = options[:duration] || 0.3
+    end
+
+    after_animations = options[:after]
+    if after_animations
+      if after_animations.arity == 0
+        after_adjusted = proc { |finished| after_animations.call }
+      else
+        after_adjusted = proc { |finished| after_animations.call(finished) }
+      end
+    else
+      after_adjusted = nil
+    end
+
+    UIView.animateWithDuration( duration,
+                         delay: options[:delay] || 0,
+                       options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
+                    animations: proc,
+                    completion: after_adjusted
+                              )
+    nil
+  end
+
+  # Same as UIView##animate, but acts on self
   def animate(options={}, &animations)
     if options.is_a? Numeric
       duration = options
@@ -75,18 +92,13 @@ class UIView
 
     assign = options[:assign] || {}
 
-    UIView.animateWithDuration( duration,
-                         delay: options[:delay] || 0,
-                       options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
-                    animations: proc {
-                        animations.call if animations
+    UIView.animate(options) {
+      animations.call if animations
 
-                        assign.each_pair do |key, value|
-                          self.send("#{key}=", value)
-                        end
-                      },
-                    completion: _after_proc(options[:after])
-                              )
+      assign.each_pair do |key, value|
+        self.send("#{key}=", value)
+      end
+    }
     self
   end
 
@@ -96,7 +108,7 @@ class UIView
       options = { opacity: options }
     end
 
-    options[:after] ||= _after_proc(after)
+    options[:after] ||= after
 
     animate(options) {
       self.layer.opacity = options[:opacity]
@@ -132,7 +144,7 @@ class UIView
       options = { duration: options }
     end
 
-    options[:after] ||= _after_proc(after)
+    options[:after] ||= after
 
     animate(options) {
       f = self.frame
