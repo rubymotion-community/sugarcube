@@ -7,8 +7,18 @@ class UIView
     else
       suffix = ''
     end
+    if options[:inner].is_a? Hash
+      inner = ''
+      options[:inner].each do |key, value|
+        inner += ', ' if inner.length > 0
+        inner += "#{key}: #{value.inspect}"
+      end
+    else
+      inner = options[:inner]
+    end
+
     "#{self.class.name}(##{self.object_id.to_s(16)}, #{SugarCube::Adjust::format_frame(self.frame)}" +
-                        (options[:inner] ? ', ' + options[:inner] : '') +
+                        (inner ? ', ' + inner : '') +
                         ')' +
                         (options[:superview] && self.superview ? ", child of #{self.superview.class.name}(##{self.superview.object_id.to_s(16)})" : '') +
                         suffix
