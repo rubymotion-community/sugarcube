@@ -9,7 +9,7 @@ class UITextField
     if placeholder && placeholder.length > 20
       placeholder = placeholder[0..20] + '...'
     end
-    super options.merge(inner: 'text: ' + text.inspect + ', placeholder: ' + placeholder.inspect, 'firstResponder?: ' + firstResponder?.inspect)
+    super options.merge(inner: {text: text, placeholder: placeholder, firstResponder?: firstResponder?})
   end
 
 end
