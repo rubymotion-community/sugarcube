@@ -58,4 +58,8 @@ class NSString
     UINib.nibWithNibName(self, bundle:bundle)
   end
 
+  def nserror(code=0)
+    NSError.alloc.initWithDomain('Error', code:code, userInfo: {NSLocalizedDescriptionKey: self})
+  end
+
 end
