@@ -52,12 +52,6 @@ class NSString
   end
   alias _ localized
 
-  # @param bundle [NSBundle] A bundle to search in.  Default is `nil`, which
-  #   will use NSBundle.mainBundle
-  def uinib(bundle=nil)
-    UINib.nibWithNibName(self, bundle:bundle)
-  end
-
   def nserror(code=0)
     NSError.alloc.initWithDomain('Error', code:code, userInfo: {NSLocalizedDescriptionKey => self})
   end
