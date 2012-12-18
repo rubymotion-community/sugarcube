@@ -1,6 +1,7 @@
 class UIImage
   def uiimage ; self ; end
 
+  # @return [UIColor]
   def uicolor(alpha=nil)
     color = UIColor.colorWithPatternImage(self)
     if not alpha.nil?
@@ -10,8 +11,14 @@ class UIImage
     color
   end
 
+  # @return [UIImageView]
   def uiimageview
     UIImageView.alloc.initWithImage(self)
+  end
+
+  # @return [NSData] an NSData object in PNG format
+  def nsdata
+    UIImagePNGRepresentation(self)
   end
 
   ##|
