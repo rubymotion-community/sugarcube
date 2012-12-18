@@ -62,6 +62,8 @@ class Symbol
     attr_accessor :image_quality
 
     attr_accessor :ca_timingfunctions
+
+    attr_accessor :gesture_recognizer_states
   end
 
   @devices = {
@@ -404,6 +406,16 @@ class Symbol
     default:           KCAMediaTimingFunctionDefault,
   }
 
+  @gesture_recognizer_states = {
+    possible:   UIGestureRecognizerStatePossible,
+    began:      UIGestureRecognizerStateBegan,
+    changed:    UIGestureRecognizerStateChanged,
+    ended:      UIGestureRecognizerStateEnded,
+    cancelled:  UIGestureRecognizerStateCancelled,
+    failed:     UIGestureRecognizerStateFailed,
+    recognized: UIGestureRecognizerStateRecognized,
+  }
+
   private
   def look_in(here)
     return here[self] if here.has_key? self
@@ -560,6 +572,11 @@ class Symbol
     look_in(Symbol.ca_timingfunctions)
   end
   alias catiming catimingfunction
+
+  def uigesturerecognizerstate
+    look_in(Symbol.gesture_recognizer_states)
+  end
+  alias uigesturestate uigesturerecognizerstate
 
   def uifont(size=UIFont.systemFontSize)
     # system fonts
