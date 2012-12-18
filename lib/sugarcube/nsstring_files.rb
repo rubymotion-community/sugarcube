@@ -11,6 +11,12 @@ class NSString
     NSFileManager.defaultManager.fileExistsAtPath(self.document)
   end
 
+  def remove!
+    ptr = Pointer.new(:id)
+    NSFileManager.defaultManager.removeItemAtPath(self.document, error:ptr)
+    ptr[0]
+  end
+
   def resource
     @@sugarcube_resources ||= NSBundle.mainBundle.resourcePath
     return self if self.hasPrefix(@@sugarcube_resources)
