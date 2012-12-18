@@ -6,6 +6,10 @@ class UIColor
     _sugarcube_colors[:red]
   end
 
+  def cgcolor
+    self.CGColor
+  end
+
   def green
     _sugarcube_colors[:green]
   end
