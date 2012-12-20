@@ -3,6 +3,15 @@
 # changing it to suit my needs, and offering it here
 class UIView
 
+  # a generic gesture adder, but using sugarcube_add_gesture, which handles the block
+  def on_gesture(klass, options={}, &proc)
+    recognizer = klass.alloc.initWithTarget(self, action:'sugarcube_handle_gesture:')
+    options.each do |method, value|
+      recognizer.send(method, value)
+    end
+    sugarcube_add_gesture(proc, recognizer)
+  end
+
   def on_tap(taps_or_options=nil, &proc)
     taps = nil
     fingers = nil
@@ -71,8 +80,7 @@ class UIView
       if fingers_or_options.is_a? Hash
         fingers = fingers_or_options[:fingers] || fingers
         min_fingers = fingers_or_options[:min_fingers] || min_fingers
-        max_fingers = fingers_or_options[:max_fingers] || max_fingers
-      else
+        max_fingers = fingers_or_options[:max_fingers] || max_fingers      else
         fingers = fingers_or_options
       end
     end
