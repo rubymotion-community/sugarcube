@@ -195,7 +195,11 @@ class UIView
 
     offset = options[:offset] || 8
     repeat = options[:repeat] || 3
-    duration /= repeat
+    if repeat == Float::INFINITY
+      duration = 0.1
+    else
+      duration /= repeat
+    end
     keypath = options[:keypath] || 'transform.translation.x'
 
     origin = 0
