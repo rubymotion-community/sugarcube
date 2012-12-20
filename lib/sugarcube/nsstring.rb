@@ -27,7 +27,7 @@ class NSString
   end
 
   def uiimageview
-    (self.uiimage and self.uiimage.uiimageview or UIImageView.alloc.initWithImage(nil))
+    self.uiimage ? self.uiimage.uiimageview : UIImageView.alloc.initWithImage(nil)
   end
 
   def uifont(size=UIFont.systemFontSize)
