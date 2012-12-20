@@ -1,4 +1,4 @@
-sugarcube
+SugarCube
 =========
 
 Some sugar for your cocoa, or your [tea][sweettea].
@@ -8,14 +8,14 @@ About
 
 CocoaTouch/iOS is a *verbose* framework.  These extensions hope to make
 development in rubymotion more enjoyable by tacking "UI" methods onto the base
-classes (String, Fixnum, Numeric).  With sugarcube, you can create a color from an
+classes (String, Fixnum, Numeric).  With SugarCube, you can create a color from an
 integer or symbol, or create a UIFont or UIImage from a string.
 
 Some UI classes are opened up as well, like adding the '<<' operator to a UIView
 instance, instead of view.addSubview(subview), you can use the more idiomatic:
 view << subview.
 
-The basic idea of sugarcube is to turn some operations on their head.  Insead of
+The basic idea of SugarCube is to turn some operations on their head.  Insead of
 
     UIApplication.sharedApplication.openURL(NSURL.URLWithString(url))
 
@@ -25,7 +25,7 @@ How about:
 
 **DISCLAIMER**
 
-It is possible that you *will not like sugarcube*.  That is perfectly fine!
+It is possible that you *will not like SugarCube*.  That is perfectly fine!
 Some people take milk in their coffee, some take sugar.  Some crazy maniacs
 don't even *drink* coffee, if you can imagine that... All I'm saying is: to each
 their own.  You should checkout [BubbleWrap][] for another take on
@@ -45,11 +45,14 @@ Installation
 
     gem install sugarcube
 
+    # in Rakefile
+    require 'sugarcube'
+
     # or in Gemfile
     gem 'sugarcube'
 
-    # in Rakefile
-    require 'sugarcube'
+    # in terminal
+    $ bundle install
 
 Examples
 ========
@@ -114,7 +117,8 @@ Shorthands and hash-like access to the coder/decoder objects.
 coder['key'] = self.value
 self.value = decoder['key']
 
-# but if you want to store booleans and such in the MOST compact way:
+# but if you want to store booleans and such (in their C form,
+# which will take up less space I suppose):
 coder.set('sugarcube_is_neat', toBool:self.is_sugarcube_neat?)
 self.sugarcube_is_neat = decoder.bool('sugarcube_is_neat')
 
@@ -552,7 +556,7 @@ UIActivityIndicatorView.gray
 -----------
 
 Inspired by [BubbleWrap's][BubbleWrap] `when` method, but I prefer jQuery-style
-verbs and sugarcube symbols.
+verbs and SugarCube symbols.
 
 ```ruby
 button = UIButton.alloc.initWithFrame([0, 0, 10, 10])
@@ -737,13 +741,13 @@ date2.same_day? date1
 :key.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
 ```
 
-This is strange, and backwards, which is just sugarcube's style.  But there is
+This is strange, and backwards, which is just SugarCube's style.  But there is
 one advantage to doing it this way.  Compare these two snippets:
 
 ```ruby
 # BubbleWrap
 App::Persistance[:test] = { my: 'test' }
-# sugarcube
+# SugarCube
 :test.set_default { my: 'test' }
 # k, BubbleWrap looks better
 
