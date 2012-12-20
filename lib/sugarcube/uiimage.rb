@@ -11,7 +11,7 @@ class UIImage
   end
 
   def uiimageview
-    @uiimageview = UIImageView.alloc.initWithImage(self)
+    UIImageView.alloc.initWithImage(self)
   end
 
   ##|
