@@ -202,9 +202,9 @@ class UIView
     end
     keypath = options[:keypath] || 'transform.translation.x'
 
-    origin = 0
-    left = -offset
-    right = +offset
+    origin = options[:origin] || 0
+    left = origin - offset
+    right = origin + offset
 
     animation = CAKeyframeAnimation.animationWithKeyPath(keypath)
     animation.duration = duration
