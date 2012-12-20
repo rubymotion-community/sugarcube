@@ -1075,3 +1075,45 @@ true.blank?     # => false
 ['a'].blank?    # => false
 {a: 'a'}.blank? # => false
 ```
+
+Gestures
+--------
+
+Sugarcube's gesture support is very similar to BubbleWrap's, and it's entirely
+possible that the two will be merged into one thing.  But SugarCube is all about
+extending base classes, whereas BubbleWrap tends to add *new* classes to do the
+heavy lifting.  Plus the options you pass to SugarCube are very different, and
+the prefix is "on" instead of "when" (e.g. "on_pan" instead of "when_panned")
+
+Gestures are an "opt-in" extension.  In your Rakefile, add
+`require 'sugarcube-gestures'`.
+
+```ruby
+require 'sugarcube-gestures'
+
+view.on_pan { |gesture|
+  location = gesture.view.locationInView(view)
+}
+
+# other gesture methods, with common options:
+view.on_tap   # use system defaults
+view.on_tap(1)  # number of taps
+view.on_tap(taps: 1, fingers: 1)  # number of taps and number of fingers
+
+view.on_pinch   # no options
+view.on_rotate  # no options
+
+view.on_swipe   # use system defaults
+view.on_swipe :left
+view.on_swipe(direction: :left, fingers: 1)
+view.on_swipe(direction: UISwipeGestureRecognizerDirectionLeft, fingers: 1)
+
+view.on_pan   # use system defaults
+view.on_pan(2)  # minimum and maximum fingers required
+view.on_pan(fingers: 2)
+view.on_pan(min_fingers: 2, max_fingers: 3)
+
+view.on_press   # use system defaults
+view.on_press(1.5)  # duration
+view.on_press(duration: 1.5, taps: 1, fingers: 1)
+```
