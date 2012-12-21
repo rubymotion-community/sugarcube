@@ -542,10 +542,12 @@ class Symbol
     look_in(Symbol.keyboardtypes)
   end
 
-  def uiautoresize
+  def uiautoresizemask
     look_in(Symbol.autoresizemasks)
   end
   alias uiviewautoresizing uiautoresize
+  alias uiautoresizingmask uiautoresizemask
+  alias uiautoresize uiautoresizemask
 
   def uiimagesource
     look_in(Symbol.image_sourcetypes)
