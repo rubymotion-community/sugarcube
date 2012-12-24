@@ -1,4 +1,3 @@
-
 class UIColor
   def uicolor ; self ; end
 
