@@ -270,6 +270,8 @@ module SugarCube
                       end
                       ret
                     }
+        elsif item.is_a? CALayer
+          selector = :sublayers
         else
           raise "Unable to determine a SugarCube::Adjust::tree selector for #{item.class.name}"
         end
