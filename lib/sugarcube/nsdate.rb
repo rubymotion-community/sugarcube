@@ -1,5 +1,9 @@
 class NSDate
 
+  def self.new
+    self.date
+  end
+
   def string_with_style(style)
     date_formatter = NSDateFormatter.new
     if style.is_a? Symbol
