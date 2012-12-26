@@ -330,6 +330,8 @@ module SugarCube
       else
         items = item.send(selector)
       end
+      items ||= []
+
       items.each_with_index { |subview, index|
         items_index += 1
         if self.respond_to? :draw_tree
@@ -348,6 +350,8 @@ module SugarCube
       else
         items = item.send(selector)
       end
+      items ||= []
+
       ret = [item]
       items.each_with_index { |subview, index|
         ret.concat SugarCube::Adjust::build_tree(subview, selector)
