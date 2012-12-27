@@ -153,8 +153,11 @@ class UIView
       options = { duration: options }
     end
 
+    original_opacity = self.layer.opacity
+
     after_remove = proc {
       removeFromSuperview
+      self.layer.opacity = original_opacity
       after.call if after
     }
 
