@@ -146,6 +146,21 @@ class UIView
     fade(options, &after)
   end
 
+  # Changes the layer opacity to 0 and then removes the view from its superview
+  # @see #fade_out
+  def fade_out_and_remove(options={}, &after)
+    if options.is_a? Numeric
+      options = { duration: options }
+    end
+
+    after_remove = proc {
+      removeFromSuperview
+      after.call if after
+    }
+
+    fade_out(options, &after_remove)
+  end
+
   def move_to(position, options={}, &after)
     if options.is_a? Numeric
       options = { duration: options }
