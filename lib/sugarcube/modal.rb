@@ -1,21 +1,22 @@
 module SugarCube
   module Modal
     module_function
-    def present_modal(view_ctlr, target=nil, &block)
-      target ||= UIApplication.sharedApplication.keyWindow.rootViewController
-      target.presentViewController(view_ctlr, animated:true, completion:block)
+    def present_modal(view_ctlr, options={}, &block)
+      target = options.fetch(:target, UIApplication.sharedApplication.keyWindow.rootViewController)
+      animated = options.fetch(:animated, true)
+      target.presentViewController(view_ctlr, animated:animated, completion:block)
     end
 
-    def present_modal_in_nav(view_ctlr, target=nil, &block)
+    def present_modal_in_nav(view_ctlr, options={}, &block)
       ctlr = UINavigationController.alloc.initWithRootViewController(view_ctlr)
       ctlr.modalTransitionStyle = UIModalTransitionStyleCoverVertical
 
-      SugarCube::Modal.present_modal(ctlr, target, &block)
+      SugarCube::Modal.present_modal(ctlr, options, &block)
       ctlr
     end
 
-    def dismiss_modal(target=nil, &block)
-      target ||= UIApplication.sharedApplication.keyWindow.rootViewController
+    def dismiss_modal(options={}, &block)
+      target = options.fetch(:target, UIApplication.sharedApplication.keyWindow.rootViewController)
       target.dismissViewControllerAnimated(true, completion:block)
     end
   end
@@ -24,16 +25,19 @@ end
 
 class UIViewController
 
-  def present_modal(view_ctlr, &block)
-    SugarCube::Modal.present_modal(view_ctlr, self, &block)
+  def present_modal(view_ctlr, options={}, &block)
+    options = options.merge(target: self)
+    super(view_ctlr, options, &block)
   end
 
-  def present_modal_in_nav(view_ctlr, &block)
-    SugarCube::Modal.present_modal_in_nav(view_ctlr, self, &block)
+  def present_modal_in_nav(view_ctlr, options={}, &block)
+    options = options.merge(target: self)
+    super(view_ctlr, options, &block)
   end
 
-  def dismiss_modal(view_ctlr, &block)
-    SugarCube::Modal.dismiss_modal(view_ctlr, self, &block)
+  def dismiss_modal(view_ctlr, options={}, &block)
+    options = options.merge(target: self)
+    super(view_ctlr, options, &block)
   end
 
 end
