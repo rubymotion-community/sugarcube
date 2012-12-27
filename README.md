@@ -143,6 +143,20 @@ decoder.rect(key)
 decoder.size(key)
 ```
 
+NSData
+------
+
+Going to and from `NSData` is really useful when doing HTTP posts.
+
+```ruby
+string_data = 'String'.nsdata  # => default encoding is UTF8.
+image = 'an image'.uiimage
+image_data = image.nsdata  # PNG data representation
+
+string_data.nsstring  # => 'String'
+image_data.nsimage  # => whatever 'an image' was
+```
+
  NSDate
 --------
 
@@ -296,6 +310,22 @@ The `delta` method is smart.
 => true
 ```
 
+NSError
+-------
+
+`NSError.new` was just a mess, so I made it a legal method.
+
+```ruby
+NSError.new('Error Message')  # code: 0, domain: 'Error'
+# with options
+NSError.new('Error Message', code: 404)
+
+# error messages ('Error Message' in this example) are stored in a Hash with the
+# key 'NSLocalizedDescriptionKey'. If you pass a `userInfo` option, it will get
+# merged with this array.  So you can ignore that ugly-looking key.
+NSError.new('Error Message', code: 404, userInfo: { warnings: ['blabla'] })
+```
+
  NSURL
 -------
 
@@ -332,6 +362,7 @@ The `delta` method is smart.
 # file location
 "my.plist".exists?   # => NSFileManager.defaultManager.fileExistsAtPath("my.plist")
 "my.plist".document  # => NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
+"my.plist".remove!  # => NSFileManager.defaultManager.removeItemAtPath("my.plist".document, error: error)  (returns error, if any occurred)
 
 # NSURL
 "https://github.com".nsurl  # => NSURL.URLWithString("https://github.com")
@@ -486,6 +517,7 @@ UIActionSheet.alert 'I mean, is this cool?', buttons: ['Nah', 'With fire!', 'Sur
 ```ruby
 UIView.first_responder  # => returns the first responder, starting at UIApplication.sharedApplication.keyWindow
 my_view.first_responder  # => also returns the first responder, but starts looking in my_view
+my_view.controller  # => returns the UIViewController that this view belongs to
 self.view << subview  # => self.view.addSubview(subview)
 self.view.show  # => self.hidden = false
 self.view.hide  # => self.hidden = true
@@ -548,14 +580,21 @@ UIButton.contact_add       => UIButton.buttonWithType(:contact_add.uibuttontype)
 
 ###### UITableView
 
+Default frame is `[[0, 0], [0, 0]]`, but most containers will resize it to be
+the correct size.  But heads up, it *used* to be `[[0, 0], [320, 480]]` (until
+the iphone 5 / 4-inch retina came out).
+
 ```ruby
+UITableView.alloc.initWithFrame([[0, 0], [0, 0]], style: :plain.uitableviewstyle)
 UITableView.alloc.initWithFrame([[0, 0], [320, 480]], style: :plain.uitableviewstyle)
+UITableView.alloc.initWithFrame([[0, 0], [320, 568]], style: :plain.uitableviewstyle)
 # custom frame:
 UITableView.alloc.initWithFrame([[0, 0], [320, 400]], style: :grouped.uitableviewstyle)
 
 # =>
-
 UITableView.plain
+UITableView.plain([[0, 0], [320, 480]])
+UITableView.plain([[0, 0], [320, 568]])
 # custom frame:
 UITableView.grouped([[0, 0], [320, 400]])
 ```
@@ -744,6 +783,8 @@ end
 # other time-related methods
 # for compatibility with Time methods, the mins/secs (and min/sec) aliases are provided.  Personally,
 # I like the more verbose minutes/seconds.
+1.millisecond  || 2.milliseconds
+1.millisec     || 2.millisecs
 1.second  || 2.seconds
 1.sec     || 2.secs     # aliases
 1.minute  || 2.minutes  # 1.minute = 60 seconds
@@ -762,8 +803,21 @@ date1.today?
 date2.same_day? date1
 ```
 
- NSUserDefaults
+NSUserDefaults
 ----------------
+
+This file does *one* thing very **DANGEROUS**... to "help" with defaults.
+
+When storing `nil` into `NSUserDefaults`, it is converted into `false`, because
+Cocoa complains if you give it `nil`, and the RubyMotion runtime refuses to
+allow the `NSNull.null` object. Without relying on an external project (like
+[nsnulldammit]<https://github.com/colinta/nsnulldammit>) I don't know of a
+sensible workaround...
+
+If you want to "tap into" the defaults system that SugarCube uses, add a
+`to_nsuserdefaults` method an that will get called if you hand your object to
+`NSUserDefaults[]=`.  However, there's no way to get it *back* later, so the
+usefulness of this is very limited.
 
 ```ruby
 'key'.set_default(['any', 'objects'])  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
