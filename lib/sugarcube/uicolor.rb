@@ -1,6 +1,6 @@
-
 class UIColor
   def uicolor ; self ; end
+  alias cgcolor CGColor
 
   def red
     _sugarcube_colors[:red]
@@ -28,14 +28,23 @@ private
       red = Pointer.new(:float)
       green = Pointer.new(:float)
       blue = Pointer.new(:float)
+      white = Pointer.new(:float)
       alpha = Pointer.new(:float)
-      self.getRed(red, green:green, blue:blue, alpha:alpha)
-      @color = {
-        red: red[0],
-        green: green[0],
-        blue: blue[0],
-        alpha: alpha[0],
-      }
+      if self.getRed(red, green:green, blue:blue, alpha:alpha)
+        {
+          red: red[0],
+          green: green[0],
+          blue: blue[0],
+          alpha: alpha[0],
+        }
+      elsif self.getWhite(white, alpha:alpha)
+        {
+          red: white[0],
+          green: white[0],
+          blue: white[0],
+          alpha: alpha[0],
+        }
+      end
     end
   end
 

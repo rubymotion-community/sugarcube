@@ -22,8 +22,28 @@ class UIView
     return found
   end
 
+  # returns the nearest nextResponder instance that is a UIViewController. Goes
+  # up the responder chain until the nextResponder is a UIViewController
+  # subclass, or returns nil if none is found.
+  def controller
+    if nextResponder && nextResponder.is_a?(UIViewController)
+      nextResponder
+    elsif nextResponder
+      nextResponder.controller
+    else
+      nil
+    end
+  end
+
+  # superview << view
+  # => superview.addSubview(view)
   def <<(view)
-    self.addSubview view
+    self.addSubview(view)
+    return self
+  end
+
+  def unshift(view)
+    self.insertSubview(view, atIndex:0)
     return self
   end
 
@@ -37,20 +57,10 @@ class UIView
     self
   end
 
-  def _after_proc(after)
-    after ? proc  { |finished|
-                    if after.arity == 0
-                      after.call
-                    else
-                      after.call(finished)
-                    end
-                  } : nil
-  end
-
   # If options is a Numeric, it is used as the duration.  Otherwise, duration
   # is an option, and defaults to 0.3.  All the transition methods work this
   # way.
-  def fade_out(options={}, &after)
+  def self.animate(options={}, &animations)
     if options.is_a? Numeric
       duration = options
       options = {}
@@ -58,62 +68,111 @@ class UIView
       duration = options[:duration] || 0.3
     end
 
-    after = _after_proc(after)
+    after_animations = options[:after]
+    if after_animations
+      if after_animations.arity == 0
+        after_adjusted = proc { |finished| after_animations.call }
+      else
+        after_adjusted = proc { |finished| after_animations.call(finished) }
+      end
+    else
+      after_adjusted = nil
+    end
 
-    UIView.animateWithDuration(duration,
+    UIView.animateWithDuration( duration,
                          delay: options[:delay] || 0,
                        options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
-                    animations: proc{
-                                  self.layer.opacity = options[:opacity] || 0
-
-                                  if assign = options[:assign]
-                                    assign.each_pair do |key, value|
-                                      self.send("#{key}=", value)
-                                    end
-                                  end
-                                }, completion:after
+                    animations: proc,
+                    completion: after_adjusted
                               )
+    nil
+  end
+
+  # Same as UIView##animate, but acts on self
+  def animate(options={}, &animations)
+    if options.is_a? Numeric
+      duration = options
+      options = {}
+    else
+      duration = options[:duration] || 0.3
+    end
+
+    assign = options[:assign] || {}
+
+    UIView.animate(options) {
+      animations.call if animations
+
+      assign.each_pair do |key, value|
+        self.send("#{key}=", value)
+      end
+    }
     self
   end
 
-  def fade_in(options={}, &after)
+  # Changes the layer opacity.
+  def fade(options={}, &after)
     if options.is_a? Numeric
-      duration = options
-      options = {}
-    else
-      duration = options[:duration] || 0.3
+      options = { opacity: options }
     end
 
-    options[:opacity] = 1.0
-    fade_out(options, &after)
+    options[:after] ||= after
+
+    animate(options) {
+      self.layer.opacity = options[:opacity]
+    }
+  end
+
+  # Changes the layer opacity to 0.
+  # @see #fade
+  def fade_out(options={}, &after)
+    if options.is_a? Numeric
+      options = { duration: options }
+    end
+
+    options[:opacity] ||= 0.0
+
+    fade(options, &after)
+  end
+
+  # Changes the layer opacity to 1.
+  # @see #fade
+  def fade_in(options={}, &after)
+    if options.is_a? Numeric
+      options = { duration: options }
+    end
+
+    options[:opacity] ||= 1.0
+
+    fade(options, &after)
+  end
+
+  # Changes the layer opacity to 0 and then removes the view from its superview
+  # @see #fade_out
+  def fade_out_and_remove(options={}, &after)
+    if options.is_a? Numeric
+      options = { duration: options }
+    end
+
+    after_remove = proc {
+      removeFromSuperview
+      after.call if after
+    }
+
+    fade_out(options, &after_remove)
   end
 
   def move_to(position, options={}, &after)
     if options.is_a? Numeric
-      duration = options
-      options = {}
-    else
-      duration = options[:duration] || 0.3
+      options = { duration: options }
     end
 
-    after = _after_proc(after)
+    options[:after] ||= after
 
-    UIView.animateWithDuration(duration,
-                         delay: options[:delay] || 0,
-                       options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
-                    animations: proc{
-                                  f = self.frame
-                                  f.origin = SugarCube::CoreGraphics::Point(position)
-                                  self.frame = f
-
-                                  if assign = options[:assign]
-                                    assign.each_pair do |key, value|
-                                      self.send("#{key}=", value)
-                                    end
-                                  end
-                                }, completion:after
-                              )
-    self
+    animate(options) {
+      f = self.frame
+      f.origin = SugarCube::CoreGraphics::Point(position)
+      self.frame = f
+    }
   end
 
   def delta_to(delta, options={}, &after)
@@ -158,12 +217,16 @@ class UIView
 
     offset = options[:offset] || 8
     repeat = options[:repeat] || 3
-    duration /= repeat
+    if repeat == Float::INFINITY
+      duration = 0.1
+    else
+      duration /= repeat
+    end
     keypath = options[:keypath] || 'transform.translation.x'
 
-    origin = 0
-    left = -offset
-    right = +offset
+    origin = options[:origin] || 0
+    left = origin - offset
+    right = origin + offset
 
     animation = CAKeyframeAnimation.animationWithKeyPath(keypath)
     animation.duration = duration

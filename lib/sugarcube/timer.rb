@@ -1,4 +1,11 @@
 class Numeric
+  def milliseconds
+    self / 1000.0
+  end
+  alias millisecond milliseconds
+  alias millisecs milliseconds
+  alias millisec milliseconds
+
   def seconds
     self
   end

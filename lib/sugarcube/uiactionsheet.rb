@@ -1,6 +1,6 @@
 class UIActionSheet
 
-  # UIActionSheet.alert("message",
+  # UIActionSheet.alert("title",
   #   # The first button is considered the 'cancel' button, for the purposes of
   #   # whether the cancel or success handler gets called, the second button is
   #   # the 'destructive' button, and the rest are plain old buttons.
@@ -10,49 +10,78 @@ class UIActionSheet
   #   success: proc{ |pressed| puts "pressed: #{pressed}" },
   #   )
   def self.alert(title, options={}, &block)
-    if options.is_a? String
-      options = {message: options}
-    end
-
     # create the delegate
     delegate = SugarCube::ActionSheetDelegate.new
     delegate.on_success = options[:success] || block
-    delegate.on_destructive = options[:destructive] || block
+    delegate.on_destructive = options[:destructive]
     delegate.on_cancel = options[:cancel]
     delegate.send(:retain)
 
     args = [title]            # initWithTitle:
-    args << options[:message] # message:
     args << delegate          # delegate:
 
-    buttons = options[:buttons] || []
+    buttons = []
+    buttons.concat(options[:buttons]) if options[:buttons]
+
     if buttons.empty?
-      # cancelButtonTitle: is first, so check for cancel
-      buttons << "Cancel" if options[:cancel]
-      # destructiveButtonTitle: is first, so check for cancel
-      buttons << "Cancel" if options[:cancel]
-      # otherButtonTitles:
-      buttons << "OK" if options[:success] or buttons.empty?
-    elsif buttons.length == 1 and options[:cancel]
-      raise "If you only have one button, use a :success handler, not :cancel (and definitely not BOTH)"
+      # cancelButtonTitle: is first, so check for cancel handler
+      if options[:cancel]
+        buttons << 'Cancel'
+      else
+        buttons << nil
+      end
+
+      # destructiveButtonTitle, check for destructive handler
+      if options[:destructive]
+        buttons << 'Delete'
+      else
+        buttons << nil
+      end
+    elsif buttons.length == 1 and (options[:cancel] or options[:destructive])
+      raise 'If you only have one button, use a :success handler, not :cancel or :destructive'
     end
 
-    # the button titles.  These are passed to the success handler.
-    delegate.buttons = buttons
-
     # uses localized buttons in the actual alert
-    args.concat(buttons.map{ |s| s.localized })
+    if buttons.length == 0
+      buttons = [nil, nil]
+    elsif buttons.length == 1
+      buttons << nil
+    end
+
+    last_index = buttons.length - 1
+    offset = 0
+
+    button_index_map = {}
+    if buttons[1]  # destructive
+      button_index_map[0] = buttons[1]
+      offset += 1
+    else
+      last_index -= 1
+    end
+
+    if buttons[0]  # cancel
+      button_index_map[last_index] = buttons[0]
+    end
+
+    buttons[2..-1].each_with_index { |button, index|
+      button_index_map[index + offset] = button
+    }
+    # the button titles, mapped to how UIActionSheet orders them.  These are passed to the success handler.
+    delegate.button_index_map = button_index_map
+
+    args.concat(buttons.map{ |s| s ? s.localized : nil })
     args << nil  # otherButtonTitles:..., nil
 
     alert = self.alloc
-    alert.send('initWithTitle:message:delegate:cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:', *args)
-    alert.show
+    alert.send('initWithTitle:delegate:cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:', *args)
+    window = UIApplication.sharedApplication.keyWindow || UIApplication.sharedApplication.windows[0]
+    alert.showInView(window)
     alert
   end
 
   private
   def dummy
-    self.initWithTitle(nil, message:nil, delegate:nil, cancelButtonTitle:nil, destructiveButtonTitle:nil, otherButtonTitles:nil)
+    self.initWithTitle(nil, delegate:nil, cancelButtonTitle:nil, destructiveButtonTitle:nil, otherButtonTitles:nil)
   end
 
 end
@@ -60,12 +89,12 @@ end
 
 module SugarCube
   class ActionSheetDelegate
-    attr_accessor :buttons
+    attr_accessor :button_index_map
     attr_accessor :on_cancel
     attr_accessor :on_destructive
     attr_accessor :on_success
 
-    def alertSheet(alert, didDismissWithButtonIndex:index)
+    def actionSheet(alert, didDismissWithButtonIndex:index)
       if index == alert.destructiveButtonIndex && on_destructive
         on_destructive.call
       elsif index == alert.cancelButtonIndex && on_cancel
@@ -74,7 +103,7 @@ module SugarCube
         if on_success.arity == 0
           on_success.call
         else
-          button = buttons[index]
+          button = button_index_map[index]
           on_success.call(button)
         end
       end

@@ -1,4 +1,4 @@
-sugarcube
+SugarCube
 =========
 
 Some sugar for your cocoa, or your [tea][sweettea].
@@ -8,14 +8,14 @@ About
 
 CocoaTouch/iOS is a *verbose* framework.  These extensions hope to make
 development in rubymotion more enjoyable by tacking "UI" methods onto the base
-classes (String, Fixnum, Numeric).  With sugarcube, you can create a color from an
+classes (String, Fixnum, Numeric).  With SugarCube, you can create a color from an
 integer or symbol, or create a UIFont or UIImage from a string.
 
 Some UI classes are opened up as well, like adding the '<<' operator to a UIView
 instance, instead of view.addSubview(subview), you can use the more idiomatic:
 view << subview.
 
-The basic idea of sugarcube is to turn some operations on their head.  Insead of
+The basic idea of SugarCube is to turn some operations on their head.  Insead of
 
     UIApplication.sharedApplication.openURL(NSURL.URLWithString(url))
 
@@ -25,7 +25,7 @@ How about:
 
 **DISCLAIMER**
 
-It is possible that you *will not like sugarcube*.  That is perfectly fine!
+It is possible that you *will not like SugarCube*.  That is perfectly fine!
 Some people take milk in their coffee, some take sugar.  Some crazy maniacs
 don't even *drink* coffee, if you can imagine that... All I'm saying is: to each
 their own.  You should checkout [BubbleWrap][] for another take on
@@ -45,11 +45,14 @@ Installation
 
     gem install sugarcube
 
+    # in Rakefile
+    require 'sugarcube'
+
     # or in Gemfile
     gem 'sugarcube'
 
-    # in Rakefile
-    require 'sugarcube'
+    # in terminal
+    $ bundle install
 
 Examples
 ========
@@ -114,7 +117,8 @@ Shorthands and hash-like access to the coder/decoder objects.
 coder['key'] = self.value
 self.value = decoder['key']
 
-# but if you want to store booleans and such in the MOST compact way:
+# but if you want to store booleans and such (in their C form,
+# which will take up less space I suppose):
 coder.set('sugarcube_is_neat', toBool:self.is_sugarcube_neat?)
 self.sugarcube_is_neat = decoder.bool('sugarcube_is_neat')
 
@@ -412,6 +416,9 @@ image.rotate(:right)
 image.rotate(:flip)  # 180° - if you have a better name, let me know!
 image.rotate(45.degrees)
 
+image.scale_to(new_size)  # won't stretch
+image.in_rect(frame)  # stretches
+
 # default insets are UIEdgeInsetsZero
 image.tileable
 image.tileable(insets)
@@ -419,7 +426,7 @@ image.stretchable
 image.stretchable(insets)
 ```
 
- UIAlertView
+UIAlertView
 --------
 
 Accepts multiple buttons and success and cancel handlers.  In its simplest
@@ -441,6 +448,36 @@ UIAlertView.alert "I mean, is this cool?", buttons: %w[No! Sure! Hmmmm],
   message: "No going back now",
   cancel: proc { self.cancel },
   success: proc { |pressed| self.proceed if pressed == "Sure!" }
+```
+
+UIActionSheet
+--------
+
+This is very similar to `UIAlertView.alert`, but instead of `cancel` and
+`success` handlers, you can have `cancel, success, and destructive` handlers,
+and there is no `message` argument.
+
+If you use an array of buttons (which you probably *should*), the order of
+arguments is `[:cancel, :destructive, :others, ...]`.  If you *dont* want a
+cancel or destructive button, pass `nil` in place.
+
+```ruby
+# simple
+UIActionSheet.alert 'This is happening, OK?' { self.happened! }
+# a little more complex, with cancel and destructive buttons
+UIActionSheet.alert('This is happening, OK?', buttons: ['Sure!', 'OK']
+  ) {
+  self.happened!
+}
+
+UIActionSheet.alert('Should I?', buttons: [nil, nil, 'OK', 'Nevermind']) { |pressed|
+  self.do_it if pressed == 'OK'
+}
+
+UIActionSheet.alert 'I mean, is this cool?', buttons: ['Nah', 'With fire!', 'Sure', 'whatever'],
+  cancel: proc { self.cancel },
+  destructive: proc { self.kill_it_with_fire }
+  success: proc { |pressed| self.proceed if pressed == 'Sure' }
 ```
 
  UIView
@@ -552,7 +589,7 @@ UIActivityIndicatorView.gray
 -----------
 
 Inspired by [BubbleWrap's][BubbleWrap] `when` method, but I prefer jQuery-style
-verbs and sugarcube symbols.
+verbs and SugarCube symbols.
 
 ```ruby
 button = UIButton.alloc.initWithFrame([0, 0, 10, 10])
@@ -737,13 +774,13 @@ date2.same_day? date1
 :key.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
 ```
 
-This is strange, and backwards, which is just sugarcube's style.  But there is
+This is strange, and backwards, which is just SugarCube's style.  But there is
 one advantage to doing it this way.  Compare these two snippets:
 
 ```ruby
 # BubbleWrap
 App::Persistance[:test] = { my: 'test' }
-# sugarcube
+# SugarCube
 :test.set_default { my: 'test' }
 # k, BubbleWrap looks better
 
@@ -769,11 +806,12 @@ test[:my] = 'new'
 
 Instead, just use the coercion methods `Rect()`, `Size()` and `Point()`.  They
 will happily convert most sensible (and some non-sensible) arguments into a
-`CGRect/CGSize/CGPoint` struct.  For more CoreGraphics additions, you should use
-[geomotion][] by [Clay Allsopp][].  It adds methods to `CGRect`, `CGPoint`, and
-`CGSize` to make these structures more rubyesque (these methods used to be part
-of SugarCube, but were removed in an attempt to decrease the amount of
-duplicated code).
+`CGRect/CGSize/CGPoint` struct.
+
+For more CoreGraphics additions, you should use [geomotion][] by [Clay
+Allsopp][].  It adds methods to `CGRect`, `CGPoint`, and `CGSize` to make these
+structures more rubyesque (these methods used to be part of SugarCube, but were
+removed in an attempt to decrease the amount of duplicated code).
 
 [geomotion]: https://github.com/clayallsopp
 [Clay Allsopp]: https://github.com/clayallsopp/geomotion
@@ -1016,6 +1054,16 @@ You can analyze `UIViewController` hierarchies, too.  There's even a handy
 => #<MainScreenController:0xac23b80>
 ```
 
+##### Nothing is sacred
+
+The adjust and tree methods act on global objects.  Once either of these methods
+is used, you can access that global if you want:
+
+```ruby
+$sugarcube_view  # => the view (or any object) being 'adjusted' (accessible using `adjust` or `a`)
+$sugarcube_items  # => the list of views that was output using `tree`
+```
+
 
  Pointers
 ----------
@@ -1070,4 +1118,46 @@ true.blank?     # => false
 'a'.blank?      # => false
 ['a'].blank?    # => false
 {a: 'a'}.blank? # => false
+```
+
+Gestures
+--------
+
+Sugarcube's gesture support is very similar to BubbleWrap's, and it's entirely
+possible that the two will be merged into one thing.  But SugarCube is all about
+extending base classes, whereas BubbleWrap tends to add *new* classes to do the
+heavy lifting.  Plus the options you pass to SugarCube are very different, and
+the prefix is "on" instead of "when" (e.g. "on_pan" instead of "when_panned")
+
+Gestures are an "opt-in" extension.  In your Rakefile, add
+`require 'sugarcube-gestures'`.
+
+```ruby
+require 'sugarcube-gestures'
+
+view.on_pan { |gesture|
+  location = gesture.view.locationInView(view)
+}
+
+# other gesture methods, with common options:
+view.on_tap   # use system defaults
+view.on_tap(1)  # number of taps
+view.on_tap(taps: 1, fingers: 1)  # number of taps and number of fingers
+
+view.on_pinch   # no options
+view.on_rotate  # no options
+
+view.on_swipe   # use system defaults
+view.on_swipe :left
+view.on_swipe(direction: :left, fingers: 1)
+view.on_swipe(direction: UISwipeGestureRecognizerDirectionLeft, fingers: 1)
+
+view.on_pan   # use system defaults
+view.on_pan(2)  # minimum and maximum fingers required
+view.on_pan(fingers: 2)
+view.on_pan(min_fingers: 2, max_fingers: 3)
+
+view.on_press   # use system defaults
+view.on_press(1.5)  # duration
+view.on_press(duration: 1.5, taps: 1, fingers: 1)
 ```

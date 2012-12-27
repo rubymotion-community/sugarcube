@@ -270,6 +270,8 @@ module SugarCube
                       end
                       ret
                     }
+        elsif item.is_a? CALayer
+          selector = :sublayers
         else
           raise "Unable to determine a SugarCube::Adjust::tree selector for #{item.class.name}"
         end
@@ -328,6 +330,8 @@ module SugarCube
       else
         items = item.send(selector)
       end
+      items ||= []
+
       items.each_with_index { |subview, index|
         items_index += 1
         if self.respond_to? :draw_tree
@@ -346,6 +350,8 @@ module SugarCube
       else
         items = item.send(selector)
       end
+      items ||= []
+
       ret = [item]
       items.each_with_index { |subview, index|
         ret.concat SugarCube::Adjust::build_tree(subview, selector)
