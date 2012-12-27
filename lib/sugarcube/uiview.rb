@@ -35,8 +35,15 @@ class UIView
     end
   end
 
+  # superview << view
+  # => superview.addSubview(view)
   def <<(view)
-    self.addSubview view
+    self.addSubview(view)
+    return self
+  end
+
+  def unshift(view)
+    self.insertSubview(view, atIndex:0)
     return self
   end
 
