@@ -55,6 +55,7 @@ class Symbol
     attr_accessor :tableview_cellstyles
     attr_accessor :tableview_cellaccessorytype
     attr_accessor :tableview_cellselectionstyle
+    attr_accessor :tableview_cellseparatorstyle
 
     attr_accessor :image_sourcetypes
     attr_accessor :image_capturemode
@@ -295,6 +296,14 @@ class Symbol
     gray: UITableViewCellSelectionStyleGray,
   }
 
+  @tableview_cellseparatorstyle = {
+    none: UITableViewCellSeparatorStyleNone,
+    singleline: UITableViewCellSeparatorStyleSingleLine,
+    single: UITableViewCellSeparatorStyleSingleLine,
+    singlelineetched: UITableViewCellSeparatorStyleSingleLineEtched,
+    etched: UITableViewCellSeparatorStyleSingleLineEtched,
+  }
+
   @statusbar_styles = {
     default:     UIStatusBarStyleDefault,
     black:       UIStatusBarStyleBlackOpaque,
@@ -501,30 +510,29 @@ class Symbol
   end
   alias uitableviewstyle uitablestyle
 
-
   def uitablerowanimation
     look_in(Symbol.tableview_rowanimation)
   end
   alias uitableviewrowanimation uitablerowanimation
-
 
   def uitablecellstyle
     look_in(Symbol.tableview_cellstyles)
   end
   alias uitableviewcellstyle uitablecellstyle
 
-
   def uitablecellaccessory
     look_in(Symbol.tableview_cellaccessorytype)
   end
   alias uitableviewcellaccessorytype uitablecellaccessory
-
 
   def uitablecellselectionstyle
     look_in(Symbol.tableview_cellselectionstyle)
   end
   alias uitableviewcellselectionstyle uitablecellselectionstyle
 
+  def uitablecellseparatorstyle
+    look_in(Symbol.tableview_cellseparatorstyle)
+  end
 
   def uistatusbarstyle
     look_in(Symbol.statusbar_styles)
