@@ -412,6 +412,9 @@ image.rotate(:right)
 image.rotate(:flip)  # 180° - if you have a better name, let me know!
 image.rotate(45.degrees)
 
+image.scale_to(new_size)  # won't stretch
+image.in_rect(frame)  # stretches
+
 # default insets are UIEdgeInsetsZero
 image.tileable
 image.tileable(insets)
@@ -419,7 +422,7 @@ image.stretchable
 image.stretchable(insets)
 ```
 
- UIAlertView
+UIAlertView
 --------
 
 Accepts multiple buttons and success and cancel handlers.  In its simplest
@@ -441,6 +444,36 @@ UIAlertView.alert "I mean, is this cool?", buttons: %w[No! Sure! Hmmmm],
   message: "No going back now",
   cancel: proc { self.cancel },
   success: proc { |pressed| self.proceed if pressed == "Sure!" }
+```
+
+UIActionSheet
+--------
+
+This is very similar to `UIAlertView.alert`, but instead of `cancel` and
+`success` handlers, you can have `cancel, success, and destructive` handlers,
+and there is no `message` argument.
+
+If you use an array of buttons (which you probably *should*), the order of
+arguments is `[:cancel, :destructive, :others, ...]`.  If you *dont* want a
+cancel or destructive button, pass `nil` in place.
+
+```ruby
+# simple
+UIActionSheet.alert 'This is happening, OK?' { self.happened! }
+# a little more complex, with cancel and destructive buttons
+UIActionSheet.alert('This is happening, OK?', buttons: ['Sure!', 'OK']
+  ) {
+  self.happened!
+}
+
+UIActionSheet.alert('Should I?', buttons: [nil, nil, 'OK', 'Nevermind']) { |pressed|
+  self.do_it if pressed == 'OK'
+}
+
+UIActionSheet.alert 'I mean, is this cool?', buttons: ['Nah', 'With fire!', 'Sure', 'whatever'],
+  cancel: proc { self.cancel },
+  destructive: proc { self.kill_it_with_fire }
+  success: proc { |pressed| self.proceed if pressed == 'Sure' }
 ```
 
  UIView
@@ -769,11 +802,12 @@ test[:my] = 'new'
 
 Instead, just use the coercion methods `Rect()`, `Size()` and `Point()`.  They
 will happily convert most sensible (and some non-sensible) arguments into a
-`CGRect/CGSize/CGPoint` struct.  For more CoreGraphics additions, you should use
-[geomotion][] by [Clay Allsopp][].  It adds methods to `CGRect`, `CGPoint`, and
-`CGSize` to make these structures more rubyesque (these methods used to be part
-of SugarCube, but were removed in an attempt to decrease the amount of
-duplicated code).
+`CGRect/CGSize/CGPoint` struct.
+
+For more CoreGraphics additions, you should use [geomotion][] by [Clay
+Allsopp][].  It adds methods to `CGRect`, `CGPoint`, and `CGSize` to make these
+structures more rubyesque (these methods used to be part of SugarCube, but were
+removed in an attempt to decrease the amount of duplicated code).
 
 [geomotion]: https://github.com/clayallsopp
 [Clay Allsopp]: https://github.com/clayallsopp/geomotion
@@ -1014,6 +1048,16 @@ You can analyze `UIViewController` hierarchies, too.  There's even a handy
   7: +-- #<PicturesViewController:0x1403ede0>
   8: `-- #<MessagesViewController:0x131a1bc0>
 => #<MainScreenController:0xac23b80>
+```
+
+##### Nothing is sacred
+
+The adjust and tree methods act on global objects.  Once either of these methods
+is used, you can access that global if you want:
+
+```ruby
+$sugarcube_view  # => the view (or any object) being 'adjusted' (accessible using `adjust` or `a`)
+$sugarcube_items  # => the list of views that was output using `tree`
 ```
 
 
