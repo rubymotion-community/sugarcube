@@ -25,8 +25,10 @@ module SugarCube
         view = $sugarcube_items[view]
       end
 
+      # a/adjust will return this object
+      $sugarcube_view = view
+
       if view.is_a?(UIView)
-        $sugarcube_view = view
         $sugarcube_restore = {
           frame: SugarCube::Adjust.frame,
           shadow: SugarCube::Adjust.shadow,
