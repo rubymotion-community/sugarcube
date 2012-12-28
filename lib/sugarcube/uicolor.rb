@@ -1,6 +1,5 @@
 class UIColor
   def uicolor ; self ; end
-  alias cgcolor CGColor
 
   def red
     _sugarcube_colors[:red]
