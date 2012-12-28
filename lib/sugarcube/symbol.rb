@@ -553,7 +553,7 @@ class Symbol
   def uiautoresizemask
     look_in(Symbol.autoresizemasks)
   end
-  alias uiviewautoresizing uiautoresize
+  alias uiviewautoresizing uiautoresizemask
   alias uiautoresizingmask uiautoresizemask
   alias uiautoresize uiautoresizemask
 
