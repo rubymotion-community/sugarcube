@@ -8,7 +8,11 @@ class NSUserDefaults
 
     # Sets the value for a given key and save it right away.
     def []=(key, val)
-      self.standardUserDefaults.setObject(val.to_nsuserdefaults, forKey: key.to_s)
+      if val == nil
+        self.standardUserDefaults.removeObjectForKey(key)
+      else
+        self.standardUserDefaults.setObject(val.to_nsuserdefaults, forKey: key.to_s)
+      end
       self.standardUserDefaults.synchronize
     end
 
