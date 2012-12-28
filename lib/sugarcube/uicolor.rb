@@ -2,7 +2,7 @@ class UIColor
   def uicolor ; self ; end
 
   def red
-    _sugarcube_colors[:red]
+    _sugarcube_colors && _sugarcube_colors[:red]
   end
 
   def cgcolor
@@ -10,15 +10,15 @@ class UIColor
   end
 
   def green
-    _sugarcube_colors[:green]
+    _sugarcube_colors && _sugarcube_colors[:green]
   end
 
   def blue
-    _sugarcube_colors[:blue]
+    _sugarcube_colors && _sugarcube_colors[:blue]
   end
 
   def alpha
-    _sugarcube_colors[:alpha]
+    _sugarcube_colors && _sugarcube_colors[:alpha]
   end
 
 private
@@ -43,6 +43,8 @@ private
           blue: white[0],
           alpha: alpha[0],
         }
+      else
+        nil
       end
     end
   end
