@@ -39,6 +39,14 @@ decision was made to offer it to the rubymotion community, in the spirit of
 open-source and collaboration.  It is a great compliment to [teacup][],
 especially when paired with [sweettea][]!
 
+Documentation
+=============
+
+A work in progress.  This README is the best source, but I am trying to be more
+diligent about adding Yard documentation, which is available here:
+
+<http://rubydoc.info/gems/sugarcube/latest>
+
 
 Installation
 ============
