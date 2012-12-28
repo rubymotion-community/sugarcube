@@ -672,6 +672,13 @@ present_modal(view_ctlr) { puts "here!" }
 dismiss_modal { puts "gone!" }
 ```
 
+If you like these methods, but you want to specify the reciever, they are
+re-defined on `UIViewController` for this purpose:
+
+```ruby
+controller.present_modal(other_controller) { puts "presented" }
+```
+
  UINavigationController
 ------------------------
 
