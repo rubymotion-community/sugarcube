@@ -537,17 +537,29 @@ self.view.hide  # => self.hidden = true
 
 ###### Animations
 
-jQuery-like animation methods.
+jQuery-like animation methods.  They accept a "completed" callback handler that
+accepts an optional 'completed' boolean (the
+`UIView.animateWithDuration(delay:options:animations:completion:)`) method
+provides it to all its completion handlers).
 
 ```ruby
 # default timeout is 0.3
-view.fade_out { |view|
+view.fade_out
+
+# with a callback
+view.fade_out {
   view.removeFromSuperview
 }
-# options:
+
+# and the completed argument
+view.fade_out { |completed|
+  view.removeFromSuperview
+}
+
+# fade_out options
 view.fade_out(0.5, delay: 0,
                   options: UIViewAnimationOptionCurveLinear,
-                  opacity: 0.5) { |view|
+                  opacity: 0.5) {
   view.removeFromSuperview
 }
 
@@ -567,6 +579,21 @@ shake offset: 8,   # move 8 px left, and 8 px right
 view.shake offset: 20, repeat: 10, duration: 5, keypath: 'transform.translation.y'
 # an adorable wiggle - modifying transform.rotation:
 superview.shake offset: 0.1, repeat: 2, duration: 0.5, keypath: 'transform.rotation'
+```
+
+Using the completed callback you can string animations together for a low-tech
+animation sequence.
+
+```ruby
+view.slide(:left, 20) {
+  view.slide(:up, 20) {
+    view.slide(:right, 20) {
+      view.slide(:down, 20) {
+        view.fade_out
+      }
+    }
+  }
+}
 ```
 
 ##### View factories
