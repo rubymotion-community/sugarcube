@@ -27,5 +27,11 @@ class NSString
   def resource_exists?
     NSFileManager.defaultManager.fileExistsAtPath(self.resource)
   end
+  
+  def resource_url
+    a = self.split(".")
+    ext = a.pop if a.size >= 2
+    NSBundle.mainBundle.URLForResource(a.join("."), withExtension:ext)
+  end
 
 end
