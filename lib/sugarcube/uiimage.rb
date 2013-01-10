@@ -190,4 +190,11 @@ class UIImage
     resizableImageWithCapInsets(insets, resizingMode:UIImageResizingModeStretch)
   end
 
+  ##|
+  ##|  imageWithAlignmentRectInsets
+  ##|
+  def alignment_rect(insets=UIEdgeInsetsZero)
+    imageWithAlignmentRectInsets(insets)
+  end
+
 end
