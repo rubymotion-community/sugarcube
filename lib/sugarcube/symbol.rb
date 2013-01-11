@@ -64,6 +64,9 @@ class Symbol
 
     attr_accessor :ca_timingfunctions
 
+    attr_accessor :cg_linecapstyles
+    attr_accessor :cg_linejoinstyles
+
     attr_accessor :gesture_recognizer_states
   end
 
@@ -415,6 +418,18 @@ class Symbol
     default:           KCAMediaTimingFunctionDefault,
   }
 
+  @cg_linecapstyles = {
+    butt: KCGLineCapButt,
+    round: KCGLineCapRound,
+    square: KCGLineCapSquare,
+  }
+
+  @cg_linejoinstyles = {
+    miter: KCGLineJoinMiter,
+    round: KCGLineJoinRound,
+    bevel: KCGLineJoinBevel,
+  }
+
   @gesture_recognizer_states = {
     possible:   UIGestureRecognizerStatePossible,
     began:      UIGestureRecognizerStateBegan,
@@ -582,6 +597,16 @@ class Symbol
     look_in(Symbol.ca_timingfunctions)
   end
   alias catiming catimingfunction
+
+  def cglinecap
+    look_in(Symbol.cg_linecapstyles)
+  end
+  alias cglinecapstyle cglinecap
+
+  def cglinejoin
+    look_in(Symbol.cg_linejoinstyles)
+  end
+  alias cglinejoinstyle cglinejoin
 
   def uigesturerecognizerstate
     look_in(Symbol.gesture_recognizer_states)
