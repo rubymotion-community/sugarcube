@@ -34,4 +34,25 @@ class NSString
     NSBundle.mainBundle.URLForResource(a.join("."), withExtension:ext)
   end
 
+  # It's convinient to store a property which dependent on an environment to Info.plist.
+  # i.e)
+  # IAP verify server is different between a development and a release environment.
+  #
+  # In Rakefile
+  # <code>
+  # app.release do
+  #   app.info_plist['VerifyURL'] = "https://buy.itunes.apple.com/verifyReceipt"
+  # end
+  # app.development do
+  #   app.info_plist['VerifyURL'] = "https://sandbox.itunes.apple.com/verifyReceipt"
+  # end
+  # </code>
+  # You can easily get a url of verify server at your environment like this.
+  # <code>
+  # 'VerifyURL'.info_plist
+  # </code>
+  def info_plist
+      NSBundle.mainBundle.infoDictionary.valueForKey self
+  end
+
 end

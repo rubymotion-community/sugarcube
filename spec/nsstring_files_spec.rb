@@ -47,6 +47,22 @@ describe NSString do
       end
     end
   end
+  
+  describe 'info_plist' do
+    describe '"CFBundleVersion".info_plist' do
+      before { @it = "CFBundleVersion".info_plist }
+      it 'should be "1.0"' do
+        @it.should == "1.0"
+      end
+    end
+    
+    describe '"CFBundleSupportedPlatforms".info_plist' do
+      before { @it = "CFBundleSupportedPlatforms".info_plist }
+      it 'should be ["iPhoneOS"]' do
+        @it.should == ["iPhoneOS"]
+      end
+    end
+  end
 
 end
 
