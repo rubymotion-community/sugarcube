@@ -371,10 +371,18 @@ NSError.new('Error Message', code: 404, userInfo: { warnings: ['blabla'] })
 "hello"._          # == "hello".localized
 "hello".localized('Hello!', 'hello_table')  # => ...("hello", value:'Hello!', table:'hello_table')
 
-# file location
+# file operations
 "my.plist".exists?   # => NSFileManager.defaultManager.fileExistsAtPath("my.plist")
 "my.plist".document  # => NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
 "my.plist".remove!  # => NSFileManager.defaultManager.removeItemAtPath("my.plist".document, error: error)  (returns error, if any occurred)
+
+# get the resource path, useful if you include json files or images you manipulate in the app
+"my.plist".resource  # => NSBundle.mainBundle.resourcePath.stringByAppendingPathComponent("my.plist")
+# same, but get a URL instead - often used to display a static HTML page that is stored in resources
+"index.html".resource_url  # => NSBundle.mainBundle.URLForResource("index", withExtension:"html")
+
+# access data from Info.plist
+"CFBundleVersion".info_plist  # => NSBundle.mainBundle.infoDictionary["CFBundleVersion"]
 
 # NSURL
 "https://github.com".nsurl  # => NSURL.URLWithString("https://github.com")
