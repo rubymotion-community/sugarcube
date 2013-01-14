@@ -197,4 +197,27 @@ class UIImage
     imageWithAlignmentRectInsets(insets)
   end
 
+  ##|
+  ##|  CGImageCreateWithMask
+  ##|
+  ## The mask image cannot have ANY transparency.
+  ## Instead, transparent areas must be white or some value between black and white.
+  ## The closer towards black a pixel is the less transparent it becomes.
+  def masked(mask_image)
+    mask_image = mask_image.CGImage
+
+    width = CGImageGetWidth(mask_image)
+    height = CGImageGetHeight(mask_image)
+    component_bits = CGImageGetBitsPerComponent(mask_image)
+    pixel_bits = CGImageGetBitsPerPixel(mask_image)
+    row_bytes = CGImageGetBytesPerRow(mask_image)
+    data_provider = CGImageGetDataProvider(mask_image)
+
+    mask = CGImageMaskCreate(width, height, component_bits,
+      pixel_bits, row_bytes, data_provider,nil, false)
+
+    masked = CGImageCreateWithMask(self.CGImage, mask)
+    UIImage.imageWithCGImage(masked)
+  end
+
 end
