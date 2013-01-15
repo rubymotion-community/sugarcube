@@ -476,6 +476,8 @@ image.tileable(insets)
 image.stretchable
 image.stretchable(insets)
 
+# Apply a mask to an image.  The mask should be a grayscale image.  White areas
+# will be made transparent, and black opaque.
 image.masked(mask_image)
 ```
 

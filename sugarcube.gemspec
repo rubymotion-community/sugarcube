@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.name          = 'sugarcube'
   gem.version       = SugarCube::Version
 
-  gem.authors = ['Colin T.A. Gray', 'Thom Parkin', 'Katsuyoshi Ito', 'Fusionbox']
+  gem.authors = ['Colin T.A. Gray', 'Thom Parkin', 'Katsuyoshi Ito', 'Michael Erasmus', 'Fusionbox']
   gem.email   = ['colinta@gmail.com']
   gem.summary     = %{Extensions for Ruby to make Rubymotion development more enjoyable, and hopefully more rubyesque!}
   gem.description = <<-DESC
