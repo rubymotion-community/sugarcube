@@ -475,6 +475,8 @@ image.tileable
 image.tileable(insets)
 image.stretchable
 image.stretchable(insets)
+
+image.masked(mask_image)
 ```
 
 UIAlertView
