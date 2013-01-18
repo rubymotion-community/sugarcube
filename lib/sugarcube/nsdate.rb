@@ -4,6 +4,15 @@ class NSDate
     self.date
   end
 
+  def self.from_components(components)
+    components = NSDateComponents.new
+    components.each do |property,value|
+      components.send("#{property}=", value)
+    end
+    calendar = NSCalendar.alloc.initWithCalendarIdentifier(NSGregorianCalendar)
+    return calendar.dateFromComponents(components)
+  end
+
   def string_with_style(style)
     date_formatter = NSDateFormatter.new
     if style.is_a? Symbol
