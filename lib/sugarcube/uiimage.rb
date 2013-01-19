@@ -39,6 +39,100 @@ class UIImage
     return sub_image
   end
 
+  # Delegates to scale_to_fill(position: :center)
+  def scale_to_fill(new_size)
+    scale_to_fill(new_size, position: :center)
+  end
+
+  # Scales an image to fit within the given size, stretching one or both
+  # dimensions so that it completely fills the area.   The current aspect ratio
+  # is maintained.  If you want to place an image inside a container image, this
+  # is the method to use.
+  #
+  # You can specify a `position` property, which can be a symbol or a point.  It
+  # specifies where you want the image located if it has to be cropped.
+  # Specifying the top-left corner will display the top-left corner of the
+  # image, likewise specifing the bottom-right corner will display *that*
+  # corner.  If you want the image centered, you can use the 'position-less'
+  # version of this method (`scale_to_fit()`) or specify the point at the center
+  # of the image (`scale_to_fit(size, position:[w/2, h/2])`), or use a symbol
+  # (`scale_to_fit(size, position: :center)`).
+  #
+  # @param [CGSize] Minimum dimensions of desired image.  The returned image is
+  #   guaranteed to fit within these dimensions.
+  # @param [Symbol, CGPoint] Where to position the resized image. Valid symbols
+  #   are: `[:topleft, :top, :topright, :left, :center, :right, :bottomleft,
+  #   :bottom, :bottomright]` (if you forget and use an underscore, like
+  #   `top_left`, that'll work, too)
+  # @return [UIImage]
+  def scale_to_fill(new_size, position:position)
+    new_size = SugarCube::CoreGraphics::Size(new_size)
+    my_size = self.size
+
+    if my_size.width < new_size.width
+      my_size.height *= new_size.width / my_size.width
+      my_size.width = new_size.width
+    end
+
+    if my_size.height < new_size.height
+      my_size.width *= new_size.height / my_size.height
+      my_size.height = new_size.height
+    end
+
+    if self.size.width == my_size.width && self.size.height == my_size.height
+      return self
+    end
+
+    if position.is_a?(Symbol)
+      min_x = 0
+      min_y = 0
+      max_x = my_size.width;
+      max_y = my_size.height;
+      mid_x = max_x / 2
+      mid_y = max_y / 2
+      case position
+      when :top_left, :topleft
+        position = SugarCube::CoreGraphics::Point(min_x, min_y)
+      when :top
+        position = SugarCube::CoreGraphics::Point(mid_x, min_y)
+      when :top_right, :topright
+        position = SugarCube::CoreGraphics::Point(max_x, min_y)
+      when :left
+        position = SugarCube::CoreGraphics::Point(min_x, mid_x)
+      when :center
+        position = SugarCube::CoreGraphics::Point(mid_x, mid_x)
+      when :right
+        position = SugarCube::CoreGraphics::Point(max_x, mid_x)
+      when :bottom_left, :bottomleft
+        position = SugarCube::CoreGraphics::Point(min_x, max_y)
+      when :bottom
+        position = SugarCube::CoreGraphics::Point(mid_x, max_y)
+      when :bottom_right, :bottomright
+        position = SugarCube::CoreGraphics::Point(max_x, max_y)
+      else
+        raise "Unknown position #{position.inspect}"
+      end
+    else
+      position = SugarCube::CoreGraphics::Point(position)
+    end
+    thumbnail_x = position.x * (new_size.width - my_size.width) / my_size.width
+    thumbnail_y = position.y * (new_size.height - my_size.height) / my_size.height
+
+    UIGraphicsBeginImageContextWithOptions(new_size, false, self.scale)
+    thumbnail_rect = CGRectZero
+    thumbnail_rect.origin = [thumbnail_x, thumbnail_y]
+    thumbnail_rect.size  = my_size
+
+    self.drawInRect(thumbnail_rect)
+
+    new_image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+
+    raise "could not scale image"  unless new_image
+
+    return new_image
+  end
+
   # Delegates to scale_to(background:), specifying background color of `nil`
   def scale_to(new_size)
     scale_to(new_size, background:nil)
