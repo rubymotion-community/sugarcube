@@ -39,13 +39,28 @@ class UIImage
     return sub_image
   end
 
+  # Delegates to scale_to(background:), specifying background color of `nil`
   def scale_to(new_size)
+    scale_to(new_size, background:nil)
+  end
+
+  # Scales an image to fit within the given size.  Its current aspect ratio is
+  # maintained. If you want an image to fit inside a 100x100 space, this is the
+  # method to use. If the image is too small, it will be scaled up to fit.
+  #
+  # @param [CGSize] Maximum dimensions of desired image.  The returned image is
+  #   guaranteed to fit within these dimensions.
+  # @return [UIImage]
+  def scale_to(new_size, background:background)
     new_size = SugarCube::CoreGraphics::Size(new_size)
 
-    sourceImage = self
-    newImage = nil
+    image_size = self.size
 
-    image_size = sourceImage.size
+    if CGSizeEqualToSize(image_size, new_size)
+      return self
+    end
+
+    new_image = nil
     width = image_size.width
     height = image_size.height
 
@@ -57,39 +72,42 @@ class UIImage
     scaled_height = target_height
 
     thumbnail_point = CGPoint.new(0.0, 0.0)
+    width_factor = target_width / width
+    height_factor = target_height / height
 
-    unless CGSizeEqualToSize(image_size, new_size)
-      width_factor = target_width / width
-      heightFactor = target_height / height
+    if width_factor < height_factor
+      scale_factor = width_factor
+    else
+      scale_factor = height_factor
+    end
 
-      if width_factor < heightFactor
-        scale_factor = width_factor
-      else
-        scale_factor = heightFactor
-      end
+    scaled_width  = width * scale_factor
+    scaled_height = height * scale_factor
 
-      scaled_width  = width * scale_factor
-      scaled_height = height * scale_factor
+    # center the image
 
-      # center the image
-
-      if width_factor < heightFactor
-        thumbnail_point.y = (target_height - scaled_height) * 0.5
-      elsif width_factor > heightFactor
-        thumbnail_point.x = (target_width - scaled_width) * 0.5
-      end
+    if width_factor < height_factor
+      thumbnail_point.y = (target_height - scaled_height) * 0.5
+    elsif width_factor > height_factor
+      thumbnail_point.x = (target_width - scaled_width) * 0.5
     end
 
     # this is actually the interesting part:
 
-    UIGraphicsBeginImageContext(new_size)
+    UIGraphicsBeginImageContextWithOptions(new_size, false, self.scale)
+
+    if background
+      background.setFill
+      CGContextAddRect(context, [[0, 0], new_size])
+      CGContextDrawPath(context, KCGPathFill)
+    end
 
     thumbnail_rect = CGRectZero
     thumbnail_rect.origin = thumbnail_point
     thumbnail_rect.size.width  = scaled_width
     thumbnail_rect.size.height = scaled_height
 
-    sourceImage.drawInRect(thumbnail_rect)
+    self.drawInRect(thumbnail_rect)
 
     new_image = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
