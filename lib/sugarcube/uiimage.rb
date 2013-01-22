@@ -30,7 +30,7 @@ class UIImage
 
   # This method is used to crop an image.  Scale (retina or non-retina) is preserved.
   #
-  # @param rect the portion of the image to return
+  # @param rect [CGRect] the portion of the image to return
   # @return [UIImage]
   def in_rect(rect)
     imageRef = CGImageCreateWithImageInRect(self.CGImage, rect)
@@ -58,9 +58,9 @@ class UIImage
   # of the image (`scale_to_fit(size, position:[w/2, h/2])`), or use a symbol
   # (`scale_to_fit(size, position: :center)`).
   #
-  # @param [CGSize] Minimum dimensions of desired image.  The returned image is
+  # @param new_size [CGSize] Minimum dimensions of desired image.  The returned image is
   #   guaranteed to fit within these dimensions.
-  # @param [Symbol, CGPoint] Where to position the resized image. Valid symbols
+  # @param position [Symbol, CGPoint] Where to position the resized image. Valid symbols
   #   are: `[:topleft, :top, :topright, :left, :center, :right, :bottomleft,
   #   :bottom, :bottomright]` (if you forget and use an underscore, like
   #   `top_left`, that'll work, too)
@@ -139,11 +139,14 @@ class UIImage
   end
 
   # Scales an image to fit within the given size.  Its current aspect ratio is
-  # maintained. If you want an image to fit inside a 100x100 space, this is the
-  # method to use. If the image is too small, it will be scaled up to fit.
+  # maintained, but the image is padded so that it fills the entire area. If the
+  # image is too small, it will be scaled up to fit. If you specify a
+  # background that color will be used, otherwise the background will be
+  # transparent.
   #
-  # @param [CGSize] Maximum dimensions of desired image.  The returned image is
+  # @param new_size [CGSize] Maximum dimensions of desired image.  The returned image is
   #   guaranteed to fit within these dimensions.
+  # @param background [UIColor] Color to fill padded areas.  Default is transparent.
   # @return [UIImage]
   def scale_to(new_size, background:background)
     new_size = SugarCube::CoreGraphics::Size(new_size)
@@ -315,9 +318,11 @@ class UIImage
   ##|
   ##|  CGImageCreateWithMask
   ##|
-  ## The mask image cannot have ANY transparency.
-  ## Instead, transparent areas must be white or some value between black and white.
-  ## The closer towards black a pixel is the less transparent it becomes.
+  # The mask image cannot have ANY transparency. Instead, transparent areas must
+  # be white or some value between black and white. The more white a pixel is
+  # the more transparent it becomes.
+  #     black  .. white
+  #     opaque .. transparent
   def masked(mask_image)
     mask_image = mask_image.CGImage
 
