@@ -27,11 +27,14 @@ class UIImage
   ##|  <http://www.catamount.com/blog/uiimage-extensions-for-cutting-scaling-and-rotating-uiimages/>
   ##|  <http://www.catamount.com/forums/viewtopic.php?f=21&t=967>
   ##|
+
+  # This method is used to crop an image.  Scale (retina or non-retina) is preserved.
+  #
+  # @param rect the portion of the image to return
+  # @return [UIImage]
   def in_rect(rect)
-    # not necessary, since we don't modify/examine the rect
-    # rect = SugarCube::CoreGraphics::Rect(rect)
     imageRef = CGImageCreateWithImageInRect(self.CGImage, rect)
-    sub_image = UIImage.imageWithCGImage(imageRef)
+    sub_image = UIImage.imageWithCGImage(imageRef, scale:self.scale, orientation:self.imageOrientation)
 
     return sub_image
   end
@@ -97,7 +100,7 @@ class UIImage
   end
 
   def rounded(corner_radius=5)
-    UIGraphicsBeginImageContext(size)
+    UIGraphicsBeginImageContextWithOptions(size, false, self.scale)
     path = UIBezierPath.bezierPathWithRoundedRect([[0, 0], size], cornerRadius:corner_radius)
     path.addClip
     self.drawInRect([[0, 0], size])
@@ -128,7 +131,7 @@ class UIImage
 
     context = CIContext.contextWithOptions(nil)
     cg_output_image = context.createCGImage(output, fromRect:output.extent)
-    output_image = UIImage.imageWithCGImage(cg_output_image)
+    output_image = UIImage.imageWithCGImage(cg_output_image, scale:self.scale, orientation:self.imageOrientation)
 
     return output_image
   end
@@ -156,7 +159,7 @@ class UIImage
     new_size = self.size
 
     # Create the bitmap context
-    UIGraphicsBeginImageContext(new_size)
+    UIGraphicsBeginImageContextWithOptions(new_size, false, self.scale)
     bitmap = UIGraphicsGetCurrentContext()
 
     # Move the origin to the middle of the image so we will rotate and scale around the center.
@@ -217,7 +220,7 @@ class UIImage
       pixel_bits, row_bytes, data_provider,nil, false)
 
     masked = CGImageCreateWithMask(self.CGImage, mask)
-    UIImage.imageWithCGImage(masked)
+    UIImage.imageWithCGImage(masked, scale:self.scale, orientation:self.imageOrientation)
   end
 
 end
