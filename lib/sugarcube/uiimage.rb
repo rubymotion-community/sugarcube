@@ -374,4 +374,36 @@ class UIImage
     UIImage.imageWithCGImage(masked, scale:self.scale, orientation:self.imageOrientation)
   end
 
+  # Oddly enough, this method doesn't seem to have retina support
+  def color_at(point)
+    point = SugarCube::CoreGraphics::Point(point)
+    point.x *= self.scale
+    point.y *= self.scale
+
+    # First get the image into your data buffer
+    cgimage = self.CGImage
+    width = CGImageGetWidth(cgimage)
+    height = CGImageGetHeight(cgimage)
+    bytes_per_pixel = 4
+    bits_per_component = 8
+    bytes_per_row = bytes_per_pixel * width
+    @raw_data || begin
+      color_space = CGColorSpaceCreateDeviceRGB()
+      @raw_data = Pointer.new(:uchar, height * width * 4)
+      context = CGBitmapContextCreate(@raw_data, width, height, bits_per_component, bytes_per_row, color_space, KCGImageAlphaPremultipliedLast | KCGBitmapByteOrder32Big)
+
+      CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgimage)
+    end
+
+    # Now @raw_data contains the image data in the RGBA8888 pixel format.
+    xx = point.x.round
+    yy = point.y.round
+    byte_index = (bytes_per_row * yy) + xx * bytes_per_pixel
+    red = @raw_data[byte_index]
+    green = @raw_data[byte_index + 1]
+    blue = @raw_data[byte_index + 2]
+    alpha = @raw_data[byte_index + 3]
+    return [red, green, blue].uicolor(alpha / 255.0)
+  end
+
 end
