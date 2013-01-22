@@ -407,4 +407,23 @@ class UIImage
     return [red, green, blue].uicolor(alpha / 255.0)
   end
 
+  def at_scale(scale)
+    if scale == self.scale
+      return self
+    end
+
+    new_size = self.size
+    new_size.width = new_size.width * self.scale / scale
+    new_size.height = new_size.height * self.scale / scale
+
+    UIGraphicsBeginImageContextWithOptions(new_size, false, scale)
+    thumbnail_rect = CGRect.new([0, 0], new_size)
+
+    self.drawInRect(thumbnail_rect)
+
+    new_image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return new_image
+  end
+
 end

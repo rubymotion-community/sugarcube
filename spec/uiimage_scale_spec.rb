@@ -43,6 +43,7 @@ describe "UIImage scale methods" do
     scaled.nsdata.writeToFile('scale_to_fill.png'.document, atomically: true)
     scaled.size.width.should == 20
     scaled.size.height.should == 10
+    scaled.scale.should == @image.scale
   end
 
   it 'scale_to_fill should support position' do
@@ -66,6 +67,24 @@ describe "UIImage scale methods" do
     scaled.nsdata.writeToFile('scale_to_fill_position_bottom_right.png'.document, atomically: true)
     scaled.size.width.should == 10
     scaled.size.height.should == 20
+  end
+
+  it 'should be able to change scale' do
+    if UIScreen.mainScreen.scale == 2
+      scaled = @image.at_scale(1.0)
+      scaled.nsdata.writeToFile('at_scale.png'.document, atomically: true)
+
+      scaled.size.width.should == 20
+      scaled.size.height.should == 20
+      scaled.scale.should == 1
+    else
+      scaled = @image.at_scale(2.0)
+      scaled.nsdata.writeToFile('at_scale.png'.document, atomically: true)
+
+      scaled.size.width.should == 5
+      scaled.size.height.should == 5
+      scaled.scale.should == 2
+    end
   end
 
 end
