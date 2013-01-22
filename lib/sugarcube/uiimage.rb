@@ -133,6 +133,39 @@ class UIImage
     return new_image
   end
 
+  # This method is similar to `scale_to`, except it doesn't pad the image, it
+  # just scales the image so that it will fit inside the new bounds.
+  def scale_within(new_size)
+    target_size = SugarCube::CoreGraphics::Size(new_size)
+    image_size = self.size
+
+    if CGSizeEqualToSize(target_size, self.size)
+      return self
+    end
+
+    width = image_size.width
+    height = image_size.height
+
+    target_width = target_size.width
+    target_height = target_size.height
+
+    width_factor = target_width / width
+    height_factor = target_height / height
+
+    if width_factor < height_factor
+      scale_factor = width_factor
+    else
+      scale_factor = height_factor
+    end
+
+    if scale_factor == 1
+      return self
+    end
+
+    scaled_size = CGSize.new(width * scale_factor, height * scale_factor)
+    return scale_to(scaled_size)
+  end
+
   # Delegates to scale_to(background:), specifying background color of `nil`
   def scale_to(new_size)
     scale_to(new_size, background:nil)
@@ -194,6 +227,7 @@ class UIImage
     UIGraphicsBeginImageContextWithOptions(new_size, false, self.scale)
 
     if background
+      context = UIGraphicsGetCurrentContext()
       background.setFill
       CGContextAddRect(context, [[0, 0], new_size])
       CGContextDrawPath(context, KCGPathFill)
