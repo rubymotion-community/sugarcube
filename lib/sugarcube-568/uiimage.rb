@@ -2,8 +2,7 @@ class UIImage
   class << self
     SugarCube568_TallSuffix = '-568h@2x'
 
-    alias :imageNamed_old :imageNamed
-    def imageNamed(name)
+    def imageNamed568(name)
       @may_use_taller_images ||= CGSizeEqualToSize(CGSizeMake(320, 568), UIScreen.mainScreen.bounds.size)
       if ( @may_use_taller_images && name.length > 0  && name.rangeOfString(SugarCube568_TallSuffix).location == NSNotFound )
         # Check if is there a path extension or not
@@ -20,7 +19,14 @@ class UIImage
         end
       end
 
-      imageNamed_old(name)
+      return nil
+    end
+
+    alias :imageNamed_old :imageNamed
+# now we've got imageNamed568 and imageNamed_old to load the respective versions
+
+    def imageNamed(name)
+      imageNamed568(name) || imageNamed_old(name)
     end
   end
 end

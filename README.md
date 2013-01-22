@@ -491,8 +491,22 @@ image.stretchable(insets)
 # Apply a mask to an image.  The mask should be a grayscale image.  White areas
 # will be made transparent, and black opaque.
 image.masked(mask_image)
-
 ```
+
+#### 568
+
+If you `require 'sugarcube-568'` in your Rakefile, you can use
+`UIImage.imageNamed()` to load images that are specific to the 4" iphone.
+
+```ruby
+'tall'.uiimage
+# => tall.png on iphone 3g
+# => tall@2x.png on iphone 4
+# => tall-568h@2x.png on iphone 5
+```
+
+This code is ported from <https://github.com/gaj/imageNamed568>, which I had
+some problems with on RubyMotion (it worked, but not *always*.  Very strange).
 
 UIAlertView
 --------
