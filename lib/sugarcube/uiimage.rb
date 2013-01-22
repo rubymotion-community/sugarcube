@@ -227,6 +227,7 @@ class UIImage
     UIGraphicsBeginImageContextWithOptions(new_size, false, self.scale)
 
     if background
+      background = background.uicolor
       context = UIGraphicsGetCurrentContext()
       background.setFill
       CGContextAddRect(context, [[0, 0], new_size])

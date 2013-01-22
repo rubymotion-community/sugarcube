@@ -467,8 +467,20 @@ image.rotate(:right)
 image.rotate(:flip)  # 180° - if you have a better name, let me know!
 image.rotate(45.degrees)
 
-image.scale_to(new_size)  # won't stretch
-image.in_rect(frame)  # stretches
+image.in_rect(frame)  # returns the part of the image contained in frame
+image.scale_to(new_size)  # won't stretch, but the image might have transparent padding
+image.scale_to(new_size, background: :white)  # adds a white background before padding
+image.scale_within(new_size)  # same as scale_to in that it doesn't stretch the
+# image, but the size is not guaranteed to be new_size.  It is guaranteed not to
+# be *bigger* than new_size
+image.scale_to_fill(new_size)  # again, like scale_to, but the image is guaranteed
+# to completely fill new_size, even if some of the image has to be cropped to fit.
+# You can control which side or corner you prefer to remain visible.  because the
+# aspect ratio is maintained, only ONE dimension will need to be cropped.
+image.scale_to_fill(new_size, position: :top_left)
+
+# returns a UIColor (and supports retina images)
+image.color_at([5, 5])
 
 # default insets are UIEdgeInsetsZero
 image.tileable
@@ -479,6 +491,7 @@ image.stretchable(insets)
 # Apply a mask to an image.  The mask should be a grayscale image.  White areas
 # will be made transparent, and black opaque.
 image.masked(mask_image)
+
 ```
 
 UIAlertView
