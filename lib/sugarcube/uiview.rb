@@ -182,7 +182,8 @@ class UIView
     f = self.frame
     delta = SugarCube::CoreGraphics::Point(delta)
     position = SugarCube::CoreGraphics::Point(f.origin)
-    move_to(position + delta, options, &after)
+    to_position = CGPoint.new(position.x + delta.x, position.y + delta.y)
+    move_to(to_position, options, &after)
     self
   end
 
