@@ -187,6 +187,18 @@ class UIView
     self
   end
 
+  def rotate_to(options={}, &after)
+    if options.is_a? Numeric
+      options = { angle: options }
+    end
+
+    options[:after] ||= after
+
+    animate(options) {
+      self.transform = CGAffineTransformMakeRotation(options[:angle])
+    }
+  end
+
   def slide(direction, options={}, &after)
     if options.is_a? Numeric
       options = {size: options}
