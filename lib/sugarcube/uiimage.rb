@@ -28,6 +28,25 @@ class UIImage
   ##|  <http://www.catamount.com/forums/viewtopic.php?f=21&t=967>
   ##|
 
+  # Merges the two images.  The target is drawn first, `image` is drawn on top.
+  def <<(image)
+    size = self.size
+    if image.size.width > size.width
+      size.width = image.size.width
+    end
+    if image.size.height > size.height
+      size.height = image.size.height
+    end
+
+    UIGraphicsBeginImageContextWithOptions(size, false, self.scale)
+    self.drawAtPoint([0, 0])
+    # draw the border and drop shadow
+    image.drawAtPoint([0, 0])
+    new_image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return new_image
+  end
+
   ##|
   ##|  image scaling
   ##|
