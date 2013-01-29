@@ -28,6 +28,10 @@ class UIImage
   ##|  <http://www.catamount.com/forums/viewtopic.php?f=21&t=967>
   ##|
 
+  ##|
+  ##|  image scaling
+  ##|
+
   # This method is used to crop an image.  Scale (retina or non-retina) is preserved.
   #
   # @param rect [CGRect] the portion of the image to return
@@ -249,6 +253,9 @@ class UIImage
     return new_image
   end
 
+  ##|
+  ##|  image modifications
+  ##|
   def rounded(corner_radius=5)
     UIGraphicsBeginImageContextWithOptions(size, false, self.scale)
     path = UIBezierPath.bezierPathWithRoundedRect([[0, 0], size], cornerRadius:corner_radius)
