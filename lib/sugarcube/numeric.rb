@@ -32,4 +32,11 @@ class Numeric
     self * 3.28084
   end
 
+  def string_with_style(style=NSNumberFormatterDecimalStyle)
+    if style.is_a? Symbol
+      style = style.nsnumberstyle
+    end
+    NSNumberFormatter.localizedStringFromNumber(self, numberStyle:style)
+  end
+
 end

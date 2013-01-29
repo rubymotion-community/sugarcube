@@ -40,6 +40,7 @@ class Symbol
     attr_accessor :system_fonts
     attr_accessor :font_sizes
     attr_accessor :date_styles
+    attr_accessor :number_styles
 
     attr_accessor :buttontypes
     attr_accessor :border_types
@@ -201,6 +202,17 @@ class Symbol
     medium: NSDateFormatterMediumStyle,
     long: NSDateFormatterLongStyle,
     full: NSDateFormatterFullStyle,
+  }
+
+  @number_styles = {
+    no: NSNumberFormatterNoStyle,
+    none: NSNumberFormatterNoStyle,
+    decimal: NSNumberFormatterDecimalStyle,
+    currency: NSNumberFormatterCurrencyStyle,
+    percent: NSNumberFormatterPercentStyle,
+    scientific: NSNumberFormatterScientificStyle,
+    spellout: NSNumberFormatterSpellOutStyle,
+    spell_out: NSNumberFormatterSpellOutStyle,
   }
 
   @returnkeys = {
@@ -640,5 +652,10 @@ class Symbol
     look_in(Symbol.date_styles)
   end
   alias nsdateformatterstyle nsdatestyle
+
+  def nsnumberstyle
+    look_in(Symbol.number_styles)
+  end
+  alias nsnumberformatterstyle nsnumberstyle
 
 end

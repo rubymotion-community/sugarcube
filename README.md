@@ -117,6 +117,11 @@ NSDate.new  # => 2013-01-03 11:42:24 -0700
 distance = 1500  # this is in meters.  why?  because all the methods that return
   # a "distance" return it in meters
 distance.miles  # => 0.932056427001953
+
+# use NSNumberFormatter to easily format a number in the current locale
+10000.string_with_style  # => "10,000"
+10000.string_with_style(NSNumberFormatterCurrencyStyle)  # => "$10,000.00"
+10000.string_with_style(:currency)  # => "$10,000.00"
 ```
 
  NSCoder
@@ -205,6 +210,12 @@ recurring events)
 => [9, 19, 6]
 (main)> now.datetime_array
 => [2012, 9, 13, 9, 19, 6]
+(main)> now.string_with_style
+=> "Tuesday, January 29, 2013"
+(main)> now.string_with_style(NSDateFormatterShortStyle)
+=> "1/29/13"
+(main)> now.string_with_style(:short)
+=> "1/29/13"
 ```
 
 And it is easy to add seconds to the date using the time-related methods added
