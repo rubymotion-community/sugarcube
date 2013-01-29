@@ -253,4 +253,14 @@ class UIView
     self
   end
 
+  # Easily take a snapshot of a UIView
+  def uiimage
+    scale = UIScreen.mainScreen.scale
+    UIGraphicsBeginImageContextWithOptions(bounds.size, false, scale)
+    layer.renderInContext(UIGraphicsGetCurrentContext())
+    image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return image
+  end
+
 end
