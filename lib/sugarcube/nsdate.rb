@@ -1,9 +1,5 @@
 class NSDate
 
-  def self.new
-    self.date
-  end
-
   def self.from_components(components)
     components = NSDateComponents.new
     components.each do |property,value|
