@@ -68,23 +68,28 @@ class UIView
       duration = options[:duration] || 0.3
     end
 
-    after_animations = options[:after]
-    if after_animations
-      if after_animations.arity == 0
-        after_adjusted = proc { |finished| after_animations.call }
+    unless options[:inanimate]
+      after_animations = options[:after]
+      if after_animations
+        if after_animations.arity == 0
+          after_adjusted = proc { |finished| after_animations.call }
+        else
+          after_adjusted = proc { |finished| after_animations.call(finished) }
+        end
       else
-        after_adjusted = proc { |finished| after_animations.call(finished) }
+        after_adjusted = nil
       end
-    else
-      after_adjusted = nil
-    end
 
-    UIView.animateWithDuration( duration,
+      UIView.animateWithDuration( duration,
                          delay: options[:delay] || 0,
                        options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
                     animations: proc,
                     completion: after_adjusted
                               )
+    else
+      proc.call
+    end
+
     nil
   end
 
