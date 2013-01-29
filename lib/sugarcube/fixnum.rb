@@ -32,12 +32,20 @@ class Fixnum
     return "th"
   end
 
+  def before(date)
+    date - self
+  end
+
   def ago
-    NSDate.new - self
+    self.before(NSDate.new)
+  end
+
+  def after(date)
+    date + self
   end
 
   def hence
-    NSDate.new + self
+    self.after(NSDate.new)
   end
 
 end

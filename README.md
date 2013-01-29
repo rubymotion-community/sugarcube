@@ -94,7 +94,12 @@ Examples
 
 NSDate.new  # => 2013-01-03 11:42:24 -0700
 5.days.ago  # => 2012-12-29 11:42:24 -0700
+5.days.before(NSDate.new)  # => 2012-12-29 11:42:24 -0700
 5.days.hence  # => 2013-01-08 11:42:24 -0700
+5.days.after(NSDate.new)  # => 2013-01-08 11:42:24 -0700
+# don't confuse 'after' and 'later'
+# after => NSDate
+# later => NSTimer
 ```
 
  Numeric

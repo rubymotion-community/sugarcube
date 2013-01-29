@@ -7,10 +7,12 @@ class Numeric
   def radians
     self
   end
+  alias radian radians
 
   def degrees
     self / 180.0 * Math::PI
   end
+  alias degree degrees
 
   def pi
     self * Math::PI
@@ -19,17 +21,37 @@ class Numeric
   def meters
     self
   end
+  alias meter meters
+
+  def in_meters
+    self
+  end
 
   def kilometers
-    self / 1000.0
+    self * 1000.0
+  end
+  alias kilometer kilometers
+
+  def in_kilometers
+    self / 1.kilometer
   end
 
   def miles
-    self * 0.000621371
+    self * 1609.344
+  end
+  alias mile miles
+
+  def in_miles
+    self / 1.mile
   end
 
   def feet
-    self * 3.28084
+    self / 3.28084
+  end
+  alias foot feet
+
+  def in_feet
+    self / 1.foot
   end
 
   def string_with_style(style=NSNumberFormatterDecimalStyle)
