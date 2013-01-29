@@ -19,6 +19,4 @@ describe 'Symbol#uicolor' do
     end
   end
 
-
-
 end
