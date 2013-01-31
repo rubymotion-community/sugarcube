@@ -47,8 +47,9 @@ module SugarCube
     def frame f=nil
       raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
-      return SugarCube::CoreGraphics::Rect($sugarcube_view.frame) if not f
+      return $sugarcube_view.frame if not f
 
+      f = SugarCube::CoreGraphics::Rect(f)
       $sugarcube_view.frame = f
       puts format_frame(f)
 
@@ -95,13 +96,13 @@ module SugarCube
       raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
       f = $sugarcube_view.frame
-      return SugarCube::CoreGraphics::Point(f.origin) if not x
+      return f.origin if not x
 
       if y
         f.origin.x = x
         f.origin.y = y
       else
-        f.origin = x
+        f.origin = SugarCube::CoreGraphics::Point(x)
       end
       $sugarcube_view.frame = f
       puts format_frame(f)
@@ -149,13 +150,13 @@ module SugarCube
       raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
 
       f = $sugarcube_view.frame
-      return SugarCube::CoreGraphics::Size(f.size) if not w
+      return f.size if not w
 
       if h
         f.size.width = w
         f.size.height = h
       else
-        f.size = w
+        f.size = SugarCube::CoreGraphics::Size(w)
       end
       $sugarcube_view.frame = f
       puts format_frame(f)
@@ -376,8 +377,10 @@ module SugarCube
 
     def format_frame(frame)
       case SugarCube::Adjust::repl_format
-        when :json then "{x: #{frame.origin.x}, y: #{frame.origin.y}, width: #{frame.size.width}, height: #{frame.size.height}}"
-        when :ruby then "[[#{frame.origin.x}, #{frame.origin.y}], [#{frame.size.width}, #{frame.size.height}]]"
+        when :json then
+          "{x: #{frame.origin.x}, y: #{frame.origin.y}, width: #{frame.size.width}, height: #{frame.size.height}}"
+        when :ruby then
+          "[[#{frame.origin.x}, #{frame.origin.y}], [#{frame.size.width}, #{frame.size.height}]]"
         when :objc
           frame.to_s
         else
