@@ -26,6 +26,8 @@ class Symbol
   class << self
     attr_accessor :devices
     attr_accessor :device_orientations
+    attr_accessor :interface_orientations
+    attr_accessor :interface_masks
     attr_accessor :orientations
     attr_accessor :returnkeys
     attr_accessor :statusbar_styles
@@ -84,6 +86,25 @@ class Symbol
     right: UIDeviceOrientationLandscapeRight,
     face_up: UIDeviceOrientationFaceUp,
     face_down: UIDeviceOrientationFaceDown
+  }
+
+  @interface_orientations = {
+    portrait: UIInterfaceOrientationPortrait,
+    upside_down: UIInterfaceOrientationPortraitUpsideDown,
+    left: UIInterfaceOrientationLandscapeLeft,
+    right: UIInterfaceOrientationLandscapeRight,
+  }
+
+  @interface_masks = {
+    portrait: UIInterfaceOrientationMaskPortrait,
+    landscrape: UIInterfaceOrientationMaskLandscape,
+    left: UIInterfaceOrientationMaskLandscapeLeft,
+    right: UIInterfaceOrientationMaskLandscapeRight,
+    upside_down: UIInterfaceOrientationMaskPortraitUpsideDown,
+    all_but_upside_down: UIInterfaceOrientationMaskAllButUpsideDown,
+    iphone: UIInterfaceOrientationMaskAllButUpsideDown,
+    all: UIInterfaceOrientationMaskAll,
+    ipad: UIInterfaceOrientationMaskAll,
   }
 
   @textalignments = {
@@ -465,6 +486,14 @@ class Symbol
 
   def uideviceorientation
     look_in(Symbol.device_orientations)
+  end
+
+  def uiinterfaceorientation
+    look_in(Symbol.interface_orientations)
+  end
+
+  def uiinterfacemask
+    look_in(Symbol.interface_masks)
   end
 
   def uitextalignment
