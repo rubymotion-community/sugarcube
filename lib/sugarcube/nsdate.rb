@@ -105,7 +105,7 @@ class NSDate
   end
 
   def days_in_year
-    leap_year? 366 : 365
+    leap_year? ? 366 : 365
   end
 
   private
