@@ -205,16 +205,64 @@ recurring events)
    <http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns> for
    the formatters, they take getting used to, coming from `strftime`, but they
    are much more powerful and locale-aware.
+5. Misc other helpers.  I'll go over these first.
 
-```
+###### Helpers
+
+```ruby
 (main)> now = NSDate.new  # Time.new is the same thing
 => 2012-09-13 09:19:06 -0600
+
+# NSDate##from_components
+(main)> feb_1_2013 = NSDate.from_components(year: 2013, month: 2, day:1)
+=> 2013-02-01 00:00:00 -0700
+(main)> feb_1_2013_sometime_later = NSDate.from_components(year: 2013, month: 2, day:1, hour:13, minute: 59, second:30)
+=> 2013-02-01 13:59:30 -0700
+(main)> feb_1_2012 = NSDate.from_components(year: 2012, month: 2, day:1)
+=> 2012-02-01 00:00:00 -0700
+
+
+(main)> feb_1_2013.timezone.name
+=> "America/Denver"
+(main)> feb_1_2013.era
+=> 1  # no, I don't know what this is :-/
+(main)> feb_1_2013.today?
+=> false  # actually, at the time i'm WRITING this, it IS true, but by the time
+          #    you read it, not so much ;-)
+(main)> NSDate.new.today?
+=> true
+(main)> feb_1_2013.same_day?(NSDate.new)
+=> false
+(main)> feb_1_2013.same_day?(feb_1_2013_sometime_later)
+# even though the time is different!?
+=> true
+(main)> feb_1_2013.utc_offset
+=> -25200
+(main)> feb_1_2013.leap_year?
+=> false
+(main)> NSDate.from_components(year: 2012).leap_year?
+=> true
+(main)> feb_1_2013.start_of_day
+=> 2013-02-01 00:00:00 -0700
+(main)> feb_1_2013.end_of_day
+# NOTE! end_of_day is the NEXT DAY.  this is not an accident, it makes comparisons cleaner.  deal with it.
+=> 2013-02-02 00:00:00 -0700
+(main)> feb_1_2013.days_in_month
+=> 28
+(main)> feb_1_2013.days_in_year
+=> 365
+(main)> feb_1_2012.days_in_month
+=> 29
+(main)> feb_1_2012.days_in_year
+=> 366
+
 (main)> now.date_array
 => [2012, 9, 13]
 (main)> now.time_array
 => [9, 19, 6]
 (main)> now.datetime_array
 => [2012, 9, 13, 9, 19, 6]
+
 (main)> now.string_with_style
 => "Tuesday, January 29, 2013"
 (main)> now.string_with_style(NSDateFormatterShortStyle)
@@ -223,8 +271,8 @@ recurring events)
 => "1/29/13"
 ```
 
-And it is easy to add seconds to the date using the time-related methods added
-to `Numeric`, and the useful `start_of_day`/`end_of_day` methods.
+It is easy to add seconds to the date using the time-related methods added to
+`Numeric`, thought the `NSDate#delta` method is MUCH more capable.
 
 ```ruby
 (main)> now + 5
@@ -235,15 +283,12 @@ to `Numeric`, and the useful `start_of_day`/`end_of_day` methods.
 => 2012-09-13 09:24:06 -0600
 (main)> now + 5.days
 => 2012-09-18 09:19:06 -0600
-(main)> now.start_of_day
-=> 2012-09-13 00:00:00 -0600
-(main)> now.end_of_day
-=> 2012-09-14 00:00:00 -0600
 ```
 
 Time zone objects are available, but the `Time#utc_offset` method is a little
 more useful.  It returns the offset *in seconds*, so divide by `1.0.hour` to get
-the offset in hours.  `utc_offset` is built into `Time`, not added by SugarCube.
+the offset in hours.  `utc_offset` is built into `Time`, not added by SugarCube,
+but it is added to the `NSDate` class in case you get one of those instead.
 
 ```ruby
 (main)> now.timezone
@@ -256,10 +301,12 @@ the offset in hours.  `utc_offset` is built into `Time`, not added by SugarCube.
 => -6
 ```
 
-The `delta` method is smart.
+The `delta` method is smart.  See the tests!  It will do its best to compensate
+for daylight savings, leap years, different numbers of days in the month, and so
+on.
 
 ```ruby
-(main)> feb_28_2012 = Time.at(1330473600)
+(main)> feb_28_2012 = NSDate.from_components(year:2012, month: 2, day: 28)
 => 2012-02-28 17:00:00 -0700
 
 # add an hour or two
@@ -276,7 +323,7 @@ The `delta` method is smart.
 
 # how about a month?
 (main)> feb_28_2012.delta(months:1)
-=> 2012-03-28 17:00:00 -0600  # look, the time didn't change, event though there was a DST change!
+=> 2012-03-28 17:00:00 -0600  # look, the time didn't change, event though there was a DST change in this period!
 
 # cool, but if you want a more literal "24 hours", specify a time unit
 (main)> feb_28_2012.delta(months:1, hours:0)
@@ -332,6 +379,9 @@ The `delta` method is smart.
 (main)> jan_29_2013.delta(months:-11)
 => 2012-02-29 17:00:00 -0700
 # ...ck yeah!  :-)
+
+# daylight savings!?  GEEZ dates are annoying
+(main)> mar_10_2013 = NSDate.from_components
 
 # unfortunately you will, in the edge cases, end up with stuff like this:
 (main)> feb_28_2012 == feb_28_2012.delta(days:1, months:12).delta(months:-12)
