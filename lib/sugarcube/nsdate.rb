@@ -105,7 +105,7 @@ class NSDate
   end
 
   def days_in_year
-    NSCalendar.currentCalendar.rangeOfUnit(NSDayCalendarUnit, inUnit:NSYearCalendarUnit, forDate:self).length
+    leap_year? 366 : 365
   end
 
   private
