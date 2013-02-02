@@ -22,8 +22,6 @@ class NSDate
     delta += mi.minutes
     delta += h.hours
 
-    delta += d.days
-    delta += w.weeks
     return_date = self + delta
 
     # using days_in_month, this is pretty easy.  12 mos per year IS a constant,
@@ -58,7 +56,7 @@ class NSDate
             end
           end
         end
-      elsif mo < 0
+      else  # mo < 0
         (-mo).times do
           # subtract *last* months number of days.
           # there is a REALLY rare case where subtracting return_date.day is one
@@ -79,6 +77,11 @@ class NSDate
         end
       end
     end
+
+    delta = 0
+    delta += d.days
+    delta += w.weeks
+    return_date += delta
 
     # DST adjustment, unless minutes, hours, or seconds were specified.
     #

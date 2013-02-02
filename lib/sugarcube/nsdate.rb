@@ -1,12 +1,12 @@
 class NSDate
 
   def self.from_components(components)
-    components = NSDateComponents.new
+    date_components = NSDateComponents.new
     components.each do |property,value|
-      components.send("#{property}=", value)
+      date_components.send("#{property}=", value)
     end
     calendar = NSCalendar.alloc.initWithCalendarIdentifier(NSGregorianCalendar)
-    return calendar.dateFromComponents(components)
+    return calendar.dateFromComponents(date_components)
   end
 
   def string_with_style(style)
@@ -105,7 +105,7 @@ class NSDate
   end
 
   def days_in_year
-    NSCalendar.currentCalendar.rangeOfUnit(NSDayCalendarUnit, inUnit:NSYearCalendarUnit, forDate:self).length
+    leap_year? ? 366 : 365
   end
 
   private
