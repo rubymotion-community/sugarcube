@@ -12,7 +12,7 @@ class NSDate
   def string_with_style(style)
     date_formatter = NSDateFormatter.new
     if style.is_a? Symbol
-      style = style.nsdatesyle
+      style = style.nsdatestyle
     end
     date_formatter.setDateStyle(style)
     date_formatter.stringFromDate(self)
