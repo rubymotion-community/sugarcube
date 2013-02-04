@@ -131,6 +131,22 @@ class NSDate
     return self + time_interval
   end
 
+  #  (main)> t = Time.new
+  #  => 2012-09-27 11:29:12 +0900
+  #  (main)> t.start_of_month
+  #  => 2012-09-01 00:00:00 +0900
+  def start_of_month
+    return self.start_of_day.delta(days:1 - day)
+  end
+
+  #  (main)> t = Time.new
+  #  => 2012-09-27 11:29:12 +0900
+  #  (main)> t.end_of_month
+  #  => 2012-10-01 00:00:00 +0900
+  def end_of_month
+    return self.end_of_day.delta(days:days_in_month - day)
+  end
+
   def days_in_month
     NSCalendar.currentCalendar.rangeOfUnit(NSDayCalendarUnit, inUnit:NSMonthCalendarUnit, forDate:self).length
   end

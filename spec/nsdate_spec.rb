@@ -73,6 +73,14 @@ describe "NSDate" do
     @date.end_of_day.datetime_array.should == [2013, 1, 3, 0, 0, 0]
   end
 
+  it "should have an NSDate#start_of_month method" do
+    @date.start_of_month.datetime_array.should == [2013, 1, 1, 0, 0, 0]
+  end
+
+  it "should have an NSDate#end_of_month method" do
+    @date.end_of_month.datetime_array.should == [2013, 2, 1, 0, 0, 0]
+  end
+
   it "should have an NSDate#days_in_month method" do
     @date.days_in_month.should == 31
     NSDate.from_components(year:2013, month:2, day:1).days_in_month.should == 28
