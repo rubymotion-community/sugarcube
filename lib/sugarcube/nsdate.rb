@@ -12,12 +12,11 @@ class NSDate
   def string_with_style(style)
     date_formatter = NSDateFormatter.new
     if style.is_a? Symbol
-      style = style.nsdatesyle
+      style = style.nsdatestyle
     end
     date_formatter.setDateStyle(style)
     date_formatter.stringFromDate(self)
   end
-
 
   def string_with_format(format)
     format_template = NSDateFormatter.dateFormatFromTemplate(format, options:0,
@@ -25,6 +24,38 @@ class NSDate
     date_formatter = NSDateFormatter.new
     date_formatter.setDateFormat(format_template)
     date_formatter.stringFromDate(self)
+  end
+
+  def upto(last_date, delta={days: 1}, &block)
+    return if last_date < self
+
+    date = self
+    while date <= last_date
+      if block.arity == 0
+        block.call
+      else
+        block.call(date)
+      end
+      new_date = date.delta(delta)
+      break if new_date <= date
+      date = new_date
+    end
+  end
+
+  def downto(last_date, delta={days: -1}, &block)
+    return if last_date > self
+
+    date = self
+    while date >= last_date
+      if block.arity == 0
+        block.call
+      else
+        block.call(date)
+      end
+      new_date = date.delta(delta)
+      break if new_date >= date
+      date = new_date
+    end
   end
 
   def timezone
