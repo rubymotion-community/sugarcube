@@ -1,4 +1,4 @@
-describe "NSDate" do
+describe "NSDate upto/downto" do
 
   before do
     @start = NSDate.from_components(year:2013, month: 1, day: 1)
