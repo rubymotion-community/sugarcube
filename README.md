@@ -1376,3 +1376,33 @@ view.on_press   # use system defaults
 view.on_press(1.5)  # duration
 view.on_press(duration: 1.5, taps: 1, fingers: 1)
 ```
+
+ Unholy
+--------
+
+These methods are just about as opinionated as they get - even more than the RoR
+additions.  They are not included by default, so please don't freak out about
+them.  I add them here because I don't think anyone will notice if I do, and I
+use these everywhere. :poop:
+
+### `ivar`
+
+###### Rackfile
+
+```ruby
+require 'sugarcube-unholy'
+```
+
+###### Elsewhere
+
+```ruby
+class Baz ; end
+foo = Baz.new
+
+# (:symbol || 'string').ivar
+foo.instance_variable_set(:bar.ivar, value)  # => foo.instance_variable_set(:@bar, value)
+foo.instance_variable_set(var_name.ivar, value)  # => foo.instance_variable_set("@#{var_name}", value)
+
+# (:symbol || 'string').cvar
+Baz.class_variable_set(var_name.cvar, value)  # => Baz.class_variable_set("@@#{var_name}", value)
+```
