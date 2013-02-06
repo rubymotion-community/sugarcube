@@ -1,4 +1,25 @@
-describe NSString do
+describe 'NSString' do
+
+  it "should have a #document method" do
+    'foo'.document.hasPrefix('/Users').should == true
+  end
+
+  it "should have an #exists? method" do
+    'foo'.document.exists?.should == false
+  end
+
+  it "should have a remove! method" do
+    unless 'remove_me'.exists?
+      NSData.data.writeToFile('remove_me'.document, atomically: true)
+    end
+    'remove_me'.document.remove!
+    'remove_me'.exists?.should == false
+  end
+
+  it "should have a resource_exists? method" do
+    'little_square.png'.resource_exists?.should == true
+    'foo'.resource_exists?.should == false
+  end
 
   describe 'resource()' do
     describe '"info.plist".resource' do
@@ -10,6 +31,7 @@ describe NSString do
         @it.hasSuffix("SugarCube_spec.app/info.plist").should == true
       end
     end
+
     describe '"PkgInfo".resource' do
       before { @it = "PkgInfo".resource }
       it 'should start with "/Users"' do
@@ -20,7 +42,6 @@ describe NSString do
       end
     end
   end
-  
 
   describe 'resource_url()' do
 =begin
@@ -47,7 +68,7 @@ describe NSString do
       end
     end
   end
-  
+
   describe 'info_plist' do
     describe '"CFBundleVersion".info_plist' do
       before { @it = "CFBundleVersion".info_plist }
@@ -55,7 +76,7 @@ describe NSString do
         @it.should == "1.0"
       end
     end
-    
+
     describe '"CFBundleSupportedPlatforms".info_plist' do
       before { @it = "CFBundleSupportedPlatforms".info_plist }
       it 'should be ["iPhoneOS"]' do
