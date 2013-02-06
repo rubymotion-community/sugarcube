@@ -4,18 +4,19 @@ class NSData
   # @return [NSString]
   def nsstring(encoding=nil)
     if encoding
-      NSString.stringWithCString(self.bytes, encoding:encoding)
+      return NSString.stringWithCString(self.bytes, encoding:encoding)
     else
-      NSString.stringWithUTF8String(self.bytes)
+
+      return NSString.stringWithUTF8String(self)
     end
   end
 
   # @return [UIImage]
   def uiimage(scale=nil)
     if scale
-      UIImage.imageWithData(self, scale:scale)
+      return UIImage.imageWithData(self, scale:scale)
     else
-      UIImage.imageWithData(self)
+      return UIImage.imageWithData(self)
     end
   end
 
