@@ -29,6 +29,8 @@ class UIImage
   ##|
 
   # Merges the two images.  The target is drawn first, `image` is drawn on top.
+  # The two images are centered, and the maximum size is used so that both
+  # images fit on the canvas.
   def <<(image)
     size = self.size
     if image.size.width > size.width
@@ -39,9 +41,13 @@ class UIImage
     end
 
     UIGraphicsBeginImageContextWithOptions(size, false, self.scale)
-    self.drawAtPoint([0, 0])
-    # draw the border and drop shadow
-    image.drawAtPoint([0, 0])
+
+    self_position = CGPoint.new((size.width - self.size.width) / 2, (size.width - self.size.width) / 2)
+    self.drawAtPoint(self_position)
+
+    image_position = CGPoint.new((size.width - image.size.width) / 2, (size.width - image.size.width) / 2)
+    image.drawAtPoint(image_position)
+
     new_image = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     return new_image
@@ -62,9 +68,19 @@ class UIImage
     return sub_image
   end
 
-  # Delegates to scale_to_fill(position: :center)
+  # Delegates to `scale_to_fill(position: :center)`
   def scale_to_fill(new_size)
     scale_to_fill(new_size, position: :center)
+  end
+
+  # Delegates to `scale_to_fill(position: :center, scale: scale)`
+  def scale_to_fill(new_size, scale: scale)
+    scale_to_fill(new_size, position: :center, scale: scale)
+  end
+
+  # Delegates to `scale_to_fill(new_size, position: position, scale: self.scale)`
+  def scale_to_fill(new_size, position:position)
+    scale_to_fill(new_size, position: position, scale: self.scale)
   end
 
   # Scales an image to fit within the given size, stretching one or both
@@ -87,10 +103,25 @@ class UIImage
   #   are: `[:topleft, :top, :topright, :left, :center, :right, :bottomleft,
   #   :bottom, :bottomright]` (if you forget and use an underscore, like
   #   `top_left`, that'll work, too)
+  #  @param scale [Numeric] image scale
   # @return [UIImage]
-  def scale_to_fill(new_size, position:position)
+  def scale_to_fill(new_size, position:position, scale:scale)
     new_size = SugarCube::CoreGraphics::Size(new_size)
     my_size = self.size
+    if new_size.width == my_size.width && new_size.height == my_size.height && self.scale == scale
+      return self
+    end
+
+    # first, scale down; then we'll scale back up if we went too far
+    if my_size.width > new_size.width
+      my_size.height *= new_size.width / my_size.width
+      my_size.width = new_size.width
+    end
+
+    if my_size.height > new_size.height
+      my_size.width *= new_size.height / my_size.height
+      my_size.height = new_size.height
+    end
 
     if my_size.width < new_size.width
       my_size.height *= new_size.width / my_size.width
@@ -109,29 +140,29 @@ class UIImage
     if position.is_a?(Symbol)
       min_x = 0
       min_y = 0
-      max_x = my_size.width;
-      max_y = my_size.height;
+      max_x = my_size.width
+      max_y = my_size.height
       mid_x = max_x / 2
       mid_y = max_y / 2
       case position
       when :top_left, :topleft
-        position = SugarCube::CoreGraphics::Point(min_x, min_y)
+        position = CGPoint.new(min_x, min_y)
       when :top
-        position = SugarCube::CoreGraphics::Point(mid_x, min_y)
+        position = CGPoint.new(mid_x, min_y)
       when :top_right, :topright
-        position = SugarCube::CoreGraphics::Point(max_x, min_y)
+        position = CGPoint.new(max_x, min_y)
       when :left
-        position = SugarCube::CoreGraphics::Point(min_x, mid_x)
+        position = CGPoint.new(min_x, mid_x)
       when :center
-        position = SugarCube::CoreGraphics::Point(mid_x, mid_x)
+        position = CGPoint.new(mid_x, mid_x)
       when :right
-        position = SugarCube::CoreGraphics::Point(max_x, mid_x)
+        position = CGPoint.new(max_x, mid_x)
       when :bottom_left, :bottomleft
-        position = SugarCube::CoreGraphics::Point(min_x, max_y)
+        position = CGPoint.new(min_x, max_y)
       when :bottom
-        position = SugarCube::CoreGraphics::Point(mid_x, max_y)
+        position = CGPoint.new(mid_x, max_y)
       when :bottom_right, :bottomright
-        position = SugarCube::CoreGraphics::Point(max_x, max_y)
+        position = CGPoint.new(max_x, max_y)
       else
         raise "Unknown position #{position.inspect}"
       end
@@ -141,7 +172,7 @@ class UIImage
     thumbnail_x = position.x * (new_size.width - my_size.width) / my_size.width
     thumbnail_y = position.y * (new_size.height - my_size.height) / my_size.height
 
-    UIGraphicsBeginImageContextWithOptions(new_size, false, self.scale)
+    UIGraphicsBeginImageContextWithOptions(new_size, false, scale)
     thumbnail_rect = CGRectZero
     thumbnail_rect.origin = [thumbnail_x, thumbnail_y]
     thumbnail_rect.size  = my_size
