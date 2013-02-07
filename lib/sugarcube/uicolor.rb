@@ -1,12 +1,18 @@
 class UIColor
-  def uicolor ; self ; end
-
-  def red
-    _sugarcube_colors && _sugarcube_colors[:red]
+  def uicolor(alpha=nil)
+    if alpha
+      self.colorWithAlphaComponent(alpha.to_f)
+    else
+      self
+    end
   end
 
   def cgcolor
     self.CGColor
+  end
+
+  def red
+    _sugarcube_colors && _sugarcube_colors[:red]
   end
 
   def green

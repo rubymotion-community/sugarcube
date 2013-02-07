@@ -1,4 +1,4 @@
-describe 'Symbol#uicolor' do
+describe 'UIColor (CSS)' do
 
   it "should return css color names" do
     except_for = [:aqua, :fuchsia, :lime]
@@ -6,6 +6,7 @@ describe 'Symbol#uicolor' do
       next if except_for.include? name
 
       color = val.uicolor
+      color.css_name.should == name
       color.to_s.should == "UIColor.color(#{name.inspect})"
     end
   end
