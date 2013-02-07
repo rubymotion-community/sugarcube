@@ -1320,6 +1320,8 @@ Quick wrapper for `CFUUIDCreate()` and `CFUUIDCreateString()`.  Identical to the
  Ruby on Rails Ripoffs (RoR-R?)
 ---------------
 
+aka `ActiveSupport`.
+
 ```ruby
 # truthiness with `blank?`
 nil.blank?    # => true
@@ -1333,6 +1335,11 @@ true.blank?     # => false
 'a'.blank?      # => false
 ['a'].blank?    # => false
 {a: 'a'}.blank? # => false
+
+# and my favorite
+1.in? [1,2,3]  # => true
+1.in? 1,2,3    # => true
+1.in? 4..5     # => false
 ```
 
 Gestures
