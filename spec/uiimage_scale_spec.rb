@@ -40,9 +40,17 @@ describe "UIImage scale methods" do
 
   it 'should scale_to_fill a wider size' do
     scaled = @image.scale_to_fill([20, 10])
-    scaled.nsdata.writeToFile('scale_to_fill.png'.document, atomically: true)
+    scaled.nsdata.writeToFile('scale_to_fill_wider.png'.document, atomically: true)
     scaled.size.width.should == 20
     scaled.size.height.should == 10
+    scaled.scale.should == @image.scale
+  end
+
+  it 'should scale_to_fill a smaller size' do
+    scaled = @image.scale_to_fill([5, 5])
+    scaled.nsdata.writeToFile('scale_to_fill_smaller.png'.document, atomically: true)
+    scaled.size.width.should == 5
+    scaled.size.height.should == 5
     scaled.scale.should == @image.scale
   end
 
