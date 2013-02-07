@@ -74,6 +74,42 @@ describe "Numeric" do
     2.meters.in_feet.round.should == 7
   end
 
+  it "should have a #byte method" do
+    1.byte.should == 1
+    2.bytes.should == 2
+  end
+
+  it "should have a #kilobyte method" do
+    1.kilobyte.should == 1 * 1024**1
+    2.kilobytes.should == 2 * 1024**1
+  end
+
+  it "should have a #megabyte method" do
+    1.megabyte.should == 1 * 1024**2
+    2.megabytes.should == 2 * 1024**2
+  end
+
+  it "should have a #gigabyte method" do
+    1.gigabyte.should == 1 * 1024**3
+    2.gigabytes.should == 2 * 1024**3
+  end
+
+  it "should have a #terabyte method" do
+    1.terabyte.should == 1 * 1024**4
+    2.terabytes.should == 2 * 1024**4
+  end
+
+  it "should have a #petabyte method" do
+    1.petabyte.should == 1 * 1024**5
+    2.petabytes.should == 2 * 1024**5
+  end
+
+  it "should have a #exabyte method" do
+    1.exabyte.should == 1 * 1024**6
+    2.exabytes.should == 2 * 1024**6
+  end
+
+
   it "should have a #string_with_style method" do
     1000.string_with_style.should == NSNumberFormatter.localizedStringFromNumber(1000, numberStyle:NSNumberFormatterDecimalStyle)
     1000.string_with_style(:decimal).should == NSNumberFormatter.localizedStringFromNumber(1000, numberStyle:NSNumberFormatterDecimalStyle)

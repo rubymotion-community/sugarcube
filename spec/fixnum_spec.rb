@@ -85,6 +85,7 @@ describe "Fixnum" do
       2003 => 'rd',
     }.each do |num, expected|
       num.nth.should == "#{expected}"
+      num.ordinalize.should == "#{num}#{expected}"
     end
   end
 

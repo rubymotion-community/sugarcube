@@ -32,6 +32,10 @@ class Fixnum
     return "th"
   end
 
+  def ordinalize
+    return "#{self}#{nth}"
+  end
+
   def before(date)
     date - self
   end
