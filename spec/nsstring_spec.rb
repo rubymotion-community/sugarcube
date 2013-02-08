@@ -48,6 +48,14 @@ describe "NSString" do
     ((color.blue * 2).round / 2.0).should == 0.5
   end
 
+  it "should have a #uilabel method" do
+    str = 'test'
+    str_size = str.sizeWithFont(:system.uifont)
+    label = str.uilabel
+    label.size.width == str_size.width
+    label.size.height == str_size.height
+  end
+
   it "should have a #escape_url method" do
     ' '.escape_url.should == '%20'
     '?<>&=;%'.escape_url.should == '%3F%3C%3E%26%3D%3B%25'

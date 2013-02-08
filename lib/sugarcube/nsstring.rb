@@ -38,6 +38,14 @@ class NSString
     self.uiimage.uicolor(alpha)
   end
 
+  # @param font [UIFont] Optional, defaults to UIFont.systemFontOfSize(UIFont.systemFontSize)
+  # @return [UILabel]
+  def uilabel(font=nil)
+    font ||= :system.uifont
+    size = self.sizeWithFont(font)
+    UILabel.alloc.initWithFrame([[0, 0], size]).tap { |label| label.text = self }
+  end
+
   def escape_url
     CFURLCreateStringByAddingPercentEscapes(
             nil,
