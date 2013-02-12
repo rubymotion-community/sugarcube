@@ -279,7 +279,7 @@ class UIView
 
     if after
       options[:after] = ->(finished) {
-        reset_after.call
+        reset_after.call(finished)
 
         if after.arity == 0
           after.call
