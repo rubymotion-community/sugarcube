@@ -115,7 +115,7 @@ class UIView
       options = { opacity: options }
     end
 
-    options[:after] ||= after
+    options[:after] = after
 
     animate(options) {
       self.layer.opacity = options[:opacity]
@@ -169,7 +169,7 @@ class UIView
       options = { duration: options }
     end
 
-    options[:after] ||= after
+    options[:after] = after
 
     animate(options) {
       f = self.frame
@@ -192,7 +192,7 @@ class UIView
       options = { angle: options }
     end
 
-    options[:after] ||= after
+    options[:after] = after
 
     animate(options) {
       self.transform = CGAffineTransformMakeRotation(options[:angle])
