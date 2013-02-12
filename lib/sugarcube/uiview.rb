@@ -259,6 +259,47 @@ class UIView
     self
   end
 
+  # Moves the view off screen while slowly rotating it.
+  #
+  # Based on https://github.com/warrenm/AHAlertView/blob/master/AHAlertView/AHAlertView.m
+  def tumble(options={})
+    if options.is_a? Numeric
+      default_duration = options
+      options = {}
+    else
+      default_duration = 0.3
+    end
+
+    options[:duration] ||= default_duration
+    options[:options] ||= UIViewAnimationOptionCurveEaseIn
+    reset_transform = self.transform
+    reset_after = ->(finished) {
+      self.transform = reset_transform
+    }
+
+    after = options[:after]
+    if after
+      options[:after] = ->(finished) {
+        reset_after.call
+
+        if after.arity == 0
+          after.call
+        else
+          after.call(finished)
+        end
+      }
+    else
+      options[:after] = reset_after
+    end
+
+    self.animate(options) {
+       offset = CGPoint.new(0, self.superview.bounds.size.height * 1.5)
+       offset = CGPointApplyAffineTransform(offset, self.transform)
+       self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(-Math::PI/4))
+       self.center = CGPointMake(self.center.x + offset.x, self.center.y + offset.y)
+    }
+  end
+
   # Easily take a snapshot of a UIView
   def uiimage
     scale = UIScreen.mainScreen.scale
