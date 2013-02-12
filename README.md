@@ -693,7 +693,12 @@ shake offset: 8,   # move 8 px left, and 8 px right
 # vigorous nodding - modifying transform.translation.y:
 view.shake offset: 20, repeat: 10, duration: 5, keypath: 'transform.translation.y'
 # an adorable wiggle - modifying transform.rotation:
-superview.shake offset: 0.1, repeat: 2, duration: 0.5, keypath: 'transform.rotation'
+view.shake offset: 0.1, repeat: 2, duration: 0.5, keypath: 'transform.rotation'
+
+# this was pulled off warrenm's AHAlertView project.  I thought the effect was
+# awesome, and deserved more attention!
+# https://github.com/warrenm/AHAlertView
+view.tumble  # the view will fall and rotate - a good 'cancel button effect'
 ```
 
 Using the completed callback you can string animations together for a low-tech

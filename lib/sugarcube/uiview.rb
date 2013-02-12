@@ -223,6 +223,12 @@ class UIView
     self
   end
 
+  # Vibrates the target. You can trick this thing out to do other effects, like:
+  # @example
+  #   # wiggle
+  #   view.shake(offset: 0.1, repeat: 2, duration: 0.5, keypath: 'transform.rotation')
+  #   # slow nodding
+  #   view.shake(offset: 20, repeat: 10, duration: 5, keypath: 'transform.translation.y')
   def shake(options={})
     if options.is_a? Numeric
       duration = options
