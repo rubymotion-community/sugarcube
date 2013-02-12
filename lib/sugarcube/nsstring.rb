@@ -43,7 +43,11 @@ class NSString
   def uilabel(font=nil)
     font ||= :system.uifont
     size = self.sizeWithFont(font)
-    UILabel.alloc.initWithFrame([[0, 0], size]).tap { |label| label.text = self }
+    UILabel.alloc.initWithFrame([[0, 0], size]).tap { |label|
+      label.text = self
+      # why isn't this just the default!?
+      label.backgroundColor = :clear.uicolor
+    }
   end
 
   def escape_url

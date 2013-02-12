@@ -54,6 +54,7 @@ describe "NSString" do
     label = str.uilabel
     label.size.width == str_size.width
     label.size.height == str_size.height
+    label.backgroundColor == UIColor.clearColor
   end
 
   it "should have a #escape_url method" do
