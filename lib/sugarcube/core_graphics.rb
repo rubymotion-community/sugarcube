@@ -97,9 +97,14 @@ module SugarCube
         x_or_origin = SugarCube::CoreGraphics::Point(x_or_origin) unless x_or_origin.is_a? CGPoint
         x = x_or_origin.x
         y = x_or_origin.y
-        y_or_size = SugarCube::CoreGraphics::Size(y_or_size) unless y_or_size.is_a? CGSize
-        w = y_or_size.width
-        h = y_or_size.height
+        if y_or_size.is_a?(CGPoint)
+          w = y_or_size.x - x
+          h = y_or_size.y - y
+        else
+          y_or_size = SugarCube::CoreGraphics::Size(y_or_size)
+          w = y_or_size.width
+          h = y_or_size.height
+        end
       # three args
       elsif h.nil?
         if x_or_origin.is_a? Numeric

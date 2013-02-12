@@ -135,7 +135,7 @@ describe "SugarCube::CoreGraphics" do
       CGRectEqualToRect(r, CGRect.new([array[0], array[1]], [array[2], array[3]])).should == true
     end
 
-    it 'should accept 2 arguments (CGPoint, CGSize)' do
+    it 'should accept 2 arguments: (CGPoint, CGSize)' do
       args = [CGPoint.new(1, 2), CGSize.new(3, 4)]
       r = Rect(*args)
       r.origin.x.should == 1
@@ -145,14 +145,14 @@ describe "SugarCube::CoreGraphics" do
       CGRectEqualToRect(r, CGRect.new(args[0], args[1])).should == true
     end
 
-    it 'should accept 2 arguments: (CGPoint, CGSize)' do
-      args = [CGPoint.new(1, 2), CGSize.new(3, 4)]
+    it 'should accept 2 arguments: (CGPoint, CGPoint)' do
+      args = [CGPoint.new(1, 2), CGPoint.new(3, 4)]
       r = Rect(*args)
       r.origin.x.should == 1
       r.origin.y.should == 2
-      r.size.width.should == 3
-      r.size.height.should == 4
-      CGRectEqualToRect(r, CGRect.new(args[0], args[1])).should == true
+      r.size.width.should == 2
+      r.size.height.should == 2
+      CGRectEqualToRect(r, CGRect.new(args[0], [2, 2])).should == true
     end
 
     it 'should accept 3 arguments: ([x, y], w, h)' do
