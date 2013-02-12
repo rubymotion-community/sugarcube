@@ -262,7 +262,7 @@ class UIView
   # Moves the view off screen while slowly rotating it.
   #
   # Based on https://github.com/warrenm/AHAlertView/blob/master/AHAlertView/AHAlertView.m
-  def tumble(options={})
+  def tumble(options={}, &after)
     if options.is_a? Numeric
       default_duration = options
       options = {}
@@ -277,7 +277,6 @@ class UIView
       self.transform = reset_transform
     }
 
-    after = options[:after]
     if after
       options[:after] = ->(finished) {
         reset_after.call
