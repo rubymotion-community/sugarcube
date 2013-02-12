@@ -50,8 +50,19 @@ describe "NSString" do
 
   it "should have a #uilabel method" do
     str = 'test'
-    str_size = str.sizeWithFont(:system.uifont)
+    str_size = str.sizeWithFont(UIFont.systemFontOfSize(UIFont.labelFontSize))
     label = str.uilabel
+    label.size.width == str_size.width
+    label.size.height == str_size.height
+    label.backgroundColor == UIColor.clearColor
+  end
+
+  it "should have a #uilabel(font) method" do
+    str = 'test'
+    font =  UIFont.boldSystemFontOfSize(20)
+    str_size = str.sizeWithFont(font)
+    label = str.uilabel(font)
+    label.font.should == font
     label.size.width == str_size.width
     label.size.height == str_size.height
     label.backgroundColor == UIColor.clearColor
