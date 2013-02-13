@@ -654,7 +654,8 @@ class Symbol
   end
   alias uigesturestate uigesturerecognizerstate
 
-  def uifont(size=UIFont.systemFontSize)
+  def uifont(size=nil)
+    size ||= UIFont.systemFontSize
     # system fonts
     if Symbol.system_fonts.has_key? self
       font = look_in(Symbol.system_fonts)

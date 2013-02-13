@@ -22,7 +22,8 @@ class NSString
   end
 
   # @return [UIFont]
-  def uifont(size=UIFont.systemFontSize)
+  def uifont(size=nil)
+    size ||= UIFont.systemFontSize
     UIFont.fontWithName(self, size:size)
   end
 
