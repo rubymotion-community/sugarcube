@@ -129,6 +129,41 @@ distance.miles  # => 0.932056427001953
 10000.string_with_style(:currency)  # => "$10,000.00"
 ```
 
+ NSAttributedString
+---------
+
+These become pretty fun!  Check out `nsattributedstring_spec.rb` for all the
+supported attributes (in theory they are all supported, but there's weird
+issues with missing constants).
+
+```ruby
+'test'.nsattributedstring({})  #=> NSAttributedString.alloc.initWithString('test', attributes:{})
+'test'.attrd  # => alias for `nsattributedstring`
+'test'.bold  # => NSAttributedString.alloc.initWithString('test', attributes:{NSFontAttributeName => :bold.uifont})
+'test'.italic  # => NSAttributedString.alloc.initWithString('test', attributes:{NSFontAttributeName => :italic.uifont})
+'test'.underline  # => NSAttributedString.alloc.initWithString('test', attributes:{NSUnderlineStyleAttributeName => NSUnderlineStyleSingle})
+
+# you can chain 'em, too.
+'test'.bold.underline
+# If you look up NSAttributedString Application Kit Additions, you can see all
+# the constants.  Each of those has a method on NSAttributedString.
+
+# you can add 'em, but the FIRST one MUST be an NSAttributedString
+'test'.attrd + '-ing'.italic
+
+# And there's where it gets FUN:
+('This'.italic + ' is going to be ' + 'FUN'.bold).underline
+```
+
+And you can easily turn this into a label!
+
+```ruby
+view << (("We just met\n".attrd +
+          "and this is " + "CRAZY".italic + "\n"
+          "But here's my " + "id_rsa.pub".code + " file,\n" +
+          "so give me SSH access.").uilabel
+```
+
  NSCoder
 ---------
 

@@ -207,6 +207,7 @@ class Symbol
     system: :"systemFontOfSize:",
     bold:   :"boldSystemFontOfSize:",
     italic: :"italicSystemFontOfSize:",
+    monospace: 'Monaco',
   }
 
   @font_sizes = {
@@ -662,7 +663,11 @@ class Symbol
       if size.is_a? Symbol
         size = Symbol.font_sizes.fetch(size).uifontsize
       end
-      font = UIFont.send(font, size)
+      if font.is_a?(Symbol)
+        font = UIFont.send(font, size)
+      else
+        font.uifont(size)
+      end
     else
       size = look_in(font_sizes).uifontsize
       font = UIFont.systemFontOfSize(size)
