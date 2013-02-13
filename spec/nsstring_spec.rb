@@ -52,9 +52,9 @@ describe "NSString" do
     str = 'test'
     str_size = str.sizeWithFont(UIFont.systemFontOfSize(UIFont.labelFontSize))
     label = str.uilabel
-    label.size.width == str_size.width
-    label.size.height == str_size.height
-    label.backgroundColor == UIColor.clearColor
+    label.size.width.should == str_size.width
+    label.size.height.should == str_size.height
+    label.backgroundColor.should == UIColor.clearColor
   end
 
   it "should have a #uilabel(font) method" do
@@ -63,9 +63,9 @@ describe "NSString" do
     str_size = str.sizeWithFont(font)
     label = str.uilabel(font)
     label.font.should == font
-    label.size.width == str_size.width
-    label.size.height == str_size.height
-    label.backgroundColor == UIColor.clearColor
+    label.size.width.should == str_size.width
+    label.size.height.should == str_size.height
+    label.backgroundColor.should == UIColor.clearColor
   end
 
   it "should have a #escape_url method" do
