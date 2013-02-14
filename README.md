@@ -453,7 +453,7 @@ NSError.new('Error Message', code: 404, userInfo: { warnings: ['blabla'] })
 ```ruby
 # UIImage from name
 "my_image".uiimage  # => UIImage.imageNamed("my_image")
-"pattern".uicolor  # => UIColor.colorWithPatternImage(UIImage.imageNamed("pattern"))
+"pattern".uicolor == "pattern".uiimage.uicolor  # => UIColor.colorWithPatternImage(UIImage.imageNamed("pattern"))
 
 # UIFont from name
 "my_font".uifont # => UIFont.fontWithName("my_font", size:UIFont.systemFontSize)
@@ -463,9 +463,8 @@ NSError.new('Error Message', code: 404, userInfo: { warnings: ['blabla'] })
 "blue".uicolor == :blue.uicolor # => UIColor.blueColor
 "#ff00ff".uicolor == :fuchsia.uicolor == 0xff00ff.uicolor # => UIColor.colorWithRed(1.0, green:0.0, blue:1.0, alpha:1.0)
 "#f0f".uicolor(0.5) == :fuchsia.uicolor(0.5) == 0xff00ff.uicolor(0.5) # => UIColor.colorWithRed(1.0, green:1.0, blue:1.0, alpha:0.5)
-# note: 0xf0f.uicolor == 0x00f0f.uicolor.  There's no way to tell the difference
+# note: 0xf0f.uicolor == 0x000f0f.uicolor.  There's no way to tell the difference
 # at run time between those two Fixnum literals.
-"my_image".uicolor == "my_image".uiimage.uicolor # => UIColor.colorWithPatternImage(UIImage.imageNamed("my_image"))
 
 # NSLocalizedString from string
 "hello".localized  # => NSBundle.mainBundle.localizedStringForKey("hello", value:nil, table:nil)
