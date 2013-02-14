@@ -10,7 +10,7 @@ class UIView
     def attr_updates(*attrs)
       attr_accessor(*attrs)
       attrs.each do |attr|
-        define_method(attr.iset) { |value|
+        define_method(attr.setter) { |value|
           if instance_variable_get(attr.ivar) != value
             setNeedsDisplay
           end
