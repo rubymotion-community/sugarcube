@@ -453,7 +453,7 @@ NSError.new('Error Message', code: 404, userInfo: { warnings: ['blabla'] })
 ```ruby
 # UIImage from name
 "my_image".uiimage  # => UIImage.imageNamed("my_image")
-"blue".uicolor  # => UIColor.colorWithPatternImage(UIImage.imageNamed("blue"))
+"pattern".uicolor  # => UIColor.colorWithPatternImage(UIImage.imageNamed("pattern"))
 
 # UIFont from name
 "my_font".uifont # => UIFont.fontWithName("my_font", size:UIFont.systemFontSize)
