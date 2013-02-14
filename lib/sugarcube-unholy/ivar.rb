@@ -5,6 +5,10 @@ class Symbol
     self.to_s.ivar
   end
 
+  def setter
+    self.to_s.setter
+  end
+
   def cvar
     self.to_s.cvar
   end
@@ -16,6 +20,10 @@ class NSString
 
   def ivar
     "@#{self}"
+  end
+
+  def setter
+    "#{self}="
   end
 
   def cvar
