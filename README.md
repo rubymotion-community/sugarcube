@@ -681,6 +681,25 @@ self.view.hide  # => self.hidden = true
 my_view.uiimage
 ```
 
+When defining a UIView subclass, you often have attributes that affect your
+`drawRect` method (99% of the time, ALL the attributes affect drawing, right?).
+So SugarCube adds a `attr_updates` method, which creates an attribute identical
+to `attr_accessor` but the setter calls setNeedsDisplay if the new value != the
+old value.
+
+```ruby
+class NiftyView < UIView
+  attr_updates :insets, :pattern
+
+  def drawRect(rect)
+    # ...
+  end
+end
+
+nifty_view.pattern = 'my_pattern'  # => setNeedsDisplay gets called
+nifty_view.pattern = 'my_pattern'  # => setNeedsDisplay doesn't get called, because the value didn't change.
+```
+
 ###### Animations
 
 jQuery-like animation methods.  They accept a "completed" callback handler that

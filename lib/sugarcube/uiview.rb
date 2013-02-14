@@ -1,10 +1,24 @@
 class UIView
 
   class << self
+
     # returns the first responder, starting at the Window and searching every subview
     def first_responder
       UIApplication.sharedApplication.keyWindow.first_responder
     end
+
+    def attr_updates(*attrs)
+      attr_accessor(*attrs)
+      attrs.each do |attr|
+        define_method(attr.iset) { |value|
+          if instance_variable_get(attr.ivar) != value
+            setNeedsDisplay
+          end
+          instance_variable_set(attr.ivar, value)
+        }
+      end
+    end
+
   end
 
   # returns the first responder, or nil if it cannot be found
