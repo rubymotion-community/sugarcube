@@ -769,6 +769,22 @@ view.slide(:left, 20) {
 }
 ```
 
+But isn't that ugly!  Use an animation chain!
+
+```ruby
+UIView.animation_chain {
+  view.slide(:left, 20)
+}.and_then {
+  view.slide(:up, 20)
+}.and_then {
+  view.slide(:right, 20)
+}.and_then {
+  view.slide(:down, 20)
+}.and_then {
+  view.fade_out
+}.start
+```
+
 ##### View factories
 
 ###### UIButton
