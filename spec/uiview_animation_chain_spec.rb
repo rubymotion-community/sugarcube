@@ -42,4 +42,20 @@ describe "SugarCube::AnimationChain" do
     }
   end
 
+  it "should support << syntax" do
+    SugarCube::AnimationChain.chains.length.should == 0
+    @variable_a = nil
+    @variable_b = nil
+    chain = UIView.animation_chain
+    chain << proc { @variable_a = 'a' } << proc { @variable_b = 'b' }
+    chain.start
+    SugarCube::AnimationChain.chains.length.should == 1
+
+    wait 0.3 {
+      @variable_a.should == 'a'
+      @variable_b.should == 'b'
+      SugarCube::AnimationChain.chains.length.should == 0
+    }
+  end
+
 end

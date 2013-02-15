@@ -785,6 +785,19 @@ UIView.animation_chain {
 }.start
 ```
 
+Chains can also be written like this:
+
+
+```ruby
+chain = UIView.animation_chain
+chain << proc { view.slide(:left, 20) }
+chain << proc { view.slide(:up, 20) }
+chain << proc { view.slide(:right, 20) }
+chain << proc { view.slide(:down, 20) }
+chain << proc { view.fade_out }
+chain.start
+```
+
 ##### View factories
 
 ###### UIButton
