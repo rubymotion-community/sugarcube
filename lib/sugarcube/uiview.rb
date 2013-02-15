@@ -41,12 +41,18 @@ class UIView
         after_adjusted = nil
       end
 
-      UIView.animateWithDuration( duration,
-                           delay: options[:delay] || 0,
-                         options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
-                      animations: proc,
-                      completion: after_adjusted
-                                )
+      delay = options[:delay] || 0
+      if duration == 0 && delay == 0
+        animations.call
+        after_adjusted.call(true)
+      else
+        UIView.animateWithDuration( duration,
+                             delay: delay,
+                           options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
+                        animations: animations,
+                        completion: after_adjusted
+                                  )
+      end
       nil
     end
 
