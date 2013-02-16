@@ -160,7 +160,7 @@ And you can easily turn this into a label!
 ```ruby
 view << (("We just met\n".attrd +
           "and this is " + "CRAZY".italic + "\n"
-          "But here's my " + "id_rsa.pub".code + " file,\n" +
+          "But here's my " + "id_rsa.pub".monospace + " file,\n" +
           "so give me SSH access.").uilabel
 ```
 
