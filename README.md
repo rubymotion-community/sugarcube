@@ -176,7 +176,7 @@ self.value = decoder['key']
 
 # but if you want to store booleans and such (in their C form,
 # which will take up less space I suppose):
-coder.set('sugarcube_is_neat', toBool:self.is_sugarcube_neat?)
+coder.set('sugarcube_is_neat', toBool:self.sugarcube_is_neat?)
 self.sugarcube_is_neat = decoder.bool('sugarcube_is_neat')
 
 coder.set('number_of_things', toInt:self.number_of_things)
@@ -218,29 +218,30 @@ image_data.nsimage  # => whatever 'an image' was
 --------
 
 `NSDate` objects are converted to `Time` objects automatically by rubymotion.
-That's the good news.  The bad news?  That still doesn't help a lot with some of
-the everyday date&time crap we have to deal with. (I hate dates, especially
+That's the good news.  
+The bad news?  That still doesn't help a lot with some of
+the everyday date & time crap we have to deal with. (I hate dates, especially
 recurring events)
+##### NSDate  
 
 1. Adds the following methods to get date and time components: `date_array, time_array, datetime_array`.
-
    These methods return arrays.  Comparing dates, times, or both become
    simple `date1.date_array == date2.date_array`.
 2. While I would love to support `date + 1.month` and have that support "smart"
    calendar math (e.g. "2/13/2013" + 1.month => "3/13/2013"), I can't fudge with
    the return value of `1.month` (=> `Fixnum`), and I won't make the terrible
    assumption that "30 days of seconds is *about* one month".  So instead, a new
-   method that accepts date components as options is introduced.  `date.delta(month:1)`
-3. Something that is often done is checking whether two dates are the same,
-   ignoring the time components.  `start_of_day` and `end_of_day` methods help
-   you here.  They are akin to `floor` and `ceil`, if you consider the time to
+   method that accepts date components as options is introduced:  `date.delta(month:1)`
+3. Checking whether two dates are the same, ignoring the time components, is often required  
+`start_of_day` and `end_of_day` methods help
+   you here.  They are akin to `floor` and `ceil`; if you consider the time to
    be the "floating" component, and the date to be the nearest "integer".
 4. Formatting is made easier with `NSDate#string_with_style(NSDateStyleConstant or Symbol)`
    and `NSDate#string_with_format(format_string)`.  See
    <http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns> for
    the formatters, they take getting used to, coming from `strftime`, but they
    are much more powerful and locale-aware.
-5. Misc other helpers.  I'll go over these first.
+5. Miscellaneous other helpers.  I'll go over these first.
 
 ###### Helpers
 
@@ -262,8 +263,8 @@ recurring events)
 (main)> feb_1_2013.era
 => 1  # no, I don't know what this is :-/
 (main)> feb_1_2013.today?
-=> false  # actually, at the time i'm WRITING this, it IS true, but by the time
-          #    you read it, not so much ;-)
+=> false  # actually, at the time I am WRITING this, it IS true, but by the time
+          # you read it, not so much ;-)
 (main)> NSDate.new.today?
 => true
 (main)> feb_1_2013.same_day?(NSDate.new)
@@ -307,7 +308,7 @@ recurring events)
 ```
 
 It is easy to add seconds to the date using the time-related methods added to
-`Numeric`, thought the `NSDate#delta` method is MUCH more capable.
+`Numeric`, though the `NSDate#delta` method is MUCH more capable.
 
 ```ruby
 (main)> now + 5
@@ -388,7 +389,7 @@ on.
 (main)> feb_28_2012.delta(days:2, years:1)
 => 2013-03-01 17:00:00 -0700
 
-# Crazier: add a day (fab 29th), then a month (march 29th), THEN a year.
+# Crazier: add a day (Feb 29th), then a month (March 29th), THEN a year.
 (main)> feb_28_2012.delta(days:1, years:1, months:1)
 => 2013-03-29 17:00:00 -0600
 
@@ -400,7 +401,7 @@ on.
 (main)> jan_29_2013.delta(months:2)
 => 2013-03-29 17:00:00 -0600
 
-# Yeah, smart guy?  Well then what is 1/29/2013 plus ONE month. It's feb 28th.
+# Yeah, smart guy?  Well then what is 1/29/2013 plus ONE month. It's Feb 28th.
 # When someone says "see you in a month!" they mean "next month", not "in the
 # early part of two months in the future", which is where the math will take you
 # if you don't add a "day of month" correction.
@@ -623,11 +624,11 @@ form, you can pass just a title and block.
 UIAlertView.alert "This is happening, OK?" { self.happened! }
 # a little more complex
 UIAlertView.alert("This is happening, OK?", buttons: ["Nevermind", "OK"],
-  message: "don't worry, it'll be fine.") {
+  message: "Don't worry, it'll be fine.") {
   self.happened!
 }
 
-# Full on whiz bangery.  Note the success block takes the pressed button, but as
+# Full on whiz-bangery.  Note the success block takes the pressed button, but as
 # a string instead of an index.  The cancel button should be the first entry in
 # `buttons:`
 UIAlertView.alert "I mean, is this cool?", buttons: %w[No! Sure! Hmmmm],
@@ -769,34 +770,6 @@ view.slide(:left, 20) {
 }
 ```
 
-But isn't that ugly!  Use an animation chain!
-
-```ruby
-UIView.animation_chain {
-  view.slide(:left, 20)
-}.and_then {
-  view.slide(:up, 20)
-}.and_then {
-  view.slide(:right, 20)
-}.and_then {
-  view.slide(:down, 20)
-}.and_then {
-  view.fade_out
-}.start
-```
-
-Chains can also be written like this:
-
-```ruby
-chain = UIView.animation_chain
-chain << proc { view.slide(:left, 20) }
-chain << proc { view.slide(:up, 20) }
-chain << proc { view.slide(:right, 20) }
-chain << proc { view.slide(:down, 20) }
-chain << proc { view.fade_out }
-chain.start
-```
-
 ##### View factories
 
 ###### UIButton
@@ -821,7 +794,7 @@ UIButton.contact_add       => UIButton.buttonWithType(:contact_add.uibuttontype)
 ###### UITableView
 
 Default frame is `[[0, 0], [0, 0]]`, but most containers will resize it to be
-the correct size.  But heads up, it *used* to be `[[0, 0], [320, 480]]` (until
+the correct size.  But heads up, it *was* `[[0, 0], [320, 480]]` (until
 the iphone 5 / 4-inch retina came out).
 
 ```ruby
@@ -839,7 +812,7 @@ UITableView.plain([[0, 0], [320, 568]])
 UITableView.grouped([[0, 0], [320, 400]])
 ```
 
-###### UISegmentedControle
+###### UISegmentedControl
 
 ```ruby
 control = UISegmentedControl.alloc.initItems(["one", "ah-two-whoo", "thr-r-r-ree"])
@@ -908,8 +881,8 @@ dismiss_modal
 These accept completion blocks:
 
 ```ruby
-present_modal(view_ctlr) { puts "here!" }
-dismiss_modal { puts "gone!" }
+present_modal(view_ctlr) { puts "Now You See Me!" }
+dismiss_modal { puts "Now You Don't!" }
 ```
 
 If you like these methods, but you want to specify the reciever, they are
@@ -922,7 +895,7 @@ controller.present_modal(other_controller) { puts "presented" }
  UINavigationController
 ------------------------
 
-`push`/`<<` and `pop` instead of `pushViewController` and `popViewController`.
+`push`, `<<` and `pop` instead of `pushViewController` and `popViewController`.
 `!` and `!(view)` instead of `popToRootViewController` and `popToViewController`
 
 animated is `true` for all these.
@@ -939,7 +912,7 @@ nav_ctlr.!(another_view_ctlr)
 ------------------------
 
 I have mixed feelings about adding this extension, but **I** needed it, so maybe
-you will, too...  Usually `UITabBarController`s have a static number of tabs,
+you will, too...  Usually a `UITabBarController` has a static number of tabs,
 but in my case, I needed to be able to add one later, when a certain condition
 was met.
 
@@ -1058,11 +1031,11 @@ This file does *one* thing very **DANGEROUS**... to "help" with defaults.
 When storing `nil` into `NSUserDefaults`, it is converted into `false`, because
 Cocoa complains if you give it `nil`, and the RubyMotion runtime refuses to
 allow the `NSNull.null` object. Without relying on an external project (like
-[nsnulldammit]<https://github.com/colinta/nsnulldammit>) I don't know of a
+[nsnulldammit](https://github.com/colinta/nsnulldammit) I don't know of a
 sensible workaround...
 
 If you want to "tap into" the defaults system that SugarCube uses, add a
-`to_nsuserdefaults` method an that will get called if you hand your object to
+`to_nsuserdefaults` method and that will get called if you hand your object to
 `NSUserDefaults[]=`.  However, there's no way to get it *back* later, so the
 usefulness of this is very limited.
 
@@ -1070,7 +1043,7 @@ usefulness of this is very limited.
 'key'.set_default(['any', 'objects'])  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
 'key'.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
 
-# symbols are converted to strings, so theses are equivalent
+# symbols are converted to strings, so these are equivalent
 :key.set_default(['any', 'objects'])  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
 :key.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
 ```
@@ -1230,6 +1203,7 @@ The most useful feature of the REPL adjustment is the ability to quickly
 position and size your UI elements __visually__ and then paste the final values
 into your code.  In order to better accomodate that, `adjust` has an option to
 modify the output format.
+These were inspired by [Thom Parkin](https://github.com/ParkinT)
 
 This better facilitates copy/paste of the values.  Currently supported is:
 * Default (RubyMotion) (`nil`, `:default`)
@@ -1480,7 +1454,7 @@ use these everywhere. :poop:
 
 ### `ivar`
 
-###### Rackfile
+###### Rakefile
 
 ```ruby
 require 'sugarcube-unholy'
