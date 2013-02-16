@@ -398,20 +398,32 @@ class Symbol
   @autoresizemasks = {
     none: UIViewAutoresizingNone,
 
-    flexibleleft:   UIViewAutoresizingFlexibleLeftMargin,
-    flexiblewidth:  UIViewAutoresizingFlexibleWidth,
-    flexibleright:  UIViewAutoresizingFlexibleRightMargin,
-    flexibletop:    UIViewAutoresizingFlexibleTopMargin,
-    flexibleheight: UIViewAutoresizingFlexibleHeight,
-    flexiblebottom: UIViewAutoresizingFlexibleBottomMargin,
+    flexible_left:   UIViewAutoresizingFlexibleLeftMargin,
+    flexible_width:  UIViewAutoresizingFlexibleWidth,
+    flexible_right:  UIViewAutoresizingFlexibleRightMargin,
+    flexible_top:    UIViewAutoresizingFlexibleTopMargin,
+    flexible_height: UIViewAutoresizingFlexibleHeight,
+    flexible_bottom: UIViewAutoresizingFlexibleBottomMargin,
 
-    # aliases
-    left:   UIViewAutoresizingFlexibleLeftMargin,
-    width:  UIViewAutoresizingFlexibleWidth,
-    right:  UIViewAutoresizingFlexibleRightMargin,
-    top:    UIViewAutoresizingFlexibleTopMargin,
-    height: UIViewAutoresizingFlexibleHeight,
-    bottom: UIViewAutoresizingFlexibleBottomMargin,
+    # shorthands
+    full: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight,
+    fixed_top: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin,
+    fixed_bottom: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin,
+    fixed_left: UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin,
+    fixed_right: UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin,
+
+    fixed_top_left: UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin,
+    fixed_top_middle: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin,
+    fixed_top_right: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin,
+    fixed_middle_left: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin,
+    fixed_middle: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin,
+    fixed_middle_right: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin,
+    fixed_bottom_left: UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin,
+    fixed_bottom_middle: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin,
+    fixed_bottom_right: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin,
+
+    float_horizontal: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin,
+    float_vertical: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin,
   }
 
   @image_sourcetypes = {

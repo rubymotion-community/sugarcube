@@ -787,7 +787,6 @@ UIView.animation_chain {
 
 Chains can also be written like this:
 
-
 ```ruby
 chain = UIView.animation_chain
 chain << proc { view.slide(:left, 20) }
