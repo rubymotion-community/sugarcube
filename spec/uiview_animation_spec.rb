@@ -10,7 +10,7 @@ describe "UIView animation methods" do
   it 'should rotate 45 degrees' do
     angle = 45*Math::PI/180
     @view.rotate_to(angle)
-    current_angle =  Math.atan2(@view.transform.b, @view.transform.a)
+    current_angle = Math.atan2(@view.transform.b, @view.transform.a)
     current_angle.should == angle
   end
 
@@ -20,4 +20,38 @@ describe "UIView animation methods" do
     }
     CGRectEqualToRect(@view.frame, [[0, 0], [0, 0]]).should == true
   end
+
+  it 'should call the after block anything' do
+    @after_called = false
+    UIView.animate(after:->{ @after_called = true }, duration: 0.05) {
+      @view.frame = [[0, 0], [0, 0]]
+      @after_called = :animating
+    }
+    @after_called.should == :animating
+    wait 0.1 {
+      @after_called.should == true
+    }
+  end
+
+  it 'should animate if duration is 0 and delay > 0' do
+    @after_called = false
+    UIView.animate(after:->{ @after_called = true }, duration: 0.0, delay: 0.1) {
+      @view.frame = [[0, 0], [0, 0]]
+      @after_called = :animating
+    }
+    @after_called.should == :animating
+    wait 0.1 {
+      @after_called.should == true
+    }
+  end
+
+  it 'should not animate if duration is 0' do
+    @after_called = false
+    UIView.animate(after:->{ @after_called = true }, duration: 0.0) {
+      @view.frame = [[0, 0], [0, 0]]
+      @after_called = :animating
+    }
+    @after_called.should == true
+  end
+
 end
