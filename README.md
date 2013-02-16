@@ -218,11 +218,11 @@ image_data.nsimage  # => whatever 'an image' was
 --------
 
 `NSDate` objects are converted to `Time` objects automatically by rubymotion.
-That's the good news.  
+That's the good news.
 The bad news?  That still doesn't help a lot with some of
 the everyday date & time crap we have to deal with. (I hate dates, especially
 recurring events)
-##### NSDate  
+##### NSDate
 
 1. Adds the following methods to get date and time components: `date_array, time_array, datetime_array`.
    These methods return arrays.  Comparing dates, times, or both become
@@ -231,8 +231,8 @@ recurring events)
    calendar math (e.g. "2/13/2013" + 1.month => "3/13/2013"), I can't fudge with
    the return value of `1.month` (=> `Fixnum`), and I won't make the terrible
    assumption that "30 days of seconds is *about* one month".  So instead, a new
-   method that accepts date components as options is introduced:  `date.delta(month:1)`
-3. Checking whether two dates are the same, ignoring the time components, is often required  
+   method that accepts date components as options is introduced:  `date.delta(months:1)`
+3. Checking whether two dates are the same, ignoring the time components, is often required
 `start_of_day` and `end_of_day` methods help
    you here.  They are akin to `floor` and `ceil`; if you consider the time to
    be the "floating" component, and the date to be the nearest "integer".
@@ -768,6 +768,34 @@ view.slide(:left, 20) {
     }
   }
 }
+```
+
+But isn't that ugly!  Use an animation chain!
+
+```ruby
+UIView.animation_chain {
+  view.slide(:left, 20)
+}.and_then {
+  view.slide(:up, 20)
+}.and_then {
+  view.slide(:right, 20)
+}.and_then {
+  view.slide(:down, 20)
+}.and_then {
+  view.fade_out
+}.start
+```
+
+Chains can also be written like this:
+
+```ruby
+chain = UIView.animation_chain
+chain << proc { view.slide(:left, 20) }
+chain << proc { view.slide(:up, 20) }
+chain << proc { view.slide(:right, 20) }
+chain << proc { view.slide(:down, 20) }
+chain << proc { view.fade_out }
+chain.start
 ```
 
 ##### View factories
