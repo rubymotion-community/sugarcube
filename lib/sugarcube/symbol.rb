@@ -290,9 +290,13 @@ class Symbol
     left: UIViewContentModeLeft,
     right: UIViewContentModeRight,
     topleft: UIViewContentModeTopLeft,
+    top_left: UIViewContentModeTopLeft,
     topright: UIViewContentModeTopRight,
+    top_right: UIViewContentModeTopRight,
     bottomleft: UIViewContentModeBottomLeft,
+    bottom_left: UIViewContentModeBottomLeft,
     bottomright: UIViewContentModeBottomRight,
+    bottom_right: UIViewContentModeBottomRight,
   }
 
   @tableview_styles = {
@@ -682,7 +686,9 @@ class Symbol
         return font.uifont(size)
       end
     else
-      size = size.uifontsize
+      if size.is_a?(Symbol)
+          size = size.uifontsize
+      end
       return UIFont.systemFontOfSize(size)
     end
   end
