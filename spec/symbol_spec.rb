@@ -22,8 +22,10 @@ describe "Symbol" do
 
     it "should accept point size" do
       :system.uifont(40).pointSize.should == 40
-      :bold.uifont(40).pointSize.should == 40
-      :italic.uifont(40).pointSize.should == 40
+    end
+
+    it "should accept symbol size" do
+      :system.uifont(:label).pointSize.should == UIFont.labelFontSize
     end
 
   end

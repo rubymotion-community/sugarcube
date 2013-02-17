@@ -673,7 +673,7 @@ class Symbol
     if Symbol.system_fonts.has_key? self
       font = look_in(Symbol.system_fonts)
       if size.is_a?(Symbol)
-        size = Symbol.font_sizes.fetch(size).uifontsize
+        size = size.uifontsize
       end
 
       if font.is_a?(Symbol)
@@ -682,7 +682,7 @@ class Symbol
         return font.uifont(size)
       end
     else
-      size = look_in(font_sizes).uifontsize
+      size = size.uifontsize
       return UIFont.systemFontOfSize(size)
     end
   end
