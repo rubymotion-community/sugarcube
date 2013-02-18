@@ -3,6 +3,7 @@ require 'motion/project'
 require './lib/sugarcube'
 require './lib/sugarcube-gestures'
 require './lib/sugarcube-568'
+require './lib/sugarcube-attributedstring'
 require './lib/sugarcube-unholy'
 
 

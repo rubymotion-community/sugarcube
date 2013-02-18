@@ -132,6 +132,10 @@ distance.miles  # => 0.932056427001953
  NSAttributedString
 ---------
 
+```ruby
+require 'sugarcube-attributedstring'
+```
+
 These become pretty fun!  Check out `nsattributedstring_spec.rb` for all the
 supported attributes (in theory they are all supported, but there's weird
 issues with missing constants).
