@@ -282,7 +282,7 @@ class UIView
     right = origin + offset
 
     animation = CAKeyframeAnimation.animationWithKeyPath(keypath)
-    animation.duration = duration
+    animation.send(:'setDuration:', duration)
     animation.repeatCount = repeat
     animation.values = [origin, left, right, origin]
     animation.keyTimes = [0, 0.25, 0.75, 1.0]
