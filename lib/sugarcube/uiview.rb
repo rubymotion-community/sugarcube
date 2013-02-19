@@ -44,7 +44,7 @@ class UIView
       delay = options[:delay] || 0
       if duration == 0 && delay == 0
         animations.call
-        after_adjusted.call(true)
+        after_adjusted.call(true) if after_adjusted
       else
         UIView.animateWithDuration( duration,
                              delay: delay,

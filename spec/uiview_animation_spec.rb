@@ -54,4 +54,13 @@ describe "UIView animation methods" do
     @after_called.should == true
   end
 
+  it 'should not animate if duration is 0, and after: is not required' do
+    @after_called = false
+    UIView.animate(duration: 0.0) {
+      @view.frame = [[0, 0], [0, 0]]
+      @after_called = true
+    }
+    @after_called.should == true
+  end
+
 end
