@@ -9,7 +9,7 @@ class NSDate
     return calendar.dateFromComponents(date_components)
   end
 
-  def string_with_style(style)
+  def string_with_style(style=NSDateFormatterMediumStyle)
     date_formatter = NSDateFormatter.new
     if style.is_a? Symbol
       style = style.nsdatestyle

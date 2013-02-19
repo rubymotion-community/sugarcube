@@ -42,14 +42,13 @@ module SugarCube
     def do_next
       return nil if @block_index >= @blocks.length
 
-      options, _ = @blocks[@block_index]
+      options, block = @blocks[@block_index]
       @after_block = ->(completed){
         self.do_next || AnimationChain.stop_chain(self)
       }
       options[:after] = @after_block
 
       UIView.animate(options) {
-        _, block = @blocks[@block_index]
         block.call
         @block_index += 1
       }

@@ -15,6 +15,10 @@ describe "NSDate" do
     @date.string_with_style(:medium).should == 'Jan 2, 2013'
   end
 
+  it "should have an NSDate#string_with_style(style) method that has default" do
+    @date.string_with_style.should == 'Jan 2, 2013'
+  end
+
   it "should have an NSDate#string_with_style(style) method that accepts NSDateStyle constants" do
     @date.string_with_style(NSDateFormatterShortStyle).should == '1/2/13'
   end

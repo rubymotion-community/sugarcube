@@ -304,7 +304,7 @@ recurring events)
 => [2012, 9, 13, 9, 19, 6]
 
 (main)> now.string_with_style
-=> "Tuesday, January 29, 2013"
+=> "January 29, 2013"
 (main)> now.string_with_style(NSDateFormatterShortStyle)
 => "1/29/13"
 (main)> now.string_with_style(:short)
@@ -424,8 +424,8 @@ on.
 (main)> mar_10_2013 = NSDate.from_components
 
 # unfortunately you will, in the edge cases, end up with stuff like this:
-(main)> feb_28_2012 == feb_28_2012.delta(days:1, months:12).delta(months:-12)
-=> true
+(main)> feb_28_2012 == feb_28_2012.delta(days:1, months:12).delta(days: -1, months:-12)
+=> 2012-02-29 00:00:00 -0700
 ```
 
 NSError

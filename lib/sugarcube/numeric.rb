@@ -89,7 +89,6 @@ class Numeric
   end
   alias exabyte exabytes
 
-
   def string_with_style(style=NSNumberFormatterDecimalStyle)
     if style.is_a? Symbol
       style = style.nsnumberstyle

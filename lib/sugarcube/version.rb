@@ -1,3 +1,3 @@
 module SugarCube
-  Version = '0.18.6'
+  Version = '0.18.7'
 end
