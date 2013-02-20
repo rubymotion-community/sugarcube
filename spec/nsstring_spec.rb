@@ -34,18 +34,28 @@ describe "NSString" do
     font.pointSize.should == UIFont.systemFontSize
   end
 
-  it "should have a #uicolor method" do
-    color = '#ffffff'.uicolor
-    UIColor.should === color
-    color.red.should == 1.0
-    color.green.should == 1.0
-    color.blue.should == 1.0
+  describe "should have a #uicolor method" do
+    it "that supports hex" do
+      color = '#ffffff'.uicolor
+      UIColor.should === color
+      color.red.should == 1.0
+      color.green.should == 1.0
+      color.blue.should == 1.0
 
-    color = '#808080'.uicolor
-    UIColor.should === color
-    ((color.red * 2).round / 2.0).should == 0.5
-    ((color.green * 2).round / 2.0).should == 0.5
-    ((color.blue * 2).round / 2.0).should == 0.5
+      color = '#808080'.uicolor
+      UIColor.should === color
+      ((color.red * 2).round / 2.0).should == 0.5
+      ((color.green * 2).round / 2.0).should == 0.5
+      ((color.blue * 2).round / 2.0).should == 0.5
+    end
+
+    it "that supports image names" do
+      'little_square'.uicolor.should == 'little_square'.uiimage.uicolor
+    end
+
+    it "that supports non-existant image names" do
+      'this is not my beautiful house!'.uicolor.should == nil
+    end
   end
 
   it "should have a #uilabel method" do

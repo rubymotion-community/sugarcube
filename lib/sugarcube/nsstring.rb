@@ -36,7 +36,8 @@ class NSString
       return self[1..-1].to_i(16).uicolor(alpha)
     end
 
-    self.uiimage.uicolor(alpha)
+    img = self.uiimage
+    img && img.uicolor(alpha)
   end
 
   # @param font [UIFont] Optional, defaults to UIFont.systemFontOfSize(UIFont.systemFontSize)
