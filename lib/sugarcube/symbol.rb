@@ -32,7 +32,8 @@ class Symbol
     attr_accessor :returnkeys
     attr_accessor :statusbar_styles
     attr_accessor :barmetrics
-    attr_accessor :barbuttomitems
+    attr_accessor :barbuttonitems
+    attr_accessor :barbuttonstyles
     attr_accessor :keyboardtypes
     attr_accessor :autoresizemasks
 
@@ -356,7 +357,7 @@ class Symbol
     landscape: UIBarMetricsLandscapePhone,
   }
 
-  @barbuttomitems = {
+  @barbuttonitems = {
     done:          UIBarButtonSystemItemDone,
     cancel:        UIBarButtonSystemItemCancel,
     edit:          UIBarButtonSystemItemEdit,
@@ -381,6 +382,12 @@ class Symbol
     undo:          UIBarButtonSystemItemUndo,
     redo:          UIBarButtonSystemItemRedo,
     pagecurl:      UIBarButtonSystemItemPageCurl,
+  }
+
+  @barbuttonstyles = {
+    plain:    UIBarButtonItemStylePlain,
+    bordered: UIBarButtonItemStyleBordered,
+    done:     UIBarButtonItemStyleDone
   }
 
   @keyboardtypes = {
@@ -616,7 +623,11 @@ class Symbol
   end
 
   def uibarbuttonitem
-    look_in(Symbol.barbuttomitems)
+    look_in(Symbol.barbuttonitems)
+  end
+
+  def uibarbuttonstyle
+    look_in(Symbol.barbuttonstyles)
   end
 
   def uikeyboardtype
