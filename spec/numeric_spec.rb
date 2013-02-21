@@ -13,11 +13,24 @@ describe "Numeric" do
     1.5.radians.should == 1.5
   end
 
+  it "should have a #in_radians method" do
+    0.radians.in_radians.should == 0
+    1.radian.in_radians.should == 1
+    1.5.radians.in_radians.should == 1.5
+  end
+
   it "should have a #degree(s) method" do
     0.degrees.should == 0
     1.degree.should == Math::PI / 180
     180.degrees.should == Math::PI
     45.degrees.should == Math::PI / 4
+  end
+
+  it "should have a #degree(s) method" do
+    0.degrees.should == 0
+    1.degree.in_degrees.round.should == 1
+    180.degrees.in_degrees.round.should == 180
+    45.degrees.in_degrees.round.should == 45
   end
 
   it "should have a #pi method" do
