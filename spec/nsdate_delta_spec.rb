@@ -97,7 +97,14 @@ describe "NSDate#delta" do
 
   it "should handle daylight savings logically unless you assign an hour" do
     mar_9_2012 = NSDate.from_components(year:2013, month: 3, day: 9, hour: 13)
-    mar_9_2012.delta(days:1, hours: 1).should == NSDate.from_components(year:2013, month: 3, day: 10, hour: 15)
+
+    tz = mar_9_2012.timezone
+    mar_11_2012 = NSDate.from_components(year:2013, month: 3, day: 11)
+    if tz.isDaylightSavingTimeForDate(mar_11_2012)
+      mar_9_2012.delta(days:1, hours: 1).should == NSDate.from_components(year:2013, month: 3, day: 10, hour: 15)
+    else
+      mar_9_2012.delta(days:1, hours: 1).should == NSDate.from_components(year:2013, month: 3, day: 10, hour: 14)
+    end
   end
 
 end
