@@ -30,6 +30,15 @@ class UIView
         duration = options[:duration] || 0.3
       end
 
+      delay = options[:delay] || 0
+
+      # chain: true is used inside animation_chain blocks to prevent some weird
+      # animation errors (nested animations do not delay/queue as you'd expect)
+      if options[:chain]
+        duration = 0
+        delay = 0
+      end
+
       after_animations = options[:after]
       if after_animations
         if after_animations.arity == 0
@@ -41,7 +50,6 @@ class UIView
         after_adjusted = nil
       end
 
-      delay = options[:delay] || 0
       if duration == 0 && delay == 0
         animations.call
         after_adjusted.call(true) if after_adjusted
@@ -229,12 +237,14 @@ class UIView
     }
   end
 
-  def slide(direction, options={}, &after)
+  def slide(direction, options={}, more_options=nil, &after)
     if options.is_a? Numeric
-      options = {size: options}
+      size = options
+      options = more_options || {}
+    else
+      size = options[:size]
     end
 
-    size = options[:size]
     case direction
     when :left
       size ||= self.bounds.size.width
