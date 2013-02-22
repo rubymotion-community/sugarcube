@@ -100,9 +100,9 @@ class UIImage
   # @param new_size [CGSize] Minimum dimensions of desired image.  The returned image is
   #   guaranteed to fit within these dimensions.
   # @param position [Symbol, CGPoint] Where to position the resized image. Valid symbols
-  #   are: `[:topleft, :top, :topright, :left, :center, :right, :bottomleft,
-  #   :bottom, :bottomright]` (if you forget and use an underscore, like
-  #   `top_left`, that'll work, too)
+  #   are: `[:top_left, :top, :top_right, :left, :center, :right, :bottom_left,
+  #   :bottom, :bottom_right]` (if you forget the underscore, like
+  #   `topleft`, that'll work, too)
   #  @param scale [Numeric] image scale
   # @return [UIImage]
   def scale_to_fill(new_size, position:position, scale:scale)
