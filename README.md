@@ -995,7 +995,7 @@ text_view.on :editing_did_end do
 end
 
 # later... like in `viewWillDisappear`.  I'll use the alternative aliases here
-text_view.off :change, :end, :begin  
+text_view.off :change, :end, :begin
 ```
 
  UIBarButtonItem
