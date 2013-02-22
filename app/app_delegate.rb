@@ -1,4 +1,6 @@
+include SugarCube::Adjust
 include SugarCube::CoreGraphics
+
 
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
