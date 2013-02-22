@@ -97,6 +97,14 @@ class UIBarButtonItem
     def pagecurl(&action)
       sugarcube_barbuttonitem :pagecurl.uibarbuttonitem, action
     end
+
+    def titled(title, style = :bordered.uibarbuttonstyle, &action)
+      sugarcube_barbuttonitem_with_title(title, style, action)
+    end
+  
+    def imaged(image, style = :bordered.uibarbuttonstyle, &action)
+      sugarcube_barbuttonitem_with_image(image, style, action)
+    end
   
   end
 
@@ -112,6 +120,23 @@ private
 
   def self.sugarcube_barbuttonitem(systemitem, action)
     b = UIBarButtonItem.alloc.initWithBarButtonSystemItem systemitem, target:nil, action:nil
+    b.set_target_and_action b, action
+    b
+  end
+
+  def self.sugarcube_barbuttonitem_with_title(title, style, action)
+    b = UIBarButtonItem.alloc.initWithTitle title, style:style, target:nil, action:nil
+    b.set_target_and_action b, action
+    b
+  end
+
+  def self.sugarcube_barbuttonitem_with_image(image, style, action)
+    case image
+    when Array
+      b = UIBarButtonItem.alloc.initWithImage image.first, landscapeImagePhone:image.last, style:style, target:nil, action:nil
+    else
+      b = UIBarButtonItem.alloc.initWithImage image, style:style, target:nil, action:nil
+    end
     b.set_target_and_action b, action
     b
   end
