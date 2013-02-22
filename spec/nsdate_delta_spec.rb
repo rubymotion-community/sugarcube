@@ -87,17 +87,17 @@ describe "NSDate#delta" do
 
   it "should handle daylight savings logically" do
     # early hours
-    mar_10_2012 = NSDate.from_components(year:2013, month: 3, day: 9, hour: 1)
-    mar_10_2012.delta(days:1).should == NSDate.from_components(year:2013, month: 3, day: 10, hour: 1)
+    mar_9_2012 = NSDate.from_components(year:2013, month: 3, day: 9, hour: 1)
+    mar_9_2012.delta(days:1).should == NSDate.from_components(year:2013, month: 3, day: 10, hour: 1)
 
     # late hours
-    mar_10_2012 = NSDate.from_components(year:2013, month: 3, day: 9, hour: 13)
-    mar_10_2012.delta(days:1).should == NSDate.from_components(year:2013, month: 3, day: 10, hour: 13)
+    mar_9_2012 = NSDate.from_components(year:2013, month: 3, day: 9, hour: 13)
+    mar_9_2012.delta(days:1).should == NSDate.from_components(year:2013, month: 3, day: 10, hour: 13)
   end
 
   it "should handle daylight savings logically unless you assign an hour" do
-    mar_10_2012 = NSDate.from_components(year:2013, month: 3, day: 9, hour: 13)
-    mar_10_2012.delta(days:1, hours: 1).should == NSDate.from_components(year:2013, month: 3, day: 10, hour: 15)
+    mar_9_2012 = NSDate.from_components(year:2013, month: 3, day: 9, hour: 13)
+    mar_9_2012.delta(days:1, hours: 1).should == NSDate.from_components(year:2013, month: 3, day: 10, hour: 15)
   end
 
 end
