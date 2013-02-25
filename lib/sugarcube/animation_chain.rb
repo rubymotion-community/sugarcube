@@ -1,5 +1,6 @@
 module SugarCube
   class AnimationChain
+
     class << self
 
       def chains
@@ -7,17 +8,17 @@ module SugarCube
       end
 
       def start_chain(chain)
-        chains << chain
+        chains << chain unless chains.include?(chain)
       end
 
       def stop_chain(chain)
-        chains ||= []
-        @chains.delete(chain)
+        chains.delete(chain)
       end
 
     end
 
     def initialize
+      raise "animation chains cannot be nested" if Thread.current[:sugarcube_chaining]
       @blocks = []
     end
 
@@ -44,7 +45,14 @@ module SugarCube
 
       options, block = @blocks[@block_index]
       @after_block = ->(completed){
-        self.do_next || AnimationChain.stop_chain(self)
+        if @abort || ! self.do_next
+          @running = false
+          if @loop
+            start
+          else
+            AnimationChain.stop_chain(self)
+          end
+        end
       }
       options[:after] = @after_block
 
@@ -58,9 +66,36 @@ module SugarCube
     end
 
     def start
+      return if @running
       AnimationChain.start_chain(self)
+      @running = true
+      @abort = nil
       @block_index = 0
+      if Fixnum === @loop
+        @loop -= 1
+        @loop = nil if @loop == 0
+      end
       do_next
+      return self
+    end
+
+    # @param times [Fixnum,nil] number of times to loop, or any other truthy value to loop forever
+    def loop(times=true)
+      @loop = times
+      start
+    end
+
+    # Cancels a loop, but lets the chain finish
+    def stop
+      @loop = nil
+    end
+
+    # stops the animation immediately
+    def abort
+      return unless @running
+      @loop = nil
+      @abort = true
+      @running = false
     end
 
   end

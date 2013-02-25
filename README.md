@@ -827,6 +827,25 @@ chain << proc { view.fade_out }
 chain.start
 ```
 
+**AND** chains can be looped!  Either number of times, or call `stop` on the
+chain.
+
+```ruby
+chain = UIView.animation_chain {
+  view.slide(:left, 20)
+}.and_then {
+  view.slide(:right, 20)
+}.loop  # loop forever
+2.seconds.later { chain.stop }  # the animation will complete, but not loop again
+chain.loop(10)  # would loop 10 times
+
+# if you're impatient
+chain.abort
+# will stop the animation at the end of whatever block it is in, so it could be
+# in a strange position, depending on where in the chain it is.  better to call
+# `stop`
+```
+
 ##### View factories
 
 ###### UIButton

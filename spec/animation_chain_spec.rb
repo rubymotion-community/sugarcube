@@ -69,4 +69,72 @@ describe "SugarCube::AnimationChain" do
     }
   end
 
+  it "should support looping" do
+    SugarCube::AnimationChain.chains.length.should == 0
+    @variable_a = 0
+    @num_loops = 2
+    UIView.animation_chain(duration:0.1){
+      @variable_a += 1
+    }.loop(@num_loops)
+    SugarCube::AnimationChain.chains.length.should == 1
+
+    wait 0.3 {
+      @variable_a.should == @num_loops
+      SugarCube::AnimationChain.chains.length.should == 0
+    }
+  end
+
+  it "should support stopping" do
+    SugarCube::AnimationChain.chains.length.should == 0
+    @variable_a = 0
+    @num_loops = 0
+    @chain = UIView.animation_chain(duration:0.1){
+      @variable_a += 1
+      f = controller.view.frame
+      f.origin.x -= 20
+      controller.view.frame = f
+    }.loop
+    SugarCube::AnimationChain.chains.length.should == 1
+
+    wait 0.2 {
+      SugarCube::AnimationChain.chains.length.should == 1
+      @variable_a.should > 1
+      @chain.stop
+    }
+
+    wait 0.4 {
+      SugarCube::AnimationChain.chains.length.should == 0
+      @variable_a.should < 4
+    }
+  end
+
+  it "should support aborting" do
+    SugarCube::AnimationChain.chains.length.should == 0
+    @variable_a = 0
+    @num_loops = 0
+    @chain = UIView.animation_chain(duration:0.1){
+      @variable_a += 1
+      f = controller.view.frame
+      f.origin.x -= 20
+      controller.view.frame = f
+    }.loop
+    SugarCube::AnimationChain.chains.length.should == 1
+
+    wait 0.21 {
+      SugarCube::AnimationChain.chains.length.should == 1
+      @variable_a.should == 2
+    }
+
+    wait 0.31 {
+      @chain.abort
+      SugarCube::AnimationChain.chains.length.should == 0
+      @variable_a.should > 1
+      @variable_a.should < 4
+      @num_loops = @variable_a
+    }
+    wait 0.51 {
+      @variable_a.should == @num_loops
+    }
+  end
+
 end
