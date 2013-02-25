@@ -737,6 +737,7 @@ view.move_to([0, 100])   # move to position 0, 100
 view.delta_to([0, 100])  # move over 0, down 100, from current position
 
 view.rotate_to Math::PI  # rotate view upside down
+view.rotate 45.degrees  # rotate *an additional* 45 degrees
 view.rotate_to(duration: 0.5, angle: 45.degrees)  # using options
 
 view.slide :left   # slides the entire view one "page" to the left, right, up, or down
@@ -798,19 +799,19 @@ within that block, as long as no two animations affect the same property:
 ```ruby
 UIView.animation_chain {
   view.slide(:left, 20)
-  view.rotate_to(90.degrees)
+  view.rotate(90.degrees)
 }.and_then {
   view.slide(:up, 20)
-  view.rotate_to(90.degrees)
+  view.rotate(90.degrees)
 }.and_then {
   view.slide(:right, 20)
-  view.rotate_to(90.degrees)
+  view.rotate(90.degrees)
 }.and_then {
   view.slide(:down, 20)
-  view.rotate_to(90.degrees)
+  view.rotate(90.degrees)
 }.and_then {
   view.fade_out
-  view.rotate_to(360.degrees)
+  view.rotate_to(0.degrees)
 }.start
 ```
 
