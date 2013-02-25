@@ -8,10 +8,18 @@ describe "UIView animation methods" do
   end
 
   it 'should rotate 45 degrees' do
-    angle = 45*Math::PI/180
+    angle = 45.degrees
     @view.rotate_to(angle)
     current_angle = Math.atan2(@view.transform.b, @view.transform.a)
     current_angle.should == angle
+  end
+
+  it 'should rotate 45 degrees and then 45 degrees again' do
+    angle = 45.degrees
+    @view.rotate_to(angle)
+    @view.rotate(angle)
+    current_angle = Math.atan2(@view.transform.b, @view.transform.a)
+    current_angle.should == 90.degrees
   end
 
   it 'should animate anything' do
