@@ -1,10 +1,6 @@
 describe "SugarCube::AnimationChain" do
   tests SugarCube::AnimationChainController
 
-  it "should have a view" do
-    controller.view.should != nil
-  end
-
   it "should support chains" do
     SugarCube::AnimationChain.chains.length.should == 0
     @variable_a = nil

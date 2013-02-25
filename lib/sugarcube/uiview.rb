@@ -34,9 +34,10 @@ class UIView
 
       # chain: true is used inside animation_chain blocks to prevent some weird
       # animation errors (nested animations do not delay/queue as you'd expect)
-      if options[:chain]
+      if options[:chain] || Thread.current[:sugarcube_chaining]
         duration = 0
         delay = 0
+        raise "Completion blocks cannot be used within an animation_chain block" if options[:after]
       end
 
       after_animations = options[:after]

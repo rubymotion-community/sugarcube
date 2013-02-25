@@ -774,29 +774,44 @@ view.slide(:left, 20) {
 }
 ```
 
-Those be some gnarly callbacks.  You can write this as a chain, but we need to
-tell the `slide` method to go ahead and run immediately (don't use an
-animation).  When you create an animation chain, the block you pass to each
-iteration is the block that gets passed to `UIView##animateWithDuration(...)`.
-If you try and run animations *within* that block they will not get queued up
-properly.
-
-The easiest way to handle this:
-
-1) don't use SugarCube animation methods, e.g. assign the frame manually (yeah, right!)
-2) use the `duration: 0` option, which runs the animation without setting calling
-   `animateWithDuration()`.
-3) For clarity (and some future-proofing, in case any of this rigamarole changes
-   in the future), you can use `chain: true`.
+Those be some gnarly callbacks.  You can write this as a chain instead!
 
 ```ruby
 UIView.animation_chain {
-  view.slide(:left, duration:0)
+  view.slide(:left, 20)
 }.and_then {
-  view.slide(:up, chain:true)  # sets duration:0, delay:0
+  view.slide(:up, 20)
 }.and_then {
-  view.fade_out  # in case you were wondering, the very LAST animation CAN be
-}.start          # called normally.
+  view.slide(:right, 20)
+}.and_then {
+  view.slide(:down, 20)
+}.and_then {
+  view.fade_out
+}.start
+```
+
+Behind the scenes, any calls to a SugarCube animate method (`slide`, `fade`,
+`rotate`) will be setup to run *immediately* instead of in a
+`UIView#animateWithDuration(...)` block.  You can also do multiple animations
+within that block, as long as no two animations affect the same property:
+
+```ruby
+UIView.animation_chain {
+  view.slide(:left, 20)
+  view.rotate_to(90.degrees)
+}.and_then {
+  view.slide(:up, 20)
+  view.rotate_to(90.degrees)
+}.and_then {
+  view.slide(:right, 20)
+  view.rotate_to(90.degrees)
+}.and_then {
+  view.slide(:down, 20)
+  view.rotate_to(90.degrees)
+}.and_then {
+  view.fade_out
+  view.rotate_to(360.degrees)
+}.start
 ```
 
 Chains can also be written like this:

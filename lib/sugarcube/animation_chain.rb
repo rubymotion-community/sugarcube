@@ -49,7 +49,9 @@ module SugarCube
       options[:after] = @after_block
 
       UIView.animate(options) {
+        Thread.current[:sugarcube_chaining] = true
         block.call
+        Thread.current[:sugarcube_chaining] = nil
         @block_index += 1
       }
       true
