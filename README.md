@@ -727,9 +727,10 @@ view.fade_out { |completed|
 }
 
 # fade_out options
-view.fade_out(0.5, delay: 0,
-                  options: UIViewAnimationOptionCurveLinear,
-                  opacity: 0.5) {
+view.fade_out(duration: 0.5,
+                 delay: 0,
+               options: UIViewAnimationOptionCurveLinear,
+               opacity: 0.5) {
   view.removeFromSuperview
 }
 
