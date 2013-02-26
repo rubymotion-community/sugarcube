@@ -57,7 +57,7 @@ class UIView
       else
         UIView.animateWithDuration( duration,
                              delay: delay,
-                           options: options[:options] || UIViewAnimationOptionCurveEaseInOut,
+                           options: options[:options] || (UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState),
                         animations: animations,
                         completion: after_adjusted
                                   )
@@ -330,7 +330,7 @@ class UIView
     end
 
     options[:duration] ||= default_duration
-    options[:options] ||= UIViewAnimationOptionCurveEaseIn
+    options[:options] ||= UIViewAnimationOptionCurveEaseIn|UIViewAnimationOptionBeginFromCurrentState
     reset_transform = self.transform
     reset_after = ->(finished) {
       self.transform = reset_transform
