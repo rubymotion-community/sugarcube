@@ -117,6 +117,11 @@ describe "SugarCube::AnimationChain" do
       f = controller.view.frame
       f.origin.x -= 20
       controller.view.frame = f
+    }.and_then {
+      @variable_a += 1
+      f = controller.view.frame
+      f.origin.x += 20
+      controller.view.frame = f
     }.loop
     SugarCube::AnimationChain.chains.length.should == 1
 
@@ -127,12 +132,10 @@ describe "SugarCube::AnimationChain" do
 
     wait 0.31 {
       @chain.abort
-      SugarCube::AnimationChain.chains.length.should == 0
-      @variable_a.should > 1
-      @variable_a.should < 4
       @num_loops = @variable_a
     }
     wait 0.51 {
+      SugarCube::AnimationChain.chains.length.should == 0
       @variable_a.should == @num_loops
     }
   end
