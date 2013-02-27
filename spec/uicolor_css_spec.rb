@@ -1,7 +1,7 @@
 describe 'UIColor (CSS)' do
 
   it "should return css color names" do
-    except_for = [:aqua, :fuchsia, :lime]
+    except_for = [:aqua, :fuchsia, :lime, :black, :blue, :brown, :cyan, :darkgray, :gray, :green, :lightgray, :magenta, :orange, :purple, :red, :yellow, :white]
     Symbol.css_colors.each do |name, val|
       next if except_for.include? name
 

@@ -1,4 +1,5 @@
 class UIColor
+
   def uicolor(alpha=nil)
     if alpha
       self.colorWithAlphaComponent(alpha.to_f)
@@ -9,6 +10,17 @@ class UIColor
 
   def cgcolor
     self.CGColor
+  end
+
+  # blends two colors by averaging the RGB and alpha components.
+  # @example
+  # :white.uicolor + :black.uicolor == :gray.uicolor
+  def +(color)
+    r = (self.red + color.red) / 2
+    g = (self.green + color.green) / 2
+    b = (self.blue + color.blue) / 2
+    a = (self.alpha + color.alpha) / 2
+    UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
   end
 
   def red

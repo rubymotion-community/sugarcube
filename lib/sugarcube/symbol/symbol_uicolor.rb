@@ -173,6 +173,22 @@ class Symbol
     wheat:                0xf5deb3,
     whitesmoke:           0xf5f5f5,
     yellowgreen:          0x9acd32,
+
+    # for to_s to pick up on these colors, they need to be defined here
+    black:     0x000000,
+    blue:      0x0000ff,
+    brown:     0x996633,
+    cyan:      0x00ffff,
+    darkgray:  0x555555,
+    gray:      0x808080,
+    green:     0x00ff00,
+    lightgray: 0xaaaaaa,
+    magenta:   0xff00ff,
+    orange:    0xff8000,
+    purple:    0x800080,
+    red:       0xff0000,
+    yellow:    0xffff00,
+    white:     0xffffff,
   }
 
 end
