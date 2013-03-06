@@ -998,18 +998,18 @@ UIBarButtonItem.done {
   self.dismissViewControllerAnimated true, completion:nil
 }
 # =>
-UIBarButtonitem.alloc.initWithBarButtonSystemItem(:done.uibarbuttonitem, target:self, action:"action:")
+UIBarButtonItem.alloc.initWithBarButtonSystemItem(:done.UIBarButtonItem, target:self, action:"action:")
 def action:sender
   self.dismissViewControllerAnimated true, completion:nil
 end
 
-UIBarButtonitem.cancel(&action)           => UIBarButtonitem.alloc.initWithBarButtonSystemItem(:cancel.uibarbuttonitem, target:self, action:"action:")
-UIBarButtonitem.edit(&action)             => UIBarButtonitem.alloc.initWithBarButtonSystemItem(:edit.uibarbuttonitem, target:self, action:"action:")
-UIBarButtonitem.save(&action)             => UIBarButtonitem.alloc.initWithBarButtonSystemItem(:save.uibarbuttonitem, target:self, action:"action:")
+UIBarButtonItem.cancel(&action)           => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:cancel.UIBarButtonItem, target:self, action:"action:")
+UIBarButtonItem.edit(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:edit.UIBarButtonItem, target:self, action:"action:")
+UIBarButtonItem.save(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:save.UIBarButtonItem, target:self, action:"action:")
   .
   .
   .
-UIBarButtonitem.pagecurl(&action)         => UIBarButtonitem.alloc.initWithBarButtonSystemItem(:pagecurl.uibarbuttonitem, target:self, action:"action:")
+UIBarButtonItem.pagecurl(&action)         => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:pagecurl.UIBarButtonItem, target:self, action:"action:")
 
 
 # Get an instance containing the specified title.
@@ -1017,7 +1017,7 @@ UIBarButtonItem.titled('Close') {
   self.dismissViewControllerAnimated true, completion:nil
 }
 # =>
-UIBarButtonitem.alloc.initWithTitle('Close', style: :bordered.uibarbuttonstyle, target:self, action:"action:")
+UIBarButtonItem.alloc.initWithTitle('Close', style: :bordered.uibarbuttonstyle, target:self, action:"action:")
 def action:sender
   self.dismissViewControllerAnimated true, completion:nil
 end
@@ -1033,7 +1033,7 @@ UIBarButtonItem.imaged('close'.uiimage) {
   self.dismissViewControllerAnimated true, completion:nil
 }
 # =>
-UIBarButtonitem.alloc.initWithImage('Close'.uiimage, style: :bordered.uibarbuttonstyle, target:self, action:"action:")
+UIBarButtonItem.alloc.initWithImage('Close'.uiimage, style: :bordered.uibarbuttonstyle, target:self, action:"action:")
 def action:sender
   self.dismissViewControllerAnimated true, completion:nil
 end
@@ -1048,7 +1048,7 @@ UIBarButtonItem.imaged(['portrate'.uiimage, 'landscape'.uiimage) {
   self.dismissViewControllerAnimated true, completion:nil
 }
 # =>
-UIBarButtonitem.alloc.initWithImage('portrate'.uiimage, landscapeImagePhone:'landscape'.uiimage, style: :bordered.uibarbuttonstyle, target:self, action:"action:")
+UIBarButtonItem.alloc.initWithImage('portrate'.uiimage, landscapeImagePhone:'landscape'.uiimage, style: :bordered.uibarbuttonstyle, target:self, action:"action:")
 def action:sender
   self.dismissViewControllerAnimated true, completion:nil
 end
