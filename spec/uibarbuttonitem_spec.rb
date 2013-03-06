@@ -1,5 +1,6 @@
 describe UIBarButtonItem do
 
+  # with system item
   it 'should be :done' do
     b = UIBarButtonItem.done {
       @result = :done
@@ -191,5 +192,48 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :pagecurl
   end
+  
+  # with title
+  it 'should be :titled' do
+    b = UIBarButtonItem.titled('title') {
+      @result = :titled
+    }
+    b.target.send b.action, b
+    @result.should == :titled
+  end
+  
+  it 'should be :titled_with_style' do
+    b = UIBarButtonItem.titled('title', :plain.uibarbuttonstyle) {
+      @result = :titled_with_style
+    }
+    b.target.send b.action, b
+    @result.should == :titled_with_style
+  end
+  
+  it 'should be :imaged' do
+    b = UIBarButtonItem.imaged('little_square'.uiimage) {
+      @result = :imaged
+    }
+    b.target.send b.action, b
+    @result.should == :imaged
+  end
+  
+  it 'should be :imaged_with_style' do
+    b = UIBarButtonItem.imaged('little_square'.uiimage, :plain.uibarbuttonstyle) {
+      @result = :imaged_with_style
+    }
+    b.target.send b.action, b
+    @result.should == :imaged_with_style
+  end
+
+  it 'should be :imaged_with_images' do
+    b = UIBarButtonItem.imaged(['little_square'.uiimage, 'little_square'.uiimage]) {
+      @result = :imaged_with_images
+    }
+    b.target.send b.action, b
+    @result.should == :imaged_with_images
+  end
+  
+  
   
 end
