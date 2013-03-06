@@ -1038,39 +1038,64 @@ text_view.off :change, :end, :begin
 ----------------------
 
 ```ruby
+# Get an instance containing the specified system item.
 UIBarButtonItem.done {
   self.dismissViewControllerAnimated true, completion:nil
 }
 # =>
-UIBarButtonItem.alloc.initWithBarButtonSystemItem(:done.UIBarButtonItem, target:self, action:"action:")
+UIBarButtonItem.alloc.initWithBarButtonSystemItem(:done.uibarbuttonitem, target:self, action:"action:")
+# with 'action' defined as:
+def action(sender)
+  self.dismissViewControllerAnimated true, completion:nil
+end
+
+# the method names are 1::1 with the uibarbuttonitem constants in symbol.rb
+UIBarButtonItem.cancel(&action)           => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:cancel.uibarbuttonitem, target:self, action:"action:")
+UIBarButtonItem.edit(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:edit.uibarbuttonitem, target:self, action:"action:")
+UIBarButtonItem.save(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:save.uibarbuttonitem, target:self, action:"action:")
+  .
+  .
+  .
+UIBarButtonItem.pagecurl(&action)         => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:pagecurl.uibarbuttonitem, target:self, action:"action:")
+
+# Get an instance containing the specified title.
+UIBarButtonItem.titled('Close') {
+  self.dismissViewControllerAnimated true, completion:nil
+}
+# =>
+UIBarButtonItem.alloc.initWithTitle('Close', style: :bordered.uibarbuttonstyle, target:self, action:"action:")
+
 def action:sender
   self.dismissViewControllerAnimated true, completion:nil
 end
 
-UIBarButtonItem.done(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:done.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.cancel(&action)           => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:cancel.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.edit(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:edit.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.save(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:save.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.add(&action)              => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:add.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.flexiblespace(&action)    => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:flexiblespace.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.fixedspace(&action)       => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:fixedspace.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.compose(&action)          => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:compose.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.reply(&action)            => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:reply.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.action(&action)           => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:action.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.organize(&action)         => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:organize.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.bookmarks(&action)        => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:bookmarks.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.search(&action)           => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:search.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.refresh(&action)          => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:refresh.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.stop(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:stop.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.camera(&action)           => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:camera.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.trash(&action)            => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:trash.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.play(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:play.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.pause(&action)            => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:pause.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.rewind(&action)           => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:rewind.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.fastforward(&action)      => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:fastforward.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.undo(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:undo.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.redo(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:redo.UIBarButtonItem, target:self, action:"action:")
-UIBarButtonItem.pagecurl(&action)         => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:pagecurl.UIBarButtonItem, target:self, action:"action:")
+# You can also specify a style.
+UIBarButtonItem.titled('Close', :plain.uibarbuttonstyle) {
+  self.dismissViewControllerAnimated true, completion:nil
+}
+
+
+# Get an instance containing the specified image.
+UIBarButtonItem.imaged('close'.uiimage) {
+  self.dismissViewControllerAnimated true, completion:nil
+}
+# =>
+UIBarButtonItem.alloc.initWithImage('Close'.uiimage, style: :bordered.uibarbuttonstyle, target:self, action:"action:")
+def action:sender
+  self.dismissViewControllerAnimated true, completion:nil
+end
+
+# You can also specify a style.
+UIBarButtonItem.imaged('close'.uiimage, :plain.uibarbuttonstyle) {
+  self.dismissViewControllerAnimated true, completion:nil
+}
+
+# Get an instance containing the specified array which contains a portrate image and a landscape iamge.
+UIBarButtonItem.imaged(['portrate'.uiimage, 'landscape'.uiimage) {
+  self.dismissViewControllerAnimated true, completion:nil
+}
+# =>
+UIBarButtonItem.alloc.initWithImage('portrate'.uiimage, landscapeImagePhone:'landscape'.uiimage, style: :bordered.uibarbuttonstyle, target:self, action:"action:")
 ```
 
 NSNotificationCenter
