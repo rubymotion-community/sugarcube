@@ -157,7 +157,7 @@ class UIView
     options[:after] = after
 
     animate(options) {
-      self.layer.opacity = options[:opacity]
+      self.alpha = options[:opacity]
     }
   end
 
@@ -192,11 +192,11 @@ class UIView
       options = { duration: options }
     end
 
-    original_opacity = self.layer.opacity
+    original_opacity = self.alpha
 
     after_remove = proc {
       removeFromSuperview
-      self.layer.opacity = original_opacity
+      self.alpha = original_opacity
       after.call if after
     }
 
