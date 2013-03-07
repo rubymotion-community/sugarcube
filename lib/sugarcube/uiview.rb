@@ -195,8 +195,8 @@ class UIView
     original_opacity = self.alpha
 
     after_remove = proc {
-      removeFromSuperview
       self.alpha = original_opacity
+      removeFromSuperview
       after.call if after
     }
 
