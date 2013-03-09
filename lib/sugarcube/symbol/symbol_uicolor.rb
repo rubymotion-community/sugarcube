@@ -1,7 +1,7 @@
 class Symbol
   class << self
-    attr_accessor :uicolors
-    attr_accessor :css_colors
+    attr :uicolors
+    attr :css_colors
   end
 
   def uicolor(alpha=nil)
