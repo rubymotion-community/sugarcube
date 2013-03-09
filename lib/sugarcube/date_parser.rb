@@ -27,7 +27,7 @@ module SugarCube
     #
     # Divide by 3600.0 to get number of hours duration.
     def self.parse_duration(date_string)
-      detect(date_string).first.duration
+      detect(date_string).first.send(:duration)
     end
 
     # Parse a date into a raw match array for further processing
@@ -56,11 +56,11 @@ class String
   def to_date
     SugarCube::DateParser.parse_date(self)
   end
-  
+
   def to_timezone
     SugarCube::DateParser.parse_timezone(self)
   end
-  
+
   def to_duration
     SugarCube::DateParser.parse_duration(self)
   end
