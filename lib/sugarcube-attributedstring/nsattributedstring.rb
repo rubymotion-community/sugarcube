@@ -62,6 +62,7 @@ class NSAttributedString
     foo = NSAttachmentAttributeName
     foo = NSLigatureAttributeName
     foo = NSBaselineOffsetAttributeName
+    foo = NSKernAttributeName
     foo = NSLinkAttributeName
     foo = NSStrokeWidthAttributeName
     foo = NSStrokeColorAttributeName
@@ -148,6 +149,10 @@ class NSAttributedString
 
   def baseline_offset(value)
     with_attributes({NSBaselineOffsetAttributeName => value})
+  end
+
+  def kern(value)
+    with_attributes({NSKernAttributeName => value})
   end
 
   def link(value)
