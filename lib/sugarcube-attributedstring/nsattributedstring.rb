@@ -99,7 +99,7 @@ class NSAttributedString
     self.font(font)
   end
 
-  def underlined
+  def underline
     underline(NSUnderlinePatternSolid)
   end
 
