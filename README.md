@@ -464,8 +464,8 @@ NSError.new('Error Message', code: 404, userInfo: { warnings: ['blabla'] })
 "my_font".uifont # => UIFont.fontWithName("my_font", size:UIFont.systemFontSize)
 "my_font".uifont(20) # => UIFont.fontWithName("my_font", size:20)
 
-# UIColor from color name OR image name OR hex code
-"blue".uicolor == :blue.uicolor # => UIColor.blueColor
+# UIColor from image name or hex code
+"pattern".uicolor # => UIColor.colorWithPatternImage(UIImage.imageNamed('pattern'))
 "#ff00ff".uicolor == :fuchsia.uicolor == 0xff00ff.uicolor # => UIColor.colorWithRed(1.0, green:0.0, blue:1.0, alpha:1.0)
 "#f0f".uicolor(0.5) == :fuchsia.uicolor(0.5) == 0xff00ff.uicolor(0.5) # => UIColor.colorWithRed(1.0, green:1.0, blue:1.0, alpha:0.5)
 # note: 0xf0f.uicolor == 0x000f0f.uicolor.  There's no way to tell the difference
