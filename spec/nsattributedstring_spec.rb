@@ -26,6 +26,12 @@ describe 'NSAttributeString' do
       subject.attributesAtIndex(0, effectiveRange:nil).should == {'NSUnderline' => NSUnderlineStyleSingle}
     end
 
+    it 'should be chainable' do
+      subject = 'test'.bold.underline
+      NSAttributedString.should === subject
+      subject.attributesAtIndex(0, effectiveRange:nil).should == {'NSFont' => :bold.uifont, 'NSUnderline' => NSUnderlineStyleSingle}
+    end
+
   end
 
   describe "should support all attribute names" do
