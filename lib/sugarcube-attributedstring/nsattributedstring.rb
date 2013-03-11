@@ -53,36 +53,35 @@ class NSAttributedString
   NSTextAlternativesAttributeName = 'NSTextAlternatives'
 
   def dummy
-    self.foo = NSFontAttributeName
-    self.foo = NSParagraphStyleAttributeName
-    self.foo = NSForegroundColorAttributeName
-    self.foo = NSUnderlineStyleAttributeName
-    self.foo = NSSuperscriptAttributeName
-    self.foo = NSBackgroundColorAttributeName
-    self.foo = NSAttachmentAttributeName
-    self.foo = NSLigatureAttributeName
-    self.foo = NSBaselineOffsetAttributeName
-    self.foo = NSLinkAttributeName
-    self.foo = NSStrokeWidthAttributeName
-    self.foo = NSStrokeColorAttributeName
-    self.foo = NSUnderlineColorAttributeName
-    self.foo = NSStrikethroughStyleAttributeName
-    self.foo = NSStrikethroughColorAttributeName
-    self.foo = NSShadowAttributeName
-    self.foo = NSObliquenessAttributeName
-    self.foo = NSExpansionAttributeName
-    self.foo = NSCursorAttributeName
-    self.foo = NSToolTipAttributeName
-    self.foo = NSMarkedClauseSegmentAttributeName
-    self.foo = NSWritingDirectionAttributeName
-    self.foo = NSVerticalGlyphFormAttributeName
-    self.foo = NSTextAlternativesAttributeName
-
-    self.foo = NSLeftTextAlignment
-    self.foo = NSRightTextAlignment
-    self.foo = NSCenterTextAlignment
-    self.foo = NSJustifiedTextAlignment
-    self.foo = NSNaturalTextAlignment
+    foo = NSFontAttributeName
+    foo = NSParagraphStyleAttributeName
+    foo = NSForegroundColorAttributeName
+    foo = NSUnderlineStyleAttributeName
+    foo = NSSuperscriptAttributeName
+    foo = NSBackgroundColorAttributeName
+    foo = NSAttachmentAttributeName
+    foo = NSLigatureAttributeName
+    foo = NSBaselineOffsetAttributeName
+    foo = NSLinkAttributeName
+    foo = NSStrokeWidthAttributeName
+    foo = NSStrokeColorAttributeName
+    foo = NSUnderlineColorAttributeName
+    foo = NSStrikethroughStyleAttributeName
+    foo = NSStrikethroughColorAttributeName
+    foo = NSShadowAttributeName
+    foo = NSObliquenessAttributeName
+    foo = NSExpansionAttributeName
+    foo = NSCursorAttributeName
+    foo = NSToolTipAttributeName
+    foo = NSMarkedClauseSegmentAttributeName
+    foo = NSWritingDirectionAttributeName
+    foo = NSVerticalGlyphFormAttributeName
+    foo = NSTextAlternativesAttributeName
+    foo = NSLeftTextAlignment
+    foo = NSRightTextAlignment
+    foo = NSCenterTextAlignment
+    foo = NSJustifiedTextAlignment
+    foo = NSNaturalTextAlignment
   end
 
   def to_s
@@ -100,7 +99,7 @@ class NSAttributedString
   end
 
   def underline
-    underline(NSUnderlinePatternSolid)
+    underline_style(NSUnderlineStyleSingle)
   end
 
   # @param font [UIFont] Optional, defaults to UIFont.systemFontOfSize(UIFont.systemFontSize)
