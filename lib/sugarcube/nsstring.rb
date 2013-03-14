@@ -71,6 +71,12 @@ class NSString
             )
   end
 
+  # @return boolean
+  def nan?
+    number_formatter = NSNumberFormatter.new
+    number = number_formatter.numberFromString(self)
+    number.nil?
+  end
   # This can be called as `"Hello".localized` or `"Hello"._`.  The `str._`
   # syntax is meant to be reminiscent of gettext-style `_(str)`.
   def localized(value=nil, table=nil)
