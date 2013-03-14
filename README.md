@@ -491,6 +491,9 @@ NSError.new('Error Message', code: 404, userInfo: { warnings: ['blabla'] })
 
 # NSURL
 "https://github.com".nsurl  # => NSURL.URLWithString("https://github.com")
+
+# check if string is not a number
+"pi".nan? # => NSNumberFormatter.alloc.init.numberFromString("pi").nil?
 ```
 
  NSIndexPath

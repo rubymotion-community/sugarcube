@@ -93,4 +93,9 @@ describe "NSString" do
     'hello'._.should == 'howdy'
   end
 
+  it "should have a #nan? method" do
+    "pi".nan?.should.equal true
+    "3.12159".nan?.should.equal false
+  end
+
 end
