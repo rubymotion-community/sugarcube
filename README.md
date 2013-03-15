@@ -240,7 +240,7 @@ recurring events)
 `start_of_day` and `end_of_day` methods help
    you here.  They are akin to `floor` and `ceil`; if you consider the time to
    be the "floating" component, and the date to be the nearest "integer".
-4. Formatting is made easier with `NSDate#string_with_style(NSDateStyleConstant or Symbol)`
+4. Formatting is made easier with `NSDate#string_with_style(NSDateStyleConstant or Symbol for date, time)`
    and `NSDate#string_with_format(format_string)`.  See
    <http://www.unicode.org/reports/tr35/tr35-25.html#Date_Format_Patterns> for
    the formatters, they take getting used to, coming from `strftime`, but they
@@ -302,13 +302,23 @@ recurring events)
 => [9, 19, 6]
 (main)> now.datetime_array
 => [2012, 9, 13, 9, 19, 6]
+```
 
+Use `NSDate#string_with_style` to generate date and/or time strings.
+
+```ruby
 (main)> now.string_with_style
 => "January 29, 2013"
 (main)> now.string_with_style(NSDateFormatterShortStyle)
 => "1/29/13"
 (main)> now.string_with_style(:short)
 => "1/29/13"
+(main)> now.string_with_style(NSDateFormatterMediumStyle, NSDateFormatterShortStyle)
+=> "Jan 29, 2013, 9:19 AM"
+(main)> now.string_with_style(:short, :medium)
+=> "1/29/13, 9:19:06 AM"
+(main)> now.string_with_style(:none, :long)
+=> "9:19:06 AM GMT+01:00"
 ```
 
 It is easy to add seconds to the date using the time-related methods added to
