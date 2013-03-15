@@ -11,16 +11,22 @@ describe "NSDate" do
     @date = NSDate.from_components(year: 2013, month: 1, day: 2, hour:12, minute: 15, second: 30)
   end
 
-  it "should have an NSDate#string_with_style(style) method that accepts symbols" do
+  it "should have an NSDate#string_with_style(date_style, time_style) method that accepts symbols" do
     @date.string_with_style(:medium).should == 'Jan 2, 2013'
+    @date.string_with_style(:medium, :none).should == 'Jan 2, 2013'
+    @date.string_with_style(:short, :medium).should == '1/2/13, 12:15:30 PM'
+    @date.string_with_style(:none, :short).should == '12:15 PM'
   end
 
-  it "should have an NSDate#string_with_style(style) method that has default" do
+  it "should have an NSDate#string_with_style(date_style, time_style) method that has default" do
     @date.string_with_style.should == 'Jan 2, 2013'
   end
 
-  it "should have an NSDate#string_with_style(style) method that accepts NSDateStyle constants" do
-    @date.string_with_style(NSDateFormatterShortStyle).should == '1/2/13'
+  it "should have an NSDate#string_with_style(date_style, time_style) method that accepts NSDateStyle constants" do
+    @date.string_with_style(NSDateFormatterMediumStyle).should == 'Jan 2, 2013'
+    @date.string_with_style(NSDateFormatterMediumStyle, NSDateFormatterNoStyle).should == 'Jan 2, 2013'
+    @date.string_with_style(NSDateFormatterShortStyle, NSDateFormatterMediumStyle).should == '1/2/13, 12:15:30 PM'
+    @date.string_with_style(NSDateFormatterNoStyle, NSDateFormatterShortStyle).should == '12:15 PM'
   end
 
   it "should have an NSDate#string_with_format method (1)" do
