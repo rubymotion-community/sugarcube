@@ -1042,7 +1042,8 @@ text_view.off :change, :end, :begin
 ```
 
  UILabel
- --------
+----------
+
  Added simple `fit` function to the label, which will start at the supplied font size 
  and then squeeze down until all the text fits.
 
