@@ -23,7 +23,9 @@ class UINavigationController
   end
 
   def pop(to_view=nil)
-    if to_view
+    if to_view == :root
+      self.popToRootViewControllerAnimated(true)
+    elsif to_view
       self.popToViewController(to_view, animated: true)
     else
       self.popViewControllerAnimated(true)
@@ -36,7 +38,10 @@ end
 class UITabBarController
 
   def push(view_controller)
-    view_controllers = [] + self.viewControllers
+    view_controllers = []
+    if self.viewControllers
+      view_controllers += self.viewControllers
+    end
     view_controllers << view_controller
     self.setViewControllers(view_controllers, animated: true)
     self

@@ -990,16 +990,22 @@ controller.present_modal(other_controller) { puts "presented" }
 ------------------------
 
 `push`, `<<` and `pop` instead of `pushViewController` and `popViewController`.
-`!` and `!(view)` instead of `popToRootViewController` and `popToViewController`
 
 animated is `true` for all these.
 
+`pop` accepts an argument: either a view controller to pop to, or the symbol
+`:root` which does what you might expect
+
 ```ruby
-nav_ctlr.push(new_ctlr)
+nav_ctlr << root_ctlr
+# or nav_ctlr.push(root_ctlr)
 nav_ctlr << new_ctlr
-nav_ctlr.pop
-nav_ctlr.!
-nav_ctlr.!(another_view_ctlr)
+# ... imagine we push on a ton of controllers ...
+nav_ctlr << another_ctlr
+nav_ctlr << last_ctlr
+nav_ctlr.pop # => pops to another_ctlr, because it's next on the stack
+nav_ctlr.pop new_ctlr # => pops to new_ctlr
+nav_ctlr.pop :root  # => pops to root_ctlr, because it's on the bottom
 ```
 
  UITabBarController
