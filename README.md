@@ -687,6 +687,10 @@ self.view.hide  # => self.hidden = true
 
 # convert to UIImage.  retina-ready.
 my_view.uiimage
+# that will use the `bounds` property to size the image.  but if you want a
+# screen shot of the contents of a scroll view, pass in `true` or `:all` to this
+# method.
+my_scroll_view.uiimage(:all)
 ```
 
 When defining a UIView subclass, you often have attributes that affect your

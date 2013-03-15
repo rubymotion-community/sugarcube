@@ -358,13 +358,39 @@ class UIView
     }
   end
 
-  # Easily take a snapshot of a UIView
-  def uiimage
+  # Easily take a snapshot of a `UIView`.
+  #
+  # Calling `uiimage` with no arguments will return the image based on the
+  # `bounds` of the image.  In the case of container views (notably
+  # `UIScrollView` and its children) this does not include the entire contents,
+  # which is something you probably want.
+  #
+  # If you pass a truthy value to this method, it will use the `contentSize` of
+  # the view instead of the `bounds`, and it will draw all the child views, not
+  # just those that are visible in the viewport.
+  #
+  # It is guaranteed that `true` and `:all` will always have this behavior.  In
+  # the future, if this argument becomes something that accepts multiple values,
+  # those two are sacred.
+ def uiimage(use_content_size=false)
     scale = UIScreen.mainScreen.scale
-    UIGraphicsBeginImageContextWithOptions(bounds.size, false, scale)
-    layer.renderInContext(UIGraphicsGetCurrentContext())
-    image = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
+    if use_content_size
+      UIGraphicsBeginImageContextWithOptions(contentSize, false, scale)
+      context = UIGraphicsGetCurrentContext()
+      subviews.each do |subview|
+        CGContextSaveGState(context)
+        CGContextTranslateCTM(context, subview.frame.origin.x, subview.frame.origin.y)
+        subview.layer.renderInContext(context)
+        CGContextRestoreGState(context)
+      end
+      image = UIGraphicsGetImageFromCurrentImageContext()
+      UIGraphicsEndImageContext()
+    else
+      UIGraphicsBeginImageContextWithOptions(bounds.size, false, scale)
+      layer.renderInContext(UIGraphicsGetCurrentContext())
+      image = UIGraphicsGetImageFromCurrentImageContext()
+      UIGraphicsEndImageContext()
+    end
     return image
   end
 
