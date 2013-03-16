@@ -24,54 +24,54 @@ You can extend the defaults by adding entries:
 =end
 class Symbol
   class << self
-    attr_accessor :devices
-    attr_accessor :device_orientations
-    attr_accessor :interface_orientations
-    attr_accessor :interface_masks
-    attr_accessor :orientations
-    attr_accessor :returnkeys
-    attr_accessor :statusbar_styles
-    attr_accessor :barmetrics
-    attr_accessor :barbuttonitems
-    attr_accessor :barbuttonstyles
-    attr_accessor :keyboardtypes
-    attr_accessor :autoresizemasks
+    attr :devices
+    attr :device_orientations
+    attr :interface_orientations
+    attr :interface_masks
+    attr :orientations
+    attr :returnkeys
+    attr :statusbar_styles
+    attr :barmetrics
+    attr :barbuttonitems
+    attr :barbuttonstyles
+    attr :keyboardtypes
+    attr :autoresizemasks
 
-    attr_accessor :textalignments
-    attr_accessor :linebreakmodes
-    attr_accessor :baselineadjustments
-    attr_accessor :system_fonts
-    attr_accessor :font_sizes
-    attr_accessor :date_styles
-    attr_accessor :number_styles
+    attr :textalignments
+    attr :linebreakmodes
+    attr :baselineadjustments
+    attr :system_fonts
+    attr :font_sizes
+    attr :date_styles
+    attr :number_styles
 
-    attr_accessor :buttontypes
-    attr_accessor :border_types
-    attr_accessor :control_states
-    attr_accessor :control_events
-    attr_accessor :activityindicator_styles
-    attr_accessor :segmented_styles
-    attr_accessor :datepicker_modes
-    attr_accessor :content_modes
+    attr :buttontypes
+    attr :border_types
+    attr :control_states
+    attr :control_events
+    attr :activityindicator_styles
+    attr :segmented_styles
+    attr :datepicker_modes
+    attr :content_modes
 
-    attr_accessor :tableview_styles
-    attr_accessor :tableview_rowanimation
-    attr_accessor :tableview_cellstyles
-    attr_accessor :tableview_cellaccessorytype
-    attr_accessor :tableview_cellselectionstyle
-    attr_accessor :tableview_cellseparatorstyle
+    attr :tableview_styles
+    attr :tableview_rowanimation
+    attr :tableview_cellstyles
+    attr :tableview_cellaccessorytype
+    attr :tableview_cellselectionstyle
+    attr :tableview_cellseparatorstyle
 
-    attr_accessor :image_sourcetypes
-    attr_accessor :image_capturemode
-    attr_accessor :image_cameradevice
-    attr_accessor :image_quality
+    attr :image_sourcetypes
+    attr :image_capturemode
+    attr :image_cameradevice
+    attr :image_quality
 
-    attr_accessor :ca_timingfunctions
+    attr :ca_timingfunctions
 
-    attr_accessor :cg_linecapstyles
-    attr_accessor :cg_linejoinstyles
+    attr :cg_linecapstyles
+    attr :cg_linejoinstyles
 
-    attr_accessor :gesture_recognizer_states
+    attr :gesture_recognizer_states
   end
 
   @devices = {
