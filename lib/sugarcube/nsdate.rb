@@ -9,12 +9,12 @@ class NSDate
     return calendar.dateFromComponents(date_components)
   end
 
-  def string_with_style(style=NSDateFormatterMediumStyle)
+  def string_with_style(date_style=NSDateFormatterMediumStyle,time_style=NSDateFormatterNoStyle)
     date_formatter = NSDateFormatter.new
-    if style.is_a? Symbol
-      style = style.nsdatestyle
-    end
-    date_formatter.setDateStyle(style)
+    date_style = date_style.nsdatestyle if date_style.is_a? Symbol
+    time_style = time_style.nsdatestyle if time_style.is_a? Symbol
+    date_formatter.setDateStyle(date_style)
+    date_formatter.setTimeStyle(time_style)
     date_formatter.stringFromDate(self)
   end
 
