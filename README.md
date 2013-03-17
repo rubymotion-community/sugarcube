@@ -684,6 +684,30 @@ UIActionSheet.alert 'I mean, is this cool?', buttons: ['Nah', 'With fire!', 'Sur
   success: proc { |pressed| self.proceed if pressed == 'Sure' }
 ```
 
+ UIColor
+---------
+
+Methods to merge or manipulate a color, or to get information about a color.
+Works best on RGB colors, but HSB will work well, too.  `UIColor`s based on
+image patterns can't easily be inverted or mixed.
+
+```ruby
+:red.uicolor.invert # => UIColor.cyanColor
+:blue.uicolor.invert # => UIColor.yellowColor
+:green.uicolor.invert # => UIColor.magentaColor
+:red.uicolor + :blue.uicolor # => UIColor.purpleColor
+:red.uicolor + :green.uicolor # => :olive.uicolor
+# (I didn't know that until I tried it in the REPL, but it was pretty cool to
+# see the UIColor#to_s method match that mixture to olive!)
+
+# a more generic color mixing method (`+` delegates to this method):
+:white.uicolor.mix_with(:black.uicolor, 0)  # => :white
+:white.uicolor.mix_with(:black.uicolor, 0.25)  # => 0x404040.uicolor
+:white.uicolor.mix_with(:black.uicolor, 0.5)  # => :gray, same as :white + :black
+:white.uicolor.mix_with(:black.uicolor, 0.75)  # => 0xbfbfbf.uicolor
+:white.uicolor.mix_with(:black.uicolor, 1)  # => :black
+```
+
  UIView
 --------
 

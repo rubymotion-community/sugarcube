@@ -14,12 +14,45 @@ class UIColor
 
   # blends two colors by averaging the RGB and alpha components.
   # @example
-  # :white.uicolor + :black.uicolor == :gray.uicolor
+  #     :white.uicolor + :black.uicolor == :gray.uicolor
   def +(color)
-    r = (self.red + color.red) / 2
-    g = (self.green + color.green) / 2
-    b = (self.blue + color.blue) / 2
-    a = (self.alpha + color.alpha) / 2
+    mix_with(color, 0.5)
+  end
+
+  # a more generic color mixing method.  mixes two colors, but a second
+  # parameter determines how much of each.  0.5 means equal parts, 0.0 means use
+  # all of the first, and 1.0 means use all of the second
+  def mix_with(color, amount)
+    # make amount between 0 and 1
+    amount = [[0, amount].max, 1].min
+    # start with precise amounts: 0, 0.5, and 1.
+    if amount == 0
+      self
+    elsif amount == 1
+      color
+    elsif amount == 0.5
+      r = (self.red + color.red) / 2
+      g = (self.green + color.green) / 2
+      b = (self.blue + color.blue) / 2
+      a = (self.alpha + color.alpha) / 2
+      UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
+    else
+      r = (color.red - self.red) * amount + self.red
+      g = (color.green - self.green) * amount + self.green
+      b = (color.blue - self.blue) * amount + self.blue
+      a = (color.alpha - self.alpha) * amount + self.alpha
+      UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
+    end
+  end
+
+  # inverts the RGB channel.  keeps the alpha channel unchanged
+  # @example
+  #   :white.uicolor.invert == :black.uicolor
+  def invert
+    r = 1.0 - self.red
+    g = 1.0 - self.green
+    b = 1.0 - self.blue
+    a = self.alpha
     UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
   end
 

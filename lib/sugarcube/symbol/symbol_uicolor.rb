@@ -52,6 +52,7 @@ class Symbol
     aqua:                 0x00ffff,
     aquamarine:           0x7fffd4,
     azure:                0xf0ffff,
+    babygray:             0x576077,
     beige:                0xf5f5dc,
     bisque:               0xffe4c4,
     blanchedalmond:       0xffebcd,
