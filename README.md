@@ -1081,6 +1081,20 @@ end
 text_view.off :change, :end, :begin
 ```
 
+ UILabel
+----------
+
+ Added simple `fit_to_size` function to the label, which will start at the supplied font size 
+ and then squeeze down until all the text fits.  This way you can assure any dynamic text will completely display
+ in a given label frame.  
+
+ The font size changes instead of the frame size.
+ ```ruby
+ #this will try to make the containing text fit at font size 40, but squeeze as needed.
+@label.fit_to_size(40) 
+puts @label.font.pointSize # => Will be 40 or less depending on the font type and label frame.
+ ```
+
  UIBarButtonItem
 ----------------------
 
