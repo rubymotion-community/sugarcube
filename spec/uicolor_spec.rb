@@ -15,6 +15,16 @@ describe 'UIColor' do
     new_color.blue.should == 0.5
   end
 
+  it "should have a #to_hex method" do
+    UIColor.whiteColor.to_hex.should == '#ffffff'
+    UIColor.blackColor.to_hex.should == '#000000'
+  end
+
+  it "should have a #to_i method" do
+    UIColor.whiteColor.to_i.should == 16777215
+    UIColor.blackColor.to_i.should == 0
+  end
+
   it "should have a #invert method" do
     :red.uicolor.invert.should == UIColor.cyanColor
     :green.uicolor.invert.should == UIColor.magentaColor
