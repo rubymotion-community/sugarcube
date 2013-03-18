@@ -1,4 +1,10 @@
 class NSDate
+  # these formatters are used in `string_with_format`.  Symbols are convertd to
+  # a string using string_with_format's templating, and strings are concatenated
+  # as-is
+  SugarCubeFormats = {
+    iso8601: [:yyyy, '-', :MM, '-', :dd, ' ', :HH, ':', :mm, ':', :ss, '.', :SSS]
+  }
 
   def self.from_components(components)
     date_components = NSDateComponents.new
@@ -18,12 +24,35 @@ class NSDate
     date_formatter.stringFromDate(self)
   end
 
+  # Pass in a format string or a Symbol.  The Symbol must exist in
+  # NSDate::SugarCubeFormats.
+  #
+  # See
+  # <https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html#//apple_ref/doc/uid/TP40002369-SW1>
+  # and
+  # <http://www.unicode.org/reports/tr35/tr35-19.html#Date_Format_Patterns>
+  # for more information about date format strings.
   def string_with_format(format)
-    format_template = NSDateFormatter.dateFormatFromTemplate(format, options:0,
-                                                      locale:NSLocale.currentLocale)
-    date_formatter = NSDateFormatter.new
-    date_formatter.setDateFormat(format_template)
-    date_formatter.stringFromDate(self)
+    if format.is_a?(Symbol)
+      formatters = SugarCubeFormats[format]
+      raise "No format found for #{format.inspect}" unless formatters
+      retval = ''
+      formatters.each do |formatter|
+        case formatter
+        when Symbol
+          retval << string_with_format(formatter.to_s)
+        when String
+          retval << formatter
+        end
+      end
+      return retval
+    else
+      format_template = NSDateFormatter.dateFormatFromTemplate(format, options:0,
+                                                        locale:NSLocale.currentLocale)
+      date_formatter = NSDateFormatter.new
+      date_formatter.setDateFormat(format_template)
+      return date_formatter.stringFromDate(self)
+    end
   end
 
   def upto(last_date, delta={days: 1}, &block)
