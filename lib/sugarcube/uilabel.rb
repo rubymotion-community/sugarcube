@@ -1,7 +1,10 @@
 class UILabel
 	
-  # forces the given text to fit inside the label's height 
-  def fit(max_size)
+  # forces the given text to fit inside the label's frame starting at a given font size 
+  def fit_to_size(max_size)
+    #enforce word wrap
+    self.lineBreakMode = UILineBreakModeWordWrap
+    
     dynamic_font = self.font.fontWithSize(max_size + 2)
     constraintSize = CGSizeMake(self.frame.size.width, 10000)
 
