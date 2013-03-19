@@ -72,15 +72,61 @@ class UIColor
     _sugarcube_colors && _sugarcube_colors[:alpha]
   end
 
+  # returns the components OR'd together, as 32 bit RGB integer.
+  def to_i
+    if self.red && self.green && self.blue
+      red = (self.red * 255).round << 16
+      green = (self.green * 255).round << 8
+      blue = (self.blue * 255).round
+      return red + green + blue
+    else
+      return nil
+    end
+  end
+
+  # returns the components as an array of 32 bit RGB values
+  def to_a
+    if self.red && self.green && self.blue
+      red = (self.red * 255).round
+      green = (self.green * 255).round
+      blue = (self.blue * 255).round
+      return [red, green, blue]
+    else
+      return nil
+    end
+  end
+
+  def hex
+    my_color = self.to_i
+    if my_color
+      return '#' + my_color.to_s(16).rjust(6, '0')
+    else
+      nil
+    end
+  end
+
   # returns the closest css name
   def css_name
-    found = Symbol.css_colors.map { |key, val| [key, _sugarcube_color_compare(self, val.uicolor)] }.inject{|c1,c2| c1[1] < c2[1] ? c1 : c2 }
-    threshold = 0.03
-    if found[1] > 0.03
-      nil
-    else
-      found[0]
+    my_color = self.to_i
+    css_name = nil
+    Symbol.css_colors.each_pair do |color, hex|
+      if hex == my_color
+        css_name = color
+        break
+      end
     end
+    return css_name
+  end
+
+  def system_name
+    system_color = nil
+    Symbol.uicolors.each_pair do |color, method|
+      if UIColor.send(method) == self
+        system_color = method
+        break
+      end
+    end
+    return system_color.to_s
   end
 
 private
