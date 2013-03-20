@@ -321,8 +321,8 @@ class UIImage
   def darken(options={})
     filter_name = 'CIColorControls'
     filter_options = {
-      inputBrightness: options[:brightness] || -0.5,
-      inputSaturation: options[:saturation] || -0.2,
+      inputBrightness: options[:brightness] || 0,
+      inputSaturation: options[:saturation] || 0,
     }
 
     cg_input_image = CIImage.alloc.initWithImage(self)
