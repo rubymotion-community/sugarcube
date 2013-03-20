@@ -126,7 +126,7 @@ class UIColor
         break
       end
     end
-    return system_color.to_s
+    return system_color
   end
 
 private

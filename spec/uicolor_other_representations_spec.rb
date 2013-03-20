@@ -16,8 +16,8 @@ describe 'UIColor (CSS)' do
   end
 
   it "should have a #system_name method" do
-    UIColor.whiteColor.system_name.should == 'whiteColor'
-    UIColor.blackColor.system_name.should == 'blackColor'
+    UIColor.whiteColor.system_name.should == :whiteColor
+    UIColor.blackColor.system_name.should == :blackColor
   end
 
   it "should return css color names" do
