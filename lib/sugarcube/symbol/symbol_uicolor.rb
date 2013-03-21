@@ -7,14 +7,14 @@ class Symbol
   def uicolor(alpha=nil)
     if Symbol.uicolors.has_key? self
       # iOS colors
-      color = UIColor.send(look_in(Symbol.uicolors))
+      color = UIColor.send(sugarcube_look_in(Symbol.uicolors))
 
       if not alpha.nil?
         color = color.colorWithAlphaComponent(alpha.to_f)
       end
     else
       # css colors
-      color = look_in(Symbol.css_colors).uicolor(alpha)
+      color = sugarcube_look_in(Symbol.css_colors).uicolor(alpha)
     end
 
     color

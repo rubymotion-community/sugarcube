@@ -498,187 +498,187 @@ class Symbol
   }
 
   private
-  def look_in(here)
+  def sugarcube_look_in(here)
     return here[self] if here.has_key? self
     raise SugarNotFoundException.new(self.inspect)
   end
 
   public
   def uidevice
-    look_in(Symbol.devices)
+    sugarcube_look_in(Symbol.devices)
   end
 
   def uideviceorientation
-    look_in(Symbol.device_orientations)
+    sugarcube_look_in(Symbol.device_orientations)
   end
 
   def uiinterfaceorientation
-    look_in(Symbol.interface_orientations)
+    sugarcube_look_in(Symbol.interface_orientations)
   end
 
   def uiinterfacemask
-    look_in(Symbol.interface_masks)
+    sugarcube_look_in(Symbol.interface_masks)
   end
 
   def uitextalignment
-    look_in(Symbol.textalignments)
+    sugarcube_look_in(Symbol.textalignments)
   end
   alias uialignment uitextalignment
 
 
   def uilinebreakmode
-    look_in(Symbol.linebreakmodes)
+    sugarcube_look_in(Symbol.linebreakmodes)
   end
 
   def uibaselineadjustment
-    look_in(Symbol.baselineadjustments)
+    sugarcube_look_in(Symbol.baselineadjustments)
   end
   alias uibaseline uibaselineadjustment
 
 
   def uiinterfaceorientation
-    look_in(Symbol.orientations)
+    sugarcube_look_in(Symbol.orientations)
   end
   alias uiorientation uiinterfaceorientation
 
   def uibuttontype
-    look_in(Symbol.buttontypes)
+    sugarcube_look_in(Symbol.buttontypes)
   end
 
   def uibordertype
-    look_in(Symbol.border_types)
+    sugarcube_look_in(Symbol.border_types)
   end
   alias uiborderstyle uibordertype
 
   def uicontrolstate
-    look_in(Symbol.control_states)
+    sugarcube_look_in(Symbol.control_states)
   end
   alias uistate uicontrolstate
 
 
   def uicontrolevent
-    look_in(Symbol.control_events)
+    sugarcube_look_in(Symbol.control_events)
   end
 
   def uireturnkey
-    look_in(Symbol.returnkeys)
+    sugarcube_look_in(Symbol.returnkeys)
   end
 
   def uiactivityindicatorstyle
-    look_in(Symbol.activityindicator_styles)
+    sugarcube_look_in(Symbol.activityindicator_styles)
   end
   alias uiactivityindicatorviewstyle uiactivityindicatorstyle
 
 
   def uisegmentedstyle
-    look_in(Symbol.segmented_styles)
+    sugarcube_look_in(Symbol.segmented_styles)
   end
   alias uisegmentedcontrolstyle uisegmentedstyle
 
 
   def uidatepickermode
-    look_in(Symbol.datepicker_modes)
+    sugarcube_look_in(Symbol.datepicker_modes)
   end
 
   def uicontentmode
-    look_in(Symbol.content_modes)
+    sugarcube_look_in(Symbol.content_modes)
   end
   alias uiviewcontentmode uicontentmode
 
   def uitablestyle
-    look_in(Symbol.tableview_styles)
+    sugarcube_look_in(Symbol.tableview_styles)
   end
   alias uitableviewstyle uitablestyle
 
   def uitablerowanimation
-    look_in(Symbol.tableview_rowanimation)
+    sugarcube_look_in(Symbol.tableview_rowanimation)
   end
   alias uitableviewrowanimation uitablerowanimation
 
   def uitablecellstyle
-    look_in(Symbol.tableview_cellstyles)
+    sugarcube_look_in(Symbol.tableview_cellstyles)
   end
   alias uitableviewcellstyle uitablecellstyle
 
   def uitablecellaccessory
-    look_in(Symbol.tableview_cellaccessorytype)
+    sugarcube_look_in(Symbol.tableview_cellaccessorytype)
   end
   alias uitableviewcellaccessorytype uitablecellaccessory
 
   def uitablecellselectionstyle
-    look_in(Symbol.tableview_cellselectionstyle)
+    sugarcube_look_in(Symbol.tableview_cellselectionstyle)
   end
   alias uitableviewcellselectionstyle uitablecellselectionstyle
 
   def uitablecellseparatorstyle
-    look_in(Symbol.tableview_cellseparatorstyle)
+    sugarcube_look_in(Symbol.tableview_cellseparatorstyle)
   end
 
   def uistatusbarstyle
-    look_in(Symbol.statusbar_styles)
+    sugarcube_look_in(Symbol.statusbar_styles)
   end
 
   def uibarmetrics
-    look_in(Symbol.barmetrics)
+    sugarcube_look_in(Symbol.barmetrics)
   end
 
   def uibarbuttonitem
-    look_in(Symbol.barbuttonitems)
+    sugarcube_look_in(Symbol.barbuttonitems)
   end
 
   def uibarbuttonstyle
-    look_in(Symbol.barbuttonstyles)
+    sugarcube_look_in(Symbol.barbuttonstyles)
   end
 
   def uikeyboardtype
-    look_in(Symbol.keyboardtypes)
+    sugarcube_look_in(Symbol.keyboardtypes)
   end
 
   def uiautoresizemask
-    look_in(Symbol.autoresizemasks)
+    sugarcube_look_in(Symbol.autoresizemasks)
   end
   alias uiviewautoresizing uiautoresizemask
   alias uiautoresizingmask uiautoresizemask
   alias uiautoresize uiautoresizemask
 
   def uiimagesource
-    look_in(Symbol.image_sourcetypes)
+    sugarcube_look_in(Symbol.image_sourcetypes)
   end
   alias uiimagesourcetype uiimagesource
 
   def uiimagecapture
-    look_in(Symbol.image_capturemode)
+    sugarcube_look_in(Symbol.image_capturemode)
   end
   alias uiimagecapturemode uiimagecapture
 
   def uiimagecamera
-    look_in(Symbol.image_cameradevice)
+    sugarcube_look_in(Symbol.image_cameradevice)
   end
   alias uiimagecameradevice uiimagecamera
   alias uiimagedevice uiimagecamera
 
   def uiimagequality
-    look_in(Symbol.image_quality)
+    sugarcube_look_in(Symbol.image_quality)
   end
   alias uiimagequalitytype uiimagequality
 
   def catimingfunction
-    look_in(Symbol.ca_timingfunctions)
+    sugarcube_look_in(Symbol.ca_timingfunctions)
   end
   alias catiming catimingfunction
 
   def cglinecap
-    look_in(Symbol.cg_linecapstyles)
+    sugarcube_look_in(Symbol.cg_linecapstyles)
   end
   alias cglinecapstyle cglinecap
 
   def cglinejoin
-    look_in(Symbol.cg_linejoinstyles)
+    sugarcube_look_in(Symbol.cg_linejoinstyles)
   end
   alias cglinejoinstyle cglinejoin
 
   def uigesturerecognizerstate
-    look_in(Symbol.gesture_recognizer_states)
+    sugarcube_look_in(Symbol.gesture_recognizer_states)
   end
   alias uigesturestate uigesturerecognizerstate
 
@@ -686,7 +686,7 @@ class Symbol
     size ||= UIFont.systemFontSize
     # system fonts
     if Symbol.system_fonts.has_key? self
-      font = look_in(Symbol.system_fonts)
+      font = sugarcube_look_in(Symbol.system_fonts)
       if size.is_a?(Symbol)
         size = size.uifontsize
       end
@@ -705,7 +705,7 @@ class Symbol
   end
 
   def uifontsize
-    size = look_in(Symbol.font_sizes)
+    size = sugarcube_look_in(Symbol.font_sizes)
     if size.is_a?(Symbol)
       return UIFont.send(size)
     end
@@ -713,12 +713,12 @@ class Symbol
   end
 
   def nsdatestyle
-    look_in(Symbol.date_styles)
+    sugarcube_look_in(Symbol.date_styles)
   end
   alias nsdateformatterstyle nsdatestyle
 
   def nsnumberstyle
-    look_in(Symbol.number_styles)
+    sugarcube_look_in(Symbol.number_styles)
   end
   alias nsnumberformatterstyle nsnumberstyle
 
