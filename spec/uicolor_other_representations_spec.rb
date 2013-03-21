@@ -16,8 +16,8 @@ describe 'UIColor (CSS)' do
   end
 
   it "should have a #system_name method" do
-    UIColor.whiteColor.system_name.should == 'whiteColor'
-    UIColor.blackColor.system_name.should == 'blackColor'
+    UIColor.whiteColor.system_name.should == :whiteColor
+    UIColor.blackColor.system_name.should == :blackColor
   end
 
   it "should return css color names" do
@@ -32,6 +32,15 @@ describe 'UIColor (CSS)' do
       color = val.uicolor
       color.css_name.should == name
     end
+  end
+
+  it "should have good to_s return values" do
+    UIColor.whiteColor.to_s.should == 'UIColor.whiteColor'
+    UIColor.whiteColor.uicolor(0.5).to_s.should == 'UIColor.whiteColor(0.5)'
+    :indianred.uicolor.to_s.should == 'UIColor.color(:indianred)'
+    :indianred.uicolor(0.5).to_s.should == 'UIColor.color(:indianred, alpha: 0.5)'
+    '#12be3f'.uicolor.to_s.should == "UIColor.color('#12be3f')"
+    '#12be3f'.uicolor(0.5).to_s.should == "UIColor.color('#12be3f', alpha: 0.5)"
   end
 
   it "should return UIColor objects" do

@@ -120,13 +120,14 @@ class UIColor
 
   def system_name
     system_color = nil
+    without_alpha = self.uicolor(1)
     Symbol.uicolors.each_pair do |color, method|
-      if UIColor.send(method) == self
+      if UIColor.send(method) == without_alpha
         system_color = method
         break
       end
     end
-    return system_color.to_s
+    return system_color
   end
 
 private

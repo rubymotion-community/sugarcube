@@ -1,16 +1,14 @@
 class UIColor
 
   def to_s
+    alpha_s = ((alpha || 1) < 1 ? "(#{alpha})" : '')
     system_color = system_name
-    return system_color if system_color
+    return "UIColor.#{system_color}#{alpha_s}" if system_color
 
-    inside = self.css_name || self.hex
+    alpha_s = ((alpha || 1) < 1 ? ", alpha: #{alpha}" : '')
+    inside = (css_name && ":#{css_name}") || (hex && "'#{hex}'")
     if inside
-      if self.alpha < 1
-        return "UIColor.color(#{inside}, #{alpha})"
-      else
-        return "UIColor.color(#{inside})"
-      end
+      return "UIColor.color(#{inside}#{alpha_s})"
     else
       super
     end
