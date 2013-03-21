@@ -1,21 +1,21 @@
-describe "SugarCube::Struct" do
+describe "SugarCube::Anonymous" do
 
   before do
-    @h = SugarCube::Struct[{ foo: 'FOO', "bar" => 'BAR' }]
+    @h = SugarCube::Anonymous[{ foo: 'FOO', "bar" => 'BAR' }]
   end
 
-  describe "NSDictionary#to_struct" do
+  describe "NSDictionary#to_object" do
 
-    it 'should return an instance of SugarCube::Struct' do
-      SugarCube::Struct.should === { foo: 'FOO', "bar" => 'BAR' }.to_struct
+    it 'should return an instance of SugarCube::Anonymous' do
+      SugarCube::Anonymous.should === { foo: 'FOO', "bar" => 'BAR' }.to_object
     end
 
   end
 
   describe "constructor" do
 
-    it 'should give an instance of SugarCube::Struct' do
-      SugarCube::Struct.should === @h
+    it 'should give an instance of SugarCube::Anonymous' do
+      SugarCube::Anonymous.should === @h
     end
 
   end
