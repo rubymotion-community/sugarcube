@@ -5,6 +5,7 @@ require './lib/sugarcube-gestures'
 require './lib/sugarcube-568'
 require './lib/sugarcube-attributedstring'
 require './lib/sugarcube-unholy'
+require './lib/sugarcube-anonymous'
 
 
 Motion::Project::App.setup do |app|
