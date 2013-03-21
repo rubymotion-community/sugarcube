@@ -76,6 +76,15 @@ Examples
 
  Hash => Object
 --------
+
+```ruby
+require 'sugarcube-attributedstring'
+```
+
+Convert `Hash`es into an "anonymous object".  Existing keys will be able to be
+accessed using method names.  Uses the `SugarCube::Anonymous` class to
+accomplish this, though the usual interface is via `Hash#to_object`.
+
 ```ruby
 h = { foo: 'FOO', 'bar' => 'BAR' }.to_object
 
