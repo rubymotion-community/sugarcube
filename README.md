@@ -74,6 +74,18 @@ Examples
 [160, 210, 242].uicolor(0.5)  # => UIColor.colorWithRed(0.6274, green:0.8235, blue:0.9490, alpha:0.5)
 ```
 
+ Hash
+--------
+```ruby
+h = { foo: 'FOO', 'bar' => 'BAR' }
+
+# You can use methods instead of keys.
+h.foo         # => h[:foo]
+h.bar         # => h['bar']
+h.foo = 'Foo' # => h[:foo] = 'Foo'
+h.bar = 'Bar' # => h['bar'] = 'Bar'
+```
+
  Fixnum
 --------
 
