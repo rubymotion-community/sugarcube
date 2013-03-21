@@ -41,6 +41,19 @@ module SugarCube
       return super
     end
 
+    def to_struct
+      self
+    end
+
+  end
+
+end
+
+
+class NSDictionary
+
+  def to_struct
+    SugarCube::Struct[self]
   end
 
 end

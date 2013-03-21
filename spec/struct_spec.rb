@@ -4,9 +4,17 @@ describe "SugarCube::Struct" do
     @h = SugarCube::Struct[{ foo: 'FOO', "bar" => 'BAR' }]
   end
 
+  describe "NSDictionary#to_struct" do
+
+    it 'should return an instance of SugarCube::Struct' do
+      SugarCube::Struct.should === { foo: 'FOO', "bar" => 'BAR' }.to_struct
+    end
+
+  end
+
   describe "constructor" do
 
-    it 'should give an instance of Struct' do
+    it 'should give an instance of SugarCube::Struct' do
       SugarCube::Struct.should === @h
     end
 
