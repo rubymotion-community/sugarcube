@@ -15,6 +15,18 @@ class NSDate
     return calendar.dateFromComponents(date_components)
   end
 
+  def self.today
+    NSDate.new.start_of_day
+  end
+
+  def self.tomorrow
+    NSDate.new.delta(days: 1).start_of_day
+  end
+
+  def self.yesterday
+    NSDate.new.delta(days: -1).start_of_day
+  end
+
   def string_with_style(date_style=NSDateFormatterMediumStyle,time_style=NSDateFormatterNoStyle)
     date_formatter = NSDateFormatter.new
     date_style = date_style.nsdatestyle if date_style.is_a? Symbol

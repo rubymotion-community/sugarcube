@@ -7,6 +7,37 @@ describe "NSDate" do
     date.day.should == 2
   end
 
+  it "Should have an NSDate##today method" do
+    now = NSDate.new
+    date = NSDate.today
+    date.year.should == now.year
+    date.month.should == now.month
+    date.day.should == now.day
+    date.hour.should == 0
+    date.min.should == 0
+    date.sec.should == 0
+  end
+
+  it "Should have an NSDate##yesterday method" do
+    now = NSDate.today
+    date = NSDate.yesterday
+    date.hour.should == 0
+    date.min.should == 0
+    date.sec.should == 0
+    (now - date).in_hours.should >= 23  # keep in mind daylight
+    (now - date).in_hours.should <= 25  # savings time.
+  end
+
+  it "Should have an NSDate##tomorrow method" do
+    now = NSDate.today
+    date = NSDate.tomorrow
+    date.hour.should == 0
+    date.min.should == 0
+    date.sec.should == 0
+    (date - now).in_hours.should >= 23  # keep in mind daylight
+    (date - now).in_hours.should <= 25  # savings time.
+  end
+
   before do
     @date = NSDate.from_components(year: 2013, month: 1, day: 2, hour:12, minute: 15, second: 30)
   end
