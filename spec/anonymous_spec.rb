@@ -94,6 +94,10 @@ describe "SugarCube::Anonymous nested case" do
       @h.array.class.should == SugarCube::AnonymousArray
     end
     
+    it 'should not copy again' do
+      @h.array.object_id.should == @h.array.object_id
+    end
+      
     describe "inner object" do
     
       it 'should return an instance of SugarCube::Anonymous' do
