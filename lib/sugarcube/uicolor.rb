@@ -16,13 +16,15 @@ class UIColor
   # @example
   #     :white.uicolor + :black.uicolor == :gray.uicolor
   def +(color)
-    mix_with(color, 0.5)
+    mix_with(color.uicolor, 0.5)
   end
 
   # a more generic color mixing method.  mixes two colors, but a second
   # parameter determines how much of each.  0.5 means equal parts, 0.0 means use
   # all of the first, and 1.0 means use all of the second
   def mix_with(color, amount)
+    color = color.uicolor
+
     # make amount between 0 and 1
     amount = [[0, amount].max, 1].min
     # start with precise amounts: 0, 0.5, and 1.
