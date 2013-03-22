@@ -66,7 +66,7 @@ describe "SugarCube::Anonymous nested case" do
   before do
     @h = SugarCube::Anonymous[
       {
-        dictionary: { foo: 'FOO' },
+        dictionary: { foo: 'FOO', array: [ { is_fine: 'is_fine' } ] },
         array: [ { bar: 'BAR' }, [ 1, 2, 3 ] ]
       }
     ]
@@ -78,12 +78,16 @@ describe "SugarCube::Anonymous nested case" do
       @h.dictionary.class.should == SugarCube::Anonymous
     end
     
-    it 'should return { foo: "FOO" }' do
-      @h.dictionary.should == { foo: "FOO" }
+    it 'should return a hash which contains a string and an array' do
+      @h.dictionary.should == { foo: 'FOO', array: [ { is_fine: 'is_fine' } ] }
     end
     
     it 'should not copy again' do
       @h.dictionary.object_id.should == @h.dictionary.object_id
+    end
+    
+    it 'should return is_fine' do
+      @h.dictionary.array[0].is_fine.should == 'is_fine'
     end
     
   end
