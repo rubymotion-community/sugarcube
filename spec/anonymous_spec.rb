@@ -59,3 +59,61 @@ describe "SugarCube::Anonymous" do
   end
 
 end
+
+
+describe "SugarCube::Anonymous nested case" do
+
+  before do
+    @h = SugarCube::Anonymous[
+      {
+        dictionary: { foo: 'FOO' },
+        array: [ { bar: 'BAR' }, [ 1, 2, 3 ] ]
+      }
+    ]
+  end
+  
+  describe "dictionary" do
+  
+    it 'should return an instance of SugarCube::Anonymous' do
+      @h.dictionary.class.should == SugarCube::Anonymous
+    end
+    
+    it 'should return { foo: "FOO" }' do
+      @h.dictionary.should == { foo: "FOO" }
+    end
+    
+    it 'should not copy again' do
+      @h.dictionary.object_id.should == @h.dictionary.object_id
+    end
+    
+  end
+
+  describe "array" do
+  
+    it 'should return an instance of SugarCube::AnonymousArray' do
+      @h.array.class.should == SugarCube::AnonymousArray
+    end
+    
+    describe "inner object" do
+    
+      it 'should return an instance of SugarCube::Anonymous' do
+        @h.array[0].class.should == SugarCube::Anonymous
+      end
+      
+      it 'should return an instance of SugarCube::Anonymous' do
+        @h.array.first.class.should == SugarCube::Anonymous
+      end
+      
+      it 'should return an instance of SugarCube::AnonymousArray' do
+        @h.array[1].class.should == SugarCube::AnonymousArray
+      end
+      
+      it 'should return an instance of SugarCube::AnonymousArray' do
+        @h.array.last.class.should == SugarCube::AnonymousArray
+      end
+      
+    end
+
+  end
+
+end
