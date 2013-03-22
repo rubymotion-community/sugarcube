@@ -26,13 +26,14 @@ module SugarCube
         key = symbol
         key = symbol.to_s unless self.include? key
         if self.include?(key)
+          self[key] = self[key].to_object
           return self[key]
         end
       elsif args.size == 1 && /(.*)=$/ =~ symbol.to_s
         key = $1.to_sym
         key = key.to_s unless self.include? key
         if self.include?(key)
-          return self[key] = args.first
+          return self[key] = args.first.to_object
         end
       end
       return super
@@ -46,6 +47,13 @@ module SugarCube
 
 end
 
+class NSObject
+
+  def to_object
+    self
+  end
+
+end
 
 class NSDictionary
 
