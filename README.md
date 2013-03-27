@@ -1184,6 +1184,16 @@ UIBarButtonItem.imaged(['portrate'.uiimage, 'landscape'.uiimage) {
 UIBarButtonItem.alloc.initWithImage('portrate'.uiimage, landscapeImagePhone:'landscape'.uiimage, style: :bordered.uibarbuttonstyle, target:self, action:"action:")
 ```
 
+Example Usage:
+```ruby
+toolbar = UIToolbar.new
+toolbar.items = [
+  @image_picker_button = UIBarButtonItem.camera { presentImagePickerController(self) },
+  UIBarButtonItem.flexiblespace,
+  @saveButton = UIBarButtonItem.save { save_photo(self) }
+]
+```
+
 NSNotificationCenter
 ----------------------
 
