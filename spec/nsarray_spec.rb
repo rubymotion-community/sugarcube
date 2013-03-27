@@ -42,5 +42,10 @@ describe "NSArray" do
     color.blue.should == 0
     color.alpha.should == 0.5
   end
+  
+  it "should have a method #nsset" do
+    set = [0,1,0].nsset
+    set.count.should == 2
+  end
 
 end
