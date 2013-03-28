@@ -8,4 +8,8 @@ describe "NSURL" do
     'https://github.com'.nsurl.can_open?.should == true
   end
 
+  it "should have a method #nsdata?" do
+    NSData.should === 'https://github.com'.nsurl.nsdata
+  end
+
 end
