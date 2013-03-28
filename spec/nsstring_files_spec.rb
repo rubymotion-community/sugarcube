@@ -2,6 +2,12 @@ describe 'NSString' do
 
   it "should have a #document method" do
     'foo'.document.hasPrefix('/Users').should == true
+    'foo'.document.hasSuffix('Documents/foo').should == true
+  end
+
+  it "should have a #cache method" do
+    'foo'.cache.hasPrefix('/Users').should == true
+    'foo'.cache.hasSuffix('Library/Caches/foo').should == true
   end
 
   it "should have an #exists? method" do

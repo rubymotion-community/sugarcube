@@ -514,6 +514,7 @@ NSError.new('Error Message', code: 404, userInfo: { warnings: ['blabla'] })
 # file operations
 "my.plist".exists?   # => NSFileManager.defaultManager.fileExistsAtPath("my.plist")
 "my.plist".document  # => NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
+"my.plist".cache  # => NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
 "my.plist".remove!  # => NSFileManager.defaultManager.removeItemAtPath("my.plist".document, error: error)  (returns error, if any occurred)
 
 # get the resource path, useful if you include json files or images you manipulate in the app
@@ -1218,15 +1219,24 @@ Makes it easy to post a notification to some or all objects.
 ---------
 
 ```ruby
+# once
 1.second.later do
   @view.shake
 end
-
+# repeating
 1.second.every do
   @view.shake
 end
 
-# since that looks funny, an every method is available in the SugarCube::Timer module
+# you can assign the return value (an NSTimer)
+timer = 1.second.every do
+  @view.shake
+end
+# and invalidate it
+timer.invalidate
+
+# the `every` method is available in the SugarCube::Timer module,
+# which you might find more readable
 include SugarCube::Timer
 every 1.minute do
   puts "tick"

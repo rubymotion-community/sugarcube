@@ -2,7 +2,6 @@ class UIViewController
 
   def push(view_controller)
     self.addChildViewController(view_controller)
-    view_controller.didMoveToParentViewController(self)
     self
   end
 

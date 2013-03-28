@@ -43,6 +43,13 @@ module SugarCube
       self
     end
 
+    # replace enumerable methods
+    alias :anonymous_each :each
+    
+    def each
+      anonymous_each {|k,v| yield k, v.to_object}
+    end
+
   end
 
 end
