@@ -49,5 +49,9 @@ class NSArray
     blue = self[2] / 255.0
     UIColor.colorWithRed(red, green:green, blue:blue, alpha:alpha.to_f)
   end
+  
+  def nsset
+    NSSet.setWithArray self
+  end
 
 end
