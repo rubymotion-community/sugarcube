@@ -12,6 +12,11 @@ class UIViewController
     push view_controller
   end
 
+  def pop
+    to_pop = self.childViewControllers[-1]
+    to_pop.removeFromParentViewController
+  end
+
 end
 
 
