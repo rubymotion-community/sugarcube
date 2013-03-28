@@ -6,6 +6,13 @@ class NSString
 
     @@sugarcube_docs.stringByAppendingPathComponent(self)
   end
+  
+  def cache
+    @@sugarcube_caches ||= NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true)[0]
+    return self if self.hasPrefix(@@sugarcube_caches)
+
+    @@sugarcube_caches.stringByAppendingPathComponent(self)
+  end
 
   def exists?
     NSFileManager.defaultManager.fileExistsAtPath(self.document)
