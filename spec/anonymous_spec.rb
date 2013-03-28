@@ -90,6 +90,41 @@ describe "SugarCube::Anonymous nested case" do
       @h.dictionary.array[0].is_fine.should == 'is_fine'
     end
     
+    describe "Enumerable" do
+
+      describe "each" do
+      
+        it 'should return an instance of [SugarCube::Anonymous, SugarCube::AnonymousArray]' do
+          a = []
+          @h.each{|k,v| a << v.class}
+          a[0].should == SugarCube::Anonymous
+          a[1].should == SugarCube::AnonymousArray
+        end
+        
+      end
+
+      describe "map" do
+      
+        it 'should return an instance of [SugarCube::Anonymous, SugarCube::AnonymousArray]' do
+          a = @h.map{|k,v| v.class}
+          a[0].should == SugarCube::Anonymous
+          a[1].should == SugarCube::AnonymousArray
+        end
+        
+      end
+      
+      describe "collect" do
+      
+        it 'should return an instance of [SugarCube::Anonymous, SugarCube::AnonymousArray]' do
+          a = @h.collect{|k,v| v.class}
+          a[0].should == SugarCube::Anonymous
+          a[1].should == SugarCube::AnonymousArray
+        end
+
+      end
+      
+    end
+      
   end
 
   describe "array" do
@@ -118,6 +153,65 @@ describe "SugarCube::Anonymous nested case" do
       
       it 'should return an instance of SugarCube::AnonymousArray' do
         @h.array.last.class.should == SugarCube::AnonymousArray
+      end
+    
+    end
+    
+    describe "Enumerable" do
+
+      describe "each" do
+      
+        it 'should return an instance of [SugarCube::Anonymous, SugarCube::AnonymousArray]' do
+          a = []
+          @h.array.each{|e| a << e.class}
+          a[0].should == SugarCube::Anonymous
+          a[1].should == SugarCube::AnonymousArray
+        end
+        
+      end
+      
+      describe "each_with_index" do
+      
+        it 'should return an instance of [0,1]' do
+          a = []
+          @h.array.each_with_index{|e,i| a << i}
+          a.should == [0,1]
+        end
+        
+      end
+      
+      describe "map" do
+      
+        it 'should return an instance of [SugarCube::Anonymous, SugarCube::AnonymousArray]' do
+          a = @h.array.map{|e| e.class}
+          a[0].should == SugarCube::Anonymous
+          a[1].should == SugarCube::AnonymousArray
+        end
+        
+      end
+      
+      describe "collect" do
+      
+        it 'should return an instance of [SugarCube::Anonymous, SugarCube::AnonymousArray]' do
+          a = @h.array.collect{|e| e.class}
+          a[0].should == SugarCube::Anonymous
+          a[1].should == SugarCube::AnonymousArray
+        end
+        
+      end
+      
+      describe "find" do
+      
+        it 'should return then first object' do
+          r = @h.array.find{|e| e.is_a? Hash}
+          r.should == @h.array[0]
+        end
+        
+        it 'should return the second object' do
+          r = @h.array.find{|e| e.is_a? Array}
+          r.should == @h.array[1]
+        end
+        
       end
       
     end

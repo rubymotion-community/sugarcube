@@ -18,6 +18,20 @@ module SugarCube
     def to_object
       self
     end
+    
+    
+    # replace enumerable methods
+    #
+    # In AnonymousArray:
+    # It was not satisfied with the :each method only.
+    
+    [:each, :map, :collect].each do |method|
+      base_method = "anonymousarray_#{method.to_s}".to_sym
+      alias_method base_method, method
+      define_method method do
+        send(base_method) {|o| yield o.to_object}
+      end
+    end
 
   end
 
