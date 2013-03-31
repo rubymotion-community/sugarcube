@@ -3,7 +3,9 @@ class NSDate
   # a string using string_with_format's templating, and strings are concatenated
   # as-is
   SugarCubeFormats = {
-    iso8601: [:yyyy, '-', :MM, '-', :dd, ' ', :'HH:mm:ss.SSS']
+    iso8601: [:yyyy, '-', :MM, '-', :dd, ' ', :'HH:mm:ss.SSS'],
+    ymd: [:yyyy, '-', :MM, '-', :dd],
+    hms: [:'HH:mm:ss.SSS'],
   }
 
   def self.from_components(components)
