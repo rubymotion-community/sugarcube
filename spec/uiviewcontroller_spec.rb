@@ -20,12 +20,16 @@ describe 'UIViewController' do
     @root_controller.childViewControllers.length.should == 2
   end
 
-  it 'should have `pop()` method' do
+  it 'should have `pop` method' do
+    @root_controller.childViewControllers.length.should == 0
     @root_controller.push(@second_controller)
-    length = @root_controller.childViewControllers.length
+    @root_controller.childViewControllers.length.should == 1
     popped = @root_controller.pop
-    @root_controller.childViewControllers.length.should == length - 1 
     popped.should == @second_controller
+    @root_controller.childViewControllers.length.should == 0
+    popped = @root_controller.pop
+    popped.should == nil
+    @root_controller.childViewControllers.length.should == 0
   end
 
 end

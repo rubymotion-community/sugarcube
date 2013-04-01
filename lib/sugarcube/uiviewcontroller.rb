@@ -13,7 +13,9 @@ class UIViewController
 
   def pop
     to_pop = self.childViewControllers[-1]
-    to_pop.removeFromParentViewController
+    if to_pop
+      to_pop.removeFromParentViewController
+    end
   end
 
 end
