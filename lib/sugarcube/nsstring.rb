@@ -4,6 +4,11 @@ class NSString
   def nsurl
     @url ||= NSURL.alloc.initWithString(self)
   end
+  
+  # @return [NSURL]
+  def fileurl
+    @fileurl ||= NSURL.fileURLWithPath(self)
+  end
 
   # @return [NSData] NSData representation encoded using UTF8, or a specified
   #   encoding
