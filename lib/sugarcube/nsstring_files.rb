@@ -15,7 +15,8 @@ class NSString
   end
 
   def exists?
-    NSFileManager.defaultManager.fileExistsAtPath(self.document)
+    path = self.hasPrefix('/') ? self : self.document
+    NSFileManager.defaultManager.fileExistsAtPath(path)
   end
 
   def remove!
