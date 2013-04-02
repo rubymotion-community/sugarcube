@@ -26,6 +26,54 @@ describe 'NSString' do
     'little_square.png'.resource_exists?.should == true
     'foo'.resource_exists?.should == false
   end
+  
+  describe "exists?" do
+    
+    it "should not exists" do
+      "abc".exists?.should == false
+    end
+    
+    it "should not exists" do
+      "abc".cache.exists?.should == false
+    end
+    
+    it "should not exists" do
+      "abc".resource.exists?.should == false
+    end
+    
+    describe "in document" do
+      before do
+        "abc".writeToFile "abc".document, atomically:true
+      end
+      after do
+        NSFileManager.defaultManager.removeItemAtPath "abc".document, error:nil
+      end
+      
+      it "should be exists" do
+        "abc".exists?.should == true
+      end
+    end
+    
+    describe "in cache" do
+      before do
+        "abc".writeToFile "abc".cache, atomically:true
+      end
+      after do
+        NSFileManager.defaultManager.removeItemAtPath "abc".cache, error:nil
+      end
+      
+      it "should be exists" do
+        "abc".cache.exists?.should == true
+      end
+    end
+
+    describe "in resource" do
+      it "should be exists" do
+        "info.plist".resource.exists?.should == true
+      end
+    end
+
+  end
 
   describe 'resource()' do
     describe '"info.plist".resource' do
