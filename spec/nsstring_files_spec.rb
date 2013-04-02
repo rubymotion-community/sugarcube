@@ -74,6 +74,39 @@ describe 'NSString' do
     end
 
   end
+  
+  describe "remove!" do
+  
+    describe "in document" do
+      before do
+        "abc".writeToFile "abc".document, atomically:true
+      end
+      after do
+        NSFileManager.defaultManager.removeItemAtPath "abc".document, error:nil
+      end
+      
+      it "should remove" do
+        "abc".remove!.should == nil
+        "abc".exists?.should == false
+      end
+    end
+    
+    describe "in cache" do
+      before do
+        "abc".writeToFile "abc".cache, atomically:true
+      end
+      after do
+        NSFileManager.defaultManager.removeItemAtPath "abc".cache, error:nil
+      end
+      
+      it "should remove" do
+        path = "abc".cache
+        path.remove!.should == nil
+        path.exists?.should == false
+      end
+    end
+    
+  end
 
   describe 'resource()' do
     describe '"info.plist".resource' do
