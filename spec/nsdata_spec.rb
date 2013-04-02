@@ -26,5 +26,30 @@ describe "NSData" do
   it "should be able to create a turkey string from data" do
     "\u00ab\u03c4\u03b1\u0411\u042c\u2113\u03c3\u00bb".nsdata.nsstring.should == "\u00ab\u03c4\u03b1\u0411\u042c\u2113\u03c3\u00bb"
   end
+  
+  describe "write" do
+  
+    after do
+      "a-z".document.remove!
+    end
+    
+    it "should write data to spcified path" do
+      path = "a-z".document
+      contents = (:a..:z).to_a.join
+      contents.nsdata.write(path).should == true
+      path.exists?.should == true
+      path.fileurl.nsdata.nsstring.should == contents
+    end
+    
+    it "should write data to spcified url" do
+      url = NSURL.alloc.initFileURLWithPath "a-z".document
+      contents = (:a..:z).to_a.join
+      contents.nsdata.write(url).should == true
+      path = "a-z".document
+      path.exists?.should == true
+      url.nsdata.nsstring.should == contents
+    end
+    
+  end
 
 end
