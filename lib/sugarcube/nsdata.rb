@@ -20,7 +20,7 @@ class NSData
     end
   end
 
-  def write(path_or_url, atomically=true)
+  def write_to(path_or_url, atomically=true)
     case path_or_url
     when NSURL
       self.writeToURL(path_or_url, atomically:atomically)

@@ -27,7 +27,7 @@ describe "NSData" do
     "\u00ab\u03c4\u03b1\u0411\u042c\u2113\u03c3\u00bb".nsdata.nsstring.should == "\u00ab\u03c4\u03b1\u0411\u042c\u2113\u03c3\u00bb"
   end
   
-  describe "write" do
+  describe "write_to" do
   
     after do
       "a-z".document.remove!
@@ -36,7 +36,7 @@ describe "NSData" do
     it "should write data to spcified path" do
       path = "a-z".document
       contents = (:a..:z).to_a.join
-      contents.nsdata.write(path).should == true
+      contents.nsdata.write_to(path).should == true
       path.exists?.should == true
       path.fileurl.nsdata.nsstring.should == contents
     end
@@ -44,7 +44,7 @@ describe "NSData" do
     it "should write data to spcified url" do
       url = NSURL.alloc.initFileURLWithPath "a-z".document
       contents = (:a..:z).to_a.join
-      contents.nsdata.write(url).should == true
+      contents.nsdata.write_to(url).should == true
       path = "a-z".document
       path.exists?.should == true
       url.nsdata.nsstring.should == contents
