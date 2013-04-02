@@ -21,7 +21,8 @@ class NSString
 
   def remove!
     ptr = Pointer.new(:id)
-    NSFileManager.defaultManager.removeItemAtPath(self.document, error:ptr)
+    path = self.hasPrefix('/') ? self : self.document
+    NSFileManager.defaultManager.removeItemAtPath(path, error:ptr)
     ptr[0]
   end
 
