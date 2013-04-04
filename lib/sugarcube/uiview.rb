@@ -351,10 +351,13 @@ class UIView
     end
 
     self.animate(options) {
-       offset = CGPoint.new(0, self.superview.bounds.size.height * 1.5)
-       offset = CGPointApplyAffineTransform(offset, self.transform)
-       self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(-Math::PI/4))
-       self.center = CGPointMake(self.center.x + offset.x, self.center.y + offset.y)
+      window = UIApplication.sharedApplication.keyWindow || UIApplication.sharedApplication.windows[0]
+      top = self.convertPoint([0, 0], toView:nil).y
+      height = window.frame.size.height - top
+      offset = CGPoint.new(0, height * 1.5)
+      offset = CGPointApplyAffineTransform(offset, self.transform)
+      self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(-Math::PI/4))
+      self.center = CGPointMake(self.center.x + offset.x, self.center.y + offset.y)
     }
   end
 
