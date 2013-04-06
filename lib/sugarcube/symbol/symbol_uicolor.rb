@@ -63,6 +63,9 @@ class Symbol
     yellow:    0xffff00,
     white:     0xffffff,
 
+    # uikit colors
+    placeholder: 0xb2b2b2,  # UITextField placeholder color
+
     aliceblue:            0xf0f8ff,
     antiquewhite:         0xfaebd7,
     aqua:                 0x00ffff,
