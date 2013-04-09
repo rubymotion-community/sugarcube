@@ -122,7 +122,7 @@ class NSAttributedString
   end
 
   def foreground_color(value)
-    with_attributes({NSForegroundColorAttributeName => value})
+    with_attributes({NSForegroundColorAttributeName => value.uicolor})
   end
   alias color foreground_color
 
@@ -135,7 +135,7 @@ class NSAttributedString
   end
 
   def background_color(value)
-    with_attributes({NSBackgroundColorAttributeName => value})
+    with_attributes({NSBackgroundColorAttributeName => value.uicolor})
   end
   alias bg_color background_color
 
@@ -164,11 +164,11 @@ class NSAttributedString
   end
 
   def stroke_color(value)
-    with_attributes({NSStrokeColorAttributeName => value})
+    with_attributes({NSStrokeColorAttributeName => value.uicolor})
   end
 
   def underline_color(value)
-    with_attributes({NSUnderlineColorAttributeName => value})
+    with_attributes({NSUnderlineColorAttributeName => value.uicolor})
   end
 
   def strikethrough_style(value)
@@ -176,7 +176,7 @@ class NSAttributedString
   end
 
   def strikethrough_color(value)
-    with_attributes({NSStrikethroughColorAttributeName => value})
+    with_attributes({NSStrikethroughColorAttributeName => value.uicolor})
   end
 
   def shadow(value)
