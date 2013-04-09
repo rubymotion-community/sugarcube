@@ -3,6 +3,8 @@ SugarCube
 
 Some sugar for your cocoa, or your [tea][sweettea].
 
+[![Build Status](https://travis-ci.org/rubymotion/sugarcube.png)](https://travis-ci.org/rubymotion/sugarcube)
+
 About
 -----
 
