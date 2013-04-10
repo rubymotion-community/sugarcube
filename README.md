@@ -999,7 +999,7 @@ button.on(:touch_up_outside, :touch_cancel) { |event|
 }
 
 # remove handlers
-button.off(:touch, :touchup_out_side, :touch_cancel)
+button.off(:touch, :touch_up_outside, :touch_cancel)
 button.off(:all)
 ```
 
