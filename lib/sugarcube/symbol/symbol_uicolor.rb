@@ -21,30 +21,21 @@ class Symbol
   end
 
   @uicolors = {
-    black:     :blackColor,
-    blue:      :blueColor,
-    brown:     :brownColor,
-    cyan:      :cyanColor,
-    darkgray:  :darkGrayColor,
-    gray:      :grayColor,
-    green:     :greenColor,
-    lightgray: :lightGrayColor,
-    magenta:   :magentaColor,
-    orange:    :orangeColor,
-    purple:    :purpleColor,
-    red:       :redColor,
-    yellow:    :yellowColor,
-    white:     :whiteColor,
-    clear:     :clearColor,
-
-    light_text: :lightTextColor,
-    dark_text:  :darkTextColor,
-
     table_view:  :groupTableViewBackgroundColor,
     scroll_view: :scrollViewTexturedBackgroundColor,
     flipside:    :viewFlipsideBackgroundColor,
     under_page:  :underPageBackgroundColor,
-  }
+  }.merge(Hash[*UIColor.methods.
+           select{ |x| x =~/Color$/ }.
+           map{ |x|
+             word = x.to_s[0...-5]
+             word.gsub!(/::/, '/')
+             word.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
+             word.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
+             word.tr!("-", "_")
+             word.downcase!
+             [word.to_sym, x]
+           }.flatten])
 
   @css_colors = {
     # for css_name to pick up on these colors, they need to be defined here
