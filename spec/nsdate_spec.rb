@@ -118,6 +118,14 @@ describe "NSDate" do
     @date.end_of_day.datetime_array.should == [2013, 1, 3, 0, 0, 0]
   end
 
+  it "should have an NSDate#start_of_week method" do
+    @date.start_of_week(:sunday).datetime_array.should == [2012, 12, 30, 0, 0, 0]
+  end
+
+  it "should have an NSDate#end_of_week method" do
+    @date.end_of_week(:sunday).datetime_array.should == [2013, 1, 6, 0, 0, 0]
+  end
+
   it "should have an NSDate#start_of_month method" do
     @date.start_of_month.datetime_array.should == [2013, 1, 1, 0, 0, 0]
   end
