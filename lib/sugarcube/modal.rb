@@ -2,7 +2,7 @@ module SugarCube
   module Modal
     module_function
     def present_modal(view_ctlr, options={}, &block)
-      target = options.fetch(:target, UIApplication.sharedApplication.keyWindow.rootViewController)
+      target = options[:target] || UIApplication.sharedApplication.keyWindow.rootViewController
       animated = options.fetch(:animated, true)
       target.presentViewController(view_ctlr, animated:animated, completion:block)
     end
@@ -27,17 +27,17 @@ class UIViewController
 
   def present_modal(view_ctlr, options={}, &block)
     options = options.merge(target: self)
-    super(view_ctlr, options, &block)
+    SugarCube::Modal.present_modal(view_ctlr, options, &block)
   end
 
   def present_modal_in_nav(view_ctlr, options={}, &block)
     options = options.merge(target: self)
-    super(view_ctlr, options, &block)
+    SugarCube::Modal.present_modal_in_nav(view_ctlr, options, &block)
   end
 
   def dismiss_modal(view_ctlr, options={}, &block)
     options = options.merge(target: self)
-    super(view_ctlr, options, &block)
+    SugarCube::Modal.dismiss_modal(view_ctlr, options, &block)
   end
 
 end
