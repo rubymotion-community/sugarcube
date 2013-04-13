@@ -1572,7 +1572,7 @@ You can analyze `UIViewController` hierarchies, too.  There's even a handy
   3: |   `-- #<ScheduleCalendarController:0x131bba90>
   4: +-- #<CameraViewController:0x13191380>
   5: +-- #<UINavigationController:0xac01ea0>
-  6: |   `-- #<UITableController:0xac04e30>
+  6: |   `-- #<UITableViewController:0xac04e30>
   7: +-- #<PicturesViewController:0x1403ede0>
   8: `-- #<MessagesViewController:0x131a1bc0>
 => #<MainScreenController:0xac23b80>
