@@ -600,10 +600,10 @@ class Symbol
   end
   alias uitableviewcellstyle uitablecellstyle
 
-  def uitablecellaccessory
+  def uitableviewcellaccessorytype
     sugarcube_look_in(Symbol.tableview_cellaccessorytype)
   end
-  alias uitableviewcellaccessorytype uitablecellaccessory
+  alias uitablecellaccessory uitableviewcellaccessorytype
 
   def uitablecellselectionstyle
     sugarcube_look_in(Symbol.tableview_cellselectionstyle)
