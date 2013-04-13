@@ -993,13 +993,13 @@ verbs and SugarCube symbols.
 button = UIButton.alloc.initWithFrame([0, 0, 10, 10])
 
 button.on(:touch) { my_code }
-button.on(:touchupoutside, :touchcancel) { |event|
+button.on(:touch_up_outside, :touch_cancel) { |event|
   puts event.inspect
   # my_code...
 }
 
 # remove handlers
-button.off(:touch, :touchupoutside, :touchcancel)
+button.off(:touch, :touch_up_outside, :touch_cancel)
 button.off(:all)
 ```
 
