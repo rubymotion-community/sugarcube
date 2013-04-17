@@ -12,4 +12,8 @@ class NSURL
     NSData.dataWithContentsOfURL(self)
   end
 
+  def nsurlrequest
+    NSURLRequest.requestWithURL(self)
+  end
+
 end
