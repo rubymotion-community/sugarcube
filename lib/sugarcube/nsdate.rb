@@ -1,5 +1,5 @@
 class NSDate
-  # these formatters are used in `string_with_format`.  Symbols are convertd to
+  # these formatters are used in `string_with_format`.  Symbols are converted to
   # a string using string_with_format's templating, and strings are concatenated
   # as-is
   SugarCubeFormats = {
@@ -176,6 +176,24 @@ class NSDate
 
   #  (main)> t = Time.new
   #  => 2012-09-27 11:29:12 +0900
+  #  (main)> t.start_of_week
+  #  => 2012-09-23 00:00:00 +0900
+  def start_of_week(start_day=nil)
+    result = self - days_to_week_start(start_day).days
+    result.start_of_day
+  end
+
+  #  (main)> t = Time.new
+  #  => 2012-09-27 11:29:12 +0900
+  #  (main)> t.start_of_week
+  #  => 2012-09-30 00:00:00 +0900
+  def end_of_week(start_day=nil)
+    result = self - days_to_week_start(start_day).days + 6.days
+    result.end_of_day
+  end
+
+  #  (main)> t = Time.new
+  #  => 2012-09-27 11:29:12 +0900
   #  (main)> t.start_of_month
   #  => 2012-09-01 00:00:00 +0900
   def start_of_month
@@ -202,4 +220,22 @@ class NSDate
   def _calendar_components(components)
     return NSCalendar.currentCalendar.components(components, fromDate:self)
   end
+
+  def days_to_week_start(start_day=nil)
+    start_day_number = week_day_index(start_day) || local_week_start
+    current_day_number = _calendar_components(NSWeekdayCalendarUnit).weekday
+    (current_day_number - start_day_number) % 7
+  end
+
+  def local_week_start
+    NSCalendar.currentCalendar.firstWeekday
+  end
+
+  def week_day_index(week_day=:monday)
+    day = week_day.to_s.capitalizedString
+    index = NSDateFormatter.new.weekdaySymbols.index(day)
+    return nil unless index
+    index + 1
+  end
+
 end
