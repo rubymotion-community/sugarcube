@@ -670,21 +670,25 @@ some problems with on RubyMotion (it worked, but not *always*.  Very strange).
 UIAlertView
 --------
 
-Accepts multiple buttons and success and cancel handlers.  In its simplest
-form, you can pass just a title and block.
+Accepts multiple buttons and handlers.  In its simplest form, you can pass just
+a title and block.
 
 ```ruby
 # simple
 UIAlertView.alert "This is happening, OK?" { self.happened! }
-# a little more complex
+
+# a little more complex - the cancel button should be first, and the block will
+# receive a string, not an index
 UIAlertView.alert("This is happening, OK?", buttons: ["Nevermind", "OK"],
-  message: "Don't worry, it'll be fine.") {
-  self.happened!
+  message: "Don't worry, it'll be fine.") { |button|
+  if button == "OK"
+    self.happened!
+  end
 }
 
-# Full on whiz-bangery.  Note the success block takes the pressed button, but as
-# a string instead of an index.  The cancel button should be the first entry in
-# `buttons:`
+# Full on whiz-bangery.  The cancel button should be the first entry in
+# `buttons:`.  When you specify the success and cancel button handlers this way,
+# you need not assign both.
 UIAlertView.alert "I mean, is this cool?", buttons: %w[No! Sure! Hmmmm],
   message: "No going back now",
   cancel: proc { self.cancel },
