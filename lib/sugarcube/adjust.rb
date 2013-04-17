@@ -244,9 +244,19 @@ module SugarCube
     end
     alias h shadow
 
-    ##|  TREE
+    # @param item this can be a tree-like item (UIView, UIViewController,
+    #     CALayer) or an integer, in which case it will select that window from
+    #     UIApplication.sharedApplication.window.  Defalt is to display the
+    #     keyWindow
+    # @param selector If you pass an unsupported object to tree, you will need
+    #     to pass a selector as well - this method should return an array of
+    #     items which are passed recursively to tree
+    # @block sel_blk If a block is passed, it will be used to build the array of
+    #     items that are called recursively
     def tree(item=nil, selector=nil, &sel_blk)
-      unless item
+      if item.is_a?(Fixnum)
+        item = UIApplication.sharedApplication.windows[item]
+      elsif ! item
         item = UIApplication.sharedApplication.keyWindow
       end
       if not item
@@ -291,6 +301,7 @@ module SugarCube
       return item
     end
 
+    # Draws the tree items
     def draw_tree(item, selector, tab=nil, is_last=true, items_index=0)
       space = ' '
       if items_index < 10
