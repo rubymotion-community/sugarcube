@@ -8,9 +8,17 @@ class NSIndexPath
     end
     a
   end
+
+  def to_s
+    "<NSIndexPath #{to_a.to_s}>"
+  end
+
 end
 
 
+# This class is used in `switch` statements.  Easy pattern matching, so instead
+# of `if index_path.row...index_path.section`, you can use
+# `when IndexPath[row, section]`
 class IndexPath
 
   def self.[] *values
