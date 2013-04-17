@@ -314,6 +314,15 @@ recurring events)
 (main)> feb_1_2013.end_of_day
 # NOTE! end_of_day is the NEXT DAY.  this is not an accident, it makes comparisons cleaner.  deal with it.
 => 2013-02-02 00:00:00 -0700
+(main)> feb_1_2013.start_of_week  # in the USA, start of week is Sunday
+=> 2013-01-27 00:00:00 -0700
+=> 2013-01-28 00:00:00 -0700  # in most other countries you will get Monday
+(main)> feb_1_2013.start_of_week(:monday)  # or you can specify it!
+=> 2013-01-28 00:00:00 -0700
+(main)> feb_1_2013.end_of_week  # Just like end_of_day, end_of_week returns midnight of the *next day*
+=> 2013-02-03 00:00:00 -0700
+(main)> feb_1_2013.end_of_week(:monday)
+=> 2013-02-04 00:00:00 -0700
 (main)> feb_1_2013.days_in_month
 => 28
 (main)> feb_1_2013.days_in_year
