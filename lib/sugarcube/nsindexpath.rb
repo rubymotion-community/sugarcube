@@ -1,4 +1,5 @@
 class NSIndexPath
+
   def to_a
     indexes_ptr = Pointer.new(:uint, self.length)
     self.getIndexes indexes_ptr
