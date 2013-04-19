@@ -4,7 +4,7 @@ class NSString
   def nsurl
     @url ||= NSURL.alloc.initWithString(self)
   end
-  
+
   # @return [NSURL]
   def fileurl
     @fileurl ||= NSURL.fileURLWithPath(self)
