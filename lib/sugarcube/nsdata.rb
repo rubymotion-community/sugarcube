@@ -30,5 +30,5 @@ class NSData
       false
     end
   end
-  
+
 end
