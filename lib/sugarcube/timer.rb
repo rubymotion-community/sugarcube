@@ -100,3 +100,14 @@ module SugarCube
     end
   end
 end
+
+
+class NSTimer
+  def every(time, user_info=nil, &fire)
+    time.every user_info, &fire
+  end
+
+  def after(time, user_info=nil, &fire)
+    time.later user_info, &fire
+  end
+end
