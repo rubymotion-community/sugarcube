@@ -196,13 +196,13 @@ module SugarCube
       top = view.origin.y
 
       if /h|x/.match(direction.downcase)
-        swidth = view.frame.width
-        pwidth = view.superview.frame.width / total
+        swidth = view.frame.size.width
+        pwidth = view.superview.frame.size.width / total
         left = (pwidth - swidth) / 2 + pwidth * (element - 1)
       end
       if /v|y/.match(direction.downcase)
-        sheight = view.frame.height
-        pheight = view.superview.frame.height / total
+        sheight = view.frame.size.height
+        pheight = view.superview.frame.size.height / total
         top = (pheight - sheight) / 2 + pheight * (element - 1)
       end
 
@@ -393,7 +393,7 @@ module SugarCube
         when :ruby then
           "[[#{frame.origin.x}, #{frame.origin.y}], [#{frame.size.width}, #{frame.size.height}]]"
         when :objc
-          frame.to_s
+          "{{#{frame.origin.x}, #{frame.origin.y}}, {#{frame.size.width}, #{frame.size.height}}}"
         else
           raise "Unknown repl_format #{SugarCube::Adjust::repl_format.inspect}"
       end

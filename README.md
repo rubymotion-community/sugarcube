@@ -1293,8 +1293,7 @@ This file does *one* thing very **DANGEROUS**... to "help" with defaults.
 When storing `nil` into `NSUserDefaults`, it is converted into `false`, because
 Cocoa complains if you give it `nil`, and the RubyMotion runtime refuses to
 allow the `NSNull.null` object. Without relying on an external project (like
-[nsnulldammit](https://github.com/colinta/nsnulldammit) I don't know of a
-sensible workaround...
+[nsnulldammit][] I don't know of a sensible workaround...
 
 If you want to "tap into" the defaults system that SugarCube uses, add a
 `to_nsuserdefaults` method and that will get called if you hand your object to
@@ -1302,37 +1301,31 @@ If you want to "tap into" the defaults system that SugarCube uses, add a
 usefulness of this is very limited.
 
 ```ruby
-'key'.set_default(['any', 'objects'])  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
-'key'.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
+NSUserDefaults['key'] = ['any', 'objects']  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
+NSUserDefaults['key']  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
 
 # symbols are converted to strings, so these are equivalent
-:key.set_default(['any', 'objects'])  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
-:key.get_default  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
+NSUserDefaults[:key] = ['any', 'objects']  # => NSUserDefaults.standardUserDefaults.setObject(['any', 'objects'], forKey: :key)
+NSUserDefaults[:key]  # => NSUserDefaults.standardUserDefaults.objectForKey(:key)
 ```
 
-This is strange, and backwards, which is just SugarCube's style.  But there is
-one advantage to doing it this way.  Compare these two snippets:
+Keep in mind that NSUserDefaults serializes the object you pass to it, it
+doesn't maintain a reference.  That means that if you modify an object *in
+place*, it will not get persisted.  An example will explain this better:
 
 ```ruby
-# BubbleWrap
-App::Persistance[:test] = { my: 'test' }
-# SugarCube
-:test.set_default { my: 'test' }
-# k, BubbleWrap looks better
+NSUserDefaults['test'] = { my: 'test' }
+NSUserDefaults['test']['my'] == 'test'
+# NSUserDefaults['test'] returns the hash, and the 'my' key returns 'test', so
+# this comparison returns `true`
 
-App::Persistance[:test][:my] == 'test'  # true
-:test.get_default[:my]  # true, and odd looking - what's my point?
+# but there is a temptation, perhaps, to modify that hash:
+NSUserDefaults['test']['my'] = 'new'  # BUG
 
-App::Persistance[:test][:my] = 'new'  # nothing is saved.  bug
-:test.get_default[:my] = 'new'  # nothing is saved, but that's *obvious*
-
-test = App::Persistance[:test]
-test[:my] = 'new'
-App::Persistance[:test] = test  # saved
-
-test = :test.get_default
-test[:my] = 'new'
-:test.set_default test
+# the corrected code
+test = NSUserDefaults['test']
+test['my'] = 'new'
+NSUserDefaults['test'] = test  # saved
 ```
 
  CoreGraphics
@@ -1344,16 +1337,13 @@ Instead, just use the coercion methods `Rect()`, `Size()` and `Point()`.  They
 will happily convert most sensible (and some non-sensible) arguments into a
 `CGRect/CGSize/CGPoint` struct.
 
+These are namespaced in the `SugarCube::CoreGraphics` module, but I recommend
+you `include SugarCube::CoreGraphics` in app_delegate.rb.
+
 For more CoreGraphics additions, you should use [geomotion][] by [Clay
 Allsopp][].  It adds methods to `CGRect`, `CGPoint`, and `CGSize` to make these
 structures more rubyesque (these methods used to be part of SugarCube, but were
 removed in an attempt to decrease the amount of duplicated code).
-
-[geomotion]: https://github.com/clayallsopp
-[Clay Allsopp]: https://github.com/clayallsopp/geomotion
-
-These are namespaced in the `SugarCube::CoreGraphics` module, but I recommend
-you `include SugarCube::CoreGraphics` in app_delegate.rb.
 
 ```ruby
 f = Rect(view.frame)  # the identity function - returns a copy of the CGRect
@@ -1369,12 +1359,11 @@ f = Rect(x, y, w, h)
 f = Rect([x, y], [w, h])
 # one array
 f = Rect([[x, y], [w, h]])
-f = Rect([x, y, w, h])
 # a CGPoint and CGSize
 p = Point(x, y)  # or just [x, y] works, too
 s = Size(w, h)  # again, [w, h] is fine
 f = Rect(p, s)
-# any combination of the two
+# any combination of point/array and size/array
 f = Rect(p, [w, h])
 f = Rect([x, y], s)
 ```
@@ -1405,77 +1394,122 @@ Open up `CLLocationCoordinate2D` to provide handy-dandies
 -----------------------
 
 Pixel pushing is an unfortunate but necessary evil.  Well, at least we can make
-it a little less painful.
+it a little less painful.  SugarCube provides a library that adds some methods
+that are meant to be used in the REPL.
 
-These methods help you adjust the frame of a view.  They are in the
-`SugarCube::Adjust` module so as not to conflict.  If you don't want the prefix,
-`include SugarCube::Adjust` in app_delegate.rb
+`require "sugarcube-repl"`
 
-Assume I ran `include SugarCube::Adjust` in these examples.
+The actual code is, for historical reasons, in the `SugarCube::Adjust` module,
+which is included by default.  But to really be handy you'll want to require the
+`sugarcube-repl` package.
+
+#### Finding the view you want.
+
+This is often touted as the *most useful feature* of SugarCube!
+
+```
+(main)> tree
+  0: . UIWindow(#6e1f950: [[0.0, 0.0], [320.0, 480.0]])
+  1: `-- UIView(#8b203b0: [[0.0, 20.0], [320.0, 460.0]])
+  2:     +-- UIButton(#d028de0: [[10.0, 10.0], [320.0, 463.400512695312]])
+  3:     |   `-- UIImageView(#d02aaa0: [[0.0, 0.0], [320.0, 463.400512695312]])
+  4:     +-- UIRoundedRectButton(#d02adb0: [[55.0, 110.0], [210.0, 20.0]])
+  5:     |   `-- UIButtonLabel(#d02af00: [[73.0, 0.0], [63.0, 19.0]], text: "Button 1")
+  6:     +-- UIRoundedRectButton(#d028550: [[60.0, 30.0], [200.0, 20.0]])
+  7:     |   `-- UIButtonLabel(#d02afb0: [[68.0, 0.0], [63.0, 19.0]], text: "Button 2")
+  8:     `-- UIRoundedRectButton(#d02b220: [[70.0, 30.0], [300.0, 20.0]])
+  9:         `-- UIButtonLabel(#d02b300: [[118.0, 0.0], [63.0, 19.0]], text: "Button 3")
+```
+
+SugarCube provides lot of `to_s` methods on UIKit objects - that is so that this
+tree view is really easy to find the view you want.  Once you do find the one
+you want, you can fetch it out of that list using the `adjust` method, which is
+aliased to `a` to make it easy on the fingers.
+
+```
+(main)> a 6
+=> UIRoundedRectButton(#d028550: [[60.0, 30.0], [200.0, 20.0]]), child of UIView(#8b203b0)
+```
+
+Now that we've chose the button, it is available in the `a` method, *and* there
+are a bunch of methods in the SugarCube::Adjust module that act on that object.
+Most of these methods help you adjust the frame of a view.
 
 ```ruby
-# if you are in the REPL, you might not be able to click on the view you want...
-> adjust superview.subviews[4].subviews[1]
 > up 1
-> down 1  # same as up -1, obviously
+> down 1  # same as `up -1`
 > down  # defaults to 1 anyway
-> left 1
-> right 1  # same as up -1, obviously
+> left 10
+> right 10
 > left  # => left 1
 > origin 10, 12  # move to x:10, y:12
-> wider 1
-> thinner 1
+> wider 15
+> thinner 10
 > taller  # => taller 1
 > shorter  # => shorter 1
 > size 100, 10  # set size to width:100, height: 10
-> shadow(opacity: 0.5, offset: [0, 0], color: :black, radius: 1) # and path, which is a CGPath object.
+> shadow(opacity: 0.5, offset: [0, 0], color: :black, radius: 1)  # and path, which is a CGPath object.
 > center  # See `Centering` section below
-> restore  # original frame and shadow is saved when you call `adjust`
+> restore  # original frame and shadow is saved when you first call `adjust`
 ```
 
+Here are the short versions of those methods.
+
 ```ruby
-> # short versions!
-> a superview.subviews[4].subviews[1]  # this is not uncommon in the REPL
 > u          # up, default value=1
 > d          # down
 > l          # left
 > r          # right
-> o 10, 12   # origin, also accepts an array (or Point() object)
 > w          # wider
-> n          # thinner
+> n          # thiNNer
 > t          # taller
 > s          # shorter
-> z 100, 10  # size, also accepts an array (or Size() object)
-> # you can also query your view.  You will get nice-looking
-> # SugarCube::CoreGraphics objects
-> f   # frame
-[[0, 0], [320, 480]]
-> o   # origin
-[0, 0]
-> z   # size
-[320, 480]
-> h   # shadow - this returns an array identical to what you can pass to `shadow`
+> o 10, 12   # origin
+> o [10, 12]
+> o CGPoint.new(10, 12)
+> o Point(10, 12)
+> z 100, 10  # siZe, also accepts an array, CGSize, or Size()
+             # and frame
+> f [[0,0], [0,0]]
+             # sHadow
+> h opacity: 0.5, offset: [0, 0], color: :black, radius: 1
 
-# if you forget what view you are adjusting, run `adjust` again
+# frame, size, origin, and shadow can also be used as getters
+> f
+[[0, 0], [320, 568]]
+> o          # origin
+[0, 0]
+> z          # size
+[320, 568]
+> h          # this returns an object identical to what you can pass to `shadow`
+{opacity: 0.5, offset: [0, 0], color: :black, radius: 1}
+
+# and of course the `a` method returns the current object
 > a
-=> UITextField(#9ce6470, {{46, 214}, {280, 33}},  child of UIView(#10a6da20)
+=> UITextField(#9ce6470, [[46, 214], [280, 33]], text: "hi!"), child of UIView(#10a6da20)
 ```
 
 The most useful feature of the REPL adjustment is the ability to quickly
 position and size your UI elements __visually__ and then paste the final values
 into your code.  In order to better accomodate that, `adjust` has an option to
-modify the output format.
-These were inspired by [Thom Parkin](https://github.com/ParkinT)
+modify the output format.  Many thanks to [Thom Parkin][] for developing these
+output formatters.
 
-This better facilitates copy/paste of the values.  Currently supported is:
-* Default (RubyMotion) (`nil`, `:default`)
+```
+(main)> repl_format :ruby
+```
+
+Currently supported is:
+
+* RubyMotion (Default) (`:ruby`)
 * Objective-C (`:objc`)
 * JSON (`:json`)
 
 #### Objective-C style
 
 ```
-(UIImageView(#8d67e00, {{0, 0},...)> tree
+(main)> repl_format :objc
+(main)> tree
   0: . UIWindow(#6e27180: {{0, 0}, {320, 480}})
   1: `-- UIView(#8d631b0: {{0, 20}, {320, 460}})
   2:     +-- UIButton(#6d6c090: {{10, 10}, {320, 463.401}})
@@ -1485,47 +1519,44 @@ This better facilitates copy/paste of the values.  Currently supported is:
 => UIWindow(#6e27180, {{0, 0}, {320, 480}},
 
 # you can pass the format into the adjust method:
-(UIImageView(#8d67e00, {{0, 0},...)> a 4, :objc
-=> "UIRoundedRectButton(#8d68170: [[10.0, 30.0], [200.0, 30.0]])"
+(main)> a 4, :objc
+=> "UIRoundedRectButton(#8d68170: {{10.0, 30.0}, {200.0, 30.0}})"
 
-# or you can assign repl_format explicitly (adjust does this for you when you hand it a format)
-(UIImageView(#8d67e00, {{0, 0},...)> repl_format :objc
-=> :objc
-
-# either way, it will continue to be used in subsequent calls
-(UIImageView(#8d67e00, {{0, 0},...)> wider 15
-[[10.0, 30.0], [200.0, 45.0]]
-=> "UIRoundedRectButton(#8d68170: [[10.0, 30.0], [200.0, 45.0]]) child of UIView(#8d631b0)"
+# it will continue to be used in subsequent calls
+(main)> wider 15
+{{10.0, 30.0}, {200.0, 45.0}}
+=> "UIRoundedRectButton(#8d68170: {{10.0, 30.0}, {200.0, 45.0}}) child of UIView(#8d631b0)"
 ```
 
 #### JSON (or GeoMotion)
 
 ```
-(UIImageView(#8d67e00, {{0, 0},...)> a 1, :json
-=> "UIView(#8d631b0: [x: 0.0, y: 20.0, height: 460.0, width: 320.0])"
-(UIImageView(#8d67e00, {{0, 0},...)> wider 30
-=> "CGRect(#6e9c9f0: [x: 0.0, y: 20.0, height: 460.0, width: 350.0])"
-(UIImageView(#8d67e00, {{0, 0},...)> right 130
-=> "CGRect(#8dc6a40: [x: 130.0, y: 20.0, height: 460.0, width: 350.0])"
-(UIImageView(#8d67e00, {{0, 0},...)> tree
-  0: . UIWindow(#6e27180: [x: 0.0, y: 0.0, height: 480.0, width: 320.0])
-  1: `-- UIView(#8d631b0: [x: 130.0, y: 20.0, height: 460.0, width: 350.0])
-  2:     +-- UIButton(#6d6c090: [x: 10.0, y: 10.0, height: 463.400512695312, width: 320.0])
-  3:     |   `-- UIImageView(#8d67e00: [x: 0.0, y: 0.0, height: 463.400512695312, width: 320.0])
-  4:     `-- UIRoundedRectButton(#8d68170: [x: 10.0, y: 30.0, height: 200.0, width: 45.0])
-  5:         `-- UIButtonLabel(#8d69c30: [x: 4.0, y: 90.0, height: 19.0, width: 37.0])
-=> UIWindow(#6e27180, {{0, 0}, {320, 480}},
+(main)> a 1, :json
+=> "UIView(#8d631b0: {x: 0.0, y: 20.0, height: 460.0, width: 320.0})"
+(main)> wider 30
+=> "CGRect(#6e9c9f0: {x: 0.0, y: 20.0, height: 460.0, width: 350.0})"
+(main)> right 130
+=> "CGRect(#8dc6a40: {x: 130.0, y: 20.0, height: 460.0, width: 350.0})"
+(main)> tree
+  0: . UIWindow(#6e27180: {x: 0.0, y: 0.0, height: 480.0, width: 320.0})
+  1: `-- UIView(#8d631b0: {x: 130.0, y: 20.0, height: 460.0, width: 350.0})
+  2:     +-- UIButton(#6d6c090: {x: 10.0, y: 10.0, height: 463.400512695312, width: 320.0})
+  3:     |   `-- UIImageView(#8d67e00: {x: 0.0, y: 0.0, height: 463.400512695312, width: 320.0})
+  4:     `-- UIRoundedRectButton(#8d68170: {x: 10.0, y: 30.0, height: 200.0, width: 45.0})
+  5:         `-- UIButtonLabel(#8d69c30: {x: 4.0, y: 90.0, height: 19.0, width: 37.0})
+=> UIWindow(#6e27180: {x: 0.0, y: 0.0, height: 480.0, width: 320.0})
 ```
 
-Note: The `format` parameter can be passed as either a symbol or a string
-
 ###  CENTER (in parent frame)
-It is called as `center(which_element, of_total_number, horizontal_or_vertical, verbose_output)`
-#### you can set 'direction' with any number of forms: 'horiz', 'vert', 'x', 'x and y'
+
+It is called as `center(which_index, of_total_number, direction)`. The order can
+be changed, and all the arguments are optional.  Default values are
+`center(1, 1, 'h')` (center the item horizontally).
+
+You can set 'direction' using a string or symbol: 'horiz', 'vert', 'x', even 'x
+and y'.  The method searches for the letters `[xyhv]`.
 
 Here are a few examples:
-
-The default is to center the current element _horizontally_
 
 ```
 (main)> center
@@ -1534,48 +1565,53 @@ UIRoundedRectButton.origin = [145.0, 30.0]
 => "[[145.0, 30.0], [30.0, 200.0]]"
 ```
 
-In order to place that same button in the CENTER of the screen, you can use this shorthand syntax:
-`center 1,1,"xy"` or `center 1,1,:xy`
+In order to place that same button in the center of the screen - horizontally
+and vertically - you can use this shorthand syntax:
 
-For the `horizontal_or_vertical` parameter, strings and symbols are interchangable
+`center :xy`
 
-If you have three buttons and want them spaced evenly (vertically) across their parent frame, you can call it this way:
+If you have three buttons and want them spaced evenly (vertically) across their
+parent frame, you can accomplish that this way:
+
 ```
 (main)> tree
   0: . UIWindow(#6e1f950: [[0.0, 0.0], [320.0, 480.0]])
   1: `-- UIView(#8b203b0: [[0.0, 20.0], [320.0, 460.0]])
-  2:     +-- UIButton(#d028de0: [[10.0, 10.0], [320.0, 463.400512695312]])
-  3:     |   `-- UIImageView(#d02aaa0: [[0.0, 0.0], [320.0, 463.400512695312]])
-  4:     +-- UIRoundedRectButton(#d02adb0: [[55.0, 110.0], [210.0, 20.0]])
+  2:     +-- UIButton(#d028de0: [[10.0, 10.0], [320.0, 464]])
+  3:     |   `-- UIImageView(#d02aaa0: [[0.0, 0.0], [320.0, 464]])
+  4:     +-- UIRoundedRectButton(#d02adb0: [[55.0, 110.0], [210.0, 20.0]], text: "Button 1")
   5:     |   `-- UIButtonLabel(#d02af00: [[73.0, 0.0], [63.0, 19.0]])
-  6:     +-- UIRoundedRectButton(#d028550: [[60.0, 30.0], [200.0, 20.0]])
+  6:     +-- UIRoundedRectButton(#d028550: [[60.0, 30.0], [200.0, 20.0]], text: "Button 2")
   7:     |   `-- UIButtonLabel(#d02afb0: [[68.0, 0.0], [63.0, 19.0]])
-  8:     `-- UIRoundedRectButton(#d02b220: [[70.0, 30.0], [300.0, 20.0]])
+  8:     `-- UIRoundedRectButton(#d02b220: [[70.0, 30.0], [300.0, 20.0]], text: "Button 3")
   9:         `-- UIButtonLabel(#d02b300: [[118.0, 0.0], [63.0, 19.0]])
 => UIWindow(#6e1f950, [[0.0, 0.0], [320.0, 480.0]])
-(main)> a 4; center 1, 3, :vert, false; center
-[[55.0, 110.0], [210.0, 20.0]]
+# grab the first button, and center it vertically.  It is the first of three buttons
+(main)> a 4; center 1, 3, :vert; center
 [[55.0, 110.0], [210.0, 20.0]]
 UIRoundedRectButton.origin = [55.0, 110.0]
 => "[[55.0, 110.0], [210.0, 20.0]]"
-(main)> a 6; center 2, 3, :vert, false; center
-[[60.0, 220.0], [200.0, 20.0]]
+# grab the second button.  The first parameter changes to `2`, because this
+# button is in the second position.
+(main)> a 6; center 2, 3, :vert; center
 [[60.0, 220.0], [200.0, 20.0]]
 UIRoundedRectButton.origin = [60.0, 220.0]
 => "[[60.0, 220.0], [200.0, 20.0]]"
-(main)> a 8; center 3, 3, :vert, false; center
-[[70.0, 330.0], [300.0, 20.0]]
+# grab the third button and place it in the third position
+(main)> a 8; center 3, 3, :vert; center
 [[10.0, 330.0], [300.0, 20.0]]
 UIRoundedRectButton.origin = [10.0, 330.0]
 => "[[10.0, 330.0], [300.0, 20.0]]"
 ```
+
 The calculated positions (x,y) are in the REPL output
 
+#### Finding the *[controller,layer,...]* you want.
 
 **Don't stop there!**
 
-You can analyze `UIViewController` hierarchies, too.  There's even a handy
-`root` method to grab the `rootViewController`:
+You can analyze `UIViewController` and `CALayer` hierarchies, too.  There's even
+a handy `root` method to grab the `rootViewController`:
 
 ```ruby
 (main)> tree root
@@ -1591,7 +1627,36 @@ You can analyze `UIViewController` hierarchies, too.  There's even a handy
 => #<MainScreenController:0xac23b80>
 ```
 
-##### Nothing is sacred
+If you have a tree structure and you want to output it using `tree`, you can do
+so by passing either a method name (that should return an array) or a block. The
+block will be passed your object, and should return the children.
+
+```ruby
+class Foo
+  attr_accessor :children
+end
+```
+```
+(main)> foo = Foo.new
+(main)> foo.children = [Foo.new,Foo.new,Foo.new]
+(main)> tree foo, :children
+(main)> tree foo, :children
+  0: . #<Foo:0x12d6e0d0>
+  1: +-- #<Foo:0x114146c0>
+  2: +-- #<Foo:0x114149d0>
+  3: `-- #<Foo:0x114149e0>
+
+=> #<Foo:0x12d6e0d0 @children=[#<Foo:0x114146c0>, #<Foo:0x114149d0>, #<Foo:0x114149e0>]>
+(main)> tree(foo) { |f| f.children }
+  0: . #<Foo:0x12d6e0d0>
+  1: +-- #<Foo:0x114146c0>
+  2: +-- #<Foo:0x114149d0>
+  3: `-- #<Foo:0x114149e0>
+
+=> #<Foo:0x12d6e0d0 @children=[#<Foo:0x114146c0>, #<Foo:0x114149d0>, #<Foo:0x114149e0>]>
+```
+
+##### Global objects
 
 The adjust and tree methods act on global objects.  Once either of these methods
 is used, you can access that global if you want:
@@ -1611,6 +1676,7 @@ convention.
 ```ruby
 [0.0, 1.1, 2.2].to_pointer(:float)
 
+# is equivalent to
 floats = Pointer.new(:float, 3)
 floats[0] = 0.0
 floats[1] = 1.1
@@ -1632,12 +1698,6 @@ Quick wrapper for `CFUUIDCreate()` and `CFUUIDCreateString()`.  Identical to the
 > uuid
 # => "0A3A76C6-9738-4458-969E-3B9DF174A3D9"
 ```
-
-[BubbleWrap]: https://github.com/rubymotion/BubbleWrap
-[sweettea]: https://github.com/colinta/sweettea
-[teacup]: https://github.com/rubymotion/teacup
-[Fusionbox]: http://www.fusionbox.com/
-[fusionbox announcement]: http://fusionbox.org/projects/rubymotion-sugarcube/
 
  Ruby on Rails Ripoffs (RoR-R?)
 ---------------
@@ -1735,3 +1795,14 @@ foo.instance_variable_set(var_name.ivar, value)  # => foo.instance_variable_set(
 # (:symbol || 'string').cvar
 Baz.class_variable_set(var_name.cvar, value)  # => Baz.class_variable_set("@@#{var_name}", value)
 ```
+
+[BubbleWrap]: https://github.com/rubymotion/BubbleWrap
+[sweettea]: https://github.com/colinta/sweettea
+[teacup]: https://github.com/rubymotion/teacup
+[nsnulldammit]: https://github.com/colinta/nsnulldammit
+[geomotion]: https://github.com/clayallsopp/geomotion
+
+[Fusionbox]: http://www.fusionbox.com/
+[fusionbox announcement]: http://fusionbox.org/projects/rubymotion-sugarcube/
+[Clay Allsopp]: https://github.com/clayallsopp
+[Thom Parkin]: https://github.com/ParkinT
