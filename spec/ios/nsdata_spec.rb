@@ -55,4 +55,16 @@ describe "NSData" do
 
   end
 
+  describe 'base64' do
+
+    it 'should convert nsstring data to base64' do
+      'much longer test'.nsdata.base64.should == 'bXVjaCBsb25nZXIgdGVzdA=='
+    end
+
+    it 'should convert image data (PNG) to base64' do
+      'test'.uiimage.nsdata.base64.should == 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAHgCAIAAADrGJBNAAAAHElEQVQ4jWO4a8TAxMAwikfxKB7Fo3gUj2I6YgAAiQTO+8u2PwAAAABJRU5ErkJggg=='
+    end
+
+  end
+
 end
