@@ -133,6 +133,7 @@ private
   end
 
   def self.sugarcube_barbuttonitem_with_image(image, style, action)
+    style = style.uibarbuttonstyle if style.is_a?(Symbol)
     case image
     when Array
       b = UIBarButtonItem.alloc.initWithImage(image.first.uiimage, landscapeImagePhone:image.last.uiimage, style:style, target:nil, action:nil)
