@@ -1,3 +1,4 @@
+# Factory methods for UIBarButtonItem
 class UIBarButtonItem
 
   class << self
