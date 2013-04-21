@@ -1141,9 +1141,9 @@ puts @label.font.pointSize # => Will be 40 or less depending on the font type an
 
 ```ruby
 # Get an instance containing the specified system item.
-UIBarButtonItem.done {
+UIBarButtonItem.done do
   self.dismissViewControllerAnimated true, completion:nil
-}
+end
 # =>
 UIBarButtonItem.alloc.initWithBarButtonSystemItem(:done.uibarbuttonitem, target:self, action:"action:")
 # with 'action' defined as:
@@ -1152,52 +1152,49 @@ def action(sender)
 end
 
 # the method names are 1::1 with the uibarbuttonitem constants in symbol.rb
-UIBarButtonItem.cancel(&action)           => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:cancel.uibarbuttonitem, target:self, action:"action:")
-UIBarButtonItem.edit(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:edit.uibarbuttonitem, target:self, action:"action:")
-UIBarButtonItem.save(&action)             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:save.uibarbuttonitem, target:self, action:"action:")
+UIBarButtonItem.cancel { ... }           => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:cancel.uibarbuttonitem, target:self, action:"action:")
+UIBarButtonItem.edit { ... }             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:edit.uibarbuttonitem, target:self, action:"action:")
+UIBarButtonItem.save { ... }             => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:save.uibarbuttonitem, target:self, action:"action:")
   .
   .
   .
-UIBarButtonItem.pagecurl(&action)         => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:pagecurl.uibarbuttonitem, target:self, action:"action:")
+UIBarButtonItem.pagecurl { ... }         => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:pagecurl.uibarbuttonitem, target:self, action:"action:")
 
-# Get an instance containing the specified title.
-UIBarButtonItem.titled('Close') {
-  self.dismissViewControllerAnimated true, completion:nil
-}
+# Create a UIBarButtonItem, specifying the title
+UIBarButtonItem.titled('Close') do
+  self.dismissViewControllerAnimated(true, completion:nil)
+end
 # =>
 UIBarButtonItem.alloc.initWithTitle('Close', style: :bordered.uibarbuttonstyle, target:self, action:"action:")
-
-def action:sender
-  self.dismissViewControllerAnimated true, completion:nil
+def action(sender)
+  self.dismissViewControllerAnimated(true, completion:nil)
 end
 
-# You can also specify a style.
-UIBarButtonItem.titled('Close', :plain.uibarbuttonstyle) {
-  self.dismissViewControllerAnimated true, completion:nil
-}
 
-
-# Get an instance containing the specified image.
-UIBarButtonItem.imaged('close'.uiimage) {
-  self.dismissViewControllerAnimated true, completion:nil
-}
-# =>
-UIBarButtonItem.alloc.initWithImage('Close'.uiimage, style: :bordered.uibarbuttonstyle, target:self, action:"action:")
-def action:sender
-  self.dismissViewControllerAnimated true, completion:nil
+# You can also specify the style.
+UIBarButtonItem.titled('Close', :plain) do  # :plain, :bordered, :done
+  # ...
 end
 
-# You can also specify a style.
-UIBarButtonItem.imaged('close'.uiimage, :plain.uibarbuttonstyle) {
-  self.dismissViewControllerAnimated true, completion:nil
-}
 
-# Get an instance containing the specified array which contains a portrate image and a landscape iamge.
-UIBarButtonItem.imaged(['portrate'.uiimage, 'landscape'.uiimage) {
-  self.dismissViewControllerAnimated true, completion:nil
-}
+# Or specify the image instead
+UIBarButtonItem.imaged('close_icon') do  # 'close_icon' will be coerced into a UIImage
+  # ...
+end
 # =>
-UIBarButtonItem.alloc.initWithImage('portrate'.uiimage, landscapeImagePhone:'landscape'.uiimage, style: :bordered.uibarbuttonstyle, target:self, action:"action:")
+UIBarButtonItem.alloc.initWithImage('Close'.uiimage, style: :bordered.uibarbuttonstyle, ...)
+
+# And, like `titled`, specify the style
+UIBarButtonItem.imaged('close'.uiimage, :done) do
+  # ...
+end
+
+# If you provide two images, they will be used as the portrait and landscape images
+UIBarButtonItem.imaged(['portrait'.uiimage, 'landscape'.uiimage) do
+  # ...
+end
+# =>
+UIBarButtonItem.alloc.initWithImage('portrait'.uiimage, landscapeImagePhone:'landscape'.uiimage, style: :bordered.uibarbuttonstyle, target:self, action:"action:")
 ```
 
 Example Usage:
