@@ -254,24 +254,27 @@ class UIView
 
   # Changes the current rotation to `new_angle`
   # (`rotate` rotates relative to the current rotation)
-  def rotate_to(options={}, &after)
+  def rotate_to(options={}, more_options={}, &after)
     if options.is_a? Numeric
-      options = { angle: options }
+      new_angle = options
+      options = more_options
+    else
+      new_angle = options[:angle]
     end
 
     options[:after] = after
 
     animate(options) {
-      self.transform = CGAffineTransformMakeRotation(options[:angle])
+      self.transform = CGAffineTransformMakeRotation(new_angle)
     }
   end
 
   # Changes the current rotation by `new_angle`
   # (`rotate` rotates to a specific angle)
-  def rotate(options={}, &after)
+  def rotate(options={}, more_options={}, &after)
     if options.is_a? Numeric
       new_angle = options
-      options = {}
+      options = more_options
     else
       new_angle = options[:angle]
     end
@@ -281,10 +284,10 @@ class UIView
     rotate_to(options, &after)
   end
 
-  def slide(direction, options={}, more_options=nil, &after)
+  def slide(direction, options={}, more_options={}, &after)
     if options.is_a? Numeric
       size = options
-      options = more_options || {}
+      options = more_options
     else
       size = options[:size]
     end
