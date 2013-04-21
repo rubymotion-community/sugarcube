@@ -81,11 +81,13 @@ module SugarCube
         handler = success_handler
       end
 
-      if handler.arity == 0
-        handler.call
-      else
-        button = buttons[index]
-        handler.call(button)
+      if handler
+        if handler.arity == 0
+          handler.call
+        else
+          button = buttons[index]
+          handler.call(button)
+        end
       end
 
       self.send(:autorelease)
