@@ -7,6 +7,10 @@ describe "UIView animation methods" do
     @view.delta_to([1,2]).frame.should == CGRectMake(2,4,3,4)
   end
 
+  it 'should delta_to x:1 y:2' do
+    @view.move_to([2,4]).frame.should == CGRectMake(2,4,3,4)
+  end
+
   it 'should rotate 45 degrees' do
     angle = 45.degrees
     @view.rotate_to(angle)

@@ -52,7 +52,8 @@ class Symbol
     attr :activityindicator_styles
     attr :segmented_styles
     attr :datepicker_modes
-    attr :content_modes
+    attr :uiview_content_modes
+    attr :uiview_animation_curve
 
     attr :tableview_styles
     attr :tableview_rowanimation
@@ -274,7 +275,7 @@ class Symbol
     countdowntimer: UIDatePickerModeCountDownTimer
   }
 
-  @content_modes = {
+  @uiview_content_modes = {
     scale: UIViewContentModeScaleToFill,
     scale_to_fill: UIViewContentModeScaleToFill,
     scaletofill: UIViewContentModeScaleToFill,
@@ -298,6 +299,13 @@ class Symbol
     bottom_left: UIViewContentModeBottomLeft,
     bottomright: UIViewContentModeBottomRight,
     bottom_right: UIViewContentModeBottomRight,
+  }
+
+  @uiview_animation_curve = {
+    ease_in_out: UIViewAnimationCurveEaseInOut,
+    ease_in: UIViewAnimationCurveEaseIn,
+    ease_out: UIViewAnimationCurveEaseOut,
+    linear: UIViewAnimationCurveLinear
   }
 
   @tableview_styles = {
@@ -581,9 +589,14 @@ class Symbol
   end
 
   def uicontentmode
-    sugarcube_look_in(Symbol.content_modes)
+    sugarcube_look_in(Symbol.uiview_content_modes)
   end
   alias uiviewcontentmode uicontentmode
+
+  def uianimationcurve
+    sugarcube_look_in(Symbol.uiview_animation_curve)
+  end
+  alias uiviewanimationcurve uianimationcurve
 
   def uitablestyle
     sugarcube_look_in(Symbol.tableview_styles)
@@ -600,10 +613,11 @@ class Symbol
   end
   alias uitableviewcellstyle uitablecellstyle
 
-  def uitableviewcellaccessorytype
+  def uitablecellaccessorytype
     sugarcube_look_in(Symbol.tableview_cellaccessorytype)
   end
-  alias uitablecellaccessory uitableviewcellaccessorytype
+  alias uitablecellaccessory uitablecellaccessorytype
+  alias uitableviewcellaccessorytype uitablecellaccessorytype
 
   def uitablecellselectionstyle
     sugarcube_look_in(Symbol.tableview_cellselectionstyle)
