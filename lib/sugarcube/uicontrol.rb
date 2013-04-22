@@ -7,7 +7,7 @@ class UIControl
   # @example
   #   button = UIButton.alloc.initWithFrame([0, 0, 10, 10])
   #   button.on(:touch) { my_code }
-  #   button.on(:touchupoutside, :touchcancel) { my_code }
+  #   button.on(:touch_up_outside, :touch_cancel) { my_code }
   #   # up to two arguments can be passed in
   #   button.on(:touch) { |sender,touch_event| my_code }
   def on(*events, &block)
@@ -29,7 +29,7 @@ class UIControl
   #
   # @example
   #   button.off(:touch)
-  #   button.off(:touchupoutside, :touchcancel)
+  #   button.off(:touch_up_outside, :touch_cancel)
   #   button.off  # all events
   def off(*events)
     if events.length == 0
@@ -45,6 +45,20 @@ class UIControl
       sugarcube_callbacks.delete(event)
     end
     self
+  end
+
+  # Useful during testing, or to simulate a button press.
+  #
+  # @example
+  #   button.trigger(:touch)
+  #   button.trigger(:touch_drag_outside, :touch_drag_exits)
+  def trigger(*events)
+    event_mask = 0
+    events.each do |event|
+      event = event.uicontrolevent unless event.is_a? Fixnum
+      event_mask |= event
+    end
+    sendActionsForControlEvents(event_mask)
   end
 
 # private

@@ -17,6 +17,13 @@ describe 'UIControl' do
     controller.touched_count.should == 1
   end
 
+  it 'button1 should respond to touches using `trigger`' do
+    controller.button1.trigger(:touch)
+    controller.touched.should == controller.button1
+    controller.touched_1.should == true
+    controller.touched_count.should == 1
+  end
+
   it 'button2 should respond to touches' do
     controller.button2.sendActionsForControlEvents(:touch.uicontrolevent)
     controller.touched.should == controller.button2
