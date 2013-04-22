@@ -51,16 +51,30 @@ class UIView
         after_adjusted = nil
       end
 
+      animation_options = options[:options]
+      unless after_animations
+        curve = options.fetch(:curve, UIViewAnimationOptionCurveEaseInOut)
+        curve = curve.uianimationcurve if curve.is_a?(Symbol)
+
+        from_current = options.fetch(:from_current, true) ? UIViewAnimationOptionBeginFromCurrentState : 0
+        allow_interaction = options.fetch(:allow_interaction, false) ? UIViewAnimationOptionAllowUserInteraction : 0
+
+        animation_options = curve | from_current
+      end
+
       if duration == 0 && delay == 0
         animations.call
         after_adjusted.call(true) if after_adjusted
       else
+        prev_value = Thread.current[:sugarcube_chaining]
+        Thread.current[:sugarcube_chaining] = true
         UIView.animateWithDuration( duration,
                              delay: delay,
-                           options: options[:options] || (UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState),
+                           options: animation_options,
                         animations: animations,
                         completion: after_adjusted
                                   )
+        Thread.current[:sugarcube_chaining] = prev_value
       end
       nil
     end

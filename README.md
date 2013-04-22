@@ -799,22 +799,22 @@ provides it to all its completion handlers).
 view.fade_out
 
 # with a callback
-view.fade_out {
+view.fade_out do
   view.removeFromSuperview
-}
+end
 
 # and the completed argument
-view.fade_out { |completed|
+view.fade_out do |completed|
   view.removeFromSuperview
-}
+end
 
 # fade_out options
 view.fade_out(duration: 0.5,
                  delay: 0,
                options: UIViewAnimationOptionCurveLinear,
-               opacity: 0.5) {
+               opacity: 0.5) do
   view.removeFromSuperview
-}
+end
 
 view.move_to([0, 100])   # move to position 0, 100
 view.delta_to([0, 100])  # move over 0, down 100, from current position
@@ -823,7 +823,10 @@ view.rotate_to Math::PI  # rotate view upside down
 view.rotate 45.degrees  # rotate *an additional* 45 degrees
 view.rotate_to(duration: 0.5, angle: 45.degrees)  # using options
 
-view.slide :left   # slides the entire view one "page" to the left, right, up, or down
+view.slide :left   # slides the entire view left, right, up, or down. The
+                   # default amount is the width of the view being moved, but
+                   # you can override
+view.slide :left, 320
 
 view.shake  # shakes the view.
 # options w/ default values:
@@ -843,19 +846,48 @@ view.shake offset: 0.1, repeat: 2, duration: 0.5, keypath: 'transform.rotation'
 view.tumble  # the view will fall and rotate - a good 'cancel button effect'
 ```
 
+The default behavior on all the animation methods is to animate from "the
+current" position (`UIViewAnimationOptionBeginFromCurrentState`). To disable
+that, you can either assign `options:` to something else, or you can disable
+
+```ruby
+# *just* that option.
+view.slide :left, from_current: false
+```
+
+Other options can be assigned this way, like the curve
+
+```ruby
+view.slide :left, from_current: false, curve: :ease_in  # :ease_in_out, :ease_in, :ease_out, :linear
+```
+
+Allow/disallow user interaction
+
+```ruby
+view.slide :left, allow_interaction: true
+```
+
+Not all options are configurable this way. Refer to `UIViewAnimationOptions` and
+assign them direcly to `options:` if there are options you need that are not
+listed here.
+
+```ruby
+view.slide :left, options: UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionCurveEaseInOut
+```
+
 Using the completed callback you can string animations together for a low-tech
 animation sequence.
 
 ```ruby
-view.slide(:left, 20) {
-  view.slide(:up, 20) {
-    view.slide(:right, 20) {
-      view.slide(:down, 20) {
+view.slide(:left, 20) do
+  view.slide(:up, 20) do
+    view.slide(:right, 20) do
+      view.slide(:down, 20) do
         view.fade_out
-      }
-    }
-  }
-}
+      end
+    end
+  end
+end
 ```
 
 Those be some gnarly callbacks.  You can write this as a chain instead!
@@ -925,7 +957,7 @@ chain.loop(10)  # would loop 10 times
 # if you're impatient
 chain.abort
 # will stop the animation at the end of whatever block it is in, so it could be
-# in a strange position, depending on where in the chain it is.  better to call
+# in a strange position, depending on where in the chain it is.  Better to call
 # `stop`
 ```
 

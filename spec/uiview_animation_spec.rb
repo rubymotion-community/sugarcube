@@ -15,6 +15,10 @@ describe "UIView animation methods" do
     @view.reframe_to([[2,4],[5,6]]).frame.should == CGRectMake(2,4,5,6)
   end
 
+  it 'should move_to x:2 y:4' do
+    @view.move_to([2,4]).frame.should == CGRectMake(2,4,3,4)
+  end
+
   it 'should rotate 45 degrees' do
     angle = 45.degrees
     @view.rotate_to(angle)
