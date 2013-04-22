@@ -226,7 +226,7 @@ class NSAttributedString
   end
 
   def +(attributedstring)
-    NSMutableAttributedString.alloc.initWithAttributedString(self) + attributedstring
+    NSMutableAttributedString.alloc.initWithAttributedString(self) + attributedstring.nsattributedstring
   end
 
 end
