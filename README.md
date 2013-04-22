@@ -1003,6 +1003,24 @@ UITableView.plain([[0, 0], [320, 568]])
 UITableView.grouped([[0, 0], [320, 400]])
 ```
 
+###### UITableViewCell
+
+```ruby
+# factory methods, named for the cell style. cell identifier is required.
+UITableViewCell.default('cell_identifier')
+UITableViewCell.value1('cell_identifier')
+UITableViewCell.value2('cell_identifier')
+UITableViewCell.subtitle('cell_identifier')
+
+# you can options for the common settings
+cell = UITableViewCell.default('cell_identifier',
+  accessory: :disclosure,
+  selection: :blue,
+  text: 'text',
+  image: 'icon', # coerced into a UIImage
+  )
+```
+
 ###### UISegmentedControl
 
 ```ruby
