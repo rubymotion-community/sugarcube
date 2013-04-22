@@ -67,7 +67,7 @@ Installation
 Examples
 ========
 
- Array
+Array
 -------
 
 ```ruby
@@ -76,7 +76,7 @@ Examples
 [160, 210, 242].uicolor(0.5)  # => UIColor.colorWithRed(0.6274, green:0.8235, blue:0.9490, alpha:0.5)
 ```
 
- Hash => Object
+Hash => Object
 --------
 
 ```ruby
@@ -101,7 +101,7 @@ h.baz          # => NoMethodError
 h.baz = 'baz'  # => NoMethodError
 ```
 
- Fixnum
+Fixnum
 --------
 
 ```ruby
@@ -129,7 +129,7 @@ NSDate.new  # => 2013-01-03 11:42:24 -0700
 # later => NSTimer
 ```
 
- Numeric
+Numeric
 ---------
 
 ```ruby
@@ -156,7 +156,7 @@ distance.miles  # => 0.932056427001953
 10000.string_with_style(:currency)  # => "$10,000.00"
 ```
 
- NSAttributedString
+NSAttributedString
 ---------
 
 ```ruby
@@ -195,7 +195,7 @@ view << (("We just met\n".attrd +
           "so give me SSH access.").uilabel
 ```
 
- NSCoder
+NSCoder
 ---------
 
 Shorthands and hash-like access to the coder/decoder objects.
@@ -245,7 +245,7 @@ string_data.nsstring  # => 'String'
 image_data.nsimage  # => whatever 'an image' was
 ```
 
- NSDate
+NSDate
 --------
 
 `NSDate` objects are converted to `Time` objects automatically by rubymotion.
@@ -490,7 +490,7 @@ NSError.new('Error Message', code: 404)
 NSError.new('Error Message', code: 404, userInfo: { warnings: ['blabla'] })
 ```
 
- NSURL
+NSURL
 -------
 
 ```ruby
@@ -498,7 +498,7 @@ NSError.new('Error Message', code: 404, userInfo: { warnings: ['blabla'] })
 "https://github.com".nsurl.open  # => UIApplication.sharedApplication.openURL(NSURL.URLWithString("https://github.com"))
 ```
 
- NSString
+NSString
 ----------
 
 ```ruby
@@ -543,7 +543,7 @@ NSError.new('Error Message', code: 404, userInfo: { warnings: ['blabla'] })
 "pi".nan? # => NSNumberFormatter.alloc.init.numberFromString("pi").nil?
 ```
 
- NSIndexPath
+NSIndexPath
 -------------
 
 Use the `IndexPath` class to match `NSIndexPath` objects, for instance in a
@@ -559,7 +559,7 @@ end
 [0, 2].nsindexpath.to_a == [0, 2]  # => true
 ```
 
- Symbol
+Symbol
 --------
 
 This is the "big daddy".  Lots of sugar here...
@@ -597,7 +597,7 @@ This is the "big daddy".  Lots of sugar here...
 :blue.uitablecellselectionstyle  # or .uitableviewcellselectionstyle
 ```
 
- UIImage
+UIImage
 ---------
 
 ```ruby
@@ -725,7 +725,7 @@ UIActionSheet.alert 'I mean, is this cool?', buttons: ['Nah', 'With fire!', 'Sur
   success: proc { |pressed| self.proceed if pressed == 'Sure' }
 ```
 
- UIColor
+UIColor
 ---------
 
 Methods to merge or manipulate a color, or to get information about a color.
@@ -749,7 +749,7 @@ image patterns can't easily be inverted or mixed.
 :white.uicolor.mix_with(:black.uicolor, 1)  # => :black
 ```
 
- UIView
+UIView
 --------
 
 ```ruby
@@ -1028,7 +1028,7 @@ UIActivityIndicatorView.large
 UIActivityIndicatorView.gray
 ```
 
- UIControl
+UIControl
 -----------
 
 Inspired by [BubbleWrap's][BubbleWrap] `when` method, but I prefer jQuery-style
@@ -1051,7 +1051,7 @@ button.off(:all)
 You can only remove handlers by "type", not by the action.  e.g. If you bind
 three `:touch` events, calling `button.off(:touch)` will remove all three.
 
- UIViewController
+UIViewController
 ------------------
 
 It is nice that *any* `UIViewController` can present a modal, but if you have
@@ -1083,7 +1083,7 @@ re-defined on `UIViewController` for this purpose:
 controller.present_modal(other_controller) { puts "presented" }
 ```
 
- UINavigationController
+UINavigationController
 ------------------------
 
 `push`, `<<` and `pop` instead of `pushViewController` and `popViewController`.
@@ -1105,7 +1105,7 @@ nav_ctlr.pop new_ctlr # => pops to new_ctlr
 nav_ctlr.pop :root  # => pops to root_ctlr, because it's on the bottom
 ```
 
- UITabBarController
+UITabBarController
 ------------------------
 
 I have mixed feelings about adding this extension, but **I** needed it, so maybe
@@ -1123,7 +1123,7 @@ tabbar_ctlr.setViewControllers(controllers, animated: true)
 tabbar_ctlr << new_ctlr
 ```
 
- UITextView
+UITextView
 ------------
 
 Added some `UIControl`-like event binding.  You MUST call the `off` methods,
@@ -1154,21 +1154,23 @@ end
 text_view.off :change, :end, :begin
 ```
 
- UILabel
+UILabel
 ----------
 
- Added simple `fit_to_size` function to the label, which will start at the supplied font size
- and then squeeze down until all the text fits.  This way you can assure any dynamic text will completely display
- in a given label frame.
+Added simple `fit_to_size` function to the label, which will start at the supplied font size
+and then squeeze down until all the text fits.  This way you can assure any dynamic text will completely display
+in a given label frame.
 
- The font size changes instead of the frame size.
- ```ruby
- #this will try to make the containing text fit at font size 40, but squeeze as needed.
+The font size changes instead of the frame size.
+```ruby
+# this will try to make the containing text fit at font size 40, but squeeze as needed.
 @label.fit_to_size(40)
 puts @label.font.pointSize # => Will be 40 or less depending on the font type and label frame.
- ```
+```
 
- UIBarButtonItem
+
+
+UIBarButtonItem
 ----------------------
 
 ```ruby
@@ -1259,7 +1261,7 @@ Makes it easy to post a notification to some or all objects.
 "my notification".remove_observer(observer, object)
 ```
 
- NSTimer
+NSTimer
 ---------
 
 ```ruby
@@ -1357,7 +1359,7 @@ test['my'] = 'new'
 NSUserDefaults['test'] = test  # saved
 ```
 
- CoreGraphics
+CoreGraphics
 --------------
 
 ###### Is it `CGMakeRect` or `CGRectMake`?  What arguments does `CGRect.new` take?
@@ -1397,7 +1399,7 @@ f = Rect(p, [w, h])
 f = Rect([x, y], s)
 ```
 
- CoreLocation
+CoreLocation
 --------------
 
 Open up `CLLocationCoordinate2D` to provide handy-dandies
@@ -1419,7 +1421,7 @@ Open up `CLLocationCoordinate2D` to provide handy-dandies
 => 0.00502094626426697
 ```
 
- REPL View adjustments
+REPL View adjustments
 -----------------------
 
 Pixel pushing is an unfortunate but necessary evil.  Well, at least we can make
@@ -1696,7 +1698,7 @@ $sugarcube_items  # => the list of views that was output using `tree`
 ```
 
 
- Pointers
+Pointers
 ----------
 
 These are not UIKit-related, so I reverted to Ruby's preferred `to_foo`
@@ -1712,7 +1714,7 @@ floats[1] = 1.1
 floats[2] = 2.2
 ```
 
- UUID
+UUID
 ------
 
 Quick wrapper for `CFUUIDCreate()` and `CFUUIDCreateString()`.  Identical to the
@@ -1728,7 +1730,7 @@ Quick wrapper for `CFUUIDCreate()` and `CFUUIDCreateString()`.  Identical to the
 # => "0A3A76C6-9738-4458-969E-3B9DF174A3D9"
 ```
 
- Ruby on Rails Ripoffs (RoR-R?)
+Ruby on Rails Ripoffs (RoR-R?)
 ---------------
 
 aka `ActiveSupport`.
@@ -1795,7 +1797,7 @@ view.on_press(1.5)  # duration
 view.on_press(duration: 1.5, taps: 1, fingers: 1)
 ```
 
- Unholy
+Unholy
 --------
 
 These methods are just about as opinionated as they get - even more than the RoR
