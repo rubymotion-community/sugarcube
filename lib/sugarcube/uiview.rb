@@ -52,7 +52,7 @@ class UIView
       end
 
       animation_options = options[:options]
-      unless after_animations
+      unless animation_options
         curve = options.fetch(:curve, UIViewAnimationOptionCurveEaseInOut)
         curve = curve.uianimationcurve if curve.is_a?(Symbol)
 
