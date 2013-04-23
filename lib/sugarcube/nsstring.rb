@@ -18,7 +18,9 @@ class NSString
 
   # @return [UIImage]
   def uiimage
-    UIImage.imageNamed(self)
+    UIImage.imageNamed(self).tap do |retval|
+      NSLog("No image named #{self}") unless retval
+    end
   end
 
   # @return [UIImageView]
