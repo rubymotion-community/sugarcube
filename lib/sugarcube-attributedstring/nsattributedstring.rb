@@ -83,10 +83,11 @@ class NSAttributedString
     foo = NSCenterTextAlignment
     foo = NSJustifiedTextAlignment
     foo = NSNaturalTextAlignment
+    nil
   end
 
   def to_s
-    string
+    string  # this is the name of the Cocoa method to return an NSString
   end
 
   def bold(size=nil)
@@ -103,14 +104,13 @@ class NSAttributedString
     underline_style(NSUnderlineStyleSingle)
   end
 
-  # @param font [UIFont] Optional, defaults to UIFont.systemFontOfSize(UIFont.systemFontSize)
   # @return [UILabel]
   def uilabel
-    UILabel.alloc.initWithFrame([[0, 0], [0, 0]]).tap { |label|
+    UILabel.alloc.initWithFrame([[0, 0], [0, 0]]).tap do |label|
       label.attributedText = self
       label.backgroundColor = :clear.uicolor
       label.sizeToFit
-    }
+    end
   end
 
   def font(value)
