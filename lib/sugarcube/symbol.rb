@@ -63,6 +63,7 @@ class Symbol
     attr :tableview_cellseparatorstyle
 
     attr :alert_view_styles
+    attr :action_sheet_styles
 
     attr :image_sourcetypes
     attr :image_capturemode
@@ -363,6 +364,13 @@ class Symbol
     login_and_password_input: UIAlertViewStyleLoginAndPasswordInput,
   }
 
+  @action_sheet_styles = {
+    automatic: UIActionSheetStyleAutomatic,
+    default: UIActionSheetStyleDefault,
+    black_translucent: UIActionSheetStyleBlackTranslucent,
+    black_opaque: UIActionSheetStyleBlackOpaque,
+  }
+
   @statusbar_styles = {
     default:     UIStatusBarStyleDefault,
     black:       UIStatusBarStyleBlackOpaque,
@@ -641,6 +649,11 @@ class Symbol
     sugarcube_look_in(Symbol.alert_view_styles)
   end
   alias uialertviewstyle uialertstyle
+
+  def uiactionstyle
+    sugarcube_look_in(Symbol.action_sheet_styles)
+  end
+  alias uiactionsheetstyle uiactionstyle
 
   def uistatusbarstyle
     sugarcube_look_in(Symbol.statusbar_styles)
