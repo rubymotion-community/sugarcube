@@ -8,9 +8,12 @@ class UIAlertView
   #   cancel: proc{ puts "nevermind" },
   #   success: proc{ |pressed| puts "pressed: #{pressed}" },
   #   )
-  def self.alert(title, options={}, &block)
+  #
+  # If you choose
+  def self.alert(title, options={}, more_options={}, &block)
     if options.is_a? String
-      options = {message: options}
+      more_options[:message] = options
+      options = more_options
     end
 
     # create the delegate
@@ -33,7 +36,7 @@ class UIAlertView
 
       # otherButtonTitles:
       if buttons.empty?
-        buttons << nil  # cancel button => nil
+        args << nil  # cancel button => nil
         buttons << "OK"  # other buttons => "OK"
       elsif options[:success]
         buttons << "OK"
@@ -51,8 +54,19 @@ class UIAlertView
 
     alert = self.alloc
     alert.send(:"initWithTitle:message:delegate:cancelButtonTitle:otherButtonTitles:", *args)
-    alert.show
+    if options.key?(:style)
+      style = options[:style]
+      style = style.uialertstyle unless style.is_a?(Fixnum)
+      alert.alertViewStyle = style
+    end
+    if options.fetch(:show, true)
+      alert.show
+    end
     alert
+  end
+
+  def <<(title)
+    addButtonWithTitle(title)
   end
 
   private
@@ -82,12 +96,20 @@ module SugarCube
       end
 
       if handler
-        if handler.arity == 0
-          handler.call
-        else
-          button = buttons[index]
-          handler.call(button)
+        # construct all the possible arguments you could send
+        args = [buttons[index]]
+        # add the first input if this is not the default
+        if alert.alertViewStyle != :default.uialertstyle
+          args << alert.textFieldAtIndex(0).text
         end
+        # add the second one if this is a login+password input
+        if alert.alertViewStyle == :login_and_password_input.uialertstyle
+          args << alert.textFieldAtIndex(1).text
+        end
+
+        # but only send the ones they asked for
+        args = args[0...handler.arity]
+        handler.call(*args)
       end
 
       self.send(:autorelease)

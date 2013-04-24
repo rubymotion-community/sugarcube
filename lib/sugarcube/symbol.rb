@@ -62,6 +62,8 @@ class Symbol
     attr :tableview_cellselectionstyle
     attr :tableview_cellseparatorstyle
 
+    attr :alert_view_styles
+
     attr :image_sourcetypes
     attr :image_capturemode
     attr :image_cameradevice
@@ -354,6 +356,13 @@ class Symbol
     etched: UITableViewCellSeparatorStyleSingleLineEtched,
   }
 
+  @alert_view_styles = {
+    default: UIAlertViewStyleDefault,
+    secure_text_input: UIAlertViewStyleSecureTextInput,
+    plain_text_input: UIAlertViewStylePlainTextInput,
+    login_and_password_input: UIAlertViewStyleLoginAndPasswordInput,
+  }
+
   @statusbar_styles = {
     default:     UIStatusBarStyleDefault,
     black:       UIStatusBarStyleBlackOpaque,
@@ -627,6 +636,11 @@ class Symbol
   def uitablecellseparatorstyle
     sugarcube_look_in(Symbol.tableview_cellseparatorstyle)
   end
+
+  def uialertstyle
+    sugarcube_look_in(Symbol.alert_view_styles)
+  end
+  alias uialertviewstyle uialertstyle
 
   def uistatusbarstyle
     sugarcube_look_in(Symbol.statusbar_styles)
