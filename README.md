@@ -38,7 +38,7 @@ Cocoa-wrappage.
 SugarCube started out as a [Fusionbox][] project (see the
 [announcement][fusionbox announcement]), but as its popularity increased, the
 decision was made to offer it to the rubymotion community, in the spirit of
-open-source and collaboration.  It is a great compliment to [teacup][],
+open-source and collaboration.  It is a great complement to [teacup][],
 especially when paired with [sweettea][]!
 
 Documentation
