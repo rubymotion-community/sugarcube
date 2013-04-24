@@ -74,7 +74,7 @@ class UIActionSheet
 
     alert = self.alloc
     alert.send('initWithTitle:delegate:cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:', *args)
-    window = UIApplication.sharedApplication.keyWindow || UIApplication.sharedApplication.windows[0]
+    window = UIApplication.sharedApplication.windows[0]
     alert.showInView(window)
     alert
   end

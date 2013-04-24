@@ -374,7 +374,7 @@ module SugarCube
     end
 
     def root
-      (UIApplication.sharedApplication.keyWindow || UIApplication.sharedApplication.windows[0]).rootViewController
+      UIApplication.sharedApplication.windows[0].rootViewController
     end
 
     ##|  RESTORE
