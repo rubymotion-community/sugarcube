@@ -394,7 +394,7 @@ class UIView
     end
 
     self.animate(options) {
-      window = UIApplication.sharedApplication.keyWindow || UIApplication.sharedApplication.windows[0]
+      window = UIApplication.sharedApplication.windows[0]
       top = self.convertPoint([0, 0], toView:nil).y
       height = window.frame.size.height - top
       offset = CGPoint.new(0, height * 1.5)
