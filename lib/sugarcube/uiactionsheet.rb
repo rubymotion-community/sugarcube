@@ -1,24 +1,27 @@
 class UIActionSheet
 
-  # UIActionSheet.alert("title",
-  #   # The first button is considered the 'cancel' button, for the purposes of
-  #   # whether the cancel or success handler gets called, the second button is
-  #   # the 'destructive' button, and the rest are plain old buttons.
-  #   buttons: %w"Cancel OK No-way",
-  #   cancel: proc{ puts "nevermind" },
-  #   destructive: proc{ puts "OHHH YEAAH!" },
-  #   success: proc{ |pressed| puts "pressed: #{pressed}" },
-  #   )
+  # For the purposes of whether the cancel or success handler gets called, the
+  # first button is considered the 'cancel' button, the second button is the
+  # 'destructive' button, and the rest are plain old buttons.
+  #
+  # If you use just one block, it will be used for *all* of the buttons.
+  #
+  # @example
+  #     UIActionSheet.alert("title",
+  #       buttons: %w"Cancel Delete No-way",
+  #       cancel: proc{ puts "nevermind" },
+  #       destructive: proc{ puts "OHHH YEAAH!" },
+  #       success: proc{ |pressed| puts "pressed: #{pressed}" },
+  #       )
+  #     UIActionSheet.alert("title", buttons: [...]) { |button| }
   def self.alert(title, options={}, &block)
     # create the delegate
     delegate = SugarCube::ActionSheetDelegate.new
-    delegate.on_success = options[:success] || block
+    delegate.on_default = block
+    delegate.on_success = options[:success]
     delegate.on_destructive = options[:destructive]
     delegate.on_cancel = options[:cancel]
     delegate.send(:retain)
-
-    args = [title]            # initWithTitle:
-    args << delegate          # delegate:
 
     buttons = []
     buttons.concat(options[:buttons]) if options[:buttons]
@@ -63,12 +66,15 @@ class UIActionSheet
       button_index_map[last_index] = buttons[0]
     end
 
-    buttons[2..-1].each_with_index { |button, index|
+    buttons[2..-1].each_with_index do |button, index|
       button_index_map[index + offset] = button
-    }
+    end
     # the button titles, mapped to how UIActionSheet orders them.  These are passed to the success handler.
     delegate.button_index_map = button_index_map
 
+    args = [title]            # initWithTitle:
+    args << delegate          # delegate:
+    # cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:
     args.concat(buttons.map{ |s| s ? s.localized : nil })
     args << nil  # otherButtonTitles:..., nil
 
@@ -90,21 +96,27 @@ end
 module SugarCube
   class ActionSheetDelegate
     attr_accessor :button_index_map
+    attr_accessor :on_default
     attr_accessor :on_cancel
     attr_accessor :on_destructive
     attr_accessor :on_success
 
     def actionSheet(alert, didDismissWithButtonIndex:index)
+      handler = nil
       if index == alert.destructiveButtonIndex && on_destructive
-        on_destructive.call
+        handler = on_destructive || on_default
       elsif index == alert.cancelButtonIndex && on_cancel
-        on_cancel.call
-      elsif on_success
-        if on_success.arity == 0
-          on_success.call
+        handler = on_cancel || on_default
+      else
+        handler = on_success || on_default
+      end
+
+      if handler
+        if handler.arity == 0
+          handler.call
         else
           button = button_index_map[index]
-          on_success.call(button)
+          handler.call(button)
         end
       end
 
