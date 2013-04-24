@@ -58,7 +58,7 @@ class String
   end
 
   def to_timezone
-    SugarCube::DateParser.parse_timezone(self)
+    SugarCube::DateParser.parse_time_zone(self)
   end
 
   def to_duration
