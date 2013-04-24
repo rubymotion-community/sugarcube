@@ -1,13 +1,14 @@
 class Symbol
   class << self
     attr :uicolors
+    attr :uicolors__deprecated
     attr :css_colors
   end
 
   def uicolor(alpha=nil)
     if Symbol.uicolors.has_key? self
       # iOS colors
-      color = UIColor.send(sugarcube_look_in(Symbol.uicolors))
+      color = UIColor.send(sugarcube_look_in(Symbol.uicolors, Symbol.uicolors__deprecated))
 
       if not alpha.nil?
         color = color.colorWithAlphaComponent(alpha.to_f)
@@ -20,15 +21,20 @@ class Symbol
     color
   end
 
+  @uicolors__deprecated = {
+    darkgray: :dark_gray,
+    lightgray: :light_gray,
+  }
+
   @uicolors = {
     black:     :blackColor,
     blue:      :blueColor,
     brown:     :brownColor,
     cyan:      :cyanColor,
-    darkgray:  :darkGrayColor,
+    dark_gray:  :darkGrayColor,
     gray:      :grayColor,
     green:     :greenColor,
-    lightgray: :lightGrayColor,
+    light_gray: :lightGrayColor,
     magenta:   :magentaColor,
     orange:    :orangeColor,
     purple:    :purpleColor,
@@ -52,9 +58,11 @@ class Symbol
     blue:      0x0000ff,
     brown:     0x996633,
     cyan:      0x00ffff,
+    dark_gray:  0x555555,
     darkgray:  0x555555,
     gray:      0x808080,
     green:     0x00ff00,
+    light_gray: 0xaaaaaa,
     lightgray: 0xaaaaaa,
     magenta:   0xff00ff,
     orange:    0xff8000,
@@ -66,6 +74,8 @@ class Symbol
     # uikit colors
     placeholder: 0xb2b2b2,  # UITextField placeholder color
 
+    # unlike other places, these do not use snake_case, because they are from
+    # the CSS standard names
     aliceblue:            0xf0f8ff,
     antiquewhite:         0xfaebd7,
     aqua:                 0x00ffff,
