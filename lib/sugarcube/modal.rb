@@ -35,9 +35,9 @@ class UIViewController
     SugarCube::Modal.present_modal_in_nav(view_ctlr, options, &block)
   end
 
-  def dismiss_modal(view_ctlr, options={}, &block)
+  def dismiss_modal(options={}, &block)
     options = options.merge(target: self)
-    SugarCube::Modal.dismiss_modal(view_ctlr, options, &block)
+    SugarCube::Modal.dismiss_modal(options, &block)
   end
 
 end
