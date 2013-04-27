@@ -14,7 +14,13 @@ class Symbol
       end
     else
       # css colors
-      color = sugarcube_look_in(Symbol.css_colors).uicolor(alpha)
+      color = sugarcube_look_in(Symbol.css_colors).uicolor
+      Symbol.css_colors[self] = color
+      if alpha.nil?
+        color
+      else
+        color.uicolor(alpha)
+      end
     end
 
     color
