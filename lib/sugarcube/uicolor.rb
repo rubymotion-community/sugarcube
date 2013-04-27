@@ -19,6 +19,21 @@ class UIColor
     mix_with(color.uicolor, 0.5)
   end
 
+  # blends two colors by adding the colors, with an upper maximum of 255.
+  # Adding white to any color will create white, adding black will do nothing.
+  # Also takes transparency into account; adding a transparent color has no
+  # effect, adding an opaque color has the most effect.
+  # @example
+  #     :red.uicolor << :blue.uicolor == '#ff00ff'.uicolor (:magenta)
+  #     :red.uicolor << :blue.uicolor(0.5) == '#ff0080'.uicolor (pinkish)
+  def <<(color)
+    r = [1.0, color.red * color.alpha + self.red].min
+    g = [1.0, color.green * color.alpha + self.green].min
+    b = [1.0, color.blue * color.alpha + self.blue].min
+    a = self.alpha
+    UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
+  end
+
   # a more generic color mixing method.  mixes two colors, but a second
   # parameter determines how much of each.  0.5 means equal parts, 0.0 means use
   # all of the first, and 1.0 means use all of the second

@@ -15,6 +15,37 @@ describe 'UIColor' do
     new_color.blue.should == 0.5
   end
 
+  describe "should have a #<<(color) method" do
+    it "should return white no matter what" do
+      new_color = UIColor.whiteColor << UIColor.blackColor
+      new_color.red.should == 1.0
+      new_color.green.should == 1.0
+      new_color.blue.should == 1.0
+    end
+
+    it "should have no effect with black" do
+      new_color = UIColor.blueColor << UIColor.blackColor
+      new_color.red.should == 0.0
+      new_color.green.should == 0.0
+      new_color.blue.should == 1.0
+    end
+
+    it "should add blue to red" do
+      new_color = UIColor.redColor << UIColor.blueColor
+      new_color.red.should == 1.0
+      new_color.green.should == 0.0
+      new_color.blue.should == 1.0
+    end
+
+    it "should use opacity when adding blue to red" do
+      new_color = UIColor.redColor << UIColor.blueColor.colorWithAlphaComponent(0.5)
+      new_color.red.should == 1.0
+      new_color.green.should == 0.0
+      new_color.blue.should == 0.5
+    end
+
+  end
+
   it "should have a #invert method" do
     :red.uicolor.invert.should == UIColor.cyanColor
     :green.uicolor.invert.should == UIColor.magentaColor
