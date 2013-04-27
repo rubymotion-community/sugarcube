@@ -8,11 +8,40 @@ describe 'UIColor' do
     UIColor.redColor.uicolor(0.5).alpha.should == 0.5
   end
 
-  it "should have a #+(color) method" do
-    new_color = UIColor.whiteColor + UIColor.blackColor
-    new_color.red.should == 0.5
-    new_color.green.should == 0.5
-    new_color.blue.should == 0.5
+  describe "should have a #+(color) method" do
+
+    it 'should add white and black to make gray' do
+      new_color = UIColor.whiteColor + UIColor.blackColor
+      new_color.red.should == 0.5
+      new_color.green.should == 0.5
+      new_color.blue.should == 0.5
+      new_color.alpha.should == 1.0
+    end
+
+    it 'should add black and white to make gray' do
+      new_color = UIColor.blackColor + UIColor.whiteColor
+      new_color.red.should == 0.5
+      new_color.green.should == 0.5
+      new_color.blue.should == 0.5
+      new_color.alpha.should == 1.0
+    end
+
+    it 'should add alpha channel (white + clear)' do
+      new_color = UIColor.whiteColor + UIColor.clearColor
+      new_color.red.should == 1.0
+      new_color.green.should == 1.0
+      new_color.blue.should == 1.0
+      new_color.alpha.should == 0.5
+    end
+
+    it 'should add alpha channel (clear + white)' do
+      new_color = UIColor.clearColor + UIColor.whiteColor
+      new_color.red.should == 1.0
+      new_color.green.should == 1.0
+      new_color.blue.should == 1.0
+      new_color.alpha.should == 0.5
+    end
+
   end
 
   describe "should have a #<<(color) method" do

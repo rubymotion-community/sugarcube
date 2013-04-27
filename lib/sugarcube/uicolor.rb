@@ -43,21 +43,30 @@ class UIColor
     # make amount between 0 and 1
     amount = [[0, amount].max, 1].min
     # start with precise amounts: 0, 0.5, and 1.
-    if amount == 0
+    if amount == 0 && self.alpha == color.alpha
       self
-    elsif amount == 1
+    elsif amount == 1 && self.alpha == color.alpha
       color
-    elsif amount == 0.5
+    elsif amount == 0.5 && self.alpha == color.alpha
       r = (self.red + color.red) / 2
       g = (self.green + color.green) / 2
       b = (self.blue + color.blue) / 2
       a = (self.alpha + color.alpha) / 2
       UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
     else
-      r = (color.red - self.red) * amount + self.red
-      g = (color.green - self.green) * amount + self.green
-      b = (color.blue - self.blue) * amount + self.blue
       a = (color.alpha - self.alpha) * amount + self.alpha
+      return UIColor.clearColor if a == 0
+
+      color_red = color.red * color.alpha + self.red * (1 - color.alpha)
+      self_red = self.red * self.alpha + color.red * (1 - self.alpha)
+      color_green = color.green * color.alpha + self.green * (1 - color.alpha)
+      self_green = self.green * self.alpha + color.green * (1 - self.alpha)
+      color_blue = color.blue * color.alpha + self.blue * (1 - color.alpha)
+      self_blue = self.blue * self.alpha + color.blue * (1 - self.alpha)
+
+      r = (color_red - self_red) * amount + self_red
+      g = (color_green - self_green) * amount + self_green
+      b = (color_blue - self_blue) * amount + self_blue
       UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
     end
   end
