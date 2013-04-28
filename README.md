@@ -1815,6 +1815,28 @@ view.on_press(1.5)  # duration
 view.on_press(duration: 1.5, taps: 1, fingers: 1)
 ```
 
+Awesome
+-------
+
+SugarCube adds support for [Motion-Awesome][motion-awesome]!  The `awesome_icon`
+method is added to `Symbol`, which returns an NSAttributedString that uses the
+MotionAwesome font.  You can pass in `:size` and `:color` options.
+
+`sugarcube-attributedstring` is not required for this extension to function, but
+it adds `NSAttributedString` methods that really help.  Below I'm usind `#+` and
+`#bold` and `#color` to construct an `NSAttributedString`.
+
+```ruby
+# in Rakefile
+require 'sugarcube-awesome'
+require 'sugarcube-attributedstring'
+
+# in your app
+label.attributedText = (:down_arrow.awesome_icon + ' Going down?'.bold).color(:white)
+```
+
+[motion-awesome]: http://derailed.github.io/motion-awesome/
+
 Unholy
 --------
 
