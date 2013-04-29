@@ -1266,17 +1266,23 @@ Makes it easy to post a notification to some or all objects.
 
 ```ruby
 # this one is handy, I think:
-"my notification".post_notification  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:nil)
-"my notification".post_notification(obj)  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:obj)
-"my notification".post_notification(obj, user: 'dict')  # => NSNotificationCenter.defaultCenter.postNotificationName("my notification", object:obj, userInfo:{user: 'dict'})
+MyNotification = "my notification"
+MyNotification.post_notification  # => NSNotificationCenter.defaultCenter.postNotificationName(MyNotification, object:nil)
+MyNotification.post_notification(obj)  # => NSNotificationCenter.defaultCenter.postNotificationName(MyNotification, object:obj)
+MyNotification.post_notification(obj, user: 'dict')  # => NSNotificationCenter.defaultCenter.postNotificationName(MyNotification, object:obj, userInfo:{user: 'dict'})
+
+# you can access the userInfo dictionary directly from the notification
+def notified(notification)
+  notification[:user]  # => 'dict'
+end
 
 # very similar to add or remove an observer
-"my notification".add_observer(observer, :method_name)
-"my notification".add_observer(observer, :method_name, object)
+MyNotification.add_observer(observer, :method_name)
+MyNotification.add_observer(observer, :method_name, object)
 
 # remove the observer
-"my notification".remove_observer(observer)
-"my notification".remove_observer(observer, object)
+MyNotification.remove_observer(observer)
+MyNotification.remove_observer(observer, object)
 ```
 
 NSTimer
