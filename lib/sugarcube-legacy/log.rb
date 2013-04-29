@@ -14,6 +14,20 @@ module SugarCube
       else
         NSLog(message)
       end
+
+      self
+    end
+
+    def flush_log(notification=nil)
+      return unless @log && ! @log.empty?
+
+      output = "SugarCube recorded the following warnings:"
+      @log.uniq.each do |message|
+        output << "\n"
+        output << message
+      end
+      NSLog(output)
+      @log = nil
     end
 
     def log?(value=nil)
