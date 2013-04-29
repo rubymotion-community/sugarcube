@@ -38,7 +38,7 @@ describe 'UIActionSheet' do
   end
 
   it 'should have :style option' do
-    Symbol.action_sheet_styles.each do |style, value|
+    Symbol.uiactionstyle.each do |style, value|
       # as symbol
       alert = UIActionSheet.alert('test', show: false, style: style)
       alert.actionSheetStyle.should == value

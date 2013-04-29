@@ -6,6 +6,7 @@ require './lib/sugarcube-568'
 require './lib/sugarcube-attributedstring'
 require './lib/sugarcube-unholy'
 require './lib/sugarcube-anonymous'
+require './lib/sugarcube-legacy'
 
 
 Motion::Project::App.setup do |app|

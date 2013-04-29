@@ -17,86 +17,315 @@ to make their intent clear, and to provide a little bit of "namespacing"
 You can extend the defaults by adding entries:
 
     Symbol.css_colors[:my_color] = 0x123456
-    Symbol.font_sizes[:big] = 40
+    Symbol.uifontsize[:big] = 40
 
     :my_color.uicolor => UIColor
     :big.uifont => UIFont
 =end
 class Symbol
-  class << self
-    attr :devices
-    attr :device_orientations
-    attr :interface_orientations
-    attr :interface_masks
-    attr :orientations
-    attr :returnkeys
-    attr :returnkeys__deprecated
-    attr :statusbar_styles
-    attr :barmetrics
-    attr :barbuttonitems
-    attr :barbuttonitems__deprecated
-    attr :barbuttonstyles
-    attr :keyboardtypes
-    attr :keyboardtypes__deprecated
-    attr :autoresizemasks
-    attr :autoresizemasks__deprecated
 
-    attr :textalignments
-    attr :linebreakmodes
-    attr :linebreakmodes__deprecated
-    attr :baselineadjustments
-    attr :system_fonts
-    attr :font_sizes
-    attr :date_styles
-    attr :number_styles
-    attr :number_styles__deprecated
-
-    attr :buttontypes
-    attr :border_types
-    attr :control_states
-    attr :control_events
-    attr :control_events__deprecated
-    attr :activityindicator_styles
-    attr :activityindicator_styles__deprecated
-    attr :segmented_styles
-    attr :datepicker_modes
-    attr :datepicker_modes__deprecated
-    attr :uiview_content_modes
-    attr :uiview_content_modes__deprecated
-    attr :uiview_animation_curve
-
-    attr :tableview_styles
-    attr :tableview_rowanimation
-    attr :tableview_cellstyles
-    attr :tableview_cellaccessorytype
-    attr :tableview_cellaccessorytype__deprecated
-    attr :tableview_cellselectionstyle
-    attr :tableview_cellseparatorstyle
-    attr :tableview_cellseparatorstyle__deprecated
-
-    attr :alert_view_styles
-    attr :action_sheet_styles
-
-    attr :image_sourcetypes
-    attr :image_capturemode
-    attr :image_cameradevice
-    attr :image_quality
-
-    attr :ca_timingfunctions
-    attr :ca_timingfunctions__deprecated
-
-    attr :cg_linecapstyles
-    attr :cg_linejoinstyles
-
-    attr :gesture_recognizer_states
+  def uidevice
+    sugarcube_look_in(Symbol.uidevice)
   end
 
-  @devices = {
+  def uideviceorientation
+    sugarcube_look_in(Symbol.uideviceorientation)
+  end
+
+  def uiinterfaceorientation
+    sugarcube_look_in(Symbol.uiinterfaceorientation)
+  end
+  alias uiorientation uiinterfaceorientation
+
+  def uiinterfacemask
+    sugarcube_look_in(Symbol.uiinterfacemask)
+  end
+
+  def uiautoresizemask
+    sugarcube_look_in(Symbol.uiautoresizemask, Symbol.uiautoresizemask__deprecated)
+  end
+  alias uiviewautoresizing uiautoresizemask
+  alias uiautoresizingmask uiautoresizemask
+  alias uiautoresize uiautoresizemask
+
+  def uireturnkey
+    sugarcube_look_in(Symbol.uireturnkey, Symbol.uireturnkey__deprecated)
+  end
+
+  def uikeyboardtype
+    sugarcube_look_in(Symbol.uikeyboardtype, Symbol.uikeyboardtype__deprecated)
+  end
+
+  def uitextalignment
+    sugarcube_look_in(Symbol.uitextalignment)
+  end
+  alias uialignment uitextalignment
+
+  def uilinebreakmode
+    sugarcube_look_in(Symbol.uilinebreakmode, Symbol.uilinebreakmode__deprecated)
+  end
+
+  def uibaselineadjustment
+    sugarcube_look_in(Symbol.uibaselineadjustment)
+  end
+  alias uibaseline uibaselineadjustment
+
+  def uibordertype
+    sugarcube_look_in(Symbol.uibordertype)
+  end
+  alias uiborderstyle uibordertype
+
+  def nsdatestyle
+    sugarcube_look_in(Symbol.nsdatestyle)
+  end
+  alias nsdateformatterstyle nsdatestyle
+
+  def nsnumberstyle
+    sugarcube_look_in(Symbol.nsnumberstyle, Symbol.nsnumberstyle__deprecated)
+  end
+  alias nsnumberformatterstyle nsnumberstyle
+
+  def uifont(size=nil)
+    size ||= UIFont.systemFontSize
+    # system fonts
+    if Symbol.uifont.has_key? self
+      font = sugarcube_look_in(Symbol.uifont)
+      if size.is_a?(Symbol)
+        size = size.uifontsize
+      end
+
+      if font.is_a?(Symbol)
+        return UIFont.send(font, size)
+      else
+        return font.uifont(size)
+      end
+    else
+      if size.is_a?(Symbol)
+          size = size.uifontsize
+      end
+      return UIFont.systemFontOfSize(size)
+    end
+  end
+
+  def uifontsize
+    size = sugarcube_look_in(Symbol.uifontsize)
+    if size.is_a?(Symbol)
+      return UIFont.send(size)
+    end
+    return size.to_f
+  end
+
+  def uistatusbarstyle
+    sugarcube_look_in(Symbol.uistatusbarstyle)
+  end
+
+  def uibarmetrics
+    sugarcube_look_in(Symbol.uibarmetrics)
+  end
+
+  def uibarbuttonitem
+    sugarcube_look_in(Symbol.uibarbuttonitem, Symbol.uibarbuttonitem__deprecated)
+  end
+
+  def uibarbuttonstyle
+    sugarcube_look_in(Symbol.uibarbuttonstyle)
+  end
+
+  def uibuttontype
+    sugarcube_look_in(Symbol.uibuttontype)
+  end
+
+  def uicontrolstate
+    sugarcube_look_in(Symbol.uicontrolstate)
+  end
+  alias uistate uicontrolstate
+
+
+  def uicontrolevent
+    sugarcube_look_in(Symbol.uicontrolevent, Symbol.uicontrolevent__deprecated)
+  end
+
+  def uiactivityindicatorstyle
+    sugarcube_look_in(Symbol.uiactivityindicatorstyle, Symbol.uiactivityindicatorstyle__deprecated)
+  end
+  alias uiactivityindicatorviewstyle uiactivityindicatorstyle
+
+  def uisegmentedstyle
+    sugarcube_look_in(Symbol.uisegmentedstyle)
+  end
+  alias uisegmentedcontrolstyle uisegmentedstyle
+
+  def uidatepickermode
+    sugarcube_look_in(Symbol.uidatepickermode, Symbol.uidatepickermode__deprecated)
+  end
+
+  def uicontentmode
+    sugarcube_look_in(Symbol.uicontentmode, Symbol.uicontentmode__deprecated)
+  end
+  alias uiviewcontentmode uicontentmode
+
+  def uianimationcurve
+    sugarcube_look_in(Symbol.uianimationcurve)
+  end
+  alias uiviewanimationcurve uianimationcurve
+
+  def uitablestyle
+    sugarcube_look_in(Symbol.uitablestyle)
+  end
+  alias uitableviewstyle uitablestyle
+
+  def uitablerowanimation
+    sugarcube_look_in(Symbol.uitablerowanimation)
+  end
+  alias uitableviewrowanimation uitablerowanimation
+
+  def uitablecellstyle
+    sugarcube_look_in(Symbol.uitablecellstyle)
+  end
+  alias uitableviewcellstyle uitablecellstyle
+
+  def uitablecellaccessorytype
+    sugarcube_look_in(Symbol.uitablecellaccessorytype, Symbol.uitablecellaccessorytype__deprecated)
+  end
+  alias uitablecellaccessory uitablecellaccessorytype
+  alias uitableviewcellaccessorytype uitablecellaccessorytype
+
+  def uitablecellselectionstyle
+    sugarcube_look_in(Symbol.uitablecellselectionstyle)
+  end
+  alias uitableviewcellselectionstyle uitablecellselectionstyle
+
+  def uitablecellseparatorstyle
+    sugarcube_look_in(Symbol.uitablecellseparatorstyle, Symbol.uitablecellseparatorstyle__deprecated)
+  end
+
+  def uialertstyle
+    sugarcube_look_in(Symbol.uialertstyle)
+  end
+  alias uialertviewstyle uialertstyle
+
+  def uiactionstyle
+    sugarcube_look_in(Symbol.uiactionstyle)
+  end
+  alias uiactionsheetstyle uiactionstyle
+
+  def uiimagesource
+    sugarcube_look_in(Symbol.uiimagesource)
+  end
+  alias uiimagesourcetype uiimagesource
+
+  def uiimagecapture
+    sugarcube_look_in(Symbol.uiimagecapture)
+  end
+  alias uiimagecapturemode uiimagecapture
+
+  def uiimagecamera
+    sugarcube_look_in(Symbol.uiimagecamera)
+  end
+  alias uiimagecameradevice uiimagecamera
+  alias uiimagedevice uiimagecamera
+
+  def uiimagequality
+    sugarcube_look_in(Symbol.uiimagequality)
+  end
+  alias uiimagequalitytype uiimagequality
+
+  def catimingfunction
+    sugarcube_look_in(Symbol.catimingfunction, Symbol.catimingfunction__deprecated)
+  end
+  alias catiming catimingfunction
+
+  def cglinecap
+    sugarcube_look_in(Symbol.cglinecap)
+  end
+  alias cglinecapstyle cglinecap
+
+  def cglinejoin
+    sugarcube_look_in(Symbol.cglinejoin)
+  end
+  alias cglinejoinstyle cglinejoin
+
+  def uigesturerecognizerstate
+    sugarcube_look_in(Symbol.uigesturerecognizerstate)
+  end
+  alias uigesturestate uigesturerecognizerstate
+
+  class << self
+    attr :uidevice
+    attr :uideviceorientation
+    attr :uiinterfaceorientation
+    attr :uiinterfacemask
+    attr :uiautoresizemask
+    attr :uiautoresizemask__deprecated
+
+    attr :uireturnkey
+    attr :uireturnkey__deprecated
+    attr :uikeyboardtype
+    attr :uikeyboardtype__deprecated
+    attr :uitextalignment
+    attr :uilinebreakmode
+    attr :uilinebreakmode__deprecated
+    attr :uibaselineadjustment
+    attr :uibordertype
+    attr :nsdatestyle
+    attr :nsnumberstyle
+    attr :nsnumberstyle__deprecated
+
+    attr :uifont
+    attr :uifontsize
+
+    attr :uistatusbarstyle
+    attr :uibarmetrics
+    attr :uibarbuttonitem
+    attr :uibarbuttonitem__deprecated
+    attr :uibarbuttonstyle
+
+    attr :uibuttontype
+    attr :uicontrolstate
+    attr :uicontrolevent
+    attr :uicontrolevent__deprecated
+    attr :uiactivityindicatorstyle
+    attr :uiactivityindicatorstyle__deprecated
+    attr :uisegmentedstyle
+    attr :uidatepickermode
+    attr :uidatepickermode__deprecated
+    attr :uicontentmode
+    attr :uicontentmode__deprecated
+    attr :uianimationcurve
+
+    attr :uitablestyle
+    attr :uitablerowanimation
+    attr :uitablecellstyle
+    attr :uitablecellaccessorytype
+    attr :uitablecellaccessorytype__deprecated
+    attr :uitablecellselectionstyle
+    attr :uitablecellseparatorstyle
+    attr :uitablecellseparatorstyle__deprecated
+
+    attr :uialertstyle
+    attr :uiactionstyle
+
+    attr :uiimagesource
+    attr :uiimagecapture
+    attr :uiimagecamera
+    attr :uiimagequality
+
+    attr :catimingfunction
+    attr :catimingfunction__deprecated
+
+    attr :cglinecap
+    attr :cglinejoin
+
+    attr :uigesturerecognizerstate
+
+  end
+
+  @uidevice = {
     iphone: UIUserInterfaceIdiomPhone,
     ipad: UIUserInterfaceIdiomPad,
   }
 
-  @device_orientations = {
+  @uideviceorientation = {
     unknown: UIDeviceOrientationUnknown,
     portrait: UIDeviceOrientationPortrait,
     upside_down: UIDeviceOrientationPortraitUpsideDown,
@@ -106,14 +335,14 @@ class Symbol
     face_down: UIDeviceOrientationFaceDown
   }
 
-  @interface_orientations = {
+  @uiinterfaceorientation = {
     portrait: UIInterfaceOrientationPortrait,
     upside_down: UIInterfaceOrientationPortraitUpsideDown,
     left: UIInterfaceOrientationLandscapeLeft,
     right: UIInterfaceOrientationLandscapeRight,
   }
 
-  @interface_masks = {
+  @uiinterfacemask = {
     portrait: UIInterfaceOrientationMaskPortrait,
     landscrape: UIInterfaceOrientationMaskLandscape,
     left: UIInterfaceOrientationMaskLandscapeLeft,
@@ -125,20 +354,96 @@ class Symbol
     ipad: UIInterfaceOrientationMaskAll,
   }
 
-  @textalignments = {
+  @uiautoresizemask__deprecated = {
+    full: :fill,
+    fixed_top: :fill_top,
+    fixed_bottom: :fill_bottom,
+    fixed_left: :fill_left,
+    fixed_right: :fill_right,
+  }
+  @uiautoresizemask = {
+    none: UIViewAutoresizingNone,
+    flexible_left:   UIViewAutoresizingFlexibleLeftMargin,
+    flexible_width:  UIViewAutoresizingFlexibleWidth,
+    flexible_right:  UIViewAutoresizingFlexibleRightMargin,
+    flexible_top:    UIViewAutoresizingFlexibleTopMargin,
+    flexible_height: UIViewAutoresizingFlexibleHeight,
+    flexible_bottom: UIViewAutoresizingFlexibleBottomMargin,
+    fill: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight,
+    fill_top: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin,
+    fill_bottom: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin,
+    fill_left: UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin,
+    fill_right: UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin,
+    fixed_top_left: UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin,
+    fixed_top_middle: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin,
+    fixed_top_right: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin,
+    fixed_middle_left: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin,
+    fixed_middle: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin,
+    fixed_middle_right: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin,
+    fixed_bottom_left: UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin,
+    fixed_bottom_middle: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin,
+    fixed_bottom_right: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin,
+    float_horizontal: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin,
+    float_vertical: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin,
+  }
+
+  @uireturnkey__deprecated = {
+    emergencycall: :emergency_call
+  }
+  @uireturnkey = {
+    default:       UIReturnKeyDefault,
+    return:        UIReturnKeyDefault,
+    go:            UIReturnKeyGo,
+    google:        UIReturnKeyGoogle,
+    join:          UIReturnKeyJoin,
+    next:          UIReturnKeyNext,
+    route:         UIReturnKeyRoute,
+    search:        UIReturnKeySearch,
+    send:          UIReturnKeySend,
+    yahoo:         UIReturnKeyYahoo,
+    done:          UIReturnKeyDone,
+    emergency_call: UIReturnKeyEmergencyCall,
+  }
+
+  @uikeyboardtype__deprecated = {
+    asciicapable:          :ascii_capable,
+    numbersandpunctuation: :numbers_and_punctuation,
+    numberpad:             :number_pad,
+    phonepad:              :phone_pad,
+    namephonepad:          :name_phone_pad,
+    nameandphone:          :name_and_phone,
+    emailaddress:          :email_address,
+  }
+  @uikeyboardtype = {
+    default:               UIKeyboardTypeDefault,
+    ascii_capable:          UIKeyboardTypeASCIICapable,
+    ascii:                 UIKeyboardTypeASCIICapable,
+    numbers_and_punctuation: UIKeyboardTypeNumbersAndPunctuation,
+    url:                   UIKeyboardTypeURL,
+    number_pad:             UIKeyboardTypeNumberPad,
+    number:                UIKeyboardTypeNumberPad,
+    phone_pad:              UIKeyboardTypePhonePad,
+    phone:                 UIKeyboardTypePhonePad,
+    name_phone_pad:          UIKeyboardTypeNamePhonePad,
+    name_and_phone:          UIKeyboardTypeNamePhonePad,
+    email_address:          UIKeyboardTypeEmailAddress,
+    email:                 UIKeyboardTypeEmailAddress,
+  }
+
+  @uitextalignment = {
     left: UITextAlignmentLeft,
     right: UITextAlignmentRight,
     center: UITextAlignmentCenter,
   }
 
-  @linebreakmodes__deprecated = {
+  @uilinebreakmode__deprecated = {
     wordwrap: :word_wrap,
     characterwrap: :character_wrap,
     headtruncation: :head_truncation,
     tailtruncation: :tail_truncation,
     middletruncation: :middle_truncation,
   }
-  @linebreakmodes = {
+  @uilinebreakmode = {
     word_wrap: UILineBreakModeWordWrap,
     character_wrap: UILineBreakModeCharacterWrap,
     clip: UILineBreakModeClip,
@@ -147,20 +452,106 @@ class Symbol
     middle_truncation: UILineBreakModeMiddleTruncation,
   }
 
-  @baselineadjustments = {
+  @uibaselineadjustment = {
     alignbaselines: UIBaselineAdjustmentAlignBaselines,
     aligncenters: UIBaselineAdjustmentAlignCenters,
     none: UIBaselineAdjustmentNone,
   }
 
-  @orientations = {
-    portrait: UIInterfaceOrientationPortrait,
-    upside_down: UIInterfaceOrientationPortraitUpsideDown,
-    left: UIInterfaceOrientationLandscapeLeft,
-    right: UIInterfaceOrientationLandscapeRight,
+  @uibordertype = {
+    none: UITextBorderStyleNone,
+    line: UITextBorderStyleLine,
+    bezel: UITextBorderStyleBezel,
+    rounded: UITextBorderStyleRoundedRect,
+    rounded_rect: UITextBorderStyleRoundedRect,
   }
 
-  @buttontypes = {
+  @nsdatestyle = {
+    no: NSDateFormatterNoStyle,
+    none: NSDateFormatterNoStyle,
+    short: NSDateFormatterShortStyle,
+    medium: NSDateFormatterMediumStyle,
+    long: NSDateFormatterLongStyle,
+    full: NSDateFormatterFullStyle,
+  }
+
+  @nsnumberstyle__deprecated = {
+    spellout: :spell_out,
+  }
+  @nsnumberstyle = {
+    no: NSNumberFormatterNoStyle,
+    none: NSNumberFormatterNoStyle,
+    decimal: NSNumberFormatterDecimalStyle,
+    currency: NSNumberFormatterCurrencyStyle,
+    percent: NSNumberFormatterPercentStyle,
+    scientific: NSNumberFormatterScientificStyle,
+    spell_out: NSNumberFormatterSpellOutStyle,
+  }
+
+  @uifont = {
+    system: :"systemFontOfSize:",
+    bold:   :"boldSystemFontOfSize:",
+    italic: :"italicSystemFontOfSize:",
+    monospace: 'Courier New',
+  }
+
+  @uifontsize = {
+    label:  :labelFontSize,
+    button: :buttonFontSize,
+    small:  :smallSystemFontSize,
+    system: :systemFontSize,
+  }
+
+  @uistatusbarstyle = {
+    default:     UIStatusBarStyleDefault,
+    black:       UIStatusBarStyleBlackOpaque,
+    translucent: UIStatusBarStyleBlackTranslucent,
+  }
+
+  @uibarmetrics = {
+    default:   UIBarMetricsDefault,
+    landscape: UIBarMetricsLandscapePhone,
+  }
+
+  @uibarbuttonitem__deprecated = {
+    flexiblespace: :flexible_space,
+    fixedspace:    :fixed_space,
+    fastforward:   :fast_forward,
+  }
+  @uibarbuttonitem = {
+    done:          UIBarButtonSystemItemDone,
+    cancel:        UIBarButtonSystemItemCancel,
+    edit:          UIBarButtonSystemItemEdit,
+    save:          UIBarButtonSystemItemSave,
+    add:           UIBarButtonSystemItemAdd,
+    flexible_space: UIBarButtonSystemItemFlexibleSpace,
+    fixed_space:    UIBarButtonSystemItemFixedSpace,
+    compose:       UIBarButtonSystemItemCompose,
+    reply:         UIBarButtonSystemItemReply,
+    action:        UIBarButtonSystemItemAction,
+    organize:      UIBarButtonSystemItemOrganize,
+    bookmarks:     UIBarButtonSystemItemBookmarks,
+    search:        UIBarButtonSystemItemSearch,
+    refresh:       UIBarButtonSystemItemRefresh,
+    stop:          UIBarButtonSystemItemStop,
+    camera:        UIBarButtonSystemItemCamera,
+    trash:         UIBarButtonSystemItemTrash,
+    play:          UIBarButtonSystemItemPlay,
+    pause:         UIBarButtonSystemItemPause,
+    rewind:        UIBarButtonSystemItemRewind,
+    fast_forward:   UIBarButtonSystemItemFastForward,
+    undo:          UIBarButtonSystemItemUndo,
+    redo:          UIBarButtonSystemItemRedo,
+    pagecurl:      UIBarButtonSystemItemPageCurl,
+  }
+
+  @uibarbuttonstyle = {
+    plain:    UIBarButtonItemStylePlain,
+    bordered: UIBarButtonItemStyleBordered,
+    done:     UIBarButtonItemStyleDone
+  }
+
+  @uibuttontype = {
     custom: UIButtonTypeCustom,
     rounded: UIButtonTypeRoundedRect,
     rounded_rect: UIButtonTypeRoundedRect,
@@ -173,15 +564,7 @@ class Symbol
     contact_add: UIButtonTypeContactAdd,
   }
 
-  @border_types = {
-    none: UITextBorderStyleNone,
-    line: UITextBorderStyleLine,
-    bezel: UITextBorderStyleBezel,
-    rounded: UITextBorderStyleRoundedRect,
-    rounded_rect: UITextBorderStyleRoundedRect,
-  }
-
-  @control_states = {
+  @uicontrolstate = {
     normal: UIControlStateNormal,
     highlighted: UIControlStateHighlighted,
     disabled: UIControlStateDisabled,
@@ -189,10 +572,10 @@ class Symbol
     application: UIControlStateApplication,
   }
 
-  @control_events__deprecated = {
+  @uicontrolevent__deprecated = {
     changed: :change,
   }
-  @control_events = {
+  @uicontrolevent = {
     touch: UIControlEventTouchUpInside,
     touch_up: UIControlEventTouchUpInside,
     touch_down: UIControlEventTouchDown,
@@ -228,89 +611,35 @@ class Symbol
     all: UIControlEventAllEvents,
   }
 
-  @system_fonts = {
-    system: :"systemFontOfSize:",
-    bold:   :"boldSystemFontOfSize:",
-    italic: :"italicSystemFontOfSize:",
-    monospace: 'Courier New',
-  }
-
-  @font_sizes = {
-    label:  :labelFontSize,
-    button: :buttonFontSize,
-    small:  :smallSystemFontSize,
-    system: :systemFontSize,
-  }
-
-  @date_styles = {
-    no: NSDateFormatterNoStyle,
-    none: NSDateFormatterNoStyle,
-    short: NSDateFormatterShortStyle,
-    medium: NSDateFormatterMediumStyle,
-    long: NSDateFormatterLongStyle,
-    full: NSDateFormatterFullStyle,
-  }
-
-  @number_styles__deprecated = {
-    spellout: :spell_out,
-  }
-  @number_styles = {
-    no: NSNumberFormatterNoStyle,
-    none: NSNumberFormatterNoStyle,
-    decimal: NSNumberFormatterDecimalStyle,
-    currency: NSNumberFormatterCurrencyStyle,
-    percent: NSNumberFormatterPercentStyle,
-    scientific: NSNumberFormatterScientificStyle,
-    spell_out: NSNumberFormatterSpellOutStyle,
-  }
-
-  @returnkeys__deprecated = {
-    emergencycall: :emergency_call
-  }
-  @returnkeys = {
-    default:       UIReturnKeyDefault,
-    return:        UIReturnKeyDefault,
-    go:            UIReturnKeyGo,
-    google:        UIReturnKeyGoogle,
-    join:          UIReturnKeyJoin,
-    next:          UIReturnKeyNext,
-    route:         UIReturnKeyRoute,
-    search:        UIReturnKeySearch,
-    send:          UIReturnKeySend,
-    yahoo:         UIReturnKeyYahoo,
-    done:          UIReturnKeyDone,
-    emergency_call: UIReturnKeyEmergencyCall,
-  }
-
-  @activityindicator_styles__deprecated = {
+  @uiactivityindicatorstyle__deprecated = {
     whitelarge: :white_large,
   }
-  @activityindicator_styles = {
+  @uiactivityindicatorstyle = {
     large:      UIActivityIndicatorViewStyleWhiteLarge,
     white_large: UIActivityIndicatorViewStyleWhiteLarge,
     white:      UIActivityIndicatorViewStyleWhite,
     gray:       UIActivityIndicatorViewStyleGray,
   }
 
-  @segmented_styles = {
+  @uisegmentedstyle = {
     plain: UISegmentedControlStylePlain,
     bordered: UISegmentedControlStyleBordered,
     bar: UISegmentedControlStyleBar,
     bezeled: UISegmentedControlStyleBezeled,
   }
 
-  @datepicker_modes__deprecated = {
+  @uidatepickermode__deprecated = {
     dateandtime: :date_and_time,
     countdowntimer: :count_down_timer,
   }
-  @datepicker_modes = {
+  @uidatepickermode = {
     time:           UIDatePickerModeTime,
     date:           UIDatePickerModeDate,
     date_and_time:    UIDatePickerModeDateAndTime,
     count_down_timer: UIDatePickerModeCountDownTimer
   }
 
-  @uiview_content_modes__deprecated = {
+  @uicontentmode__deprecated = {
     scaletofill: :scale_to_fill,
     scaleaspectfit: :scale_aspect_fit,
     scaleaspectfill: :scale_aspect_fill,
@@ -319,7 +648,7 @@ class Symbol
     bottomleft: :bottom_left,
     bottomright: :bottom_right,
   }
-  @uiview_content_modes = {
+  @uicontentmode = {
     scale: UIViewContentModeScaleToFill,
     scale_to_fill: UIViewContentModeScaleToFill,
     fit: UIViewContentModeScaleAspectFit,
@@ -338,19 +667,19 @@ class Symbol
     bottom_right: UIViewContentModeBottomRight,
   }
 
-  @uiview_animation_curve = {
+  @uianimationcurve = {
     ease_in_out: UIViewAnimationCurveEaseInOut,
     ease_in: UIViewAnimationCurveEaseIn,
     ease_out: UIViewAnimationCurveEaseOut,
     linear: UIViewAnimationCurveLinear
   }
 
-  @tableview_styles = {
+  @uitablestyle = {
     plain:   UITableViewStylePlain,
     grouped: UITableViewStyleGrouped,
   }
 
-  @tableview_rowanimation = {
+  @uitablerowanimation = {
     fade:      UITableViewRowAnimationFade,
     right:     UITableViewRowAnimationRight,
     left:      UITableViewRowAnimationLeft,
@@ -361,18 +690,18 @@ class Symbol
     automatic: UITableViewRowAnimationAutomatic,
   }
 
-  @tableview_cellstyles = {
+  @uitablecellstyle = {
     default:  UITableViewCellStyleDefault,
     value1:   UITableViewCellStyleValue1,
     value2:   UITableViewCellStyleValue2,
     subtitle: UITableViewCellStyleSubtitle,
   }
 
-  @tableview_cellaccessorytype__deprecated = {
+  @uitablecellaccessorytype__deprecated = {
     disclosureindicator: :disclosure_indicator,
     detaildisclosurebutton: :detail_disclosure_button,
   }
-  @tableview_cellaccessorytype = {
+  @uitablecellaccessorytype = {
     none:                   UITableViewCellAccessoryNone,
     disclosure:             UITableViewCellAccessoryDisclosureIndicator,
     disclosure_indicator:    UITableViewCellAccessoryDisclosureIndicator,
@@ -381,17 +710,17 @@ class Symbol
     checkmark:              UITableViewCellAccessoryCheckmark,
   }
 
-  @tableview_cellselectionstyle = {
+  @uitablecellselectionstyle = {
     none: UITableViewCellSelectionStyleNone,
     blue: UITableViewCellSelectionStyleBlue,
     gray: UITableViewCellSelectionStyleGray,
   }
 
-  @tableview_cellseparatorstyle__deprecated = {
+  @uitablecellseparatorstyle__deprecated = {
     singleline: :single_line,
     singlelineetched: :single_line_etched,
   }
-  @tableview_cellseparatorstyle = {
+  @uitablecellseparatorstyle = {
     none: UITableViewCellSeparatorStyleNone,
     single_line: UITableViewCellSeparatorStyleSingleLine,
     single: UITableViewCellSeparatorStyleSingleLine,
@@ -399,147 +728,37 @@ class Symbol
     etched: UITableViewCellSeparatorStyleSingleLineEtched,
   }
 
-  @alert_view_styles = {
+  @uialertstyle = {
     default: UIAlertViewStyleDefault,
     secure_text_input: UIAlertViewStyleSecureTextInput,
     plain_text_input: UIAlertViewStylePlainTextInput,
     login_and_password_input: UIAlertViewStyleLoginAndPasswordInput,
   }
 
-  @action_sheet_styles = {
+  @uiactionstyle = {
     automatic: UIActionSheetStyleAutomatic,
     default: UIActionSheetStyleDefault,
     black_translucent: UIActionSheetStyleBlackTranslucent,
     black_opaque: UIActionSheetStyleBlackOpaque,
   }
 
-  @statusbar_styles = {
-    default:     UIStatusBarStyleDefault,
-    black:       UIStatusBarStyleBlackOpaque,
-    translucent: UIStatusBarStyleBlackTranslucent,
-  }
-
-  @barmetrics = {
-    default:   UIBarMetricsDefault,
-    landscape: UIBarMetricsLandscapePhone,
-  }
-
-  @barbuttonitems__deprecated = {
-    flexiblespace: :flexible_space,
-    fixedspace:    :fixed_space,
-    fastforward:   :fast_forward,
-  }
-  @barbuttonitems = {
-    done:          UIBarButtonSystemItemDone,
-    cancel:        UIBarButtonSystemItemCancel,
-    edit:          UIBarButtonSystemItemEdit,
-    save:          UIBarButtonSystemItemSave,
-    add:           UIBarButtonSystemItemAdd,
-    flexible_space: UIBarButtonSystemItemFlexibleSpace,
-    fixed_space:    UIBarButtonSystemItemFixedSpace,
-    compose:       UIBarButtonSystemItemCompose,
-    reply:         UIBarButtonSystemItemReply,
-    action:        UIBarButtonSystemItemAction,
-    organize:      UIBarButtonSystemItemOrganize,
-    bookmarks:     UIBarButtonSystemItemBookmarks,
-    search:        UIBarButtonSystemItemSearch,
-    refresh:       UIBarButtonSystemItemRefresh,
-    stop:          UIBarButtonSystemItemStop,
-    camera:        UIBarButtonSystemItemCamera,
-    trash:         UIBarButtonSystemItemTrash,
-    play:          UIBarButtonSystemItemPlay,
-    pause:         UIBarButtonSystemItemPause,
-    rewind:        UIBarButtonSystemItemRewind,
-    fast_forward:   UIBarButtonSystemItemFastForward,
-    undo:          UIBarButtonSystemItemUndo,
-    redo:          UIBarButtonSystemItemRedo,
-    pagecurl:      UIBarButtonSystemItemPageCurl,
-  }
-
-  @barbuttonstyles = {
-    plain:    UIBarButtonItemStylePlain,
-    bordered: UIBarButtonItemStyleBordered,
-    done:     UIBarButtonItemStyleDone
-  }
-
-  @keyboardtypes__deprecated = {
-    asciicapable:          :ascii_capable,
-    numbersandpunctuation: :numbers_and_punctuation,
-    numberpad:             :number_pad,
-    phonepad:              :phone_pad,
-    namephonepad:          :name_phone_pad,
-    nameandphone:          :name_and_phone,
-    emailaddress:          :email_address,
-  }
-  @keyboardtypes = {
-    default:               UIKeyboardTypeDefault,
-    ascii_capable:          UIKeyboardTypeASCIICapable,
-    ascii:                 UIKeyboardTypeASCIICapable,
-    numbers_and_punctuation: UIKeyboardTypeNumbersAndPunctuation,
-    url:                   UIKeyboardTypeURL,
-    number_pad:             UIKeyboardTypeNumberPad,
-    number:                UIKeyboardTypeNumberPad,
-    phone_pad:              UIKeyboardTypePhonePad,
-    phone:                 UIKeyboardTypePhonePad,
-    name_phone_pad:          UIKeyboardTypeNamePhonePad,
-    name_and_phone:          UIKeyboardTypeNamePhonePad,
-    email_address:          UIKeyboardTypeEmailAddress,
-    email:                 UIKeyboardTypeEmailAddress,
-  }
-
-  @autoresizemasks__deprecated = {
-    full: :fill,
-    fixed_top: :fill_top,
-    fixed_bottom: :fill_bottom,
-    fixed_left: :fill_left,
-    fixed_right: :fill_right,
-  }
-
-  @autoresizemasks = {
-    none: UIViewAutoresizingNone,
-
-    flexible_left:   UIViewAutoresizingFlexibleLeftMargin,
-    flexible_width:  UIViewAutoresizingFlexibleWidth,
-    flexible_right:  UIViewAutoresizingFlexibleRightMargin,
-    flexible_top:    UIViewAutoresizingFlexibleTopMargin,
-    flexible_height: UIViewAutoresizingFlexibleHeight,
-    flexible_bottom: UIViewAutoresizingFlexibleBottomMargin,
-
-    # shorthands
-    fill: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight,
-    fill_top: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin,
-    fill_bottom: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin,
-    fill_left: UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin,
-    fill_right: UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin,
-
-    fixed_top_left: UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin,
-    fixed_top_middle: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin,
-    fixed_top_right: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin,
-    fixed_middle_left: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin,
-    fixed_middle: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin,
-    fixed_middle_right: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin,
-    fixed_bottom_left: UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin,
-    fixed_bottom_middle: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin,
-    fixed_bottom_right: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin,
-
-    float_horizontal: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin,
-    float_vertical: UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin,
-  }
-
-  @image_sourcetypes = {
+  @uiimagesource = {
     camera:  UIImagePickerControllerSourceTypeCamera,
     library: UIImagePickerControllerSourceTypePhotoLibrary,
     album:   UIImagePickerControllerSourceTypeSavedPhotosAlbum,
   }
-  @image_capturemode = {
+
+  @uiimagecapture = {
     photo: UIImagePickerControllerCameraCaptureModePhoto,
     video: UIImagePickerControllerCameraCaptureModeVideo,
   }
-  @image_cameradevice = {
+
+  @uiimagecamera = {
     front: UIImagePickerControllerCameraDeviceFront,
     rear:  UIImagePickerControllerCameraDeviceRear,
   }
-  @image_quality = {
+
+  @uiimagequality = {
     high:       UIImagePickerControllerQualityTypeHigh,
     medium:     UIImagePickerControllerQualityTypeMedium,
     low:        UIImagePickerControllerQualityTypeLow,
@@ -552,12 +771,12 @@ class Symbol
     i540:       UIImagePickerControllerQualityTypeIFrame960x540,
   }
 
-  @ca_timingfunctions__deprecated = {
+  @catimingfunction__deprecated = {
     easein:    :ease_in,
     easeout:   :ease_out,
     easeinout: :ease_in_out,
   }
-  @ca_timingfunctions = {
+  @catimingfunction = {
     linear:            KCAMediaTimingFunctionLinear,
     ease_in:           KCAMediaTimingFunctionEaseIn,
     ease_out:          KCAMediaTimingFunctionEaseOut,
@@ -566,19 +785,19 @@ class Symbol
     default:           KCAMediaTimingFunctionDefault,
   }
 
-  @cg_linecapstyles = {
+  @cglinecap = {
     butt: KCGLineCapButt,
     round: KCGLineCapRound,
     square: KCGLineCapSquare,
   }
 
-  @cg_linejoinstyles = {
+  @cglinejoin = {
     miter: KCGLineJoinMiter,
     round: KCGLineJoinRound,
     bevel: KCGLineJoinBevel,
   }
 
-  @gesture_recognizer_states = {
+  @uigesturerecognizerstate = {
     possible:   UIGestureRecognizerStatePossible,
     began:      UIGestureRecognizerStateBegan,
     changed:    UIGestureRecognizerStateChanged,
@@ -589,249 +808,19 @@ class Symbol
   }
 
   private
-  def sugarcube_look_in(here, here__deprecated)
+  def sugarcube_look_in(here, here__deprecated={})
     return here[self] if here.has_key? self
     if here__deprecated[self]
       translated = here__deprecated[self]
-      NSLog("The symbol #{self.inspect} has been deprecated in favor of #{translated.inspect}")
+      message = "The symbol #{self.inspect} has been deprecated in favor of #{translated.inspect}"
+      if defined?(SugarCube::Legacy)
+        SugarCube::Legacy.log(message)
+      else
+        NSLog(message)
+      end
       return here[translated]
     end
-    raise SugarNotFoundException.new(self.inspect)
+    raise SugarCubeNotFoundException.new(self.inspect)
   end
-
-  public
-  def uidevice
-    sugarcube_look_in(Symbol.devices)
-  end
-
-  def uideviceorientation
-    sugarcube_look_in(Symbol.device_orientations)
-  end
-
-  def uiinterfaceorientation
-    sugarcube_look_in(Symbol.interface_orientations)
-  end
-
-  def uiinterfacemask
-    sugarcube_look_in(Symbol.interface_masks)
-  end
-
-  def uitextalignment
-    sugarcube_look_in(Symbol.textalignments)
-  end
-  alias uialignment uitextalignment
-
-
-  def uilinebreakmode
-    sugarcube_look_in(Symbol.linebreakmodes, Symbol.linebreakmodes__deprecated)
-  end
-
-  def uibaselineadjustment
-    sugarcube_look_in(Symbol.baselineadjustments)
-  end
-  alias uibaseline uibaselineadjustment
-
-
-  def uiinterfaceorientation
-    sugarcube_look_in(Symbol.orientations)
-  end
-  alias uiorientation uiinterfaceorientation
-
-  def uibuttontype
-    sugarcube_look_in(Symbol.buttontypes)
-  end
-
-  def uibordertype
-    sugarcube_look_in(Symbol.border_types)
-  end
-  alias uiborderstyle uibordertype
-
-  def uicontrolstate
-    sugarcube_look_in(Symbol.control_states)
-  end
-  alias uistate uicontrolstate
-
-
-  def uicontrolevent
-    sugarcube_look_in(Symbol.control_events, Symbol.control_events__deprecated)
-  end
-
-  def uireturnkey
-    sugarcube_look_in(Symbol.returnkeys, Symbol.returnkeys__deprecated)
-  end
-
-  def uiactivityindicatorstyle
-    sugarcube_look_in(Symbol.activityindicator_styles, Symbol.activityindicator_styles__deprecated)
-  end
-  alias uiactivityindicatorviewstyle uiactivityindicatorstyle
-
-
-  def uisegmentedstyle
-    sugarcube_look_in(Symbol.segmented_styles)
-  end
-  alias uisegmentedcontrolstyle uisegmentedstyle
-
-
-  def uidatepickermode
-    sugarcube_look_in(Symbol.datepicker_modes, Symbol.datepicker_modes__deprecated)
-  end
-
-  def uicontentmode
-    sugarcube_look_in(Symbol.uiview_content_modes, Symbol.uiview_content_modes__deprecated)
-  end
-  alias uiviewcontentmode uicontentmode
-
-  def uianimationcurve
-    sugarcube_look_in(Symbol.uiview_animation_curve)
-  end
-  alias uiviewanimationcurve uianimationcurve
-
-  def uitablestyle
-    sugarcube_look_in(Symbol.tableview_styles)
-  end
-  alias uitableviewstyle uitablestyle
-
-  def uitablerowanimation
-    sugarcube_look_in(Symbol.tableview_rowanimation)
-  end
-  alias uitableviewrowanimation uitablerowanimation
-
-  def uitablecellstyle
-    sugarcube_look_in(Symbol.tableview_cellstyles)
-  end
-  alias uitableviewcellstyle uitablecellstyle
-
-  def uitablecellaccessorytype
-    sugarcube_look_in(Symbol.tableview_cellaccessorytype, Symbol.tableview_cellaccessorytype__deprecated)
-  end
-  alias uitablecellaccessory uitablecellaccessorytype
-  alias uitableviewcellaccessorytype uitablecellaccessorytype
-
-  def uitablecellselectionstyle
-    sugarcube_look_in(Symbol.tableview_cellselectionstyle)
-  end
-  alias uitableviewcellselectionstyle uitablecellselectionstyle
-
-  def uitablecellseparatorstyle
-    sugarcube_look_in(Symbol.tableview_cellseparatorstyle, Symbol.tableview_cellseparatorstyle__deprecated)
-  end
-
-  def uialertstyle
-    sugarcube_look_in(Symbol.alert_view_styles)
-  end
-  alias uialertviewstyle uialertstyle
-
-  def uiactionstyle
-    sugarcube_look_in(Symbol.action_sheet_styles)
-  end
-  alias uiactionsheetstyle uiactionstyle
-
-  def uistatusbarstyle
-    sugarcube_look_in(Symbol.statusbar_styles)
-  end
-
-  def uibarmetrics
-    sugarcube_look_in(Symbol.barmetrics)
-  end
-
-  def uibarbuttonitem
-    sugarcube_look_in(Symbol.barbuttonitems, Symbol.barbuttonitems__deprecated)
-  end
-
-  def uibarbuttonstyle
-    sugarcube_look_in(Symbol.barbuttonstyles)
-  end
-
-  def uikeyboardtype
-    sugarcube_look_in(Symbol.keyboardtypes, Symbol.keyboardtypes__deprecated)
-  end
-
-  def uiautoresizemask
-    sugarcube_look_in(Symbol.autoresizemasks, Symbol.autoresizemasks__deprecated)
-  end
-  alias uiviewautoresizing uiautoresizemask
-  alias uiautoresizingmask uiautoresizemask
-  alias uiautoresize uiautoresizemask
-
-  def uiimagesource
-    sugarcube_look_in(Symbol.image_sourcetypes)
-  end
-  alias uiimagesourcetype uiimagesource
-
-  def uiimagecapture
-    sugarcube_look_in(Symbol.image_capturemode)
-  end
-  alias uiimagecapturemode uiimagecapture
-
-  def uiimagecamera
-    sugarcube_look_in(Symbol.image_cameradevice)
-  end
-  alias uiimagecameradevice uiimagecamera
-  alias uiimagedevice uiimagecamera
-
-  def uiimagequality
-    sugarcube_look_in(Symbol.image_quality)
-  end
-  alias uiimagequalitytype uiimagequality
-
-  def catimingfunction
-    sugarcube_look_in(Symbol.ca_timingfunctions, Symbol.ca_timingfunctions__deprecated)
-  end
-  alias catiming catimingfunction
-
-  def cglinecap
-    sugarcube_look_in(Symbol.cg_linecapstyles)
-  end
-  alias cglinecapstyle cglinecap
-
-  def cglinejoin
-    sugarcube_look_in(Symbol.cg_linejoinstyles)
-  end
-  alias cglinejoinstyle cglinejoin
-
-  def uigesturerecognizerstate
-    sugarcube_look_in(Symbol.gesture_recognizer_states)
-  end
-  alias uigesturestate uigesturerecognizerstate
-
-  def uifont(size=nil)
-    size ||= UIFont.systemFontSize
-    # system fonts
-    if Symbol.system_fonts.has_key? self
-      font = sugarcube_look_in(Symbol.system_fonts)
-      if size.is_a?(Symbol)
-        size = size.uifontsize
-      end
-
-      if font.is_a?(Symbol)
-        return UIFont.send(font, size)
-      else
-        return font.uifont(size)
-      end
-    else
-      if size.is_a?(Symbol)
-          size = size.uifontsize
-      end
-      return UIFont.systemFontOfSize(size)
-    end
-  end
-
-  def uifontsize
-    size = sugarcube_look_in(Symbol.font_sizes)
-    if size.is_a?(Symbol)
-      return UIFont.send(size)
-    end
-    return size.to_f
-  end
-
-  def nsdatestyle
-    sugarcube_look_in(Symbol.date_styles)
-  end
-  alias nsdateformatterstyle nsdatestyle
-
-  def nsnumberstyle
-    sugarcube_look_in(Symbol.number_styles, Symbol.number_styles__deprecated)
-  end
-  alias nsnumberformatterstyle nsnumberstyle
 
 end

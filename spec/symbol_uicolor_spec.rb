@@ -24,8 +24,8 @@ describe "Symbol uicolor" do
     @colors[:cyan].should == :cyanColor
   end
 
-  it 'should have darkgray color' do
-    @colors[:darkgray].should == :darkGrayColor
+  it 'should have dark_gray color' do
+    @colors[:dark_gray].should == :darkGrayColor
   end
 
   it 'should have gray color' do
@@ -36,8 +36,8 @@ describe "Symbol uicolor" do
     @colors[:green].should == :greenColor
   end
 
-  it 'should have lightgray color' do
-    @colors[:lightgray].should == :lightGrayColor
+  it 'should have light_gray color' do
+    @colors[:light_gray].should == :lightGrayColor
   end
 
   it 'should have magenta color' do
@@ -90,6 +90,22 @@ describe "Symbol uicolor" do
 
   it 'should have under_page color' do
     @colors[:under_page].should == :underPageBackgroundColor
+  end
+
+  describe 'deprecated colors' do
+
+    before do
+      @colors = Symbol.uicolors__deprecated
+    end
+
+    it 'should have darkgray color' do
+      @colors[:darkgray].should == :dark_gray
+    end
+
+    it 'should have lightgray color' do
+      @colors[:lightgray].should == :light_gray
+    end
+
   end
 
 end

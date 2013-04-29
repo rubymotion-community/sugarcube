@@ -71,7 +71,7 @@ describe 'UIAlertView' do
   end
 
   it 'should have :style option' do
-    Symbol.alert_view_styles.each do |style, value|
+    Symbol.uialertstyle.each do |style, value|
       # as symbol
       alert = UIAlertView.alert('test', show: false, style: style)
       alert.alertViewStyle.should == value
