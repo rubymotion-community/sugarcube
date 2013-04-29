@@ -135,7 +135,7 @@ class UIColor
   def css_name
     my_color = self.to_i
     css_name = nil
-    Symbol.css_colors.each_pair do |color, hex|
+    Symbol.css_colors.each do |color, hex|
       if hex == my_color
         css_name = color
         break
@@ -147,7 +147,7 @@ class UIColor
   def system_name
     system_color = nil
     without_alpha = self.uicolor(1)
-    Symbol.uicolors.each_pair do |color, method|
+    Symbol.uicolors.each do |color, method|
       if UIColor.send(method) == without_alpha
         system_color = method
         break

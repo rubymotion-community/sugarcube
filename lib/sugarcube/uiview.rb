@@ -155,7 +155,7 @@ class UIView
     UIView.animate(options) {
       animations.call if animations
 
-      assign.each_pair do |key, value|
+      assign.each do |key, value|
         self.send("#{key}=", value)
       end
     }

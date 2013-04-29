@@ -331,7 +331,7 @@ class UIImage
 
     darken_filter.setDefaults
     darken_filter.setValue(cg_input_image, forKey:'inputImage')
-    filter_options.each_pair do |key, value|
+    filter_options.each do |key, value|
       darken_filter.setValue(value, forKey:key)
     end
     output = darken_filter.valueForKey('outputImage')
