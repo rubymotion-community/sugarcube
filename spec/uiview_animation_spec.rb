@@ -7,7 +7,15 @@ describe "UIView animation methods" do
     @view.delta_to([1,2]).frame.should == CGRectMake(2,4,3,4)
   end
 
-  it 'should delta_to x:1 y:2' do
+  it 'should resize_to w:5 h:6' do
+    @view.resize_to([5,6]).frame.should == CGRectMake(1,2,5,6)
+  end
+
+  it 'should reframe_to ' do
+    @view.reframe_to([[2,4],[5,6]]).frame.should == CGRectMake(2,4,5,6)
+  end
+
+  it 'should move_to x:2 y:4' do
     @view.move_to([2,4]).frame.should == CGRectMake(2,4,3,4)
   end
 

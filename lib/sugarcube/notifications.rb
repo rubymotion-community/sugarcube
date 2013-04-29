@@ -1,3 +1,12 @@
+class NSNotification
+
+  def [](key)
+    userInfo[key]
+  end
+
+end
+
+
 class NSString
 
   def post_notification(object=nil, user_info=nil)

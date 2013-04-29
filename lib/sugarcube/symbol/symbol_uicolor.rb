@@ -3,6 +3,7 @@ class Symbol
     attr :uicolors
     attr :uicolors__deprecated
     attr :css_colors
+    attr :css_colors_cache
   end
 
   def uicolor(alpha=nil)
@@ -13,9 +14,16 @@ class Symbol
       if not alpha.nil?
         color = color.colorWithAlphaComponent(alpha.to_f)
       end
+    elsif Symbol.css_colors_cache.has_key? self
+      color = Symbol.css_colors_cache[self]
     else
       # css colors
-      color = sugarcube_look_in(Symbol.css_colors).uicolor(alpha)
+      color = sugarcube_look_in(Symbol.css_colors).uicolor
+      Symbol.css_colors_cache[self] = color
+    end
+
+    if alpha
+      color = color.uicolor(alpha)
     end
 
     color
@@ -52,6 +60,7 @@ class Symbol
     under_page:  :underPageBackgroundColor,
   }
 
+  @css_colors_cache = {}
   @css_colors = {
     # for css_name to pick up on these colors, they need to be defined here
     black:     0x000000,

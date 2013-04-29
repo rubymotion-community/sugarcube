@@ -17,6 +17,7 @@ class NotificationsTester
     @notification = notification
     @object = notification.object
   end
+
 end
 
 describe "Notifications" do
@@ -44,6 +45,14 @@ describe "Notifications" do
     @notification_tester_object.notified?.should == true
     @notification_tester_object.notification.should != nil
     @notification_tester_object.object.should == @object
+  end
+
+  it "should send userInfo" do
+    @notification.post_notification(@object, key: :value)
+    @notification_tester_object.notified?.should == true
+    @notification_tester_object.notification.should != nil
+    @notification_tester_object.object.should == @object
+    @notification_tester_object.notification[:key].should == :value
   end
 
   after do

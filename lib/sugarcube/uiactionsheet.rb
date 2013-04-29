@@ -7,12 +7,14 @@ class UIActionSheet
   # If you use just one block, it will be used for *all* of the buttons.
   #
   # @example
+  #     # use a different handler for each button type
   #     UIActionSheet.alert("title",
   #       buttons: %w"Cancel Delete No-way",
   #       cancel: proc{ puts "nevermind" },
   #       destructive: proc{ puts "OHHH YEAAH!" },
   #       success: proc{ |pressed| puts "pressed: #{pressed}" },
   #       )
+  #     # use one handler for all buttons
   #     UIActionSheet.alert("title", buttons: [...]) { |button| }
   def self.alert(title, options={}, &block)
     # create the delegate
@@ -23,66 +25,92 @@ class UIActionSheet
     delegate.on_cancel = options[:cancel]
     delegate.send(:retain)
 
+    args = [title]            # initWithTitle:
+    args << delegate          # delegate:
+
     buttons = []
     buttons.concat(options[:buttons]) if options[:buttons]
 
     if buttons.empty?
-      # cancelButtonTitle: is first, so check for cancel handler
-      if options[:cancel]
-        buttons << 'Cancel'
-      else
-        buttons << nil
-      end
+      # cancelButtonTitle:
+      buttons << nil
 
-      # destructiveButtonTitle, check for destructive handler
-      if options[:destructive]
-        buttons << 'Delete'
-      else
-        buttons << nil
-      end
-    elsif buttons.length == 1 and (options[:cancel] or options[:destructive])
+      # destructiveButtonTitle
+      buttons << nil
+
+      # otherButtonTitles:
+      buttons << 'OK'
+    elsif buttons.length == 1 && (options[:cancel] || options[:destructive])
       raise 'If you only have one button, use a :success handler, not :cancel or :destructive'
     end
 
-    # uses localized buttons in the actual alert
-    if buttons.length == 0
-      buttons = [nil, nil]
-    elsif buttons.length == 1
-      buttons << nil
-    end
-
-    last_index = buttons.length - 1
-    offset = 0
-
-    button_index_map = {}
-    if buttons[1]  # destructive
-      button_index_map[0] = buttons[1]
-      offset += 1
-    else
-      last_index -= 1
-    end
-
-    if buttons[0]  # cancel
-      button_index_map[last_index] = buttons[0]
-    end
-
-    buttons[2..-1].each_with_index do |button, index|
-      button_index_map[index + offset] = button
-    end
-    # the button titles, mapped to how UIActionSheet orders them.  These are passed to the success handler.
-    delegate.button_index_map = button_index_map
-
-    args = [title]            # initWithTitle:
-    args << delegate          # delegate:
     # cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:
     args.concat(buttons.map{ |s| s ? s.localized : nil })
     args << nil  # otherButtonTitles:..., nil
 
+    # the button titles, mapped to how UIActionSheet orders them.  These are
+    # passed to the success handler.
+    buttons_mapped = {}
+    if args[2] && args[3]  # cancel && destructive buttons
+      buttons_mapped[0] = buttons[1]                   # destructiveIndex == 0, button == 1
+      buttons_mapped[buttons.length - 1] = buttons[0]  # cancelIndex == last, button == 0
+      # from first+1 to last-1
+      buttons[2..-1].each_with_index do |button,index|
+        buttons_mapped[index + 1] = button
+      end
+    elsif args[3]  # destructive button
+      buttons_mapped[0] = buttons[1]                   # destructiveIndex == 0, button == 1
+      # from first+1 to last-1
+      buttons[2..-1].each_with_index do |button,index|
+        buttons_mapped[index + 1] = button
+      end
+    elsif args[2]  # cancel button
+      buttons_mapped[buttons.length - 2] = buttons[0]  # cancelIndex == last, button == 0
+      buttons[2..-1].each_with_index do |button,index|
+        buttons_mapped[index] = button
+      end
+    else
+      buttons[2..-1].each_with_index do |button,index|
+        buttons_mapped[index] = button
+      end
+    end
+    delegate.buttons = buttons_mapped
+
     alert = self.alloc
     alert.send('initWithTitle:delegate:cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:', *args)
-    window = UIApplication.sharedApplication.windows[0]
-    alert.showInView(window)
+    if options.key?(:style)
+      style = options[:style]
+      style = style.uiactionstyle unless style.is_a?(Fixnum)
+      alert.actionSheetStyle = style
+    end
+    if options.fetch(:show, true)
+      if options.key?(:from)
+        from = options[:from]
+      else
+        from = UIApplication.sharedApplication.windows[0]
+      end
+
+      case from
+      when CGRect
+        view = UIApplication.sharedApplication.windows[0]
+        alert.showInRect(from, inView: view, animated: true)
+      when UIBarButtonItem
+        alert.showFromBarButtonItem(from)
+      when UIToolbar
+        alert.showFromToolbar(from)
+      when UITabBar
+        alert.showFromTabBar(from)
+      when UIView
+        alert.showInView(from)
+      else
+        raise "Unknown :from option #{from.inspect}"
+      end
+    end
     alert
+  end
+
+  def <<(title)
+    addButtonWithTitle(title)
   end
 
   private
@@ -95,7 +123,7 @@ end
 
 module SugarCube
   class ActionSheetDelegate
-    attr_accessor :button_index_map
+    attr_accessor :buttons
     attr_accessor :on_default
     attr_accessor :on_cancel
     attr_accessor :on_destructive
@@ -115,7 +143,7 @@ module SugarCube
         if handler.arity == 0
           handler.call
         else
-          button = button_index_map[index]
+          button = buttons[index]
           handler.call(button)
         end
       end
