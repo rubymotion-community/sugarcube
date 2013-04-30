@@ -12,4 +12,8 @@ describe "NSURL" do
     NSData.should === 'https://github.com'.nsurl.nsdata
   end
 
+  it "should have a method #nsurlrequest" do
+    NSURLRequest.should === 'https://github.com'.nsurl.nsurlrequest
+  end
+
 end
