@@ -1,7 +1,7 @@
 class NSNotification
 
   def [](key)
-    userInfo[key]
+    userInfo && userInfo[key]
   end
 
 end

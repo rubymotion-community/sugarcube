@@ -47,12 +47,22 @@ describe "Notifications" do
     @notification_tester_object.object.should == @object
   end
 
-  it "should send userInfo" do
-    @notification.post_notification(@object, key: :value)
-    @notification_tester_object.notified?.should == true
-    @notification_tester_object.notification.should != nil
-    @notification_tester_object.object.should == @object
-    @notification_tester_object.notification[:key].should == :value
+  describe "should send userInfo" do
+    it 'should return values' do
+      @notification.post_notification(@object, key: :value)
+      @notification_tester_object.notified?.should == true
+      @notification_tester_object.notification.should != nil
+      @notification_tester_object.object.should == @object
+      @notification_tester_object.notification[:key].should == :value
+    end
+
+    it "should return nil if userInfo wasn't sent" do
+      @notification.post_notification(@object)
+      @notification_tester_object.notified?.should == true
+      @notification_tester_object.notification.should != nil
+      @notification_tester_object.object.should == @object
+      @notification_tester_object.notification[:key].should == nil
+    end
   end
 
   after do
