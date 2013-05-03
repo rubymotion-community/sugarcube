@@ -16,13 +16,14 @@ class Object
   # okay, this is strange, but `rake spec` fails if I define the method as `in?`
   # but passes if I alias it, as I do below.  weird, but I don't want to fight
   # it.
-  def in(*list)
-    if list.length == 1
-      return list[0].include?(self)
-    else
-      return list.include?(self)
+  def __in_workaround(args, *other_args)
+    if other_args.length
+      raise "The varargs form of `Object#in?` has been removed.  Use an array instead."
     end
+    args.include?(self)
+  rescue NoMethodError
+    raise ArgumentError.new("The parameter passed to #in? must respond to #include?")
   end
-  alias :in? :in
+  alias in? __in_workaround
 
 end
