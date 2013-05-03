@@ -1757,7 +1757,8 @@ Quick wrapper for `CFUUIDCreate()` and `CFUUIDCreateString()`.  Identical to the
 Ruby on Rails Ripoffs (RoR-R?)
 ---------------
 
-aka `ActiveSupport`.
+aka `ActiveSupport`.  Now that Thomas Kadauke has released [motion-support][],
+consider these extensions deprecated.  They will be removed in version 1.0.
 
 ```ruby
 # truthiness with `blank?`
@@ -1775,7 +1776,6 @@ true.blank?     # => false
 
 # and my favorite
 1.in? [1,2,3]  # => true
-1.in? 1,2,3    # => true
 1.in? 4..5     # => false
 ```
 
