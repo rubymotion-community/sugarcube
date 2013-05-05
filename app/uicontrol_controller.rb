@@ -30,17 +30,17 @@ class UIControlController < UIViewController
       @button1.center = [@button1.center.x, @button1.center.y - 30]
       self.view << @button2
 
-      @button1.on :touch { |sender,event|
+      @button1.on :touch do |sender,event|
         @touched_1 = true
         @touched = sender
         @touched_count += 1
-      }
+      end
 
-      @button2.on :touch { |sender,event|
+      @button2.on :touch do |sender,event|
         @touched_2 = true
         @touched = sender
         @touched_count += 1
-      }
+      end
 
       reset
     end

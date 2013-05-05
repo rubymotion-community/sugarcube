@@ -1,4 +1,72 @@
 describe 'UIControl' do
+  describe 'should have sugarcube_callbacks' do
+    before do
+      @ctrl = UIButton.new
+    end
+    after do
+      @ctrl.off
+    end
+
+    it 'should start off empty' do
+      @ctrl.send(:sugarcube_callbacks).should == {}
+    end
+
+    it 'should add a touch handler' do
+      @ctrl.on(:touch) {}
+      @ctrl.send(:sugarcube_callbacks).length.should == 1
+      @ctrl.send(:sugarcube_callbacks)[UIControlEventTouchUpInside].length.should == 1
+    end
+
+    it 'should remove the touch handler' do
+      @ctrl.on(:touch) {}
+      @ctrl.off
+      @ctrl.send(:sugarcube_callbacks).length.should == 0
+    end
+
+    it 'should add two touch handlers' do
+      @ctrl.on(:touch) {}
+      @ctrl.on(:touch) {}
+      @ctrl.send(:sugarcube_callbacks)[UIControlEventTouchUpInside].length.should == 2
+    end
+
+    it 'should remove both touch handlers' do
+      @ctrl.on(:touch) {}
+      @ctrl.on(:touch) {}
+      @ctrl.off
+      @ctrl.send(:sugarcube_callbacks).length.should == 0
+    end
+
+    it 'should add multiple control events' do
+      @ctrl.on(:touch_start, :touch_stop) {}
+      @ctrl.send(:sugarcube_callbacks)[UIControlEventTouchDown | UIControlEventTouchDragEnter].length.should == 1
+      @ctrl.send(:sugarcube_callbacks)[UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchDragExit].length.should == 1
+    end
+
+    it 'should remove some events' do
+      @ctrl.on(:touch_start, :touch_stop) {}
+      @ctrl.off(:touch_start)
+      @ctrl.send(:sugarcube_callbacks)[UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchDragExit].length.should == 1
+    end
+
+    it 'should distinguish events' do
+      @ctrl.on(:touch) {}
+      @ctrl.on(:touch_start, :touch_stop) {}
+      @ctrl.off(:touch_start)
+      @ctrl.send(:sugarcube_callbacks)[UIControlEventTouchUpInside].length.should == 1
+      @ctrl.send(:sugarcube_callbacks)[UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchDragExit].length.should == 1
+    end
+
+    it 'should remove all events' do
+      @ctrl.on(:touch_start, :touch_stop) {}
+      @ctrl.off(:touch_start)
+      @ctrl.off(:touch_stop)
+      @ctrl.send(:sugarcube_callbacks).should == {}
+    end
+
+  end
+end
+
+describe 'UIControl' do
   tests UIControlController
 
   before do
