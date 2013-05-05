@@ -61,7 +61,7 @@ class UIControl
     sendActionsForControlEvents(event_mask)
   end
 
-# private
+private
   # event blocks need to be retained, and the addTarget method explicitly does
   # *not* retain `target`.  This makes sure that callbacks are retained by
   # pushing the block onto a stack.
