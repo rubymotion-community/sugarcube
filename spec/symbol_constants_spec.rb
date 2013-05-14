@@ -238,7 +238,7 @@ describe "Symbol - constants" do
       :editing_changed.uicontrolevent.should == UIControlEventEditingChanged
       :editing_did_change.uicontrolevent.should == UIControlEventEditingChanged
       :editing_did_end.uicontrolevent.should == UIControlEventEditingDidEnd
-      :editing_did_endonexit.uicontrolevent.should == UIControlEventEditingDidEndOnExit
+      :editing_did_end_on_exit.uicontrolevent.should == UIControlEventEditingDidEndOnExit
 
       :all_touch.uicontrolevent.should == UIControlEventAllTouchEvents
       :all_editing.uicontrolevent.should == UIControlEventAllEditingEvents

@@ -574,6 +574,7 @@ class Symbol
 
   @uicontrolevent__deprecated = {
     changed: :change,
+    editing_did_endonexit: :editing_did_end_on_exit,
   }
   @uicontrolevent = {
     touch:       UIControlEventTouchUpInside,
@@ -596,13 +597,13 @@ class Symbol
 
     value_changed: UIControlEventValueChanged,
 
-    editing_did_begin:     UIControlEventEditingDidBegin,
+    editing_did_begin:       UIControlEventEditingDidBegin,
     # nice.  very consistent APPLE:
-    editing_changed:       UIControlEventEditingChanged,
+    editing_changed:         UIControlEventEditingChanged,
     # now here's consistency:
-    editing_did_change:    UIControlEventEditingChanged,
-    editing_did_end:       UIControlEventEditingDidEnd,
-    editing_did_endonexit: UIControlEventEditingDidEndOnExit,
+    editing_did_change:      UIControlEventEditingChanged,
+    editing_did_end:         UIControlEventEditingDidEnd,
+    editing_did_end_on_exit: UIControlEventEditingDidEndOnExit,
 
     all_touch:   UIControlEventAllTouchEvents,
     all_editing: UIControlEventAllEditingEvents,
