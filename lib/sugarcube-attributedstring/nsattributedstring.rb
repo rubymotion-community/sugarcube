@@ -38,46 +38,22 @@ end
 
 
 class NSAttributedString
-  NSSuperscriptAttributeName = 'NSSuperscript'
-  NSAttachmentAttributeName = 'NSAttachment'
-  NSBaselineOffsetAttributeName = 'NSBaselineOffset'
-  NSLinkAttributeName = 'NSLink'
-  NSUnderlineColorAttributeName = 'NSUnderlineColor'
-  NSStrikethroughColorAttributeName = 'NSStrikethroughColor'
-  NSObliquenessAttributeName = 'NSObliqueness'
-  NSExpansionAttributeName = 'NSExpansion'
-  NSCursorAttributeName = 'NSCursor'
-  NSToolTipAttributeName = 'NSToolTip'
-  NSMarkedClauseSegmentAttributeName = 'NSMarkedClauseSegment'
-  NSWritingDirectionAttributeName = 'NSWritingDirection'
-  NSTextAlternativesAttributeName = 'NSTextAlternatives'
 
   def dummy
+    # make sure NSAttributedString constants get compiled
     foo = NSFontAttributeName
     foo = NSParagraphStyleAttributeName
     foo = NSForegroundColorAttributeName
-    foo = NSUnderlineStyleAttributeName
-    foo = NSSuperscriptAttributeName
     foo = NSBackgroundColorAttributeName
-    foo = NSAttachmentAttributeName
     foo = NSLigatureAttributeName
-    foo = NSBaselineOffsetAttributeName
     foo = NSKernAttributeName
-    foo = NSLinkAttributeName
-    foo = NSStrokeWidthAttributeName
-    foo = NSStrokeColorAttributeName
-    foo = NSUnderlineColorAttributeName
     foo = NSStrikethroughStyleAttributeName
-    foo = NSStrikethroughColorAttributeName
+    foo = NSUnderlineStyleAttributeName
+    foo = NSStrokeColorAttributeName
+    foo = NSStrokeWidthAttributeName
     foo = NSShadowAttributeName
-    foo = NSObliquenessAttributeName
-    foo = NSExpansionAttributeName
-    foo = NSCursorAttributeName
-    foo = NSToolTipAttributeName
-    foo = NSMarkedClauseSegmentAttributeName
-    foo = NSWritingDirectionAttributeName
     foo = NSVerticalGlyphFormAttributeName
-    foo = NSTextAlternativesAttributeName
+    # make sure alignments get compiled
     foo = NSLeftTextAlignment
     foo = NSRightTextAlignment
     foo = NSCenterTextAlignment
@@ -130,33 +106,17 @@ class NSAttributedString
     with_attributes({NSUnderlineStyleAttributeName => value})
   end
 
-  def superscript(value)
-    with_attributes({NSSuperscriptAttributeName => value})
-  end
-
   def background_color(value)
     with_attributes({NSBackgroundColorAttributeName => value.uicolor})
   end
   alias bg_color background_color
 
-  def attachment(value)
-    with_attributes({NSAttachmentAttributeName => value})
-  end
-
   def ligature(value)
     with_attributes({NSLigatureAttributeName => value})
   end
 
-  def baseline_offset(value)
-    with_attributes({NSBaselineOffsetAttributeName => value})
-  end
-
   def kern(value)
     with_attributes({NSKernAttributeName => value})
-  end
-
-  def link(value)
-    with_attributes({NSLinkAttributeName => value})
   end
 
   def stroke_width(value)
@@ -167,52 +127,16 @@ class NSAttributedString
     with_attributes({NSStrokeColorAttributeName => value.uicolor})
   end
 
-  def underline_color(value)
-    with_attributes({NSUnderlineColorAttributeName => value.uicolor})
-  end
-
   def strikethrough_style(value)
     with_attributes({NSStrikethroughStyleAttributeName => value})
-  end
-
-  def strikethrough_color(value)
-    with_attributes({NSStrikethroughColorAttributeName => value.uicolor})
   end
 
   def shadow(value)
     with_attributes({NSShadowAttributeName => value})
   end
 
-  def obliqueness(value)
-    with_attributes({NSObliquenessAttributeName => value})
-  end
-
-  def expansion(value)
-    with_attributes({NSExpansionAttributeName => value})
-  end
-
-  def cursor(value)
-    with_attributes({NSCursorAttributeName => value})
-  end
-
-  def tool_tip(value)
-    with_attributes({NSToolTipAttributeName => value})
-  end
-
-  def marked_clause_segment(value)
-    with_attributes({NSMarkedClauseSegmentAttributeName => value})
-  end
-
-  def writing_direction(value)
-    with_attributes({NSWritingDirectionAttributeName => value})
-  end
-
   def vertical_glyph_form(value)
     with_attributes({NSVerticalGlyphFormAttributeName => value})
-  end
-
-  def text_alternatives(value)
-    with_attributes({NSTextAlternativesAttributeName => value})
   end
 
   def with_attributes(attributes)
