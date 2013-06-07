@@ -4,6 +4,10 @@ ignore = [
   'sugarcube-classic.rb',
   'sugarcube-osx.rb',
   'sugarcube-legacy.rb',
+
+  'sugarcube-anonymous.rb',
+  'sugarcube-awesome.rb',
+  'sugarcube-unholy.rb',
 ]
 
 dirname = File.dirname(__FILE__)
