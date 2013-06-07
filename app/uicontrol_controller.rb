@@ -18,13 +18,13 @@ class UIControlController < UIViewController
   def loadView
     super.tap do
       @button1 = UIButton.rounded
-      @button1.setTitle('one', forState: :normal.uicontrolstate)
+      @button1.setTitle('one', forState: UIControlStateNormal)
       @button1.sizeToFit
       @button1.center = self.view.center
       self.view << @button1
 
       @button2 = UIButton.rounded
-      @button2.setTitle('two', forState: :normal.uicontrolstate)
+      @button2.setTitle('two', forState: UIControlStateNormal)
       @button2.sizeToFit
       @button2.center = [@button1.center.x, @button1.center.y + 30]
       @button1.center = [@button1.center.x, @button1.center.y - 30]

@@ -9,15 +9,14 @@ About
 -----
 
 CocoaTouch/iOS is a *verbose* framework.  These extensions hope to make
-development in rubymotion more enjoyable by tacking "UI" methods onto the base
-classes (String, Fixnum, Numeric).  With SugarCube, you can create a color from an
-integer or symbol, or create a UIFont or UIImage from a string.
+development in rubymotion more enjoyable. With SugarCube, you can create a color
+from an integer or symbol, or create a UIFont or UIImage from a string.
 
-Some UI classes are opened up as well, like adding the '<<' operator to a UIView
-instance, instead of view.addSubview(subview), you can use the more idiomatic:
-view << subview.
+Some core classes are opened up as well, like adding the '<<' operator to a
+UIView instance, instead of view.addSubview(subview), you can use the more
+idiomatic: view << subview.
 
-The basic idea of SugarCube is to turn some operations on their head.  Insead of
+The basic idea of SugarCube is to turn operations on their head.  So instead of:
 
     UIApplication.sharedApplication.openURL(NSURL.URLWithString(url))
 
@@ -49,7 +48,6 @@ diligent about adding Yard documentation, which is available here:
 
 <http://rubydoc.info/gems/sugarcube/latest>
 
-
 Installation
 ============
 
@@ -60,9 +58,498 @@ Installation
 
     # or in Gemfile
     gem 'sugarcube'
+    # or for the bold:
+    # gem 'sugarcube', :require => 'sugarcube-all'
 
     # in terminal
     $ bundle install
+
+Packages
+========
+
+SugarCube has grown over time to be a pretty massive collection of helpers.
+While some people choose to use the entire library, other people like to pick
+and choose the extensions they want to use.  With that in mind, SugarCube is
+written so that it does *not* pollute any classes by default.  So if all you do
+is `require "sugarcube"`, you are NOT going to get much mileage!
+
+In the installation code above, I show the example of using `:require => 'sugarcube-all'`
+to include *all* of sugarcube's extensions.  Usually you will require the
+packages you need from your Rakefile:
+
+```ruby
+$:.unshift('/Library/RubyMotion/lib')
+require 'motion/project/template/ios'
+require 'bundler'
+Bundler.require
+require './lib/sugarcube-uikit'
+require './lib/sugarcube-events'
+require './lib/sugarcube-gestures'
+require './lib/sugarcube-568'
+require './lib/sugarcube-attributedstring'
+# ...
+```
+
+Packages are sorted more-or-less by their usefulness.  The more esoteric ones
+are at the end.
+
+REPL
+====
+
+If you install sugarcube and *only* use the REPL package, you will benefit from
+some of its greatest tools!
+
+> `require 'sugarcube-repl'`
+
+This package is useful during development because it adds methods to the REPL
+that make adjusting and introspecting views much easier.  You'll get a lot more
+done in the REPL with these additions.
+
+Pixel pushing is an unfortunate but necessary evil.  This package at least makes
+it less painful.
+
+The actual code is, for historical reasons, in the `SugarCube::Adjust` module,
+which is included by default.  But to really be handy you'll want to require the
+`sugarcube-repl` package.
+
+#### Finding the view you want.
+
+This is often touted as the *single most useful feature* of SugarCube!
+
+```
+(main)> tree
+  0: . UIWindow(#6e1f950: [[0.0, 0.0], [320.0, 480.0]])
+  1: `-- UIView(#8b203b0: [[0.0, 20.0], [320.0, 460.0]])
+  2:     +-- UIButton(#d028de0: [[10.0, 10.0], [320.0, 463.400512695312]])
+  3:     |   `-- UIImageView(#d02aaa0: [[0.0, 0.0], [320.0, 463.400512695312]])
+  4:     +-- UIRoundedRectButton(#d02adb0: [[55.0, 110.0], [210.0, 20.0]])
+  5:     |   `-- UIButtonLabel(#d02af00: [[73.0, 0.0], [63.0, 19.0]], text: "Button 1")
+  6:     +-- UIRoundedRectButton(#d028550: [[60.0, 30.0], [200.0, 20.0]])
+  7:     |   `-- UIButtonLabel(#d02afb0: [[68.0, 0.0], [63.0, 19.0]], text: "Button 2")
+  8:     `-- UIRoundedRectButton(#d02b220: [[70.0, 30.0], [300.0, 20.0]])
+  9:         `-- UIButtonLabel(#d02b300: [[118.0, 0.0], [63.0, 19.0]], text: "Button 3")
+```
+
+SugarCube provides lot of `to_s` methods on UIKit objects - that is so that this
+tree view is really easy to find the view you want.  Once you do find the one
+you want, you can fetch it out of that list using the `adjust` method, which is
+aliased to `a` to make it easy on the fingers.
+
+```
+(main)> a 6
+=> UIRoundedRectButton(#d028550: [[60.0, 30.0], [200.0, 20.0]]), child of UIView(#8b203b0)
+```
+
+Now that we've chose the button, it is available in the `a` method, *and* there
+are a bunch of methods in the SugarCube::Adjust module that act on that object.
+Most of these methods help you adjust the frame of a view.
+
+```ruby
+> up 1
+> down 1  # same as `up -1`
+> down  # defaults to 1 anyway
+> left 10
+> right 10
+> left  # => left 1
+> origin 10, 12  # move to x:10, y:12
+> wider 15
+> thinner 10
+> taller  # => taller 1
+> shorter  # => shorter 1
+> size 100, 10  # set size to width:100, height: 10
+> shadow(opacity: 0.5, offset: [0, 0], color: :black, radius: 1)  # and path, which is a CGPath object.
+> center  # See `Centering` section below
+> restore  # original frame and shadow is saved when you first call `adjust`
+```
+
+Here are the short versions of those methods.
+
+```ruby
+> u          # up, default value=1
+> d          # down
+> l          # left
+> r          # right
+> w          # wider
+> n          # thiNNer
+> t          # taller
+> s          # shorter
+> o 10, 12   # origin
+> o [10, 12]
+> o CGPoint.new(10, 12)
+> o Point(10, 12)
+> z 100, 10  # siZe, also accepts an array, CGSize, or Size()
+             # and frame
+> f [[0,0], [0,0]]
+             # sHadow
+> h opacity: 0.5, offset: [0, 0], color: :black, radius: 1
+
+# frame, size, origin, and shadow can also be used as getters
+> f
+[[0, 0], [320, 568]]
+> o          # origin
+[0, 0]
+> z          # size
+[320, 568]
+> h          # this returns an object identical to what you can pass to `shadow`
+{opacity: 0.5, offset: [0, 0], color: :black, radius: 1}
+
+# and of course the `a` method returns the current object
+> a
+=> UITextField(#9ce6470, [[46, 214], [280, 33]], text: "hi!"), child of UIView(#10a6da20)
+```
+
+The most useful feature of the REPL adjustment is the ability to quickly
+position and size your UI elements __visually__ and then paste the final values
+into your code.  In order to better accomodate that, `adjust` has an option to
+modify the output format.  Many thanks to [Thom Parkin][] for developing these
+output formatters.
+
+```
+(main)> repl_format :ruby
+```
+
+Currently supported is:
+
+* RubyMotion (Default) (`:ruby`)
+* Objective-C (`:objc`)
+* JSON (`:json`)
+
+#### Objective-C style
+
+```
+(main)> repl_format :objc
+(main)> tree
+  0: . UIWindow(#6e27180: {{0, 0}, {320, 480}})
+  1: `-- UIView(#8d631b0: {{0, 20}, {320, 460}})
+  2:     +-- UIButton(#6d6c090: {{10, 10}, {320, 463.401}})
+  3:     |   `-- UIImageView(#8d67e00: {{0, 0}, {320, 463.401}})
+  4:     `-- UIRoundedRectButton(#8d68170: {{10, 30}, {30, 200}})
+  5:         `-- UIButtonLabel(#8d69c30: {{2, 90}, {26, 19}})
+=> UIWindow(#6e27180, {{0, 0}, {320, 480}},
+
+# you can pass the format into the adjust method:
+(main)> a 4, :objc
+=> "UIRoundedRectButton(#8d68170: {{10.0, 30.0}, {200.0, 30.0}})"
+
+# it will continue to be used in subsequent calls
+(main)> wider 15
+{{10.0, 30.0}, {200.0, 45.0}}
+=> "UIRoundedRectButton(#8d68170: {{10.0, 30.0}, {200.0, 45.0}}) child of UIView(#8d631b0)"
+```
+
+#### JSON (or GeoMotion)
+
+```
+(main)> a 1, :json
+=> "UIView(#8d631b0: {x: 0.0, y: 20.0, height: 460.0, width: 320.0})"
+(main)> wider 30
+=> "CGRect(#6e9c9f0: {x: 0.0, y: 20.0, height: 460.0, width: 350.0})"
+(main)> right 130
+=> "CGRect(#8dc6a40: {x: 130.0, y: 20.0, height: 460.0, width: 350.0})"
+(main)> tree
+  0: . UIWindow(#6e27180: {x: 0.0, y: 0.0, height: 480.0, width: 320.0})
+  1: `-- UIView(#8d631b0: {x: 130.0, y: 20.0, height: 460.0, width: 350.0})
+  2:     +-- UIButton(#6d6c090: {x: 10.0, y: 10.0, height: 463.400512695312, width: 320.0})
+  3:     |   `-- UIImageView(#8d67e00: {x: 0.0, y: 0.0, height: 463.400512695312, width: 320.0})
+  4:     `-- UIRoundedRectButton(#8d68170: {x: 10.0, y: 30.0, height: 200.0, width: 45.0})
+  5:         `-- UIButtonLabel(#8d69c30: {x: 4.0, y: 90.0, height: 19.0, width: 37.0})
+=> UIWindow(#6e27180: {x: 0.0, y: 0.0, height: 480.0, width: 320.0})
+```
+
+###  CENTER (in parent frame)
+
+It is called as `center(which_index, of_total_number, direction)`. The order can
+be changed, and all the arguments are optional.  Default values are
+`center(1, 1, 'h')` (center the item horizontally).
+
+You can set 'direction' using a string or symbol: 'horiz', 'vert', 'x', even 'x
+and y'.  The method searches for the letters `[xyhv]`.
+
+Here are a few examples:
+
+```
+(main)> center
+[[145.0, 30.0], [30.0, 200.0]]
+UIRoundedRectButton.origin = [145.0, 30.0]
+=> "[[145.0, 30.0], [30.0, 200.0]]"
+```
+
+In order to place that same button in the center of the screen - horizontally
+and vertically - you can use this shorthand syntax:
+
+`center :xy`
+
+If you have three buttons and want them spaced evenly (vertically) across their
+parent frame, you can accomplish that this way:
+
+```
+(main)> tree
+  0: . UIWindow(#6e1f950: [[0.0, 0.0], [320.0, 480.0]])
+  1: `-- UIView(#8b203b0: [[0.0, 20.0], [320.0, 460.0]])
+  2:     +-- UIButton(#d028de0: [[10.0, 10.0], [320.0, 464]])
+  3:     |   `-- UIImageView(#d02aaa0: [[0.0, 0.0], [320.0, 464]])
+  4:     +-- UIRoundedRectButton(#d02adb0: [[55.0, 110.0], [210.0, 20.0]], text: "Button 1")
+  5:     |   `-- UIButtonLabel(#d02af00: [[73.0, 0.0], [63.0, 19.0]])
+  6:     +-- UIRoundedRectButton(#d028550: [[60.0, 30.0], [200.0, 20.0]], text: "Button 2")
+  7:     |   `-- UIButtonLabel(#d02afb0: [[68.0, 0.0], [63.0, 19.0]])
+  8:     `-- UIRoundedRectButton(#d02b220: [[70.0, 30.0], [300.0, 20.0]], text: "Button 3")
+  9:         `-- UIButtonLabel(#d02b300: [[118.0, 0.0], [63.0, 19.0]])
+=> UIWindow(#6e1f950, [[0.0, 0.0], [320.0, 480.0]])
+# grab the first button, and center it vertically.  It is the first of three buttons
+(main)> a 4; center 1, 3, :vert; center
+[[55.0, 110.0], [210.0, 20.0]]
+UIRoundedRectButton.origin = [55.0, 110.0]
+=> "[[55.0, 110.0], [210.0, 20.0]]"
+# grab the second button.  The first parameter changes to `2`, because this
+# button is in the second position.
+(main)> a 6; center 2, 3, :vert; center
+[[60.0, 220.0], [200.0, 20.0]]
+UIRoundedRectButton.origin = [60.0, 220.0]
+=> "[[60.0, 220.0], [200.0, 20.0]]"
+# grab the third button and place it in the third position
+(main)> a 8; center 3, 3, :vert; center
+[[10.0, 330.0], [300.0, 20.0]]
+UIRoundedRectButton.origin = [10.0, 330.0]
+=> "[[10.0, 330.0], [300.0, 20.0]]"
+```
+
+The calculated positions (x,y) are in the REPL output
+
+#### Finding the *[controller,layer,...]* you want.
+
+**Don't stop there!**
+
+You can analyze `UIViewController` and `CALayer` hierarchies, too.  There's even
+a handy `root` method to grab the `rootViewController`:
+
+```ruby
+(main)> tree root
+  0: . #<MainScreenController:0xac23b80>
+  1: +-- #<ScheduleViewController:0x13185d00>
+  2: |   +-- #<ScheduleTableController:0x131862f0>
+  3: |   `-- #<ScheduleCalendarController:0x131bba90>
+  4: +-- #<CameraViewController:0x13191380>
+  5: +-- #<UINavigationController:0xac01ea0>
+  6: |   `-- #<UITableViewController:0xac04e30>
+  7: +-- #<PicturesViewController:0x1403ede0>
+  8: `-- #<MessagesViewController:0x131a1bc0>
+=> #<MainScreenController:0xac23b80>
+```
+
+If you have a tree structure and you want to output it using `tree`, you can do
+so by passing either a method name (that should return an array) or a block. The
+block will be passed your object, and should return the children.
+
+```ruby
+class Foo
+  attr_accessor :children
+end
+```
+```
+(main)> foo = Foo.new
+(main)> foo.children = [Foo.new,Foo.new,Foo.new]
+(main)> tree foo, :children
+(main)> tree foo, :children
+  0: . #<Foo:0x12d6e0d0>
+  1: +-- #<Foo:0x114146c0>
+  2: +-- #<Foo:0x114149d0>
+  3: `-- #<Foo:0x114149e0>
+
+=> #<Foo:0x12d6e0d0 @children=[#<Foo:0x114146c0>, #<Foo:0x114149d0>, #<Foo:0x114149e0>]>
+(main)> tree(foo) { |f| f.children }
+  0: . #<Foo:0x12d6e0d0>
+  1: +-- #<Foo:0x114146c0>
+  2: +-- #<Foo:0x114149d0>
+  3: `-- #<Foo:0x114149e0>
+
+=> #<Foo:0x12d6e0d0 @children=[#<Foo:0x114146c0>, #<Foo:0x114149d0>, #<Foo:0x114149e0>]>
+```
+
+##### Global objects
+
+The adjust and tree methods act on global objects.  Once either of these methods
+is used, you can access that global if you want:
+
+```ruby
+$sugarcube_view  # => the view (or any object) being 'adjusted' (accessible using `adjust` or `a`)
+$sugarcube_items  # => the list of views that was output using `tree`
+```
+
+UIKit
+=====
+
+> `require 'sugarcube-uikit'`
+
+Constants
+=====
+
+> `require 'sugarcube-constants'`
+
+Resources
+=====
+
+> `require 'sugarcube-resources'`
+
+Timer
+=====
+
+> `require 'sugarcube-timer'`
+
+Events
+=====
+
+> `require 'sugarcube-events'`
+
+Gestures
+=====
+
+> `require 'sugarcube-gestures'`
+
+Notifications
+=====
+
+> `require 'sugarcube-notifications'`
+
+UIImage
+=====
+
+> `require 'sugarcube-uiimage'`
+
+UIColor
+=====
+
+> `require 'sugarcube-uicolor'`
+
+UIFont
+=====
+
+> `require 'sugarcube-uifont'`
+
+Factories
+=====
+
+> `require 'sugarcube-factories'`
+
+UIView
+=====
+
+> `require 'sugarcube-uiview'`
+
+Modal
+=====
+
+> `require 'sugarcube-modal'`
+
+Numbers
+=====
+
+> `require 'sugarcube-numbers'`
+
+Angles
+=====
+
+> `require 'sugarcube-angles'`
+
+Distances
+=====
+
+> `require 'sugarcube-distances'`
+
+Sizes
+=====
+
+> `require 'sugarcube-sizes'`
+
+AttributedString
+=====
+
+> `require 'sugarcube-attributedstring'`
+
+568
+=====
+
+> `require 'sugarcube-568'`
+
+Files
+=====
+
+> `require 'sugarcube-files'`
+
+Localized
+=====
+
+> `require 'sugarcube-localized'`
+
+NSCoder
+=====
+
+> `require 'sugarcube-nscoder'`
+
+NSData
+=====
+
+> `require 'sugarcube-nsdata'`
+
+NSDate
+=====
+
+> `require 'sugarcube-nsdate'`
+
+NSIndexPath
+=====
+
+> `require 'sugarcube-nsindexpath'`
+
+NSSet
+=====
+
+> `require 'sugarcube-nsset'`
+
+NSURL
+=====
+
+> `require 'sugarcube-nsurl'`
+
+NSUserDefaults
+=====
+
+> `require 'sugarcube-nsuserdefaults'`
+
+Pointer
+=====
+
+> `require 'sugarcube-pointer'`
+
+To_s
+=====
+
+> `require 'sugarcube-to_s'`
+
+CoreLocation
+=====
+
+> `require 'sugarcube-corelocation'`
+
+Awesome
+=====
+
+> `require 'sugarcube-awesome'`
+
+Anonymous
+=====
+
+> `require 'sugarcube-anonymous'`
+
+Unholy
+=====
+
+> `require 'sugarcube-unholy'`
+
+Legacy
+=====
+
+> `require 'sugarcube-legacy'`
+
 
 Examples
 ========
@@ -1445,283 +1932,6 @@ Open up `CLLocationCoordinate2D` to provide handy-dandies
 => 0.00502094626426697
 ```
 
-REPL View adjustments
------------------------
-
-Pixel pushing is an unfortunate but necessary evil.  Well, at least we can make
-it a little less painful.  SugarCube provides a library that adds some methods
-that are meant to be used in the REPL.
-
-`require "sugarcube-repl"`
-
-The actual code is, for historical reasons, in the `SugarCube::Adjust` module,
-which is included by default.  But to really be handy you'll want to require the
-`sugarcube-repl` package.
-
-#### Finding the view you want.
-
-This is often touted as the *most useful feature* of SugarCube!
-
-```
-(main)> tree
-  0: . UIWindow(#6e1f950: [[0.0, 0.0], [320.0, 480.0]])
-  1: `-- UIView(#8b203b0: [[0.0, 20.0], [320.0, 460.0]])
-  2:     +-- UIButton(#d028de0: [[10.0, 10.0], [320.0, 463.400512695312]])
-  3:     |   `-- UIImageView(#d02aaa0: [[0.0, 0.0], [320.0, 463.400512695312]])
-  4:     +-- UIRoundedRectButton(#d02adb0: [[55.0, 110.0], [210.0, 20.0]])
-  5:     |   `-- UIButtonLabel(#d02af00: [[73.0, 0.0], [63.0, 19.0]], text: "Button 1")
-  6:     +-- UIRoundedRectButton(#d028550: [[60.0, 30.0], [200.0, 20.0]])
-  7:     |   `-- UIButtonLabel(#d02afb0: [[68.0, 0.0], [63.0, 19.0]], text: "Button 2")
-  8:     `-- UIRoundedRectButton(#d02b220: [[70.0, 30.0], [300.0, 20.0]])
-  9:         `-- UIButtonLabel(#d02b300: [[118.0, 0.0], [63.0, 19.0]], text: "Button 3")
-```
-
-SugarCube provides lot of `to_s` methods on UIKit objects - that is so that this
-tree view is really easy to find the view you want.  Once you do find the one
-you want, you can fetch it out of that list using the `adjust` method, which is
-aliased to `a` to make it easy on the fingers.
-
-```
-(main)> a 6
-=> UIRoundedRectButton(#d028550: [[60.0, 30.0], [200.0, 20.0]]), child of UIView(#8b203b0)
-```
-
-Now that we've chose the button, it is available in the `a` method, *and* there
-are a bunch of methods in the SugarCube::Adjust module that act on that object.
-Most of these methods help you adjust the frame of a view.
-
-```ruby
-> up 1
-> down 1  # same as `up -1`
-> down  # defaults to 1 anyway
-> left 10
-> right 10
-> left  # => left 1
-> origin 10, 12  # move to x:10, y:12
-> wider 15
-> thinner 10
-> taller  # => taller 1
-> shorter  # => shorter 1
-> size 100, 10  # set size to width:100, height: 10
-> shadow(opacity: 0.5, offset: [0, 0], color: :black, radius: 1)  # and path, which is a CGPath object.
-> center  # See `Centering` section below
-> restore  # original frame and shadow is saved when you first call `adjust`
-```
-
-Here are the short versions of those methods.
-
-```ruby
-> u          # up, default value=1
-> d          # down
-> l          # left
-> r          # right
-> w          # wider
-> n          # thiNNer
-> t          # taller
-> s          # shorter
-> o 10, 12   # origin
-> o [10, 12]
-> o CGPoint.new(10, 12)
-> o Point(10, 12)
-> z 100, 10  # siZe, also accepts an array, CGSize, or Size()
-             # and frame
-> f [[0,0], [0,0]]
-             # sHadow
-> h opacity: 0.5, offset: [0, 0], color: :black, radius: 1
-
-# frame, size, origin, and shadow can also be used as getters
-> f
-[[0, 0], [320, 568]]
-> o          # origin
-[0, 0]
-> z          # size
-[320, 568]
-> h          # this returns an object identical to what you can pass to `shadow`
-{opacity: 0.5, offset: [0, 0], color: :black, radius: 1}
-
-# and of course the `a` method returns the current object
-> a
-=> UITextField(#9ce6470, [[46, 214], [280, 33]], text: "hi!"), child of UIView(#10a6da20)
-```
-
-The most useful feature of the REPL adjustment is the ability to quickly
-position and size your UI elements __visually__ and then paste the final values
-into your code.  In order to better accomodate that, `adjust` has an option to
-modify the output format.  Many thanks to [Thom Parkin][] for developing these
-output formatters.
-
-```
-(main)> repl_format :ruby
-```
-
-Currently supported is:
-
-* RubyMotion (Default) (`:ruby`)
-* Objective-C (`:objc`)
-* JSON (`:json`)
-
-#### Objective-C style
-
-```
-(main)> repl_format :objc
-(main)> tree
-  0: . UIWindow(#6e27180: {{0, 0}, {320, 480}})
-  1: `-- UIView(#8d631b0: {{0, 20}, {320, 460}})
-  2:     +-- UIButton(#6d6c090: {{10, 10}, {320, 463.401}})
-  3:     |   `-- UIImageView(#8d67e00: {{0, 0}, {320, 463.401}})
-  4:     `-- UIRoundedRectButton(#8d68170: {{10, 30}, {30, 200}})
-  5:         `-- UIButtonLabel(#8d69c30: {{2, 90}, {26, 19}})
-=> UIWindow(#6e27180, {{0, 0}, {320, 480}},
-
-# you can pass the format into the adjust method:
-(main)> a 4, :objc
-=> "UIRoundedRectButton(#8d68170: {{10.0, 30.0}, {200.0, 30.0}})"
-
-# it will continue to be used in subsequent calls
-(main)> wider 15
-{{10.0, 30.0}, {200.0, 45.0}}
-=> "UIRoundedRectButton(#8d68170: {{10.0, 30.0}, {200.0, 45.0}}) child of UIView(#8d631b0)"
-```
-
-#### JSON (or GeoMotion)
-
-```
-(main)> a 1, :json
-=> "UIView(#8d631b0: {x: 0.0, y: 20.0, height: 460.0, width: 320.0})"
-(main)> wider 30
-=> "CGRect(#6e9c9f0: {x: 0.0, y: 20.0, height: 460.0, width: 350.0})"
-(main)> right 130
-=> "CGRect(#8dc6a40: {x: 130.0, y: 20.0, height: 460.0, width: 350.0})"
-(main)> tree
-  0: . UIWindow(#6e27180: {x: 0.0, y: 0.0, height: 480.0, width: 320.0})
-  1: `-- UIView(#8d631b0: {x: 130.0, y: 20.0, height: 460.0, width: 350.0})
-  2:     +-- UIButton(#6d6c090: {x: 10.0, y: 10.0, height: 463.400512695312, width: 320.0})
-  3:     |   `-- UIImageView(#8d67e00: {x: 0.0, y: 0.0, height: 463.400512695312, width: 320.0})
-  4:     `-- UIRoundedRectButton(#8d68170: {x: 10.0, y: 30.0, height: 200.0, width: 45.0})
-  5:         `-- UIButtonLabel(#8d69c30: {x: 4.0, y: 90.0, height: 19.0, width: 37.0})
-=> UIWindow(#6e27180: {x: 0.0, y: 0.0, height: 480.0, width: 320.0})
-```
-
-###  CENTER (in parent frame)
-
-It is called as `center(which_index, of_total_number, direction)`. The order can
-be changed, and all the arguments are optional.  Default values are
-`center(1, 1, 'h')` (center the item horizontally).
-
-You can set 'direction' using a string or symbol: 'horiz', 'vert', 'x', even 'x
-and y'.  The method searches for the letters `[xyhv]`.
-
-Here are a few examples:
-
-```
-(main)> center
-[[145.0, 30.0], [30.0, 200.0]]
-UIRoundedRectButton.origin = [145.0, 30.0]
-=> "[[145.0, 30.0], [30.0, 200.0]]"
-```
-
-In order to place that same button in the center of the screen - horizontally
-and vertically - you can use this shorthand syntax:
-
-`center :xy`
-
-If you have three buttons and want them spaced evenly (vertically) across their
-parent frame, you can accomplish that this way:
-
-```
-(main)> tree
-  0: . UIWindow(#6e1f950: [[0.0, 0.0], [320.0, 480.0]])
-  1: `-- UIView(#8b203b0: [[0.0, 20.0], [320.0, 460.0]])
-  2:     +-- UIButton(#d028de0: [[10.0, 10.0], [320.0, 464]])
-  3:     |   `-- UIImageView(#d02aaa0: [[0.0, 0.0], [320.0, 464]])
-  4:     +-- UIRoundedRectButton(#d02adb0: [[55.0, 110.0], [210.0, 20.0]], text: "Button 1")
-  5:     |   `-- UIButtonLabel(#d02af00: [[73.0, 0.0], [63.0, 19.0]])
-  6:     +-- UIRoundedRectButton(#d028550: [[60.0, 30.0], [200.0, 20.0]], text: "Button 2")
-  7:     |   `-- UIButtonLabel(#d02afb0: [[68.0, 0.0], [63.0, 19.0]])
-  8:     `-- UIRoundedRectButton(#d02b220: [[70.0, 30.0], [300.0, 20.0]], text: "Button 3")
-  9:         `-- UIButtonLabel(#d02b300: [[118.0, 0.0], [63.0, 19.0]])
-=> UIWindow(#6e1f950, [[0.0, 0.0], [320.0, 480.0]])
-# grab the first button, and center it vertically.  It is the first of three buttons
-(main)> a 4; center 1, 3, :vert; center
-[[55.0, 110.0], [210.0, 20.0]]
-UIRoundedRectButton.origin = [55.0, 110.0]
-=> "[[55.0, 110.0], [210.0, 20.0]]"
-# grab the second button.  The first parameter changes to `2`, because this
-# button is in the second position.
-(main)> a 6; center 2, 3, :vert; center
-[[60.0, 220.0], [200.0, 20.0]]
-UIRoundedRectButton.origin = [60.0, 220.0]
-=> "[[60.0, 220.0], [200.0, 20.0]]"
-# grab the third button and place it in the third position
-(main)> a 8; center 3, 3, :vert; center
-[[10.0, 330.0], [300.0, 20.0]]
-UIRoundedRectButton.origin = [10.0, 330.0]
-=> "[[10.0, 330.0], [300.0, 20.0]]"
-```
-
-The calculated positions (x,y) are in the REPL output
-
-#### Finding the *[controller,layer,...]* you want.
-
-**Don't stop there!**
-
-You can analyze `UIViewController` and `CALayer` hierarchies, too.  There's even
-a handy `root` method to grab the `rootViewController`:
-
-```ruby
-(main)> tree root
-  0: . #<MainScreenController:0xac23b80>
-  1: +-- #<ScheduleViewController:0x13185d00>
-  2: |   +-- #<ScheduleTableController:0x131862f0>
-  3: |   `-- #<ScheduleCalendarController:0x131bba90>
-  4: +-- #<CameraViewController:0x13191380>
-  5: +-- #<UINavigationController:0xac01ea0>
-  6: |   `-- #<UITableViewController:0xac04e30>
-  7: +-- #<PicturesViewController:0x1403ede0>
-  8: `-- #<MessagesViewController:0x131a1bc0>
-=> #<MainScreenController:0xac23b80>
-```
-
-If you have a tree structure and you want to output it using `tree`, you can do
-so by passing either a method name (that should return an array) or a block. The
-block will be passed your object, and should return the children.
-
-```ruby
-class Foo
-  attr_accessor :children
-end
-```
-```
-(main)> foo = Foo.new
-(main)> foo.children = [Foo.new,Foo.new,Foo.new]
-(main)> tree foo, :children
-(main)> tree foo, :children
-  0: . #<Foo:0x12d6e0d0>
-  1: +-- #<Foo:0x114146c0>
-  2: +-- #<Foo:0x114149d0>
-  3: `-- #<Foo:0x114149e0>
-
-=> #<Foo:0x12d6e0d0 @children=[#<Foo:0x114146c0>, #<Foo:0x114149d0>, #<Foo:0x114149e0>]>
-(main)> tree(foo) { |f| f.children }
-  0: . #<Foo:0x12d6e0d0>
-  1: +-- #<Foo:0x114146c0>
-  2: +-- #<Foo:0x114149d0>
-  3: `-- #<Foo:0x114149e0>
-
-=> #<Foo:0x12d6e0d0 @children=[#<Foo:0x114146c0>, #<Foo:0x114149d0>, #<Foo:0x114149e0>]>
-```
-
-##### Global objects
-
-The adjust and tree methods act on global objects.  Once either of these methods
-is used, you can access that global if you want:
-
-```ruby
-$sugarcube_view  # => the view (or any object) being 'adjusted' (accessible using `adjust` or `a`)
-$sugarcube_items  # => the list of views that was output using `tree`
-```
-
-
 Pointers
 ----------
 
@@ -1736,22 +1946,6 @@ floats = Pointer.new(:float, 3)
 floats[0] = 0.0
 floats[1] = 1.1
 floats[2] = 2.2
-```
-
-UUID
-------
-
-Quick wrapper for `CFUUIDCreate()` and `CFUUIDCreateString()`.  Identical to the
-`BubbleWrap::create_uuid` method.
-
-```ruby
-> SugarCube::UUID::uuid
-"0A3A76C6-9738-4458-969E-3B9DF174A3D9"
-
-# or
-> include SugarCube::UUID
-> uuid
-# => "0A3A76C6-9738-4458-969E-3B9DF174A3D9"
 ```
 
 Gestures
