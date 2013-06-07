@@ -1754,31 +1754,6 @@ Quick wrapper for `CFUUIDCreate()` and `CFUUIDCreateString()`.  Identical to the
 # => "0A3A76C6-9738-4458-969E-3B9DF174A3D9"
 ```
 
-Ruby on Rails Ripoffs (RoR-R?)
----------------
-
-aka `ActiveSupport`.  Now that Thomas Kadauke has released [motion-support][],
-consider these extensions deprecated.  They will be removed in version 1.0.
-
-```ruby
-# truthiness with `blank?`
-nil.blank?    # => true
-false.blank?  # => true
-''.blank?     # => true
-[].blank?     # => true
-{}.blank?     # => true
-
-0.blank?        # => false
-true.blank?     # => false
-'a'.blank?      # => false
-['a'].blank?    # => false
-{a: 'a'}.blank? # => false
-
-# and my favorite
-1.in? [1,2,3]  # => true
-1.in? 4..5     # => false
-```
-
 Gestures
 --------
 
