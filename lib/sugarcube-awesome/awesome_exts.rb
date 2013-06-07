@@ -6,7 +6,7 @@ class Symbol
 
     if options.key?(:size)
       font_size = options[:size]
-      font_size = font_size.uifontsize unless font_size.is_a?(Numeric)
+      font_size = font_size.uifontsize if font_size.respond_to?(:uifontsize)
     else
       font_size = UIFont.systemFontSize
     end
