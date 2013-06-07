@@ -1,6 +1,7 @@
 $:.unshift('/Library/RubyMotion/lib')
 require 'motion/project/template/ios'
 require './lib/sugarcube-all'
+require './lib/sugarcube-legacy'
 
 
 Motion::Project::App.setup do |app|
