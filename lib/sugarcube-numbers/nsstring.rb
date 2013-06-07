@@ -2,9 +2,12 @@ class NSString
 
   # @return boolean
   def nan?
+    self.to_number.nil?
+  end
+
+  def to_number
     number_formatter = NSNumberFormatter.new
-    number = number_formatter.numberFromString(self)
-    number.nil?
+    number_formatter.numberFromString(self)
   end
 
 end

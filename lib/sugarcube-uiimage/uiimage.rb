@@ -1,6 +1,4 @@
 class UIImage
-  def uiimage ; self ; end
-
   ##|
   ##|  REALLY HANDY STUFF!
   ##|  many of these methods are translated from:

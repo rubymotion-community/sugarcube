@@ -2,23 +2,6 @@ class UIView
 
   class << self
 
-    # returns the first responder, starting at the Window and searching every subview
-    def first_responder
-      UIApplication.sharedApplication.keyWindow.first_responder
-    end
-
-    def attr_updates(*attrs)
-      attr_accessor(*attrs)
-      attrs.each do |attr|
-        define_method("#{attr}=") { |value|
-          if instance_variable_get("@#{attr}") != value
-            setNeedsDisplay
-          end
-          instance_variable_set("@#{attr}", value)
-        }
-      end
-    end
-
     # If options is a Numeric, it is used as the duration.  Otherwise, duration
     # is an option, and defaults to 0.3.  All the transition methods work this
     # way.
@@ -91,46 +74,6 @@ class UIView
 
   end
 
-  # returns the first responder, or nil if it cannot be found
-  def first_responder
-    if self.firstResponder?
-      return self
-    end
-
-    found = nil
-    self.subviews.each do |subview|
-      found = subview.first_responder
-      break if found
-    end
-
-    return found
-  end
-
-  # returns the nearest nextResponder instance that is a UIViewController. Goes
-  # up the responder chain until the nextResponder is a UIViewController
-  # subclass, or returns nil if none is found.
-  def controller
-    if nextResponder && nextResponder.is_a?(UIViewController)
-      nextResponder
-    elsif nextResponder
-      nextResponder.controller
-    else
-      nil
-    end
-  end
-
-  # superview << view
-  # => superview.addSubview(view)
-  def <<(view)
-    self.addSubview(view)
-    return self
-  end
-
-  def unshift(view)
-    self.insertSubview(view, atIndex:0)
-    return self
-  end
-
   def show
     self.hidden = false
     self
@@ -152,13 +95,13 @@ class UIView
 
     assign = options[:assign] || {}
 
-    UIView.animate(options) {
+    UIView.animate(options) do
       animations.call if animations
 
       assign.each do |key, value|
         self.send("#{key}=", value)
       end
-    }
+    end
     self
   end
 
@@ -170,9 +113,9 @@ class UIView
 
     options[:after] = after
 
-    animate(options) {
+    animate(options) do
       self.alpha = options[:opacity]
-    }
+    end
   end
 
   # Changes the layer opacity to 0.
@@ -208,11 +151,11 @@ class UIView
 
     original_opacity = self.alpha
 
-    after_remove = proc {
+    after_remove = proc do
       self.alpha = original_opacity
       removeFromSuperview
       after.call if after
-    }
+    end
 
     fade_out(options, &after_remove)
   end
@@ -224,11 +167,11 @@ class UIView
 
     options[:after] = after
 
-    animate(options) {
+    animate(options) do
       f = self.frame
       f.origin = SugarCube::CoreGraphics::Point(position)
       self.frame = f
-    }
+    end
   end
 
   def delta_to(delta, options={}, &after)
@@ -247,11 +190,11 @@ class UIView
 
     options[:after] = after
 
-    animate(options) {
+    animate(options) do
       f = self.frame
       f.size = SugarCube::CoreGraphics::Size(size)
       self.frame = f
-    }
+    end
   end
 
   def reframe_to(frame, options={}, &after)
@@ -261,9 +204,9 @@ class UIView
 
     options[:after] = after
 
-    animate(options) {
+    animate(options) do
       self.frame = frame
-    }
+    end
   end
 
   # Changes the current rotation to `new_angle`
@@ -278,9 +221,9 @@ class UIView
 
     options[:after] = after
 
-    animate(options) {
+    animate(options) do
       self.transform = CGAffineTransformMakeRotation(new_angle)
-    }
+    end
   end
 
   # Changes the current rotation by `new_angle`
@@ -375,12 +318,12 @@ class UIView
     options[:duration] ||= default_duration
     options[:options] ||= UIViewAnimationOptionCurveEaseIn|UIViewAnimationOptionBeginFromCurrentState
     reset_transform = self.transform
-    reset_after = ->(finished) {
+    reset_after = ->(finished) do
       self.transform = reset_transform
-    }
+    end
 
     if after
-      options[:after] = ->(finished) {
+      options[:after] = ->(finished) do
         reset_after.call(finished)
 
         if after.arity == 0
@@ -388,12 +331,12 @@ class UIView
         else
           after.call(finished)
         end
-      }
+      end
     else
       options[:after] = reset_after
     end
 
-    self.animate(options) {
+    self.animate(options) do
       window = UIApplication.sharedApplication.windows[0]
       top = self.convertPoint([0, 0], toView:nil).y
       height = window.frame.size.height - top
@@ -401,43 +344,7 @@ class UIView
       offset = CGPointApplyAffineTransform(offset, self.transform)
       self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(-Math::PI/4))
       self.center = CGPointMake(self.center.x + offset.x, self.center.y + offset.y)
-    }
-  end
-
-  # Easily take a snapshot of a `UIView`.
-  #
-  # Calling `uiimage` with no arguments will return the image based on the
-  # `bounds` of the image.  In the case of container views (notably
-  # `UIScrollView` and its children) this does not include the entire contents,
-  # which is something you probably want.
-  #
-  # If you pass a truthy value to this method, it will use the `contentSize` of
-  # the view instead of the `bounds`, and it will draw all the child views, not
-  # just those that are visible in the viewport.
-  #
-  # It is guaranteed that `true` and `:all` will always have this behavior.  In
-  # the future, if this argument becomes something that accepts multiple values,
-  # those two are sacred.
- def uiimage(use_content_size=false)
-    scale = UIScreen.mainScreen.scale
-    if use_content_size
-      UIGraphicsBeginImageContextWithOptions(contentSize, false, scale)
-      context = UIGraphicsGetCurrentContext()
-      subviews.each do |subview|
-        CGContextSaveGState(context)
-        CGContextTranslateCTM(context, subview.frame.origin.x, subview.frame.origin.y)
-        subview.layer.renderInContext(context)
-        CGContextRestoreGState(context)
-      end
-      image = UIGraphicsGetImageFromCurrentImageContext()
-      UIGraphicsEndImageContext()
-    else
-      UIGraphicsBeginImageContextWithOptions(bounds.size, false, scale)
-      layer.renderInContext(UIGraphicsGetCurrentContext())
-      image = UIGraphicsGetImageFromCurrentImageContext()
-      UIGraphicsEndImageContext()
     end
-    return image
   end
 
 end

@@ -13,3 +13,5 @@ Motion::Project::App.setup do |app|
     app.files.insert(insert_point, file)
   end
 end
+
+require File.join(File.dirname(__FILE__), "sugarcube-coregraphics.rb")

@@ -104,15 +104,6 @@ class NSAttributedString
     underline_style(NSUnderlineStyleSingle)
   end
 
-  # @return [UILabel]
-  def uilabel
-    UILabel.alloc.initWithFrame([[0, 0], [0, 0]]).tap do |label|
-      label.attributedText = self
-      label.backgroundColor = :clear.uicolor
-      label.sizeToFit
-    end
-  end
-
   def font(value)
     with_attributes({NSFontAttributeName => value.uifont})
   end

@@ -19,198 +19,198 @@ You can extend the defaults by adding entries:
 class Symbol
 
   def uidevice
-    Sugarcube.look_in(self, Symbol.uidevice)
+    SugarCube.look_in(self, Symbol.uidevice)
   end
 
   def uideviceorientation
-    Sugarcube.look_in(self, Symbol.uideviceorientation)
+    SugarCube.look_in(self, Symbol.uideviceorientation)
   end
 
   def uiinterfaceorientation
-    Sugarcube.look_in(self, Symbol.uiinterfaceorientation)
+    SugarCube.look_in(self, Symbol.uiinterfaceorientation)
   end
   alias uiorientation uiinterfaceorientation
 
   def uiinterfacemask
-    Sugarcube.look_in(self, Symbol.uiinterfacemask)
+    SugarCube.look_in(self, Symbol.uiinterfacemask)
   end
 
   def uiautoresizemask
-    Sugarcube.look_in(self, Symbol.uiautoresizemask, Symbol.uiautoresizemask__deprecated)
+    SugarCube.look_in(self, Symbol.uiautoresizemask, Symbol.uiautoresizemask__deprecated)
   end
   alias uiviewautoresizing uiautoresizemask
   alias uiautoresizingmask uiautoresizemask
   alias uiautoresize uiautoresizemask
 
   def uireturnkey
-    Sugarcube.look_in(self, Symbol.uireturnkey, Symbol.uireturnkey__deprecated)
+    SugarCube.look_in(self, Symbol.uireturnkey, Symbol.uireturnkey__deprecated)
   end
 
   def uikeyboardtype
-    Sugarcube.look_in(self, Symbol.uikeyboardtype, Symbol.uikeyboardtype__deprecated)
+    SugarCube.look_in(self, Symbol.uikeyboardtype, Symbol.uikeyboardtype__deprecated)
   end
 
   def uitextalignment
-    Sugarcube.look_in(self, Symbol.uitextalignment)
+    SugarCube.look_in(self, Symbol.uitextalignment)
   end
   alias uialignment uitextalignment
 
   def uilinebreakmode
-    Sugarcube.look_in(self, Symbol.uilinebreakmode, Symbol.uilinebreakmode__deprecated)
+    SugarCube.look_in(self, Symbol.uilinebreakmode, Symbol.uilinebreakmode__deprecated)
   end
 
   def uibaselineadjustment
-    Sugarcube.look_in(self, Symbol.uibaselineadjustment)
+    SugarCube.look_in(self, Symbol.uibaselineadjustment)
   end
   alias uibaseline uibaselineadjustment
 
   def uibordertype
-    Sugarcube.look_in(self, Symbol.uibordertype)
+    SugarCube.look_in(self, Symbol.uibordertype)
   end
   alias uiborderstyle uibordertype
 
   def nsdatestyle
-    Sugarcube.look_in(self, Symbol.nsdatestyle)
+    SugarCube.look_in(self, Symbol.nsdatestyle)
   end
   alias nsdateformatterstyle nsdatestyle
 
   def nsnumberstyle
-    Sugarcube.look_in(self, Symbol.nsnumberstyle, Symbol.nsnumberstyle__deprecated)
+    SugarCube.look_in(self, Symbol.nsnumberstyle, Symbol.nsnumberstyle__deprecated)
   end
   alias nsnumberformatterstyle nsnumberstyle
 
   def uistatusbarstyle
-    Sugarcube.look_in(self, Symbol.uistatusbarstyle)
+    SugarCube.look_in(self, Symbol.uistatusbarstyle)
   end
 
   def uibarmetrics
-    Sugarcube.look_in(self, Symbol.uibarmetrics)
+    SugarCube.look_in(self, Symbol.uibarmetrics)
   end
 
   def uibarbuttonitem
-    Sugarcube.look_in(self, Symbol.uibarbuttonitem, Symbol.uibarbuttonitem__deprecated)
+    SugarCube.look_in(self, Symbol.uibarbuttonitem, Symbol.uibarbuttonitem__deprecated)
   end
 
   def uibarbuttonstyle
-    Sugarcube.look_in(self, Symbol.uibarbuttonstyle)
+    SugarCube.look_in(self, Symbol.uibarbuttonstyle)
   end
 
   def uibuttontype
-    Sugarcube.look_in(self, Symbol.uibuttontype)
+    SugarCube.look_in(self, Symbol.uibuttontype)
   end
 
   def uicontrolstate
-    Sugarcube.look_in(self, Symbol.uicontrolstate)
+    SugarCube.look_in(self, Symbol.uicontrolstate)
   end
   alias uistate uicontrolstate
 
 
   def uicontrolevent
-    Sugarcube.look_in(self, Symbol.uicontrolevent, Symbol.uicontrolevent__deprecated)
+    SugarCube.look_in(self, Symbol.uicontrolevent, Symbol.uicontrolevent__deprecated)
   end
 
   def uiactivityindicatorstyle
-    Sugarcube.look_in(self, Symbol.uiactivityindicatorstyle, Symbol.uiactivityindicatorstyle__deprecated)
+    SugarCube.look_in(self, Symbol.uiactivityindicatorstyle, Symbol.uiactivityindicatorstyle__deprecated)
   end
   alias uiactivityindicatorviewstyle uiactivityindicatorstyle
 
   def uisegmentedstyle
-    Sugarcube.look_in(self, Symbol.uisegmentedstyle)
+    SugarCube.look_in(self, Symbol.uisegmentedstyle)
   end
   alias uisegmentedcontrolstyle uisegmentedstyle
 
   def uidatepickermode
-    Sugarcube.look_in(self, Symbol.uidatepickermode, Symbol.uidatepickermode__deprecated)
+    SugarCube.look_in(self, Symbol.uidatepickermode, Symbol.uidatepickermode__deprecated)
   end
 
   def uicontentmode
-    Sugarcube.look_in(self, Symbol.uicontentmode, Symbol.uicontentmode__deprecated)
+    SugarCube.look_in(self, Symbol.uicontentmode, Symbol.uicontentmode__deprecated)
   end
   alias uiviewcontentmode uicontentmode
 
   def uianimationcurve
-    Sugarcube.look_in(self, Symbol.uianimationcurve)
+    SugarCube.look_in(self, Symbol.uianimationcurve)
   end
   alias uiviewanimationcurve uianimationcurve
 
   def uitablestyle
-    Sugarcube.look_in(self, Symbol.uitablestyle)
+    SugarCube.look_in(self, Symbol.uitablestyle)
   end
   alias uitableviewstyle uitablestyle
 
   def uitablerowanimation
-    Sugarcube.look_in(self, Symbol.uitablerowanimation)
+    SugarCube.look_in(self, Symbol.uitablerowanimation)
   end
   alias uitableviewrowanimation uitablerowanimation
 
   def uitablecellstyle
-    Sugarcube.look_in(self, Symbol.uitablecellstyle)
+    SugarCube.look_in(self, Symbol.uitablecellstyle)
   end
   alias uitableviewcellstyle uitablecellstyle
 
   def uitablecellaccessorytype
-    Sugarcube.look_in(self, Symbol.uitablecellaccessorytype, Symbol.uitablecellaccessorytype__deprecated)
+    SugarCube.look_in(self, Symbol.uitablecellaccessorytype, Symbol.uitablecellaccessorytype__deprecated)
   end
   alias uitablecellaccessory uitablecellaccessorytype
   alias uitableviewcellaccessorytype uitablecellaccessorytype
 
   def uitablecellselectionstyle
-    Sugarcube.look_in(self, Symbol.uitablecellselectionstyle)
+    SugarCube.look_in(self, Symbol.uitablecellselectionstyle)
   end
   alias uitableviewcellselectionstyle uitablecellselectionstyle
 
   def uitablecellseparatorstyle
-    Sugarcube.look_in(self, Symbol.uitablecellseparatorstyle, Symbol.uitablecellseparatorstyle__deprecated)
+    SugarCube.look_in(self, Symbol.uitablecellseparatorstyle, Symbol.uitablecellseparatorstyle__deprecated)
   end
 
   def uialertstyle
-    Sugarcube.look_in(self, Symbol.uialertstyle)
+    SugarCube.look_in(self, Symbol.uialertstyle)
   end
   alias uialertviewstyle uialertstyle
 
   def uiactionstyle
-    Sugarcube.look_in(self, Symbol.uiactionstyle)
+    SugarCube.look_in(self, Symbol.uiactionstyle)
   end
   alias uiactionsheetstyle uiactionstyle
 
   def uiimagesource
-    Sugarcube.look_in(self, Symbol.uiimagesource)
+    SugarCube.look_in(self, Symbol.uiimagesource)
   end
   alias uiimagesourcetype uiimagesource
 
   def uiimagecapture
-    Sugarcube.look_in(self, Symbol.uiimagecapture)
+    SugarCube.look_in(self, Symbol.uiimagecapture)
   end
   alias uiimagecapturemode uiimagecapture
 
   def uiimagecamera
-    Sugarcube.look_in(self, Symbol.uiimagecamera)
+    SugarCube.look_in(self, Symbol.uiimagecamera)
   end
   alias uiimagecameradevice uiimagecamera
   alias uiimagedevice uiimagecamera
 
   def uiimagequality
-    Sugarcube.look_in(self, Symbol.uiimagequality)
+    SugarCube.look_in(self, Symbol.uiimagequality)
   end
   alias uiimagequalitytype uiimagequality
 
   def catimingfunction
-    Sugarcube.look_in(self, Symbol.catimingfunction, Symbol.catimingfunction__deprecated)
+    SugarCube.look_in(self, Symbol.catimingfunction, Symbol.catimingfunction__deprecated)
   end
   alias catiming catimingfunction
 
   def cglinecap
-    Sugarcube.look_in(self, Symbol.cglinecap)
+    SugarCube.look_in(self, Symbol.cglinecap)
   end
   alias cglinecapstyle cglinecap
 
   def cglinejoin
-    Sugarcube.look_in(self, Symbol.cglinejoin)
+    SugarCube.look_in(self, Symbol.cglinejoin)
   end
   alias cglinejoinstyle cglinejoin
 
   def uigesturerecognizerstate
-    Sugarcube.look_in(self, Symbol.uigesturerecognizerstate)
+    SugarCube.look_in(self, Symbol.uigesturerecognizerstate)
   end
   alias uigesturestate uigesturerecognizerstate
 

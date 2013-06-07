@@ -1,22 +1,3 @@
-class NSIndexPath
-
-  def to_a
-    indexes_ptr = Pointer.new(:uint, self.length)
-    self.getIndexes indexes_ptr
-    a = []
-    self.length.times do |i|
-      a << indexes_ptr[i]
-    end
-    a
-  end
-
-  def to_s
-    "<NSIndexPath #{to_a.to_s}>"
-  end
-
-end
-
-
 # This class is used in `switch` statements.  Easy pattern matching, so instead
 # of `if index_path.section == N && index_path.row = X`, you can use
 # `when IndexPath[section, row]`.

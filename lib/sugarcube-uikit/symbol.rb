@@ -18,7 +18,7 @@ class Symbol
     size ||= UIFont.systemFontSize
     # system fonts
     if Symbol.uifont.has_key? self
-      font = Sugarcube.look_in(self, Symbol.uifont)
+      font = SugarCube.look_in(self, Symbol.uifont)
       if size.is_a?(Symbol)
         size = size.uifontsize
       end
@@ -37,7 +37,7 @@ class Symbol
   end
 
   def uifontsize
-    size = Sugarcube.look_in(self, Symbol.uifontsize)
+    size = SugarCube.look_in(self, Symbol.uifontsize)
     if size.is_a?(Symbol)
       return UIFont.send(size)
     end

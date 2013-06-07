@@ -1,12 +1,6 @@
 $:.unshift('/Library/RubyMotion/lib')
 require 'motion/project/template/ios'
-require './lib/sugarcube'
-require './lib/sugarcube-gestures'
-require './lib/sugarcube-568'
-require './lib/sugarcube-attributedstring'
-require './lib/sugarcube-unholy'
-require './lib/sugarcube-anonymous'
-require './lib/sugarcube-legacy'
+require './lib/sugarcube-all'
 
 
 Motion::Project::App.setup do |app|

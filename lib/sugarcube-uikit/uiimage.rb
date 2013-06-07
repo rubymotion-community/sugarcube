@@ -1,4 +1,5 @@
 class UIImage
+  def uiimage ; self ; end
 
   # @return [UIImageView]
   def uiimageview

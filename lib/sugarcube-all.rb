@@ -1,38 +1,10 @@
-# todo write this as a for loop that iterates over all the *.rb files, except
-# sugarcube.rb and sugarcube-all.rb
-require 'sugarcube-568.rb'
-require 'sugarcube-angles.rb'
-require 'sugarcube-anonymous.rb'
-require 'sugarcube-attributedstring.rb'
-require 'sugarcube-awesome.rb'
-require 'sugarcube-constants.rb'
-require 'sugarcube-corelocation.rb'
-require 'sugarcube-distances.rb'
-require 'sugarcube-events.rb'
-require 'sugarcube-factories.rb'
-require 'sugarcube-files.rb'
-require 'sugarcube-gestures.rb'
-require 'sugarcube-legacy.rb'
-require 'sugarcube-localized.rb'
-require 'sugarcube-modal.rb'
-require 'sugarcube-notifications.rb'
-require 'sugarcube-nscoder.rb'
-require 'sugarcube-nsdata.rb'
-require 'sugarcube-nsdate.rb'
-require 'sugarcube-nsindexpath.rb'
-require 'sugarcube-nsset.rb'
-require 'sugarcube-nsurl.rb'
-require 'sugarcube-nsuserdefaults.rb'
-require 'sugarcube-numbers.rb'
-require 'sugarcube-pointer.rb'
-require 'sugarcube-repl.rb'
-require 'sugarcube-resources.rb'
-require 'sugarcube-sizes.rb'
-require 'sugarcube-timer.rb'
-require 'sugarcube-to_s.rb'
-require 'sugarcube-uicolor.rb'
-require 'sugarcube-uifont.rb'
-require 'sugarcube-uiimage.rb'
-require 'sugarcube-uikit.rb'
-require 'sugarcube-uiviews.rb'
-require 'sugarcube-unholy.rb'
+ignore = ['sugarcube-all.rb']
+
+dirname = File.dirname(__FILE__)
+Dir.glob(File.join(dirname, '*.rb')).each do |file|
+  file = File.basename(file)
+  unless ignore.include? file
+    file = File.join(dirname, file)
+    require file
+  end
+end
