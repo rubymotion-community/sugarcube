@@ -10,6 +10,11 @@ describe 'NSString' do
     'foo'.cache.hasSuffix('Library/Caches/foo').should == true
   end
 
+  it "should have a #app_support method" do
+    'foo'.app_support.hasPrefix('/Users').should == true
+    'foo'.app_support.hasSuffix('Library/Application Support/foo').should == true
+  end
+
   it "should have an #exists? method" do
     'foo'.document.exists?.should == false
   end
