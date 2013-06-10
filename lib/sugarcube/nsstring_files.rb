@@ -14,6 +14,13 @@ class NSString
     @@sugarcube_caches.stringByAppendingPathComponent(self)
   end
 
+  def app_support
+    @@sugarcube_app_suppert ||= NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, true)[0]
+    return self if self.hasPrefix(@@sugarcube_app_suppert)
+
+    @@sugarcube_app_suppert.stringByAppendingPathComponent(self)
+  end
+
   def exists?
     path = self.hasPrefix('/') ? self : self.document
     NSFileManager.defaultManager.fileExistsAtPath(path)
