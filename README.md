@@ -59,7 +59,7 @@ Installation
     require 'sugarcube'
 
     # or in Gemfile
-    gem 'sugarcube'
+    gem 'sugarcube', :require => 'sugarcube-classic'
     # or for the bold:
     # gem 'sugarcube', :require => 'sugarcube-all'
 
@@ -92,13 +92,20 @@ require './lib/sugarcube-attributedstring'
 # ...
 ```
 
-Packages are sorted more-or-less by their usefulness.  The more esoteric ones
-are at the end.
+You can require the packages in piecemeal like this, or you can require a group
+of packages: `classic, common, or all`.
+
+* `sugarcube-classic`: Excludes **568**, **attributedstring**, **gestures**, **repl**, **awesome**, **anonymous**, **unholy**, and **legacy**
+* `sugarcube-common`: Excludes **awesome**, **anonymous**, **unholy**, and **legacy**
+* `sugarcube-all`: Excludes **legacy**
 
 So without further ado,
 
 SugarCube
 =========
+
+Packages are sorted more-or-less by their usefulness.  The more esoteric ones
+are at the end.
 
 REPL ([wiki][REPL Wiki])
 ----
@@ -1361,7 +1368,7 @@ Legacy
 This is where deprecated methods go to suffer a long, slow death.
 
 Contributions
------
+=====
 
 If you want to see new features, please fork, commit, and pull-request! :smiley:
 
