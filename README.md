@@ -1309,6 +1309,8 @@ require 'sugarcube-attributedstring'
 
 # in your app
 label.attributedText = (:down_arrow.awesome_icon + ' Going down?'.bold).color(:white)
+# OR for buttons
+button.setAttributedTitle(:twitter.awesome_icon, forState:UIControlStateNormal)
 ```
 
 [motion-awesome]: http://derailed.github.io/motion-awesome/
