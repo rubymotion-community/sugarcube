@@ -347,8 +347,17 @@ class UIView
       duration /= repeat
     end
     keypath = options[:keypath] || 'transform.translation.x'
+    if keypath == 'transform.rotation'
+      value_keypath = 'layer.transform.rotation.z'
+    else
+      value_keypath = keypath
+    end
 
-    origin = options[:origin] || 0
+    if options[:from_current]
+      origin = options[:origin] || valueForKeyPath(value_keypath)
+    else
+      origin = options[:origin] || 0
+    end
     left = origin - offset
     right = origin + offset
 
@@ -360,6 +369,12 @@ class UIView
     self.layer.addAnimation(animation, forKey:'shake')
     self
   end
+
+  # this dummy method is needed to define the setDuration method
+  def dummy
+    self.setDuration(nil)
+  end
+  private :dummy
 
   # Moves the view off screen while slowly rotating it.
   #
