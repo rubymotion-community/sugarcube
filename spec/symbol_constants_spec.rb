@@ -183,7 +183,7 @@ describe "Symbol - constants" do
       :fast_forward.uibarbuttonitem.should == UIBarButtonSystemItemFastForward
       :undo.uibarbuttonitem.should == UIBarButtonSystemItemUndo
       :redo.uibarbuttonitem.should == UIBarButtonSystemItemRedo
-      :pagecurl.uibarbuttonitem.should == UIBarButtonSystemItemPageCurl
+      :page_curl.uibarbuttonitem.should == UIBarButtonSystemItemPageCurl
     end
 
     it 'should support `uibarbuttonstyle`' do

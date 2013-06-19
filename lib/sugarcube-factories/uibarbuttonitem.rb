@@ -27,8 +27,16 @@ class UIBarButtonItem
       sugarcube_barbuttonitem(:flexiblespace, action)
     end
 
+    def flexible_space(&action)
+      sugarcube_barbuttonitem(:flexible_space, action)
+    end
+
     def fixedspace(&action)
       sugarcube_barbuttonitem(:fixedspace, action)
+    end
+
+    def fixed_space(&action)
+      sugarcube_barbuttonitem(:fixed_space, action)
     end
 
     def compose(&action)
@@ -87,6 +95,10 @@ class UIBarButtonItem
       sugarcube_barbuttonitem(:fastforward, action)
     end
 
+    def fast_forward(&action)
+      sugarcube_barbuttonitem(:fast_forward, action)
+    end
+
     def undo(&action)
       sugarcube_barbuttonitem(:undo, action)
     end
@@ -97,6 +109,10 @@ class UIBarButtonItem
 
     def pagecurl(&action)
       sugarcube_barbuttonitem(:pagecurl, action)
+    end
+
+    def page_curl(&action)
+      sugarcube_barbuttonitem(:page_curl, action)
     end
 
     def titled(title, style = :bordered, &action)

@@ -23,706 +23,709 @@
 # * CIHeightFieldFromMask       * CIZoomBlur
 class CIFilter
 
+  ##|
+  ##|  TYPE COERCTION
+  ##|
+
   def uiimage
     ciimage.uiimage
   end
 
   def ciimage
-    valueForKey('output_image')
+    valueForKey('outputImage')
   end
 
   ##|
-  ##|  THE FILTERS
+  ##|  FILTERS (FACTORY METHODS)
   ##|  http://developer.apple.com/library/mac/#documentation/GraphicsImaging/Reference/CoreImageFilterReference/Reference/reference.html
   ##|
+  class << self
 
-  def self._apply_options(options, set_args, names)
-    unless Hash === options
-      args = []
-    else
-      options = {}
-      if Array === options
-        args = options
+    # This helper instantiates the filter (raising an exception if it was
+    # unsuccessful) and applies all the arguments from options (naming the args
+    # according to `set_args`), translating names from `names`
+    def _create_filter(filter_name, args, set_args=[], names={})
+      filter = CIFilter.filterWithName(filter_name)
+      raise "Unsupported filter #{filter_name.inspect}" unless filter
+
+      # turn a list of arguments into a hash
+      if args.length == 1 && Hash === args[0]
+        options = args[0]
       else
-        args = [options]
+        options = {}
+        args.each_with_index do |arg, index|
+          setter = set_args[index]
+          raise "Cannot set option ##{index}" if setter.nil?
+          options[setter] = arg
+        end
       end
-      args.each_with_index do |arg, index|
-        setter = set_args[index]
-        raise "Cannot set option ##{index}" if setter.nil?
-        options[setter] = arg
+
+      options.each do |key, value|
+        # translate the keys, but if there is no translation key then do nothing
+        key = names[key] || key.to_s
+
+        # translate the value if a block was given for that. `key` is always going
+        # to be the CIImage key (not the alias, e.g. :radius => 'inputRadius')
+        value = yield(key, value) if block_given?
+        filter.setValue(value, forKey:key)
       end
+      return filter
     end
-    return options
-  end
 
-  def self._create_filter(filter_name, options, set_args=[], names={})
-    options = _apply_options(options, set_args, names)
-    filter = CIFilter.filterWithName(filter_name)
-    raise "Unsupported filter #{filter_name.inspect}" unless filter
-    options.each do |key, value|
-      # translate the keys, but if there is no translation key then do nothing
-      key = names[key] || key.to_s
-
-      # translate the value if a block was given for that. `key` is always going
-      # to be the CIImage key (not the alias, e.g. :radius => 'inputRadius')
-      value = yield(key, value) if block_given?
-      filter.setValue(value, forKey:key)
+    # CIAdditionCompositing
+    def addition_compositing(*options)
+      return _create_filter('CIAdditionCompositing', options, [:background], background: 'inputBackgroundImage')
     end
-    return filter
-  end
 
-  # CIAdditionCompositing
-  def self.addition_compositing(options={})
-    return _create_filter('CIAdditionCompositing', options, [:background], background: 'inputBackgroundImage')
-  end
-
-  # CIAffineClamp
-  def self.affine_clamp(options={})
-    return _create_filter('CIAffineClamp', options, [:transform], transform: 'inputTransform'
-      ) do |key, value|
-      if key == 'inputTransform' && CGAffineTransform === value
-        ptr = Pointer.new(:id)
-        ptr[0] = value
-        NSValue.valueWithBytes(ptr, objCType:CGAffineTransform.type)
-      else
-        value
+    # CIAffineClamp
+    def affine_clamp(*options)
+      return _create_filter('CIAffineClamp', options, [:transform], transform: 'inputTransform'
+        ) do |key, value|
+        if key == 'inputTransform' && CGAffineTransform === value
+          ptr = Pointer.new(:id)
+          ptr[0] = value
+          NSValue.valueWithBytes(ptr, objCType:CGAffineTransform.type)
+        else
+          value
+        end
       end
     end
-  end
 
-  # CIAffineTile
-  def self.affine_tile(options={})
-    return _create_filter('CIAffineTile', options, [:transform], transform: 'inputTransform'
-      ) do |key, value|
-      if key == 'inputTransform' && CGAffineTransform === value
-        ptr = Pointer.new(:id)
-        ptr[0] = value
-        NSValue.valueWithBytes(ptr, objCType:CGAffineTransform.type)
-      else
-        value
+    # CIAffineTile
+    def affine_tile(*options)
+      return _create_filter('CIAffineTile', options, [:transform], transform: 'inputTransform'
+        ) do |key, value|
+        if key == 'inputTransform' && CGAffineTransform === value
+          ptr = Pointer.new(:id)
+          ptr[0] = value
+          NSValue.valueWithBytes(ptr, objCType:CGAffineTransform.type)
+        else
+          value
+        end
       end
     end
-  end
 
-  # CIAffineTransform
-  def self.affine_transform(options={})
-    return _create_filter('CIAffineTransform', options, [:transform], transform: 'inputTransform'
-      ) do |key, value|
-      if key == 'inputTransform' && CGAffineTransform === value
-        ptr = Pointer.new(:id)
-        ptr[0] = value
-        NSValue.valueWithBytes(ptr, objCType:CGAffineTransform.type)
-      else
-        value
+    # CIAffineTransform
+    def affine_transform(*options)
+      return _create_filter('CIAffineTransform', options, [:transform], transform: 'inputTransform'
+        ) do |key, value|
+        if key == 'inputTransform' && CGAffineTransform === value
+          ptr = Pointer.new(:id)
+          ptr[0] = value
+          NSValue.valueWithBytes(ptr, objCType:CGAffineTransform.type)
+        else
+          value
+        end
       end
     end
-  end
 
-  # CIBarsSwipeTransition
-  def bars_swipe_transition(options={})
-    return _create_filter('CIBarsSwipeTransition', options, [:target, :time],
-      target: 'inputTargetImage', angle: 'inputAngle', width: 'inputWidth',
-      offset: 'inputBarOffset', time: 'inputTime'
-      ) do |key, value|
-      if key == 'inputTargetImage'
+    # CIBarsSwipeTransition
+    def bars_swipe_transition(*options)
+      return _create_filter('CIBarsSwipeTransition', options, [:target, :time],
+        target: 'inputTargetImage', angle: 'inputAngle', width: 'inputWidth',
+        offset: 'inputBarOffset', time: 'inputTime'
+        ) do |key, value|
+        if key == 'inputTargetImage'
+          value.ciimage
+        else
+          value
+        end
+      end
+    end
+
+    # CIBlendWithMask
+    def blend_with_mask(*options)
+      return _create_filter('CIBlendWithMask', options, [:background, :mask], background: 'inputBackgroundImage', mask: 'inputMaskImage'
+        ) do |key, value|
         value.ciimage
-      else
-        value
       end
     end
-  end
 
-  # CIBlendWithMask
-  def blend_with_mask(options={})
-    return _create_filter('CIBlendWithMask', options, [:background, :mask], background: 'inputBackgroundImage', mask: 'inputMaskImage'
-      ) do |key, value|
-      value.ciimage
+    # CIBloom
+    def bloom(*options)
+      return _create_filter('CIBloom', options, [:radius, :intensity], radius: 'inputRadius', intensity: 'inputIntensity')
     end
-  end
 
-  # CIBloom
-  def bloom
-    return _create_filter('CIBloom', options, [:radius, :intensity], radius: 'inputRadius', intensity: 'inputIntensity')
-  end
+    # CIBumpDistortion
+    #                                                                      PENDING
+    def bump_distortion(*options)
+      return _create_filter('CIBumpDistortion', options)
+    end
 
-  # CIBumpDistortion
-  #                                                                      PENDING
-  def bump_distortion(options={})
-    return _create_filter('CIBumpDistortion', options)
-  end
+    # CIBumpDistortionLinear
+    #                                                                      PENDING
+    def bump_distortion_linear(*options)
+      return _create_filter('CIBumpDistortionLinear', options)
+    end
 
-  # CIBumpDistortionLinear
-  #                                                                      PENDING
-  def bump_distortion_linear(options={})
-    return _create_filter('CIBumpDistortionLinear', options)
-  end
+    # CICheckerboardGenerator
+    def checkerboard_generator(*options)
+      return _create_filter('CICheckerboardGenerator', options, [:width, :color0, :color1],
+        width: 'inputWidth', color0: 'inputColor0', color1: 'inputColor1', sharpness: 'inputSharpness'
+        ) do |key, value|
+        if key == 'inputColor0' || key == 'inputColor1'
+          value.cicolor
+        else
+          value
+        end
+      end
+    end
 
-  # CICheckerboardGenerator
-  def checkerboard_generator(options={})
-    return _create_filter('CICheckerboardGenerator', options, [:width, :color0, :color1],
-      width: 'inputWidth', color0: inputColor0, color1: inputColor1, sharpness: 'inputSharpness'
-      ) do |key, value|
-      if key == 'inputColor0' || key == 'inputColor1'
+    # CICircleSplashDistortion
+    def circle_splash_distortion(*options)
+      return _create_filter('CICircleSplashDistortion', options, [:radius, :center],
+        radius: 'inputRadius', center: 'inputCenter'
+        ) do |key, value|
+        if key == 'inputCenter' && ! CIVector === value
+          CIVector.vectorWithX(value[0], Y: value[1])
+        else
+          value
+        end
+      end
+    end
+
+    # CICircularScreen
+    #                                                                      PENDING
+    def circular_screen(*options)
+      return _create_filter('CICircularScreen', options)
+    end
+
+    # CIColorBlendMode
+    def color_blend_mode(*options)
+      return _create_filter('CIColorBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIColorBurnBlendMode
+    def color_burn_blend_mode(*options)
+      return _create_filter('CIColorBurnBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIColorControls
+    def color_controls(*options)
+      return _create_filter('CIColorControls', options, [:saturation, :brightness, :contrast],
+        saturation: 'inputSaturation', brightness: 'inputBrightness', contrast: 'inputContrast')
+    end
+
+    # CIColorCube
+    #                                                                      PENDING
+    def color_cube(*options)
+      return _create_filter('CIColorCube', options)
+    end
+
+    # CIColorDodgeBlendMode
+    def color_dodge_blend_mode(*options)
+      return _create_filter('CIColorDodgeBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIColorInvert
+    def color_invert()
+      return CIFilter.filterWithName('CIColorInvert')
+    end
+
+    # CIColorMap
+    def color_map(*options)
+      return _create_filter('CIColorMap', options, [:gradient], gradient: 'inputGradientImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIColorMatrix
+    #                                                                      PENDING
+    def color_matrix(*options)
+      return _create_filter('CIColorMatrix', options)
+    end
+
+    # CIColorMonochrome
+    #                                                                      PENDING
+    def color_monochrome(*options)
+      return _create_filter('CIColorMonochrome', options)
+    end
+
+    # CIColorPosterize
+    def color_posterize(*options)
+      return _create_filter('CIColorPosterize', options, [:levels], levels: 'inputLevels')
+    end
+
+    # CIConstantColorGenerator
+    def constant_color_generator(*options)
+      return _create_filter('CIConstantColorGenerator', options, [:color], color: 'inputColor'
+        ) do |key, value|
         value.cicolor
-      else
-        value
       end
     end
-  end
 
-  # CICircleSplashDistortion
-  def circle_splash_distortion(options={})
-    return _create_filter('CICircleSplashDistortion', options, [:radius, :center],
-      radius: 'inputRadius', center: 'inputCenter'
-      ) do |key, value|
-      if key == 'inputCenter' && ! CIVector === value
-        CIVector.vectorWithX(value[0], Y: value[1])
-      else
-        value
+    # CICopyMachineTransition
+    #                                                                      PENDING
+    def copy_machine_transition(*options)
+      return _create_filter('CICopyMachineTransition', options)
+    end
+
+    # CICrop
+    #                                                                      PENDING
+    def crop(*options)
+      return _create_filter('CICrop', options)
+    end
+
+    # CIDarkenBlendMode
+    def darken_blend_mode(*options)
+      return _create_filter('CIDarkenBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
       end
     end
-  end
 
-  # CICircularScreen
-  #                                                                      PENDING
-  def circular_screen(options={})
-    return _create_filter('CICircularScreen', options)
-  end
-
-  # CIColorBlendMode
-  def color_blend_mode(options={})
-    return _create_filter('CIColorBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIDifferenceBlendMode
+    def difference_blend_mode(*options)
+      return _create_filter('CIDifferenceBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
     end
-  end
 
-  # CIColorBurnBlendMode
-  def color_burn_blend_mode(options={})
-    return _create_filter('CIColorBurnBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIDisintegrateWithMaskTransition
+    #                                                                      PENDING
+    def disintegrate_with_mask_transition(*options)
+      return _create_filter('CIDisintegrateWithMaskTransition', options)
     end
-  end
 
-  # CIColorControls
-  def color_controls(options={})
-    return _create_filter('CIColorControls', options, [:saturation, :brightness, :contrast],
-      saturation: 'inputSaturation', brightness: 'inputBrightness', contrast: 'inputContrast')
-  end
-
-  # CIColorCube
-  #                                                                      PENDING
-  def color_cube(options={})
-    return _create_filter('CIColorCube', options)
-  end
-
-  # CIColorDodgeBlendMode
-  def color_dodge_blend_mode(options={})
-    return _create_filter('CIColorDodgeBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIDissolveTransition
+    #                                                                      PENDING
+    def dissolve_transition(*options)
+      return _create_filter('CIDissolveTransition', options)
     end
-  end
 
-  # CIColorInvert
-  def color_invert()
-    return CIFilter.filterWithName('CIColorInvert')
-  end
-
-  # CIColorMap
-  def color_map(options={})
-    return _create_filter('CIColorMap', options, [:gradient], gradient: 'inputGradientImage'
-      ) do |key, value|
-      value.ciimage
+    # CIDotScreen
+    #                                                                      PENDING
+    def dot_screen(*options)
+      return _create_filter('CIDotScreen', options)
     end
-  end
 
-  # CIColorMatrix
-  #                                                                      PENDING
-  def color_matrix(options={})
-    return _create_filter('CIColorMatrix', options)
-  end
-
-  # CIColorMonochrome
-  #                                                                      PENDING
-  def color_monochrome(options={})
-    return _create_filter('CIColorMonochrome', options)
-  end
-
-  # CIColorPosterize
-  def color_posterize(options={})
-    return _create_filter('CIColorPosterize', options, [:levels], levels: 'inputLevels')
-  end
-
-  # CIConstantColorGenerator
-  def constant_color_generator(options={})
-    return _create_filter('CIConstantColorGenerator', options, [:color], color: 'inputColor'
-      ) do |key, value|
-      value.cicolor
+    # CIEightfoldReflectedTile
+    #                                                                      PENDING
+    def eightfold_reflected_tile(*options)
+      return _create_filter('CIEightfoldReflectedTile', options)
     end
-  end
 
-  # CICopyMachineTransition
-  #                                                                      PENDING
-  def copy_machine_transition(options={})
-    return _create_filter('CICopyMachineTransition', options)
-  end
-
-  # CICrop
-  #                                                                      PENDING
-  def crop(options={})
-    return _create_filter('CICrop', options)
-  end
-
-  # CIDarkenBlendMode
-  def darken_blend_mode(options={})
-    return _create_filter('CIDarkenBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIExclusionBlendMode
+    def exclusion_blend_mode(*options)
+      return _create_filter('CIExclusionBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
     end
-  end
 
-  # CIDifferenceBlendMode
-  def difference_blend_mode(options={})
-    return _create_filter('CIDifferenceBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIExposureAdjust
+    def exposure_adjust(*options)
+      return _create_filter('CIExposureAdjust', options, [:ev], ev: 'inputEV')
     end
-  end
 
-  # CIDisintegrateWithMaskTransition
-  #                                                                      PENDING
-  def disintegrate_with_mask_transition(options={})
-    return _create_filter('CIDisintegrateWithMaskTransition', options)
-  end
-
-  # CIDissolveTransition
-  #                                                                      PENDING
-  def dissolve_transition(options={})
-    return _create_filter('CIDissolveTransition', options)
-  end
-
-  # CIDotScreen
-  #                                                                      PENDING
-  def dot_screen(options={})
-    return _create_filter('CIDotScreen', options)
-  end
-
-  # CIEightfoldReflectedTile
-  #                                                                      PENDING
-  def eightfold_reflected_tile(options={})
-    return _create_filter('CIEightfoldReflectedTile', options)
-  end
-
-  # CIExclusionBlendMode
-  def exclusion_blend_mode(options={})
-    return _create_filter('CIExclusionBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIFalseColor
+    def false_color(*options)
+      return _create_filter('CIFalseColor', options, [:color0, :color1], color0: 'inputColor0', color1: 'inputColor1'
+        ) do |key, value|
+        value.cicolor
+      end
     end
-  end
 
-  # CIExposureAdjust
-  def exposure_adjust(options={})
-    return _create_filter('CIExposureAdjust', options, [:ev], ev: 'inputEV')
-  end
-
-  # CIFalseColor
-  def false_color(options={})
-    return _create_filter('CIFalseColor', options, [:color0, :color1], color0: 'inputColor0', color1: 'inputColor1'
-      ) do |key, value|
-      value.cicolor
+    # CIFlashTransition
+    #                                                                      PENDING
+    def flash_transition(*options)
+      return _create_filter('CIFlashTransition', options)
     end
-  end
 
-  # CIFlashTransition
-  #                                                                      PENDING
-  def flash_transition(options={})
-    return _create_filter('CIFlashTransition', options)
-  end
-
-  # CIFourfoldReflectedTile
-  #                                                                      PENDING
-  def fourfold_reflected_tile(options={})
-    return _create_filter('CIFourfoldReflectedTile', options)
-  end
-
-  # CIFourfoldRotatedTile
-  #                                                                      PENDING
-  def fourfold_rotated_tile(options={})
-    return _create_filter('CIFourfoldRotatedTile', options)
-  end
-
-  # CIFourfoldTranslatedTile
-  #                                                                      PENDING
-  def fourfold_translated_tile(options={})
-    return _create_filter('CIFourfoldTranslatedTile', options)
-  end
-
-  # CIGammaAdjust
-  def gamma_adjust(options={})
-    return _create_filter('CIGammaAdjust', options, [:power], power: 'inputPower')
-  end
-
-  # CIGaussianBlur
-  def self.gaussian_blur(options={})
-    return _create_filter('CIGaussianBlur', options, [:radius], radius: 'inputRadius')
-  end
-
-  # CIGaussianGradient
-  #                                                                      PENDING
-  def gaussian_gradient(options={})
-    return _create_filter('CIGaussianGradient', options)
-  end
-
-  # CIGlideReflectedTile
-  #                                                                      PENDING
-  def glide_reflected_tile(options={})
-    return _create_filter('CIGlideReflectedTile', options)
-  end
-
-  # CIGloom
-  def gloom(options={})
-    return _create_filter('CIGloom', options, [:intensity, :radius], intensity: 'inputIntensity', radius: 'inputRadius')
-  end
-
-  # CIHardLightBlendMode
-  def hard_light_blend_mode(options={})
-    return _create_filter('CIHardLightBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIFourfoldReflectedTile
+    #                                                                      PENDING
+    def fourfold_reflected_tile(*options)
+      return _create_filter('CIFourfoldReflectedTile', options)
     end
-  end
 
-  # CIHatchedScreen
-  #                                                                      PENDING
-  def hatched_screen(options={})
-    return _create_filter('CIHatchedScreen', options)
-  end
-
-  # CIHighlightShadowAdjust
-  def highlight_shadow_adjust(options={})
-    return _create_filter('CIHighlightShadowAdjust', options, [:highlight, :shadow], highlight: 'inputHighlightAmount', shadow: 'inputShadowAmount')
-  end
-
-  # CIHoleDistortion
-  #                                                                      PENDING
-  def hole_distortion(options={})
-    return _create_filter('CIHoleDistortion', options)
-  end
-
-  # CIHueAdjust
-  def hue_adjust(options={})
-    return _create_filter('CIHueAdjust', options, [:angle], angle: 'inputAngle')
-  end
-
-  # CIHueBlendMode
-  def hue_blend_mode(options={})
-    return _create_filter('CIHueBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIFourfoldRotatedTile
+    #                                                                      PENDING
+    def fourfold_rotated_tile(*options)
+      return _create_filter('CIFourfoldRotatedTile', options)
     end
-  end
 
-  # CILanczosScaleTransform
-  def lanczos_scale_transform(options={})
-    return _create_filter('CILanczosScaleTransform', options, [:scale, :aspect_ratio], scale: 'inputScale', aspect_ratio: 'inputAspectRatio')
-  end
-
-  # CILightenBlendMode
-  def lighten_blend_mode(options={})
-    return _create_filter('CILightenBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIFourfoldTranslatedTile
+    #                                                                      PENDING
+    def fourfold_translated_tile(*options)
+      return _create_filter('CIFourfoldTranslatedTile', options)
     end
-  end
 
-  # CILightTunnel
-  #                                                                      PENDING
-  def light_tunnel(options={})
-    return _create_filter('CILightTunnel', options)
-  end
-
-  # CILinearGradient
-  #                                                                      PENDING
-  def linear_gradient(options={})
-    return _create_filter('CILinearGradient', options)
-  end
-
-  # CILineScreen
-  #                                                                      PENDING
-  def line_screen(options={})
-    return _create_filter('CILineScreen', options)
-  end
-
-  # CILuminosityBlendMode
-  def luminosity_blend_mode(options={})
-    return _create_filter('CILuminosityBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIGammaAdjust
+    def gamma_adjust(*options)
+      return _create_filter('CIGammaAdjust', options, [:power], power: 'inputPower')
     end
-  end
 
-  # CIMaskToAlpha
-  def mask_to_alpha()
-    return CIFilter.filterWithName('CIMaskToAlpha')
-  end
-
-  # CIMaximumComponent
-  def maximum_component()
-    return CIFilter.filterWithName('CIMaximumComponent')
-  end
-
-  # CIMaximumCompositing
-  def maximum_compositing(options={})
-    return _create_filter('CIMaximumCompositing', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIGaussianBlur
+    def gaussian_blur(*options)
+      return _create_filter('CIGaussianBlur', options, [:radius], radius: 'inputRadius')
     end
-  end
 
-  # CIMinimumComponent
-  def minimum_component()
-    return CIFilter.filterWithName('CIMinimumComponent')
-  end
-
-  # CIMinimumCompositing
-  def minimum_compositing(options={})
-    return _create_filter('CIMinimumCompositing', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIGaussianGradient
+    #                                                                      PENDING
+    def gaussian_gradient(*options)
+      return _create_filter('CIGaussianGradient', options)
     end
-  end
 
-  # CIModTransition
-  #                                                                      PENDING
-  def mod_transition(options={})
-    return _create_filter('CIModTransition', options)
-  end
-
-  # CIMultiplyBlendMode
-  def multiply_blend_mode(options={})
-    return _create_filter('CIMultiplyBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIGlideReflectedTile
+    #                                                                      PENDING
+    def glide_reflected_tile(*options)
+      return _create_filter('CIGlideReflectedTile', options)
     end
-  end
 
-  # CIMultiplyCompositing
-  def multiply_compositing(options={})
-    return _create_filter('CIMultiplyCompositing', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIGloom
+    def gloom(*options)
+      return _create_filter('CIGloom', options, [:intensity, :radius], intensity: 'inputIntensity', radius: 'inputRadius')
     end
-  end
 
-  # CIOverlayBlendMode
-  def overlay_blend_mode(options={})
-    return _create_filter('CIOverlayBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIHardLightBlendMode
+    def hard_light_blend_mode(*options)
+      return _create_filter('CIHardLightBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
     end
-  end
 
-  # CIPerspectiveTile
-  #                                                                      PENDING
-  def perspective_tile(options={})
-    return _create_filter('CIPerspectiveTile', options)
-  end
-
-  # CIPerspectiveTransform
-  #                                                                      PENDING
-  def perspective_transform(options={})
-    return _create_filter('CIPerspectiveTransform', options)
-  end
-
-  # CIPerspectiveTransformWithExtent
-  #                                                                      PENDING
-  def perspective_transform_with_extent(options={})
-    return _create_filter('CIPerspectiveTransformWithExtent', options)
-  end
-
-  # CIPinchDistortion
-  #                                                                      PENDING
-  def pinch_distortion(options={})
-    return _create_filter('CIPinchDistortion', options)
-  end
-
-  # CIPixellate
-  #                                                                      PENDING
-  def pixellate(options={})
-    return _create_filter('CIPixellate', options)
-  end
-
-  # CIRadialGradient
-  #                                                                      PENDING
-  def radial_gradient(options={})
-    return _create_filter('CIRadialGradient', options)
-  end
-
-  # CIRandomGenerator
-  def random_generator()
-    return CIFilter.filterWithName('CIRandomGenerator')
-  end
-
-  # CISaturationBlendMode
-  def saturation_blend_mode(options={})
-    return _create_filter('CISaturationBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIHatchedScreen
+    #                                                                      PENDING
+    def hatched_screen(*options)
+      return _create_filter('CIHatchedScreen', options)
     end
-  end
 
-  # CIScreenBlendMode
-  def screen_blend_mode(options={})
-    return _create_filter('CIScreenBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIHighlightShadowAdjust
+    def highlight_shadow_adjust(*options)
+      return _create_filter('CIHighlightShadowAdjust', options, [:highlight, :shadow], highlight: 'inputHighlightAmount', shadow: 'inputShadowAmount')
     end
-  end
 
-  # CISepiaTone
-  def sepia_tone(options={})
-    return _create_filter('CISepiaTone', options, [:intensity], intensity: 'inputIntensity')
-  end
-
-  # CISharpenLuminance
-  def sharpen_luminance(options={})
-    return _create_filter('CISharpenLuminance', options, [:sharpness], sharpness: 'inputSharpness')
-  end
-
-  # CISixfoldReflectedTile
-  #                                                                      PENDING
-  def sixfold_reflected_tile(options={})
-    return _create_filter('CISixfoldReflectedTile', options)
-  end
-
-  # CISixfoldRotatedTile
-  #                                                                      PENDING
-  def sixfold_rotated_tile(options={})
-    return _create_filter('CISixfoldRotatedTile', options)
-  end
-
-  # CISoftLightBlendMode
-  def soft_light_blend_mode(options={})
-    return _create_filter('CISoftLightBlendMode', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIHoleDistortion
+    #                                                                      PENDING
+    def hole_distortion(*options)
+      return _create_filter('CIHoleDistortion', options)
     end
-  end
 
-  # CISourceAtopCompositing
-  def source_atop_compositing(options={})
-    return _create_filter('CISourceAtopCompositing', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIHueAdjust
+    def hue_adjust(*options)
+      return _create_filter('CIHueAdjust', options, [:angle], angle: 'inputAngle')
     end
-  end
 
-  # CISourceInCompositing
-  def source_in_compositing(options={})
-    return _create_filter('CISourceInCompositing', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CIHueBlendMode
+    def hue_blend_mode(*options)
+      return _create_filter('CIHueBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
     end
-  end
 
-  # CISourceOutCompositing
-  def source_out_compositing(options={})
-    return _create_filter('CISourceOutCompositing', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CILanczosScaleTransform
+    def lanczos_scale_transform(*options)
+      return _create_filter('CILanczosScaleTransform', options, [:scale, :aspect_ratio], scale: 'inputScale', aspect_ratio: 'inputAspectRatio')
     end
-  end
 
-  # CISourceOverCompositing
-  def source_over_compositing(options={})
-    return _create_filter('CISourceOverCompositing', options, [:background], background: 'inputBackgroundImage'
-      ) do |key, value|
-      value.ciimage
+    # CILightenBlendMode
+    def lighten_blend_mode(*options)
+      return _create_filter('CILightenBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
     end
-  end
 
-  # CIStarShineGenerator
-  #                                                                      PENDING
-  def star_shine_generator(options={})
-    return _create_filter('CIStarShineGenerator', options)
-  end
-
-  # CIStraightenFilter
-  def straighten_filter(options={})
-    return _create_filter('CIStraightenFilter', options, [:angle], angle: 'inputAngle')
-  end
-
-  # CIStripesGenerator
-  #                                                                      PENDING
-  def stripes_generator(options={})
-    return _create_filter('CIStripesGenerator', options)
-  end
-
-  # CISwipeTransition
-  #                                                                      PENDING
-  def swipe_transition(options={})
-    return _create_filter('CISwipeTransition', options)
-  end
-
-  # CITemperatureAndTint
-  #                                                                      PENDING
-  def temperature_and_tint(options={})
-    return _create_filter('CITemperatureAndTint', options)
-  end
-
-  # CIToneCurve
-  #                                                                      PENDING
-  def tone_curve(options={})
-    return _create_filter('CIToneCurve', options)
-  end
-
-  # CITriangleKaleidoscope
-  #                                                                      PENDING
-  def triangle_kaleidoscope(options={})
-    return _create_filter('CITriangleKaleidoscope', options)
-  end
-
-  # CITwelvefoldReflectedTile
-  #                                                                      PENDING
-  def twelvefold_reflected_tile(options={})
-    return _create_filter('CITwelvefoldReflectedTile', options)
-  end
-
-  # CITwirlDistortion
-  #                                                                      PENDING
-  def twirl_distortion(options={})
-    return _create_filter('CITwirlDistortion', options)
-  end
-
-  # CIUnsharpMask
-  def unsharp_mask(options={})
-    return _create_filter('CIUnsharpMask', options, [:intensity, :radius], intensity: 'inputIntensity', radius: 'inputRadius')
-  end
-
-  # CIVibrance
-  def vibrance(options={})
-    return _create_filter('CIVibrance', options, [:amount], amount: 'inputAmount')
-  end
-
-  # CIVignette
-  def vignette(options={})
-    return _create_filter('CIVignette', options, [:radius, :intensity], radius: 'inputRadius', intensity: 'inputIntensity')
-  end
-
-  # CIVortexDistortion
-  #                                                                      PENDING
-  def vortex_distortion(options={})
-    return _create_filter('CIVortexDistortion', options)
-  end
-
-  # CIWhitePointAdjust
-  def white_point_adjust(options={})
-    return _create_filter('CIWhitePointAdjust', options, [:color], color: 'inputColor') do |key, value|
-      value.cicolor
+    # CILightTunnel
+    #                                                                      PENDING
+    def light_tunnel(*options)
+      return _create_filter('CILightTunnel', options)
     end
+
+    # CILinearGradient
+    #                                                                      PENDING
+    def linear_gradient(*options)
+      return _create_filter('CILinearGradient', options)
+    end
+
+    # CILineScreen
+    #                                                                      PENDING
+    def line_screen(*options)
+      return _create_filter('CILineScreen', options)
+    end
+
+    # CILuminosityBlendMode
+    def luminosity_blend_mode(*options)
+      return _create_filter('CILuminosityBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIMaskToAlpha
+    def mask_to_alpha()
+      return CIFilter.filterWithName('CIMaskToAlpha')
+    end
+
+    # CIMaximumComponent
+    def maximum_component()
+      return CIFilter.filterWithName('CIMaximumComponent')
+    end
+
+    # CIMaximumCompositing
+    def maximum_compositing(*options)
+      return _create_filter('CIMaximumCompositing', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIMinimumComponent
+    def minimum_component()
+      return CIFilter.filterWithName('CIMinimumComponent')
+    end
+
+    # CIMinimumCompositing
+    def minimum_compositing(*options)
+      return _create_filter('CIMinimumCompositing', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIModTransition
+    #                                                                      PENDING
+    def mod_transition(*options)
+      return _create_filter('CIModTransition', options)
+    end
+
+    # CIMultiplyBlendMode
+    def multiply_blend_mode(*options)
+      return _create_filter('CIMultiplyBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIMultiplyCompositing
+    def multiply_compositing(*options)
+      return _create_filter('CIMultiplyCompositing', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIOverlayBlendMode
+    def overlay_blend_mode(*options)
+      return _create_filter('CIOverlayBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIPerspectiveTile
+    #                                                                      PENDING
+    def perspective_tile(*options)
+      return _create_filter('CIPerspectiveTile', options)
+    end
+
+    # CIPerspectiveTransform
+    #                                                                      PENDING
+    def perspective_transform(*options)
+      return _create_filter('CIPerspectiveTransform', options)
+    end
+
+    # CIPerspectiveTransformWithExtent
+    #                                                                      PENDING
+    def perspective_transform_with_extent(*options)
+      return _create_filter('CIPerspectiveTransformWithExtent', options)
+    end
+
+    # CIPinchDistortion
+    #                                                                      PENDING
+    def pinch_distortion(*options)
+      return _create_filter('CIPinchDistortion', options)
+    end
+
+    # CIPixellate
+    #                                                                      PENDING
+    def pixellate(*options)
+      return _create_filter('CIPixellate', options)
+    end
+
+    # CIRadialGradient
+    #                                                                      PENDING
+    def radial_gradient(*options)
+      return _create_filter('CIRadialGradient', options)
+    end
+
+    # CIRandomGenerator
+    def random_generator()
+      return CIFilter.filterWithName('CIRandomGenerator')
+    end
+
+    # CISaturationBlendMode
+    def saturation_blend_mode(*options)
+      return _create_filter('CISaturationBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIScreenBlendMode
+    def screen_blend_mode(*options)
+      return _create_filter('CIScreenBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CISepiaTone
+    def sepia_tone(*options)
+      return _create_filter('CISepiaTone', options, [:intensity], intensity: 'inputIntensity')
+    end
+
+    # CISharpenLuminance
+    def sharpen_luminance(*options)
+      return _create_filter('CISharpenLuminance', options, [:sharpness], sharpness: 'inputSharpness')
+    end
+
+    # CISixfoldReflectedTile
+    #                                                                      PENDING
+    def sixfold_reflected_tile(*options)
+      return _create_filter('CISixfoldReflectedTile', options)
+    end
+
+    # CISixfoldRotatedTile
+    #                                                                      PENDING
+    def sixfold_rotated_tile(*options)
+      return _create_filter('CISixfoldRotatedTile', options)
+    end
+
+    # CISoftLightBlendMode
+    def soft_light_blend_mode(*options)
+      return _create_filter('CISoftLightBlendMode', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CISourceAtopCompositing
+    def source_atop_compositing(*options)
+      return _create_filter('CISourceAtopCompositing', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CISourceInCompositing
+    def source_in_compositing(*options)
+      return _create_filter('CISourceInCompositing', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CISourceOutCompositing
+    def source_out_compositing(*options)
+      return _create_filter('CISourceOutCompositing', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CISourceOverCompositing
+    def source_over_compositing(*options)
+      return _create_filter('CISourceOverCompositing', options, [:background], background: 'inputBackgroundImage'
+        ) do |key, value|
+        value.ciimage
+      end
+    end
+
+    # CIStarShineGenerator
+    #                                                                      PENDING
+    def star_shine_generator(*options)
+      return _create_filter('CIStarShineGenerator', options)
+    end
+
+    # CIStraightenFilter
+    def straighten_filter(*options)
+      return _create_filter('CIStraightenFilter', options, [:angle], angle: 'inputAngle')
+    end
+
+    # CIStripesGenerator
+    #                                                                      PENDING
+    def stripes_generator(*options)
+      return _create_filter('CIStripesGenerator', options)
+    end
+
+    # CISwipeTransition
+    #                                                                      PENDING
+    def swipe_transition(*options)
+      return _create_filter('CISwipeTransition', options)
+    end
+
+    # CITemperatureAndTint
+    #                                                                      PENDING
+    def temperature_and_tint(*options)
+      return _create_filter('CITemperatureAndTint', options)
+    end
+
+    # CIToneCurve
+    #                                                                      PENDING
+    def tone_curve(*options)
+      return _create_filter('CIToneCurve', options)
+    end
+
+    # CITriangleKaleidoscope
+    #                                                                      PENDING
+    def triangle_kaleidoscope(*options)
+      return _create_filter('CITriangleKaleidoscope', options)
+    end
+
+    # CITwelvefoldReflectedTile
+    #                                                                      PENDING
+    def twelvefold_reflected_tile(*options)
+      return _create_filter('CITwelvefoldReflectedTile', options)
+    end
+
+    # CITwirlDistortion
+    #                                                                      PENDING
+    def twirl_distortion(*options)
+      return _create_filter('CITwirlDistortion', options)
+    end
+
+    # CIUnsharpMask
+    def unsharp_mask(*options)
+      return _create_filter('CIUnsharpMask', options, [:intensity, :radius], intensity: 'inputIntensity', radius: 'inputRadius')
+    end
+
+    # CIVibrance
+    def vibrance(*options)
+      return _create_filter('CIVibrance', options, [:amount], amount: 'inputAmount')
+    end
+
+    # CIVignette
+    def vignette(*options)
+      return _create_filter('CIVignette', options, [:radius, :intensity], radius: 'inputRadius', intensity: 'inputIntensity')
+    end
+
+    # CIVortexDistortion
+    #                                                                      PENDING
+    def vortex_distortion(*options)
+      return _create_filter('CIVortexDistortion', options)
+    end
+
+    # CIWhitePointAdjust
+    def white_point_adjust(*options)
+      return _create_filter('CIWhitePointAdjust', options, [:color], color: 'inputColor') do |key, value|
+        value.cicolor
+      end
+    end
+
   end
 
 end

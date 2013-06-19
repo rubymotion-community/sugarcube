@@ -310,7 +310,7 @@ class UIImage
       self.ciimage
     else
       filter.setValue(self.ciimage, forKey: 'inputImage')
-      return filter.valueForKey('output_image')
+      return filter.valueForKey('outputImage')
     end
   end
 
@@ -343,8 +343,8 @@ class UIImage
   # @example
   #   image.gaussian_blur(radius: 5)
   #   image.gaussian_blur(5)  # :radius is the default option
-  def gaussian_blur(options={})
-    output = self | CIFilter.gaussian_blur(options)
+  def gaussian_blur(*args)
+    output = self | CIFilter.gaussian_blur(*args)
     return UIImage.imageWithCIImage(output, scale:self.scale, orientation:self.imageOrientation)
   end
 

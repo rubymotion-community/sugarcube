@@ -8,7 +8,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :done
   end
-  
+
   it 'should be :cancel' do
     b = UIBarButtonItem.cancel {
       @result = :cancel
@@ -16,7 +16,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :cancel
   end
-  
+
   it 'should be :edit' do
     b = UIBarButtonItem.edit {
       @result = :edit
@@ -24,7 +24,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :edit
   end
-  
+
   it 'should be :save' do
     b = UIBarButtonItem.save {
       @result = :save
@@ -32,7 +32,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :save
   end
-  
+
   it 'should be :add' do
     b = UIBarButtonItem.add {
       @result = :add
@@ -40,23 +40,23 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :add
   end
-  
-  it 'should be :flexiblespace' do
-    b = UIBarButtonItem.flexiblespace {
-      @result = :flexiblespace
+
+  it 'should be :flexible_space' do
+    b = UIBarButtonItem.flexible_space {
+      @result = :flexible_space
     }
     b.target.send b.action, b
-    @result.should == :flexiblespace
+    @result.should == :flexible_space
   end
-  
-  it 'should be :fixedspace' do
-    b = UIBarButtonItem.fixedspace {
-      @result = :fixedspace
+
+  it 'should be :fixed_space' do
+    b = UIBarButtonItem.fixed_space {
+      @result = :fixed_space
     }
     b.target.send b.action, b
-    @result.should == :fixedspace
+    @result.should == :fixed_space
   end
-  
+
   it 'should be :compose' do
     b = UIBarButtonItem.compose {
       @result = :compose
@@ -64,7 +64,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :compose
   end
-  
+
   it 'should be :reply' do
     b = UIBarButtonItem.reply {
       @result = :reply
@@ -72,7 +72,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :reply
   end
-  
+
   it 'should be :action' do
     b = UIBarButtonItem.action {
       @result = :action
@@ -80,7 +80,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :action
   end
-  
+
   it 'should be :organize' do
     b = UIBarButtonItem.organize {
       @result = :organize
@@ -88,7 +88,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :organize
   end
-  
+
   it 'should be :bookmarks' do
     b = UIBarButtonItem.bookmarks {
       @result = :bookmarks
@@ -96,7 +96,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :bookmarks
   end
-  
+
   it 'should be :search' do
     b = UIBarButtonItem.search {
       @result = :search
@@ -104,7 +104,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :search
   end
-  
+
   it 'should be :refresh' do
     b = UIBarButtonItem.refresh {
       @result = :refresh
@@ -112,7 +112,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :refresh
   end
-  
+
   it 'should be :stop' do
     b = UIBarButtonItem.stop {
       @result = :stop
@@ -120,7 +120,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :stop
   end
-  
+
   it 'should be :camera' do
     b = UIBarButtonItem.camera {
       @result = :camera
@@ -128,7 +128,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :camera
   end
-  
+
   it 'should be :trash' do
     b = UIBarButtonItem.trash {
       @result = :trash
@@ -136,7 +136,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :trash
   end
-  
+
   it 'should be :play' do
     b = UIBarButtonItem.play {
       @result = :play
@@ -144,7 +144,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :play
   end
-  
+
   it 'should be :pause' do
     b = UIBarButtonItem.pause {
       @result = :pause
@@ -152,7 +152,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :pause
   end
-  
+
   it 'should be :rewind' do
     b = UIBarButtonItem.rewind {
       @result = :rewind
@@ -160,15 +160,15 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :rewind
   end
-  
-  it 'should be :fastforward' do
-    b = UIBarButtonItem.fastforward {
-      @result = :fastforward
+
+  it 'should be :fast_forward' do
+    b = UIBarButtonItem.fast_forward {
+      @result = :fast_forward
     }
     b.target.send b.action, b
-    @result.should == :fastforward
+    @result.should == :fast_forward
   end
-  
+
   it 'should be :undo' do
     b = UIBarButtonItem.undo {
       @result = :undo
@@ -176,7 +176,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :undo
   end
-  
+
   it 'should be :redo' do
     b = UIBarButtonItem.redo {
       @result = :redo
@@ -184,15 +184,15 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :redo
   end
-  
-  it 'should be :pagecurl' do
-    b = UIBarButtonItem.pagecurl {
-      @result = :pagecurl
+
+  it 'should be :page_curl' do
+    b = UIBarButtonItem.page_curl {
+      @result = :page_curl
     }
     b.target.send b.action, b
-    @result.should == :pagecurl
+    @result.should == :page_curl
   end
-  
+
   # with title
   it 'should be :titled' do
     b = UIBarButtonItem.titled('title') {
@@ -201,7 +201,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :titled
   end
-  
+
   it 'should be :titled_with_style' do
     b = UIBarButtonItem.titled('title', :plain.uibarbuttonstyle) {
       @result = :titled_with_style
@@ -209,7 +209,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :titled_with_style
   end
-  
+
   it 'should be :imaged' do
     b = UIBarButtonItem.imaged('little_square'.uiimage) {
       @result = :imaged
@@ -217,7 +217,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :imaged
   end
-  
+
   it 'should be :imaged_with_style' do
     b = UIBarButtonItem.imaged('little_square'.uiimage, :plain.uibarbuttonstyle) {
       @result = :imaged_with_style
@@ -233,7 +233,7 @@ describe UIBarButtonItem do
     b.target.send b.action, b
     @result.should == :imaged_with_images
   end
-  
-  
-  
+
+
+
 end

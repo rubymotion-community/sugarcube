@@ -464,6 +464,7 @@ class Symbol
     flexiblespace: :flexible_space,
     fixedspace:    :fixed_space,
     fastforward:   :fast_forward,
+    pagecurl:      :page_curl,
   }
   @uibarbuttonitem = {
     done:           UIBarButtonSystemItemDone,
@@ -489,7 +490,7 @@ class Symbol
     fast_forward:   UIBarButtonSystemItemFastForward,
     undo:           UIBarButtonSystemItemUndo,
     redo:           UIBarButtonSystemItemRedo,
-    pagecurl:       UIBarButtonSystemItemPageCurl,
+    page_curl:      UIBarButtonSystemItemPageCurl,
   }
 
   @uibarbuttonstyle = {

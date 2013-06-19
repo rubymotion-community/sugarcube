@@ -15,7 +15,7 @@ class CIImage
       self
     else
       filter.setValue(self, forKey: 'inputImage')
-      return filter.valueForKey('output_image')
+      return filter.valueForKey('outputImage')
     end
   end
 

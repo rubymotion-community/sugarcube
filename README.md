@@ -211,7 +211,7 @@ methods to `Symbol`s to convert them into a UIKit or Foundation constant.
 
 See the complete list by browsing the [documentation][], or open up [symbol.rb][].
 
-[symbol.rb]: https://github.com/rubymotion/sugarcube/blob/tmp/lib/sugarcube-constants/symbol.rb
+[symbol.rb]: https://github.com/rubymotion/sugarcube/blob/master/lib/sugarcube-constants/symbol.rb
 
 Timer
 -----
@@ -405,6 +405,7 @@ filters get a class method in this file).
 
 > `require 'sugarcube-image'`
 
+###### UIImage additions
 ```ruby
 image.scale_to [37, 37]
 image.rounded  # default: 5 pt radius
@@ -448,6 +449,27 @@ image.masked(mask_image)
 # Combine two images
 image_ab = image_a << image_b
 ```
+
+###### CIFilter additions
+```ruby
+# create a filter
+gaussy = CIFilter.gaussian_blur(radius: 5)
+gaussy = CIFilter.gaussian_blur(5)  # this also works - you can find the arg order by looking in cifilter.rb
+
+# apply a filter to a UIImage
+new_image = image.apply_filter(gaussy).uiimage  # apply_filter returns a CIImage, which is converted to UIImage
+
+# apply a chain of filters using the `|` operator or `apply_filter`
+darken = CIFilter.color_controls(saturation: 0, brightness: 0)
+new_image = image.apply_filter(gaussy).apply_filter(darken).uiimage
+new_image = image | gaussy | darken | UIImage
+```
+
+There are 91 filters available in iOS 6, I won't list them here, but check out
+[the Apple documentation][core-image-filters] to read about them, and study [cifilter.rb][]
+
+[core-image-filters]: http://developer.apple.com/library/mac/#documentation/GraphicsImaging/Reference/CoreImageFilterReference/Reference/reference.html
+[cifilter.rb]: https://github.com/rubymotion/sugarcube/blob/master/lib/sugarcube-image/cifilter.rb
 
 UIColor
 -----
@@ -682,7 +704,7 @@ UIBarButtonItem.save { ... }             => UIBarButtonItem.alloc.initWithBarBut
   .
   .
   .
-UIBarButtonItem.pagecurl { ... }         => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:pagecurl.uibarbuttonitem, target:self, action:"action:")
+UIBarButtonItem.page_curl { ... }         => UIBarButtonItem.alloc.initWithBarButtonSystemItem(:page_curl.uibarbuttonitem, target:self, action:"action:")
 ```
 
 For custom `UIBarButtonItem`s, you can use the `titled` and `imaged` methods:
@@ -916,9 +938,11 @@ AttributedString
 
 > `require 'sugarcube-attributedstring'`
 
-These are pretty fun!  Check out `nsattributedstring_spec.rb` for all the
+These are pretty fun!  Check out [nsattributedstring_spec.rb][] for all the
 supported attributes (in theory they are all supported, but there's weird
 issues with missing constants).
+
+[nsattributedstring.rb]: https://github.com/rubymotion/sugarcube/blob/master/lib/sugarcube-attributedstring/nsattributedstring.rb
 
 ```ruby
 'test'.nsattributedstring({})  #=> NSAttributedString.alloc.initWithString('test', attributes:{})
