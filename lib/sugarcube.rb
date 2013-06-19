@@ -15,3 +15,4 @@ Motion::Project::App.setup do |app|
 end
 
 require File.join(File.dirname(__FILE__), "sugarcube-coregraphics.rb")
+require File.join(File.dirname(__FILE__), "sugarcube-to_s.rb")
