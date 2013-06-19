@@ -1,7 +1,19 @@
 class Numeric
 
+  ##|
+  ##|  MISC
+  ##|
+
   def percent
     self / 100.0
+  end
+
+  def g
+    self * 9.78033
+  end
+
+  def in_g
+    self / 9.78033
   end
 
   def radians

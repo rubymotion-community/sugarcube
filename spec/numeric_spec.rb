@@ -7,6 +7,16 @@ describe "Numeric" do
     200.percent.should == 2.0
   end
 
+  it "should have a #g method" do
+    0.g.should == 0
+    1.g.should == 9.78033
+  end
+
+  it "should have an #in_g method" do
+    0.in_g.should == 0
+    9.78033.in_g.should == 1
+  end
+
   it "should have a #radian(s) method" do
     0.radians.should == 0
     1.radian.should == 1
