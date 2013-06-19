@@ -398,9 +398,12 @@ MyNotification.remove_observer(observer, object)
 UIImage
 -----
 
-Image Manipulation - VERY handy!
+Image Manipulation - VERY handy!  Includes some quick maniputions on UIImage,
+and adds an interface to chain together CIFilters.  Plus, you can refer to
+`cifilter.rb` to find out what filters are supported in iOS (all supported
+filters get a class method in this file).
 
-> `require 'sugarcube-uiimage'`
+> `require 'sugarcube-image'`
 
 ```ruby
 image.scale_to [37, 37]

@@ -294,31 +294,58 @@ class UIImage
     return new_image
   end
 
-  # Accepts two options: brightness (default: -0.5) and saturation (default: -0.2)
+  # Returns a CIImage with the filter applied to the receiver.  The return value
+  # is a CIImage object, which also defines `|` to work the same way, so filters
+  # can be chained.
+  #
+  # @example
+  #   image = 'test'.uiimage
+  #   new_image = image | CIFilter.gaussian_blur  # => returns a CIImage
+  #   new_image = (image | CIFilter.gaussian_blur).uiimage  # => coerce to UIImage
+  #   new_image = image | CIFilter.gaussian_blur | UIImage  # => coerce to UIImage via chaining
+  def |(filter)
+    if filter == UIImage
+      self
+    elsif filter == CIImage
+      self.ciimage
+    else
+      filter.setValue(self.ciimage, forKey: 'inputImage')
+      return filter.valueForKey('output_image')
+    end
+  end
+
+  # Returns a CGImageRef. Alias for `CGImage`.
+  def cgimage
+    return self.CGImage
+  end
+
+  # Returns a CIImage.
+  def ciimage
+    return CIImage.imageWithCGImage(self.CGImage)
+  end
+
+  # Accepts two options: brightness (default: 0.0) and saturation (default: 0.0)
   # Returns a darkened version of the image.
   def darken(options={})
-    filter_name = 'CIColorControls'
     filter_options = {
-      inputBrightness: options[:brightness] || 0,
-      inputSaturation: options[:saturation] || 0,
+      'inputSaturation' => options[:saturation] || 0,
+      'inputBrightness' => options[:brightness] || 0,
     }
 
-    cg_input_image = CIImage.alloc.initWithImage(self)
-    darken_filter = CIFilter.filterWithName(filter_name)
-    raise Exception.new("Filter not found: #{filter_name}") unless darken_filter
+    darken_filter = CIFilter.color_controls(filter_options)
+    output = self | darken_filter
+    return UIImage.imageWithCIImage(output, scale:self.scale, orientation:self.imageOrientation)
+  end
 
-    darken_filter.setDefaults
-    darken_filter.setValue(cg_input_image, forKey:'inputImage')
-    filter_options.each do |key, value|
-      darken_filter.setValue(value, forKey:key)
-    end
-    output = darken_filter.valueForKey('outputImage')
-
-    context = CIContext.contextWithOptions(nil)
-    cg_output_image = context.createCGImage(output, fromRect:output.extent)
-    output_image = UIImage.imageWithCGImage(cg_output_image, scale:self.scale, orientation:self.imageOrientation)
-
-    return output_image
+  # Apply a gaussian filter
+  # @options radius, default: 10
+  #
+  # @example
+  #   image.gaussian_blur(radius: 5)
+  #   image.gaussian_blur(5)  # :radius is the default option
+  def gaussian_blur(options={})
+    output = self | CIFilter.gaussian_blur(options)
+    return UIImage.imageWithCIImage(output, scale:self.scale, orientation:self.imageOrientation)
   end
 
   ##|

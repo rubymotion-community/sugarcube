@@ -5,6 +5,7 @@ ignore = [
   'sugarcube-osx.rb',
   'sugarcube-legacy.rb',
   'sugarcube-uicolor.rb',
+  'sugarcube-uiimage.rb',
 
   'sugarcube-anonymous.rb',
   'sugarcube-awesome.rb',
