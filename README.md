@@ -449,7 +449,7 @@ image_ab = image_a << image_b
 UIColor
 -----
 
-> `require 'sugarcube-uicolor'`
+> `require 'sugarcube-color'`
 
 Methods to merge or manipulate a color, or to get information about a color.
 Works best on RGB colors, but HSB will work well, too.  `UIColor`s based on
