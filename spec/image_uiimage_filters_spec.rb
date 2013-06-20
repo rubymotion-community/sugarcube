@@ -5,8 +5,8 @@ describe "UIImage effects w/ CIImage & CIFilter" do
 
   describe 'should apply a gaussian blur' do
     it 'should have a gaussian_blur method' do
-      @image.gaussian_blur.should.is_a(UIImage)
       -> {
+        @image.gaussian_blur.should.is_a(UIImage)
       }.should.not.raise
     end
     it 'should accept a :radius option' do
