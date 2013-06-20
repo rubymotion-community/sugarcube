@@ -307,9 +307,14 @@ class CIFilter
     end
 
     # CICrop
-    #                                                                      PENDING
     def crop(*options)
-      return _create_filter('CICrop', options)
+      return _create_filter('CICrop', options, [:rectangle], rectangle: 'inputRectangle') do |key, value|
+        rect = SugarCube::CoreGraphics::Rect(value)
+        CIVector.alloc.initWithX( rect.origin.x,
+                               Y: rect.origin.y,
+                               Z: rect.size.width,
+                               W: rect.size.height)
+      end
     end
 
     # CIDarkenBlendMode

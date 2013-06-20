@@ -1,7 +1,13 @@
 class CIImage
 
-  def uiimage
-    return UIImage.imageWithCIImage(self)
+  def uiimage(scale=nil, orientation=nil)
+    if scale && orientation
+      return UIImage.imageWithCIImage(self, scale: scale, orientation: orientation)
+    elsif scale && scale.is_a? UIImage
+      return UIImage.imageWithCIImage(self, scale: scale.scale, orientation: scale.imageOrientation)
+    else
+      return UIImage.imageWithCIImage(self)
+    end
   end
 
   def ciimage
@@ -15,7 +21,7 @@ class CIImage
 
   def |(filter)
     if CIFilter === filter
-      apply_filter
+      apply_filter(filter)
     elsif filter == UIImage
       self.uiimage
     elsif filter == UIView || filter == UIImageView

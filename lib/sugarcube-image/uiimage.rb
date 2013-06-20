@@ -300,22 +300,20 @@ class UIImage
   #
   # @example
   #   image = 'test'.uiimage
-  #   new_image = image | CIFilter.gaussian_blur  # => returns a CIImage
-  #   new_image = (image | CIFilter.gaussian_blur).uiimage  # => coerce to UIImage
-  #   new_image = image | CIFilter.gaussian_blur | UIImage  # => coerce to UIImage via chaining
+  #   new_image = image.apply_filter(CIFilter.gaussian_blur)
   def apply_filter(filter)
-    if filter == UIImage
-      self
-    elsif filter == CIImage
-      self.ciimage
-    else
-      filter.setValue(self.ciimage, forKey: 'inputImage')
-      return filter.valueForKey('outputImage')
-    end
+    filter.setValue(self.ciimage, forKey: 'inputImage')
+    return filter.valueForKey('outputImage')
   end
 
   # Operator shorthand for `apply_filter`, or coerces the image into other
-  # formats
+  # formats.
+  #
+  # @example
+  #   image = 'test'.uiimage
+  #   new_image = image | CIFilter.gaussian_blur  # => returns a CIImage
+  #   new_image = (image | CIFilter.gaussian_blur).uiimage  # => coerce to UIImage
+  #   new_image = image | CIFilter.gaussian_blur | UIImage  # => coerce to UIImage via chaining
   def |(filter)
     if CIFilter === filter
       apply_filter(filter)
