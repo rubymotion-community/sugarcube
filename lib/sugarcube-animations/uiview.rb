@@ -6,6 +6,8 @@ class UIView
     # is an option, and defaults to 0.3.  All the transition methods work this
     # way.
     def animate(options={}, &animations)
+      raise "animation block is required" unless animations
+
       if options.is_a? Numeric
         duration = options
         options = {}
