@@ -97,4 +97,17 @@ class UIView
      return image
    end
 
+   # Applies a filter (to a UIImage representation) or coerces to another format
+   def |(filter)
+    if CIFilter === filter
+      self.uiimage.apply_filter
+    elsif filter == UIImage
+      self.uiimage
+    elsif filter == UIImageView
+      self.uiimage.uiimageview
+    elsif filter == CIImage
+      self.uiimage.ciimage
+    end
+   end
+
 end
