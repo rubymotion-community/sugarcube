@@ -463,6 +463,7 @@ new_image = image.apply_filter(gaussy).uiimage  # apply_filter returns a CIImage
 darken = CIFilter.color_controls(saturation: 0, brightness: 0)
 new_image = image.apply_filter(gaussy).apply_filter(darken).uiimage
 new_image = image | gaussy | darken | UIImage
+new_view = view | gaussy | darken | UIView
 ```
 
 There are 91 filters available in iOS 6, I won't list them here, but check out

@@ -1,3 +1,38 @@
+# The following filters are available in iOS:
+#
+# * CIAdditionCompositing              * CIExposureAdjust          * CIPerspectiveTile
+# * CIAffineClamp                      * CIFalseColor              * CIPerspectiveTransform
+# * CIAffineTile                       * CIFlashTransition         * CIPerspectiveTransformWithExtent
+# * CIAffineTransform                  * CIFourfoldReflectedTile   * CIPinchDistortion
+# * CIBarsSwipeTransition              * CIFourfoldRotatedTile     * CIPixellate
+# * CIBlendWithMask                    * CIFourfoldTranslatedTile  * CIRadialGradient
+# * CIBloom                            * CIGammaAdjust             * CIFilter
+# * CIBumpDistortion                   * CIGaussianBlur            * CISaturationBlendMode
+# * CIBumpDistortionLinear             * CIGaussianGradient        * CIScreenBlendMode
+# * CICheckerboardGenerator            * CIGlideReflectedTile      * CISepiaTone
+# * CICircleSplashDistortion           * CIGloom                   * CISharpenLuminance
+# * CICircularScreen                   * CIHardLightBlendMode      * CISixfoldReflectedTile
+# * CIColorBlendMode                   * CIHatchedScreen           * CISixfoldRotatedTile
+# * CIColorBurnBlendMode               * CIHighlightShadowAdjust   * CISoftLightBlendMode
+# * CIColorControls                    * CIHoleDistortion          * CISourceAtopCompositing
+# * CIColorCube                        * CIHueAdjust               * CISourceInCompositing
+# * CIColorDodgeBlendMode              * CIHueBlendMode            * CISourceOutCompositing
+# * CIFilter                           * CILanczosScaleTransform   * CISourceOverCompositing
+# * CIColorMap                         * CILightenBlendMode        * CIStarShineGenerator
+# * CIColorMatrix                      * CILightTunnel             * CIStraightenFilter
+# * CIColorMonochrome                  * CILinearGradient          * CIStripesGenerator
+# * CIColorPosterize                   * CILineScreen              * CISwipeTransition
+# * CIConstantColorGenerator           * CILuminosityBlendMode     * CITemperatureAndTint
+# * CICopyMachineTransition            * CIFilter                  * CIToneCurve
+# * CICrop                             * CIFilter                  * CITriangleKaleidoscope
+# * CIDarkenBlendMode                  * CIMaximumCompositing      * CITwelvefoldReflectedTile
+# * CIDifferenceBlendMode              * CIFilter                  * CITwirlDistortion
+# * CIDisintegrateWithMaskTransition   * CIMinimumCompositing      * CIUnsharpMask
+# * CIDissolveTransition               * CIModTransition           * CIVibrance
+# * CIDotScreen                        * CIMultiplyBlendMode       * CIVignette
+# * CIEightfoldReflectedTile           * CIMultiplyCompositing     * CIVortexDistortion
+# * CIExclusionBlendMode               * CIOverlayBlendMode        * CIWhitePointAdjust
+#
 # The following filters have not been added to iOS:     (as of 6/19/2013)
 #
 # * CIAreaAverage               * CIHexagonalPixellate
@@ -21,6 +56,7 @@
 # * CIGlassDistortion           * CITorusLensDistortion
 # * CIGlassLozenge              * CITriangleTile
 # * CIHeightFieldFromMask       * CIZoomBlur
+#
 class CIFilter
 
   ##|
