@@ -132,6 +132,14 @@ describe "NSDate" do
     @date.start_of_day.datetime_array.should == [2013, 1, 2, 0, 0, 0]
   end
 
+  it "should retain the zimeZone" do
+    @date.start_of_day.utc_offset.should == @date.utc_offset
+  end
+
+  it "should respect the timezone" do
+    @date.getutc.start_of_day.getutc.hour.should == 0
+  end
+
   it "NSDate#start_of_day should be equal to itself" do
     @date.start_of_day.should == @date.start_of_day
   end

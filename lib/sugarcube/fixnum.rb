@@ -15,6 +15,10 @@ class Fixnum
     UIColor.colorWithRed(red, green:green, blue:blue, alpha:alpha.to_f)
   end
 
+  def nstimezone
+    NSTimeZone.timeZoneForSecondsFromGMT(self)
+  end
+
   def nth
     # if the first two digits of rank are between 11 and 20, it's an
     # 'up-teenth' kinda number
