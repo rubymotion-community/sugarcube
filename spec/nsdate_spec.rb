@@ -18,6 +18,12 @@ describe "NSDate" do
     date.sec.should == 0
   end
 
+  it "NSDate##today method should be equal to itself" do
+    date1 = NSDate.today
+    date2 = NSDate.today
+    date1.should == date2
+  end
+
   it "Should have an NSDate##yesterday method" do
     now = NSDate.today
     date = NSDate.yesterday
@@ -28,6 +34,12 @@ describe "NSDate" do
     (now - date).in_hours.should <= 25  # savings time.
   end
 
+  it "NSDate##yesterday method should be equal to itself" do
+    date1 = NSDate.yesterday
+    date2 = NSDate.yesterday
+    date1.should == date2
+  end
+
   it "Should have an NSDate##tomorrow method" do
     now = NSDate.today
     date = NSDate.tomorrow
@@ -36,6 +48,12 @@ describe "NSDate" do
     date.sec.should == 0
     (date - now).in_hours.should >= 23  # keep in mind daylight
     (date - now).in_hours.should <= 25  # savings time.
+  end
+
+  it "NSDate##tomorrow method should be equal to itself" do
+    date1 = NSDate.tomorrow
+    date2 = NSDate.tomorrow
+    date1.should == date2
   end
 
   before do
@@ -114,8 +132,16 @@ describe "NSDate" do
     @date.start_of_day.datetime_array.should == [2013, 1, 2, 0, 0, 0]
   end
 
+  it "NSDate#start_of_day should be equal to itself" do
+    @date.start_of_day.should == @date.start_of_day
+  end
+
   it "should have an NSDate#end_of_day method" do
     @date.end_of_day.datetime_array.should == [2013, 1, 3, 0, 0, 0]
+  end
+
+  it "NSDate#end_of_day should be equal to itself" do
+    @date.end_of_day.should == @date.end_of_day
   end
 
   it "should have an NSDate#start_of_week method" do
