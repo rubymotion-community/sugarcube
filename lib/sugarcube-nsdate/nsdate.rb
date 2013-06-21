@@ -161,8 +161,18 @@ class NSDate
   #  (main)> t.start_of_day
   #  => 2012-09-27 00:00:00 +0900
   def start_of_day
-    time_interval = self.hour.hours + self.min.minutes + self.sec
-    return self - time_interval
+    date_components = NSDateComponents.new
+    date_components.hour = 0
+    date_components.minute = 0
+    date_components.second = 0
+    date_components.day = self.day
+    date_components.month = self.month
+    date_components.year = self.year
+
+    calendar = NSCalendar.alloc.initWithCalendarIdentifier(NSGregorianCalendar)
+    return calendar.dateFromComponents(date_components)
+
+    return date
   end
 
   #  (main)> t = Time.new
@@ -170,8 +180,7 @@ class NSDate
   #  (main)> t.end_of_day
   #  => 2012-09-28 00:00:00 +0900
   def end_of_day
-    time_interval = (23 - self.hour).hours + (59 - self.min).minutes - self.sec + 60
-    return self + time_interval
+    return self.delta(days: 1).start_of_day
   end
 
   #  (main)> t = Time.new
