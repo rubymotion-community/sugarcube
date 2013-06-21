@@ -1,5 +1,9 @@
 class Fixnum
 
+  def nstimezone
+    NSTimeZone.timeZoneForSecondsFromGMT(self)
+  end
+
   def before(date)
     date - self
   end

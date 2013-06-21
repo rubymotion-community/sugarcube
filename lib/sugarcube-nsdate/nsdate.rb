@@ -170,7 +170,8 @@ class NSDate
     date_components.year = self.year
 
     calendar = NSCalendar.alloc.initWithCalendarIdentifier(NSGregorianCalendar)
-    return calendar.dateFromComponents(date_components)
+    calendar.timeZone = NSTimeZone.timeZoneForSecondsFromGMT(self.utc_offset)
+    date = calendar.dateFromComponents(date_components)
 
     return date
   end
