@@ -9,14 +9,14 @@ describe 'UIAlertView' do
 
   it 'should have :show option (show: true)' do
     alert = UIAlertView.alert('test', show: true)
-    proper_wait 0.6
+    proper_wait 1
     alert.visible?.should == true
     alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
   end
 
   it 'should show by default' do
     alert = UIAlertView.alert('test')
-    proper_wait 0.6
+    proper_wait 1
     alert.visible?.should == true
     alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
   end
@@ -24,6 +24,13 @@ describe 'UIAlertView' do
   it 'should assign the title' do
     alert = UIAlertView.alert('test title', show: false)
     alert.title.should == 'test title'
+  end
+
+  it 'should assign the contentView' do
+    view = UIView.alloc.initWithFrame([[0, 0], [100, 100]])
+    view.backgroundColor = :red.uicolor
+    alert = UIAlertView.alert('test title', content: view, show: false)
+    alert.contentView.should == view
   end
 
   it 'should support three args' do
@@ -142,6 +149,10 @@ describe 'UIAlertView' do
         cancel: ->{ @touched = :cancel },
         success: ->{ @touched = :success }
         )
+    end
+
+    after do
+      @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
     end
 
     it 'should work for :cancel' do
