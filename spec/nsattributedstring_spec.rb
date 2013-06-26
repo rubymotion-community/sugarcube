@@ -99,6 +99,10 @@ describe 'NSAttributeString' do
       @subject.isEqualToAttributedString('test'.attrd.vertical_glyph_form(1)).should != true
     end
 
+    it 'should have `letterpress`' do
+      @subject.isEqualToAttributedString('test'.attrd.letterpress).should != true
+    end
+
   end
 
 end

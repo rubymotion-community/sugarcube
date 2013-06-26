@@ -53,6 +53,9 @@ class NSAttributedString
     foo = NSStrokeWidthAttributeName
     foo = NSShadowAttributeName
     foo = NSVerticalGlyphFormAttributeName
+    # new iOS 7 text effects
+    foo = NSTextEffectsAttributeName
+    foo = NSTextEffectsLetterPressStyle
     # make sure alignments get compiled
     foo = NSLeftTextAlignment
     foo = NSRightTextAlignment
@@ -128,6 +131,10 @@ class NSAttributedString
 
   def vertical_glyph_form(value)
     with_attributes({NSVerticalGlyphFormAttributeName => value})
+  end
+
+  def letterpress
+    with_attributes({NSTextEffectsAttributeName => NSTextEffectsLetterPressStyle})
   end
 
   def with_attributes(attributes)
