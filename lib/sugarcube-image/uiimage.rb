@@ -306,30 +306,6 @@ class UIImage
     return filter.valueForKey('outputImage')
   end
 
-  # Operator shorthand for `apply_filter`, or coerces the image into other
-  # formats.
-  #
-  # @example
-  #   image = 'test'.uiimage
-  #   new_image = image | CIFilter.gaussian_blur  # => returns a CIImage
-  #   new_image = (image | CIFilter.gaussian_blur).uiimage  # => coerce to UIImage
-  #   new_image = image | CIFilter.gaussian_blur | UIImage  # => coerce to UIImage via chaining
-  def |(filter)
-    if CIFilter === filter
-      apply_filter(filter)
-    elsif filter == UIImage
-      self
-    elsif filter == UIView || filter == UIImageView
-      self.uiimageview
-    elsif filter == CIImage
-      ciimage
-    elsif filter == UIColor
-      uicolor
-    elsif filter == NSData
-      nsdata
-    end
-  end
-
   # Returns a CGImageRef. Alias for `CGImage`.
   def cgimage
     return self.CGImage
@@ -349,7 +325,7 @@ class UIImage
     }
 
     darken_filter = CIFilter.color_controls(filter_options)
-    output = self | darken_filter
+    output = self.apply_filter(darken_filter)
     return UIImage.imageWithCIImage(output, scale:self.scale, orientation:self.imageOrientation)
   end
 
@@ -360,7 +336,7 @@ class UIImage
   #   image.gaussian_blur(radius: 5)
   #   image.gaussian_blur(5)  # :radius is the default option
   def gaussian_blur(*args)
-    output = self | CIFilter.gaussian_blur(*args)
+    output = self.apply_filter(CIFilter.gaussian_blur(*args))
     return UIImage.imageWithCIImage(output, scale:self.scale, orientation:self.imageOrientation)
   end
 

@@ -462,15 +462,23 @@ new_image = image.apply_filter(gaussy).uiimage  # apply_filter returns a CIImage
 # apply a chain of filters using the `|` operator or `apply_filter`
 darken = CIFilter.color_controls(saturation: 0, brightness: 0)
 new_image = image.apply_filter(gaussy).apply_filter(darken).uiimage
+```
+
+If you include `sugarcube-pipes` you can use the `|` operator to chain filters:
+
+```ruby
+# using the filters from above
 new_image = image | gaussy | darken | UIImage
 new_view = view | gaussy | darken | UIView
 ```
 
 There are 91 filters available in iOS 6, I won't list them here, but check out
-[the Apple documentation][core-image-filters] to read about them, and study [cifilter.rb][]
+[the Apple documentation][core-image-filters] to read about them, and study
+[cifilter.rb][].
 
 [core-image-filters]: http://developer.apple.com/library/mac/#documentation/GraphicsImaging/Reference/CoreImageFilterReference/Reference/reference.html
-[cifilter.rb]: https://github.com/rubymotion/sugarcube/blob/master/lib/sugarcube-image/cifilter.rb
+[cifilter.rb]: https://github.com/colinta/sugarcube/blob/1.0/lib/sugarcube-image/cifilter.rb
+[cifilter.rb-post-merge]: https://github.com/rubymotion/sugarcube/blob/master/lib/sugarcube-image/cifilter.rb
 
 UIColor
 -----
@@ -1315,6 +1323,38 @@ Open up `CLLocationCoordinate2D` to provide handy-dandies
 => 8.0804328918457   # this is in meters
 > denver_co.delta_miles(1101.6, -32.556).distance_to(loveland_oh).miles
 => 0.00502094626426697
+```
+
+Pipes
+-----
+
+This package short-circuits the `|` operator to perform coercion and filtering
+between all sorts of objects.
+
+### Coercion
+
+Any object that defines a coercion method (image.uicolor, string.uiimage,
+:symbol.uifont) can use the `|` and the class name to perform the same method.
+
+```ruby
+:label | UIFont  # => # :label.uifont
+"image_name" | UIImage  # => "image_name".uiimage
+view | UIImage | UIColor  # => view.uiimage.uicolor
+```
+
+### Filters
+
+You can pipe objects that have some idea of "filter", like using an image mask
+or image filter.
+
+```ruby
+image | mask  # => image.masked(mask)
+image | darken_cifilter  # => image.apply_filter(darken_cifilter)
+# this one is... interesting!
+"My name is Mud" | /\w+$/   # => "Mud"
+"My name is Mud" | /\d+$/   # => nil
+"My name is Mud" | "Mud"  # => "Mud"
+"My name is Mud" | "Bob"    # => nil
 ```
 
 Awesome

@@ -19,16 +19,4 @@ class CIImage
     return filter.valueForKey('outputImage')
   end
 
-  def |(filter)
-    if CIFilter === filter
-      apply_filter(filter)
-    elsif filter == UIImage
-      self.uiimage
-    elsif filter == UIView || filter == UIImageView
-      self.uiimage.uiimageview
-    elsif filter == CIImage
-      self
-    end
-  end
-
 end

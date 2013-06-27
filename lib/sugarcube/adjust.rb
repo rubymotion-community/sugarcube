@@ -259,6 +259,7 @@ module SugarCube
       elsif ! item
         item = UIApplication.sharedApplication.keyWindow
       end
+
       if not item
         puts 'View is nil (no window, view, or controller to display)'
         return
