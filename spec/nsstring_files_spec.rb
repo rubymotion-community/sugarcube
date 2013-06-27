@@ -31,21 +31,21 @@ describe 'NSString' do
     'little_square.png'.resource_exists?.should == true
     'foo'.resource_exists?.should == false
   end
-  
+
   describe "exists?" do
-    
+
     it "should not exists" do
       "abc".exists?.should == false
     end
-    
+
     it "should not exists" do
       "abc".cache.exists?.should == false
     end
-    
+
     it "should not exists" do
       "abc".resource.exists?.should == false
     end
-    
+
     describe "in document" do
       before do
         "abc".writeToFile "abc".document, atomically:true
@@ -53,12 +53,12 @@ describe 'NSString' do
       after do
         NSFileManager.defaultManager.removeItemAtPath "abc".document, error:nil
       end
-      
+
       it "should be exists" do
         "abc".exists?.should == true
       end
     end
-    
+
     describe "in cache" do
       before do
         "abc".writeToFile "abc".cache, atomically:true
@@ -66,7 +66,7 @@ describe 'NSString' do
       after do
         NSFileManager.defaultManager.removeItemAtPath "abc".cache, error:nil
       end
-      
+
       it "should be exists" do
         "abc".cache.exists?.should == true
       end
@@ -79,9 +79,9 @@ describe 'NSString' do
     end
 
   end
-  
+
   describe "remove!" do
-  
+
     describe "in document" do
       before do
         "abc".writeToFile "abc".document, atomically:true
@@ -89,13 +89,13 @@ describe 'NSString' do
       after do
         NSFileManager.defaultManager.removeItemAtPath "abc".document, error:nil
       end
-      
+
       it "should remove" do
         "abc".remove!.should == nil
         "abc".exists?.should == false
       end
     end
-    
+
     describe "in cache" do
       before do
         "abc".writeToFile "abc".cache, atomically:true
@@ -103,14 +103,14 @@ describe 'NSString' do
       after do
         NSFileManager.defaultManager.removeItemAtPath "abc".cache, error:nil
       end
-      
+
       it "should remove" do
         path = "abc".cache
         path.remove!.should == nil
         path.exists?.should == false
       end
     end
-    
+
   end
 
   describe 'resource()' do
@@ -152,8 +152,8 @@ describe 'NSString' do
 
     describe '"PkgInfo".resource_url' do
       before { @it = "PkgInfo".resource_url.absoluteString }
-      it 'should start with "file://localhost/Users"' do
-        @it.hasPrefix("file://localhost/Users").should == true
+      it 'should start with "file:///Users"' do
+        @it.hasPrefix("file:///Users").should == true
       end
       it 'should end with "SugarCube_spec.app/PkgInfo"' do
         @it.hasSuffix("SugarCube_spec.app/PkgInfo").should == true
