@@ -17,6 +17,11 @@ class NSDate
     return calendar.dateFromComponents(date_components)
   end
 
+  # Time.now is defined, but not NSDate.now.
+  def self.now
+    NSDate.new
+  end
+
   def self.today
     NSDate.new.start_of_day
   end

@@ -7,6 +7,17 @@ describe "NSDate" do
     date.day.should == 2
   end
 
+  it "Should have an NSDate##now method" do
+    now = NSDate.new
+    date = NSDate.now
+    date.year.should == now.year
+    date.month.should == now.month
+    date.day.should == now.day
+    date.hour.should == now.hour
+    date.min.should == now.min
+    (date.sec - now.sec).should <= 1
+  end
+
   it "Should have an NSDate##today method" do
     now = NSDate.new
     date = NSDate.today
