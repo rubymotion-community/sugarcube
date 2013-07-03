@@ -343,6 +343,35 @@ class UIImage
     return output_image
   end
 
+  # Accepts one option: radius (default: 6)
+  # Returns a blurry version of the image.
+  def blur(options={})
+      filter_name = 'CIGaussianBlur'
+      filter_options = {
+        inputRadius: options[:radius] || 6
+      }
+
+      cg_input_image = CIImage.alloc.initWithImage(self)
+      filter = CIFilter.filterWithName(filter_name)
+      raise Exception.new("Filter not found: #{filter_name}") unless filter
+
+
+
+      filter.setDefaults
+      filter.setValue(cg_input_image, forKey:'inputImage')
+      filter_options.each_pair do |key, value|
+        filter.setValue(value, forKey:key)
+      end
+      output = filter.valueForKey('outputImage')
+
+      context = CIContext.contextWithOptions(nil)
+      cg_output_image = context.createCGImage(output, fromRect:output.extent)
+      output_image = UIImage.imageWithCGImage(cg_output_image, scale:self.scale, orientation:self.imageOrientation)
+
+      return output_image
+  end
+
+
   ##|
   ##|  rotate images
   ##|
