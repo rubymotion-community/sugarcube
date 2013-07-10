@@ -16,4 +16,8 @@ describe "NSURL" do
     NSURLRequest.should === 'https://github.com'.nsurl.nsurlrequest
   end
 
+  it "should have a method #nsmutableurlrequest" do
+    NSMutableURLRequest.should === 'https://github.com'.nsurl.nsmutableurlrequest
+  end
+
 end

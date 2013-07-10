@@ -16,4 +16,8 @@ class NSURL
     NSURLRequest.requestWithURL(self)
   end
 
+  def nsmutableurlrequest
+    NSMutableURLRequest.alloc.initWithURL(self)
+  end
+
 end
