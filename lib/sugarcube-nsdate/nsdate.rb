@@ -49,7 +49,7 @@ class NSDate
   # See
   # <https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html#//apple_ref/doc/uid/TP40002369-SW1>
   # and
-  # <http://www.unicode.org/reports/tr35/tr35-19.html#Date_Format_Patterns>
+  # <http://www.unicode.org/reports/tr35/tr35-19.html#Date_Field_Symbol_Table>
   # for more information about date format strings.
   def string_with_format(format)
     if format.is_a?(Symbol)
