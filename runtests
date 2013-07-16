@@ -1,1 +1,1 @@
-rake spec && rake spec retina=3.5 && rake spec retina=4 output=tap
+rake spec && rake spec retina=3.5 output=tap && rake spec retina=4 output=tap
