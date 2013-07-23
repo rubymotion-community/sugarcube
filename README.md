@@ -80,7 +80,7 @@ Hash => Object
 --------
 
 ```ruby
-require 'sugarcube-attributedstring'
+require 'sugarcube-anonymous'
 ```
 
 Convert `Hash`es into an "anonymous object".  Existing keys will be able to be
