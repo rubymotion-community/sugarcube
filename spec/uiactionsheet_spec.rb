@@ -113,6 +113,10 @@ describe 'UIActionSheet' do
       proper_wait 0.6
     end
 
+    after do
+      @alert.dismissWithClickedButtonIndex(-1, animated: false) if @alert.visible?
+    end
+
     it 'should call block with "cancel" when cancel button is pressed' do
       @alert.cancelButtonIndex.should == 1
       @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
@@ -137,6 +141,10 @@ describe 'UIActionSheet' do
       @touched = nil
       @alert = UIActionSheet.alert('test', buttons: ['cancel', nil, 'ok']) { |button| @touched = button }
       proper_wait 0.6
+    end
+
+    after do
+      @alert.dismissWithClickedButtonIndex(-1, animated: false) if @alert.visible?
     end
 
     it 'should call block with "cancel" when cancel button is pressed' do
@@ -165,6 +173,10 @@ describe 'UIActionSheet' do
       proper_wait 0.6
     end
 
+    after do
+      @alert.dismissWithClickedButtonIndex(-1, animated: false) if @alert.visible?
+    end
+
     it 'should call block with "cancel" when cancel button is pressed' do
       @alert.cancelButtonIndex.should == -1
     end
@@ -189,6 +201,10 @@ describe 'UIActionSheet' do
       @touched = nil
       @alert = UIActionSheet.alert('test', buttons: [nil, nil, 'test1', 'test2']) { |button| @touched = button }
       proper_wait 0.6
+    end
+
+    after do
+      @alert.dismissWithClickedButtonIndex(-1, animated: false) if @alert.visible?
     end
 
     it 'should call block with "cancel" when cancel button is pressed' do
