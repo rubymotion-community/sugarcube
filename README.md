@@ -62,6 +62,11 @@ Installation
     gem 'sugarcube', :require => 'sugarcube-classic'
     # or for the bold:
     # gem 'sugarcube', :require => 'sugarcube-all'
+    # or for the picky:
+    # gem 'sugarcube', :require => [
+    #   'sugarcube',
+    #   'sugarcube-repl',
+    # ]
 
     # in terminal
     $ bundle install
