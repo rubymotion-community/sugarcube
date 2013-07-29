@@ -30,6 +30,17 @@ class UIView
     sugarcube_add_gesture(proc, recognizer)
   end
 
+  def off_gestures
+    if @sugarcube_recognizers
+      @sugarcube_recognizers.each do |recognizer, proc|
+        self.removeGestureRecognizer(recognizer)
+      end
+      @sugarcube_recognizers = nil
+    end
+
+    self
+  end
+
   # @yield [recognizer] Handles the gesture event, and passes the recognizer instance to the block.
   # @overload on_tap(taps)
   #   @param taps [Fixnum] Number of taps
