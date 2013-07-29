@@ -331,7 +331,7 @@ module SugarCube
       if self == item || $sugarcube_view == item
         print "\033[1m"
       end
-      if item.is_a? UIView
+      if item.is_a?(UIView) && item.method(:to_s).arity == -1
         puts item.to_s superview: false
       else
         puts item.to_s
