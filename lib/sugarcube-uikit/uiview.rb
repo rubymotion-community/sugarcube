@@ -76,25 +76,25 @@ class UIView
    # the future, if this argument becomes something that accepts multiple values,
    # those two are sacred.
   def uiimage(use_content_size=false)
-     scale = UIScreen.mainScreen.scale
-     if use_content_size
-       UIGraphicsBeginImageContextWithOptions(contentSize, false, scale)
-       context = UIGraphicsGetCurrentContext()
-       subviews.each do |subview|
-         CGContextSaveGState(context)
-         CGContextTranslateCTM(context, subview.frame.origin.x, subview.frame.origin.y)
-         subview.layer.renderInContext(context)
-         CGContextRestoreGState(context)
-       end
-       image = UIGraphicsGetImageFromCurrentImageContext()
-       UIGraphicsEndImageContext()
-     else
-       UIGraphicsBeginImageContextWithOptions(bounds.size, false, scale)
-       layer.renderInContext(UIGraphicsGetCurrentContext())
-       image = UIGraphicsGetImageFromCurrentImageContext()
-       UIGraphicsEndImageContext()
-     end
-     return image
-   end
+    scale = UIScreen.mainScreen.scale
+    if use_content_size
+      UIGraphicsBeginImageContextWithOptions(contentSize, false, scale)
+      context = UIGraphicsGetCurrentContext()
+      subviews.each do |subview|
+        CGContextSaveGState(context)
+        CGContextTranslateCTM(context, subview.frame.origin.x, subview.frame.origin.y)
+        subview.layer.renderInContext(context)
+        CGContextRestoreGState(context)
+      end
+      image = UIGraphicsGetImageFromCurrentImageContext()
+      UIGraphicsEndImageContext()
+    else
+      UIGraphicsBeginImageContextWithOptions(bounds.size, false, scale)
+      layer.renderInContext(UIGraphicsGetCurrentContext())
+      image = UIGraphicsGetImageFromCurrentImageContext()
+      UIGraphicsEndImageContext()
+    end
+    return image
+  end
 
 end
