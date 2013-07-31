@@ -157,7 +157,7 @@ quick overview:
   > w 15
   ```
 
-Be sure to read more in the [REPL Adjustments][REPL Wiki] Wiki page.
+Be sure to read more in the [REPL Additions][REPL Wiki] Wiki page.
 
 [REPL Wiki]: https://github.com/rubymotion/sugarcube/wiki/REPL-Additions
 

@@ -12,6 +12,7 @@ ignore = [
   'sugarcube-attributedstring.rb',
   'sugarcube-awesome.rb',
   'sugarcube-gestures.rb',
+  'sugarcube-pipes.rb',
   'sugarcube-repl.rb',
   'sugarcube-unholy.rb',
 ]

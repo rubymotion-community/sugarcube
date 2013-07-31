@@ -9,6 +9,7 @@ ignore = [
 
   'sugarcube-anonymous.rb',
   'sugarcube-awesome.rb',
+  'sugarcube-pipes.rb',
   'sugarcube-unholy.rb',
 ]
 
