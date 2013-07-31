@@ -97,4 +97,9 @@ class UIView
     return image
   end
 
+  # Returns the receiver's bounds in the coordinate system of `destination`
+  def convert_bounds(destination)
+    self.convertRect(self.bounds, toView:destination)
+  end
+
 end

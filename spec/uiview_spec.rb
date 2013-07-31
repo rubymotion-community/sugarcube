@@ -28,4 +28,15 @@ describe "UIView" do
     image.scale.should == UIScreen.mainScreen.scale
   end
 
+  it "should convert bounds" do
+    view1 = UIView.alloc.initWithFrame([[0, 0], [100, 100]])
+    view2 = UIView.alloc.initWithFrame([[10, 5], [80, 90]])
+    view3 = UIView.alloc.initWithFrame([[10, 5], [60, 80]])
+    frame = view3.convert_bounds(view1)
+    frame.origin.x.should == 20
+    frame.origin.y.should == 10
+    frame.size.width.should == 60
+    frame.size.height.should == 80
+  end
+
 end
