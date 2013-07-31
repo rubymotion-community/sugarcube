@@ -102,4 +102,9 @@ class UIView
     self.convertRect(self.bounds, toView:destination)
   end
 
+  # Returns the receiver's bounds in the coordinate system of `destination`
+  def convert_origin(destination)
+    self.convertPoint([0, 0], toView:destination)
+  end
+
 end
