@@ -187,6 +187,9 @@ private
 
   # Adds the recognizer and keeps a strong reference to the Proc object.
   def sugarcube_add_gesture(proc, recognizer)
+    unless self.userInteractionEnabled?
+      puts("SugarCube: userInteractionEnabled is false on #{self.inspect}. Adding a gesture will have no effect.")
+    end
     self.addGestureRecognizer(recognizer)
 
     @sugarcube_recognizers = {} unless @sugarcube_recognizers
