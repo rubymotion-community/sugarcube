@@ -99,6 +99,15 @@ describe 'UIAlertView' do
     @touched.should == 'OK'
   end
 
+  it 'should call the block and pass the button and index when dismissed' do
+    alert = UIAlertView.alert('test') { |button, index| @touched, @touched_index = button, index }
+    proper_wait 0.6
+    alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
+
+    @touched.should == 'OK'
+    @touched_index.should == 0
+  end
+
   it 'should call the block when dismissed no matter when cancel button pressed' do
     alert = UIAlertView.alert('test', buttons:['cancel','ok']) { @touched = true }
     alert.numberOfButtons.should == 2
@@ -114,6 +123,15 @@ describe 'UIAlertView' do
     alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
 
     @touched.should == 'cancel'
+  end
+
+  it 'should call the block and pass the button and index when dismissed with multiple buttons' do
+    alert = UIAlertView.alert('test', buttons: ['cancel', 'ok']) { |button, index| @touched, @touched_index = button, index }
+    proper_wait 0.6
+    alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
+
+    @touched.should == 'cancel'
+    @touched_index.should == 0
   end
 
   describe 'Should call the appropriate block when :cancel and :success handlers are used' do
@@ -180,6 +198,20 @@ describe 'UIAlertView' do
       alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
 
       @text.should == 'test text 1 + test text 2'
+    end
+
+    it 'should work with :login_and_password_input and pass the index' do
+      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :login_and_password_input) { |button, text1, text2, index|
+        @text = "#{text1} + #{text2}"
+        @touched_index = index
+      }
+      proper_wait 0.6
+      alert.textFieldAtIndex(0).text = 'test text 1'
+      alert.textFieldAtIndex(1).text = 'test text 2'
+      alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
+
+      @text.should == 'test text 1 + test text 2'
+      @touched_index.should == alert.cancelButtonIndex
     end
 
   end

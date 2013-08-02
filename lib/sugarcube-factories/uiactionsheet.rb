@@ -144,9 +144,12 @@ module SugarCube
       if handler
         if handler.arity == 0
           handler.call
-        else
+        elsif handler.arity == 1
           button = buttons[index]
           handler.call(button)
+        else
+          button = buttons[index]
+          handler.call(button, index)
         end
       end
 

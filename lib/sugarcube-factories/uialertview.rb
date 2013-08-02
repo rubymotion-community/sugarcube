@@ -96,19 +96,26 @@ module SugarCube
       end
 
       if handler
-        # construct all the possible arguments you could send
-        args = [buttons[index]]
-        # add the first input if this is not the default
-        if alert.alertViewStyle != UIAlertViewStyleDefault
-          args << alert.textFieldAtIndex(0).text
-        end
-        # add the second one if this is a login+password input
-        if alert.alertViewStyle == UIAlertViewStyleLoginAndPasswordInput
-          args << alert.textFieldAtIndex(1).text
-        end
+        if handler.arity == 0
+          args = []
+        else
+          # construct all the possible arguments you could send
+          args = [buttons[index]]
+          # add the first input if this is not the default
+          if alert.alertViewStyle != UIAlertViewStyleDefault
+            args << alert.textFieldAtIndex(0).text
+          end
+          # add the second one if this is a login+password input
+          if alert.alertViewStyle == UIAlertViewStyleLoginAndPasswordInput
+            args << alert.textFieldAtIndex(1).text
+          end
 
-        # but only send the ones they asked for
-        args = args[0...handler.arity]
+          # and maybe you want the index, too
+          args << index
+
+          # but only send the ones they asked for
+          args = args[0...handler.arity]
+        end
         handler.call(*args)
       end
 
