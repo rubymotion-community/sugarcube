@@ -12,4 +12,7 @@ Motion::Project::App.setup do |app|
   Dir.glob(File.join(File.dirname(__FILE__), 'sugarcube-nsdate/**/*.rb')).reverse.each do |file|
     app.files.insert(insert_point, file)
   end
+
+  time = File.join(File.dirname(__FILE__), 'sugarcube-numbers/time.rb')
+  app.files.insert(insert_point, file)
 end
