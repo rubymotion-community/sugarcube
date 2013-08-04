@@ -14,5 +14,5 @@ Motion::Project::App.setup do |app|
   end
 
   time = File.join(File.dirname(__FILE__), 'sugarcube-numbers/time.rb')
-  app.files.insert(insert_point, file)
+  app.files.insert(insert_point, time)
 end
