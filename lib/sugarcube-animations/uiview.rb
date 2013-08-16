@@ -16,6 +16,9 @@ class UIView
       end
 
       delay = options[:delay] || 0
+      
+      damping_ratio = options[:spring_damping] || nil
+      spring_velocity = options[:spring_velocity] || 1.0
 
       # chain: true is used inside animation_chain blocks to prevent some weird
       # animation errors (nested animations do not delay/queue as you'd expect)
@@ -46,6 +49,8 @@ class UIView
 
         animation_options = curve | from_current
       end
+      
+      
 
       if duration == 0 && delay == 0
         animations.call
@@ -53,12 +58,24 @@ class UIView
       else
         prev_value = Thread.current[:sugarcube_chaining]
         Thread.current[:sugarcube_chaining] = true
-        UIView.animateWithDuration( duration,
-                             delay: delay,
-                           options: animation_options,
-                        animations: animations,
-                        completion: after_adjusted
-                                  )
+        
+        if damping_ratio
+          UIView.animateWithDuration( duration,
+                               delay: delay,
+              usingSpringWithDamping: damping_ratio, 
+               initialSpringVelocity: spring_velocity,
+                             options: animation_options, 
+                          animations: animations,
+                          completion: after_adjusted
+                                    ) 
+        else
+          UIView.animateWithDuration( duration,
+                               delay: delay,
+                             options: animation_options, 
+                          animations: animations,
+                          completion: after_adjusted
+                                    )
+        end
         Thread.current[:sugarcube_chaining] = prev_value
       end
       nil
