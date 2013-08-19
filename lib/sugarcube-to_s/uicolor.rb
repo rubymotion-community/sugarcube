@@ -1,6 +1,8 @@
 class UIColor
 
   def to_s
+    return super unless self.respond_to?(:alpha)
+
     alpha_s = ((alpha || 1) < 1 ? "(#{alpha})" : '')
     system_color = system_name
     return "UIColor.#{system_color}#{alpha_s}" if system_color
@@ -15,6 +17,8 @@ class UIColor
   end
 
   def inspect
+    return super unless self.respond_to?(:alpha)
+
     alpha_s = ((alpha || 1) < 1 ? "(#{alpha})" : '')
     if system_name
       return "UIColor.#{system_name}#{alpha_s}"
