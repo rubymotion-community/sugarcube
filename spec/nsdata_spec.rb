@@ -27,6 +27,34 @@ describe "NSData" do
     "\u00ab\u03c4\u03b1\u0411\u042c\u2113\u03c3\u00bb".nsdata.nsstring.should == "\u00ab\u03c4\u03b1\u0411\u042c\u2113\u03c3\u00bb"
   end
 
+  describe "should be able to create an image" do
+    before do
+      @image = 'little_square'.uiimage
+    end
+
+    it "shouldn't need a format" do
+      new_image = @image.nsdata.uiimage
+      new_image.should.is_a? UIImage
+      new_image.size.width.should == @image.size.width * @image.scale
+      new_image.size.height.should == @image.size.height * @image.scale
+    end
+
+    it "should support :png" do
+      new_image = @image.nsdata(:png).uiimage
+      new_image.should.is_a? UIImage
+      new_image.size.width.should == @image.size.width * @image.scale
+      new_image.size.height.should == @image.size.height * @image.scale
+    end
+
+    it "should support :jpg" do
+      new_image = @image.nsdata(:jpg).uiimage
+      new_image.should.is_a? UIImage
+      new_image.size.width.should == @image.size.width * @image.scale
+      new_image.size.height.should == @image.size.height * @image.scale
+    end
+
+  end
+
   describe "write_to" do
 
     after do
@@ -49,7 +77,7 @@ describe "NSData" do
       path.exists?.should == true
       url.nsdata.nsstring.should == contents
     end
-    
+
   end
 
 end
