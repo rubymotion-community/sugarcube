@@ -18,6 +18,7 @@ describe 'UIColor (CSS)' do
   it "should have a #system_name method" do
     UIColor.whiteColor.system_name.should == :whiteColor
     UIColor.blackColor.system_name.should == :blackColor
+    UIColor.lightGrayColor.system_name.should == :lightGrayColor
   end
 
   it "should return css color names" do
@@ -27,7 +28,7 @@ describe 'UIColor (CSS)' do
       fuchsia: :magenta,
     }
     Symbol.css_colors.each do |name, val|
-      name = corrections[name] || name
+      name = corrections.fetch(name, name)
 
       color = val.uicolor
       color.css_name.should == name

@@ -153,20 +153,6 @@ class UIColor
         break
       end
     end
-    Symbol.uicolors__deprecated.each do |old_name, new_name|
-      method = Symbol.uicolors[new_name]
-      if UIColor.send(method) == without_alpha
-        message = "The symbol #{old_name.inspect} has been deprecated in favor of #{new_name.inspect}"
-        if defined?(SugarCube::Legacy)
-          SugarCube::Legacy.log(message)
-        else
-          NSLog(message)
-        end
-
-        system_color = method
-        break
-      end
-    end
     return system_color
   end
 
