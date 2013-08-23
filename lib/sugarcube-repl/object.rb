@@ -1,4 +1,4 @@
-class Object
+module Kernel
 
 private
   def adjust(*args)
