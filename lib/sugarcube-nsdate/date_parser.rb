@@ -6,7 +6,12 @@ module SugarCube
     #
     # => 2013-02-20 09:00:00 -0800
     def self.parse_date(date_string)
-      detect(date_string).first.date
+      result = sugarcube_detect(date_string).first
+      if result
+        return result.date
+      else
+        return sugarcube_iso8601(date_string)
+      end
     end
 
     # Parse time zone from date
@@ -16,7 +21,8 @@ module SugarCube
     # Caveat: This is implemented per Apple documentation. I've never really
     #         seen it work.
     def self.parse_time_zone(date_string)
-      detect(date_string).first.timeZone
+      result = sugarcube_detect(date_string).first
+      result && result.timeZone
     end
 
     # Parse a date string: E.g.:
@@ -27,19 +33,36 @@ module SugarCube
     #
     # Divide by 3600.0 to get number of hours duration.
     def self.parse_duration(date_string)
-      detect(date_string).first.send(:duration)
+      result = sugarcube_detect(date_string).first
+      result && result.send(:duration)
     end
 
     # Parse a date into a raw match array for further processing
     def self.match(date_string)
-      detect(date_string)
+      sugarcube_detect(date_string)
     end
 
     private
-    def self.detect(date_string)
-      @@detector ||= NSDataDetector.dataDetectorWithTypes(NSTextCheckingTypeDate, error:Pointer.new(:object))
-      matches = @@detector.matchesInString(date_string, options:0, range:NSMakeRange(0, date_string.length))
+    def self.sugarcube_detect(date_string)
+      @@sugarcube_detector ||= NSDataDetector.dataDetectorWithTypes(NSTextCheckingTypeDate, error:Pointer.new(:object))
+      return @@sugarcube_detector.matchesInString(date_string, options:0, range:NSMakeRange(0, date_string.length))
     end
+
+    def self.sugarcube_iso8601(date_string)
+      @@sugarcube_iso_detectors ||= [
+        "yyyy-MM-dd'T'HH:mm:ss",
+        "yyyy-MM-dd'T'HH:mm:ssZ",
+        "yyyy-MM-dd'T'HH:mm:ss.S",
+        "yyyy-MM-dd'T'HH:mm:ss.SZ",
+        ].map do |date_format|
+          formatter = NSDateFormatter.alloc.init
+          formatter.timeZone = NSTimeZone.timeZoneWithAbbreviation "UTC"
+          formatter.dateFormat = date_format
+          formatter
+        end
+      return @@sugarcube_iso_detectors.inject(nil) { |date, formatter| date || formatter.dateFromString(date_string) }
+    end
+
   end
 end
 
