@@ -791,13 +791,31 @@ view.tumble  # great way to dismiss an alert-like-view
 
 These helpers all delegate to the `UIView.animate` method, which accepts all the
 options that `UIView.animateWithDuration(delay:options:animations:completion:)`
-accepts, but they are optional, and they will play nicely inside an animation
-chain.
+or `UIView.animateWithDuration(delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:)`
+accept.  All options are optional, and they will play nicely inside an animation
+chain (see below, and the wiki page).
 
 ```ruby
 UIView.animate do
   view.alpha = 0
 end
+```
+
+The "spring" animations use the method `UIView.animateWithDuration(delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:)`,
+available in iOS 7.  In testing, I've found this method to be slightly
+unreliable, so use with caution.  To "enable" it, pass in the `:damping` option.
+You can also use `:velocity` to set an initial velocity, if there is an
+animation in progress.
+
+```ruby
+new_frame = [[110, 200], [100, 20]]
+
+UIView.animate(damping: 0.1) do  # default velocity is 0
+  view.frame = new_frame
+end
+
+# equivalent:
+view.reframe_to(new_frame, damping: 0.1, velocity: 1)
 ```
 
 The [wiki] page documents all the different animation methods, and documents
