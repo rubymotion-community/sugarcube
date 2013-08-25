@@ -5,6 +5,15 @@ class UIView
     # If options is a Numeric, it is used as the duration.  Otherwise, duration
     # is an option, and defaults to 0.3.  All the transition methods work this
     # way.
+    # @option options [Float] :duration Animation duration. default: 0.3
+    # @option options [Float] :delay Delay before animations begin. default: 0
+    # @option options [Float] :damping Enables the "spring" animation.  Value of 1.0 is a stiff spring.
+    # @option options [Float] :velocity Used in a spring animation to set the initial velocity
+    # @option options [Proc]  :after A block that is executed when the animation is complete, useful for chaining (though the `animation_chain` method is better!)
+    # @option options [Fixnum] :options The options parameter that is passed to the UIView.animateWithDuration(...) method.  You can also use the more verbose options `:curve`, `:from_current`, and `:allow_interaction`
+    # @option options [Fixnum] :curve The animation curve option. default: UIViewAnimationOptionCurveEaseIn
+    # @option options [Boolean] :from_current Whether or not to have animations start from their current position (aka UIViewAnimationOptionBeginFromCurrentState)
+    # @option options [Boolean] :allow_interaction aka UIViewAnimationOptionAllowUserInteraction
     def animate(options={}, &animations)
       raise "animation block is required" unless animations
 
@@ -16,9 +25,9 @@ class UIView
       end
 
       delay = options[:delay] || 0
-      
-      damping_ratio = options[:spring_damping] || nil
-      spring_velocity = options[:spring_velocity] || 1.0
+
+      damping_ratio = options[:damping] || nil
+      spring_velocity = options[:velocity] || 0.0
 
       # chain: true is used inside animation_chain blocks to prevent some weird
       # animation errors (nested animations do not delay/queue as you'd expect)
@@ -58,20 +67,20 @@ class UIView
       else
         prev_value = Thread.current[:sugarcube_chaining]
         Thread.current[:sugarcube_chaining] = true
-        
+
         if damping_ratio
           UIView.animateWithDuration( duration,
                                delay: delay,
-              usingSpringWithDamping: damping_ratio, 
+              usingSpringWithDamping: damping_ratio,
                initialSpringVelocity: spring_velocity,
-                             options: animation_options, 
+                             options: animation_options,
                           animations: animations,
                           completion: after_adjusted
-                                    ) 
+                                    )
         else
           UIView.animateWithDuration( duration,
                                delay: delay,
-                             options: animation_options, 
+                             options: animation_options,
                           animations: animations,
                           completion: after_adjusted
                                     )
