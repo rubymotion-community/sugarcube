@@ -9,7 +9,7 @@ class NSString
       return self[1..-1].to_i(16).uicolor(alpha)
     end
 
-    img = self.uiimage
+    img = UIImage.imageNamed(self)
     img && img.uicolor(alpha)
   end
 
