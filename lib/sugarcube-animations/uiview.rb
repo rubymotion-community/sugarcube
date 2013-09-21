@@ -14,12 +14,12 @@ class UIView
     # @option options [Fixnum] :curve The animation curve option. default: UIViewAnimationOptionCurveEaseIn
     # @option options [Boolean] :from_current Whether or not to have animations start from their current position (aka UIViewAnimationOptionBeginFromCurrentState)
     # @option options [Boolean] :allow_interaction aka UIViewAnimationOptionAllowUserInteraction
-    def animate(options={}, &animations)
+    def animate(options={}, more_options={}, &animations)
       raise "animation block is required" unless animations
 
       if options.is_a? Numeric
         duration = options
-        options = {}
+        options = more_options
       else
         duration = options[:duration] || 0.3
       end
@@ -58,8 +58,8 @@ class UIView
 
         animation_options = curve | from_current
       end
-      
-      
+
+
 
       if duration == 0 && delay == 0
         animations.call
@@ -113,12 +113,9 @@ class UIView
   end
 
   # Same as UIView##animate, but acts on self
-  def animate(options={}, &animations)
+  def animate(options={}, more_options={}, &animations)
     if options.is_a? Numeric
-      duration = options
-      options = {}
-    else
-      duration = options[:duration] || 0.3
+      options = more_options.merge(duration: options)
     end
 
     assign = options[:assign] || {}
@@ -134,7 +131,7 @@ class UIView
   end
 
   # Changes the layer opacity.
-  def fade(options={}, &after)
+  def fade(options={}, more_options={}, &after)
     if options.is_a? Numeric
       options = { opacity: options }
     end
@@ -148,9 +145,9 @@ class UIView
 
   # Changes the layer opacity to 0.
   # @see #fade
-  def fade_out(options={}, &after)
+  def fade_out(options={}, more_options={}, &after)
     if options.is_a? Numeric
-      options = { duration: options }
+      options = more_options.merge(duration: options)
     end
 
     options[:opacity] ||= 0.0
@@ -160,9 +157,9 @@ class UIView
 
   # Changes the layer opacity to 1.
   # @see #fade
-  def fade_in(options={}, &after)
+  def fade_in(options={}, more_options={}, &after)
     if options.is_a? Numeric
-      options = { duration: options }
+      options = more_options.merge(duration: options)
     end
 
     options[:opacity] ||= 1.0
@@ -172,9 +169,9 @@ class UIView
 
   # Changes the layer opacity to 0 and then removes the view from its superview
   # @see #fade_out
-  def fade_out_and_remove(options={}, &after)
+  def fade_out_and_remove(options={}, more_options={}, &after)
     if options.is_a? Numeric
-      options = { duration: options }
+      options = more_options.merge(duration: options)
     end
 
     original_opacity = self.alpha
@@ -188,9 +185,9 @@ class UIView
     fade_out(options, &after_remove)
   end
 
-  def move_to(position, options={}, &after)
+  def move_to(position, options={}, more_options={}, &after)
     if options.is_a? Numeric
-      options = { duration: options }
+      options = more_options.merge(duration: options)
     end
 
     options[:after] = after
@@ -202,18 +199,18 @@ class UIView
     end
   end
 
-  def delta_to(delta, options={}, &after)
+  def delta_to(delta, options={}, more_options={}, &after)
     f = self.frame
     delta = SugarCube::CoreGraphics::Point(delta)
     position = SugarCube::CoreGraphics::Point(f.origin)
     to_position = CGPoint.new(position.x + delta.x, position.y + delta.y)
-    move_to(to_position, options, &after)
+    move_to(to_position, options, more_options, &after)
     self
   end
 
-  def resize_to(size, options={}, &after)
+  def resize_to(size, options={}, more_options={}, &after)
     if options.is_a? Numeric
-      options = { duration: options }
+      options = more_options.merge(duration: options)
     end
 
     options[:after] = after
@@ -225,9 +222,9 @@ class UIView
     end
   end
 
-  def reframe_to(frame, options={}, &after)
+  def reframe_to(frame, options={}, more_options={}, &after)
     if options.is_a? Numeric
-      options = { duration: options }
+      options = more_options.merge(duration: options)
     end
 
     options[:after] = after
@@ -302,10 +299,10 @@ class UIView
   #   view.shake(offset: 0.1, repeat: 2, duration: 0.5, keypath: 'transform.rotation')
   #   # slow nodding
   #   view.shake(offset: 20, repeat: 10, duration: 5, keypath: 'transform.translation.y')
-  def shake(options={})
+  def shake(options={}, more_options={})
     if options.is_a? Numeric
       duration = options
-      options = {}
+      options = more_options
     else
       duration = options[:duration] || 0.3
     end
@@ -350,10 +347,10 @@ class UIView
   # Moves the view off screen while slowly rotating it.
   #
   # Based on https://github.com/warrenm/AHAlertView/blob/master/AHAlertView/AHAlertView.m
-  def tumble(options={}, &after)
+  def tumble(options={}, more_options={}, &after)
     if options.is_a? Numeric
       default_duration = options
-      options = {}
+      options = more_options
     else
       default_duration = 0.3
     end
@@ -392,7 +389,7 @@ class UIView
 
   # Moves the view backwards, similar to what Google has been doing a lot
   # recently
-  def back_fiend!(options={})
+  def back_fiend!(options={}, more_options={})
     scale = options[:scale] || 0.5
     perspective = options[:perspective] || -0.0005
     size = options[:size] || -140
@@ -405,7 +402,7 @@ class UIView
   end
 
   # restores the layer after a call to 'back_fiend!'
-  def forward_fiend!(options={})
+  def forward_fiend!(options={}, more_options={})
     UIView.animate(options) do
       self.layer.transform = CATransform3DIdentity
     end
