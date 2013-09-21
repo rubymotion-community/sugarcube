@@ -51,7 +51,7 @@ class UIColor
       r = (self.red + color.red) / 2
       g = (self.green + color.green) / 2
       b = (self.blue + color.blue) / 2
-      a = (self.alpha + color.alpha) / 2
+      a = self.alpha
       UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
     else
       a = (color.alpha - self.alpha) * amount + self.alpha
