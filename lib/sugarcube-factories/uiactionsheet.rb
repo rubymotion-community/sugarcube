@@ -134,12 +134,13 @@ module SugarCube
     def actionSheet(alert, didDismissWithButtonIndex:index)
       handler = nil
       if index == alert.destructiveButtonIndex && on_destructive
-        handler = on_destructive || on_default
+        handler = on_destructive
       elsif index == alert.cancelButtonIndex && on_cancel
-        handler = on_cancel || on_default
-      else
-        handler = on_success || on_default
+        handler = on_cancel
+      elsif index != alert.destructiveButtonIndex && index != alert.cancelButtonIndex && on_success
+        handler = on_success
       end
+      handler ||= on_default
 
       if handler
         if handler.arity == 0

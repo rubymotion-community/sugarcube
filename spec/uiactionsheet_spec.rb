@@ -249,16 +249,54 @@ describe 'UIActionSheet' do
       proper_wait 0.6
     end
 
-    it 'should call block with "cancel" when cancel button is pressed' do
+    it 'should call block with :cancel when cancel button is pressed' do
       @alert.cancelButtonIndex.should == 3
       @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
       @touched.should == :cancel
     end
 
-    it 'should call block with "destructive" when destructive button is pressed' do
+    it 'should call block with :destructive when destructive button is pressed' do
       @alert.destructiveButtonIndex.should == 0
       @alert.dismissWithClickedButtonIndex(@alert.destructiveButtonIndex, animated: false)
       @touched.should == :destructive
+    end
+
+    it 'should call block with "test1" when first button is pressed' do
+      @alert.firstOtherButtonIndex.should == 1
+      @alert.dismissWithClickedButtonIndex(@alert.firstOtherButtonIndex, animated: false)
+      @touched.should == 'test1'
+      @touched_index.should == @alert.firstOtherButtonIndex
+    end
+
+    it 'should call block with "test2" when second button is pressed' do
+      @alert.dismissWithClickedButtonIndex(@alert.firstOtherButtonIndex + 1, animated: false)
+      @touched.should == 'test2'
+      @touched_index.should == @alert.firstOtherButtonIndex + 1
+    end
+
+  end
+
+  describe 'with success handler defined' do
+
+    before do
+      @touched = nil
+      @alert = UIActionSheet.alert('test',
+        buttons: ['cancel', 'destructive', 'test1', 'test2'],
+        success: ->(button, index){ @touched, @touched_index = button, index },
+        )
+      proper_wait 0.6
+    end
+
+    it 'should not call block when cancel button is pressed' do
+      @alert.cancelButtonIndex.should == 3
+      @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
+      @touched.should == nil
+    end
+
+    it 'should not call block when destructive button is pressed' do
+      @alert.destructiveButtonIndex.should == 0
+      @alert.dismissWithClickedButtonIndex(@alert.destructiveButtonIndex, animated: false)
+      @touched.should == nil
     end
 
     it 'should call block with "test1" when first button is pressed' do
