@@ -1137,8 +1137,8 @@ NSDate ([wiki][NSDate Wiki])
 > `require 'sugarcube-nsdate'`
 
 This package includes additions to the `NSDate` class, and related additions to
-`Fixnum` and `NSString`.  There's a lot here, so check out the [wiki][NSDate Wiki]
-for detailed information.
+`Numeric` and `NSString`.  There's a lot here, so check out the [wiki][NSDate
+Wiki] for detailed information.
 
 [NSDate Wiki]: https://github.com/rubymotion/sugarcube/wiki/NSDate
 
