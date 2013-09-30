@@ -82,23 +82,40 @@ class UIColor
     UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
   end
 
+  def hue
+    _sugarcube_hsb_colors && _sugarcube_hsb_colors[:hue]
+  end
+
+  def saturation
+    _sugarcube_hsb_colors && _sugarcube_hsb_colors[:saturation]
+  end
+
+  def brightness
+    _sugarcube_hsb_colors && _sugarcube_hsb_colors[:brightness]
+  end
+
   def red
-    _sugarcube_colors && _sugarcube_colors[:red]
+    _sugarcube_hsb_colors && _sugarcube_hsb_colors[:red]
   end
 
   def green
-    _sugarcube_colors && _sugarcube_colors[:green]
+    _sugarcube_rgb_colors && _sugarcube_rgb_colors[:green]
   end
 
   def blue
-    _sugarcube_colors && _sugarcube_colors[:blue]
+    _sugarcube_rgb_colors && _sugarcube_rgb_colors[:blue]
   end
 
   def alpha
-    _sugarcube_colors && _sugarcube_colors[:alpha]
+    if @sugarcube_hsb_colors
+      @sugarcube_hsb_colors[:alpha]
+    elsif _sugarcube_rgb_colors
+      _sugarcube_rgb_colors[:alpha]
+    end
   end
 
-  # returns the components OR'd together, as 32 bit RGB integer.
+  # returns the components OR'd together, as 32 bit RGB integer. alpha channel
+  # is dropped
   def to_i
     if self.red && self.green && self.blue
       red = (self.red * 255).round << 16
@@ -110,7 +127,8 @@ class UIColor
     end
   end
 
-  # returns the components as an array of 32 bit RGB values
+  # returns the components as an array of 32 bit RGB values. alpha channel is
+  # dropped
   def to_a
     if self.red && self.green && self.blue
       red = (self.red * 255).round
@@ -161,13 +179,41 @@ private
     return (c1.red - c2.red).abs + (c1.green - c2.green).abs + (c1.blue - c2.blue).abs
   end
 
-  def _sugarcube_colors
-    @color ||= begin
+  def _sugarcube_hsb_colors
+    @sugarcube_hsb_colors ||= begin
+      hue = Pointer.new(:float)
+      saturation = Pointer.new(:float)
+      brightness = Pointer.new(:float)
+      alpha = Pointer.new(:float)
+      white = Pointer.new(:float)
+
+      if self.getHue(hue, saturation:saturation, brightness:brightness, alpha:alpha)
+        {
+          hue: hue[0],
+          saturation: saturation[0],
+          brightness: brightness[0],
+          alpha: alpha[0],
+        }
+      elsif self.getWhite(white, alpha:alpha)
+        {
+          hue: 0,
+          saturation: 0,
+          brightness: white[0],
+          alpha: alpha[0],
+        }
+      else
+        nil
+      end
+    end
+  end
+
+  def _sugarcube_rgb_colors
+    @sugarcube_rgb_colors ||= begin
       red = Pointer.new(:float)
       green = Pointer.new(:float)
       blue = Pointer.new(:float)
-      white = Pointer.new(:float)
       alpha = Pointer.new(:float)
+      white = Pointer.new(:float)
       if self.getRed(red, green:green, blue:blue, alpha:alpha)
         {
           red: red[0],
