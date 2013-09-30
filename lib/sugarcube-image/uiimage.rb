@@ -1,49 +1,132 @@
+##|
+##|  REALLY HANDY STUFF!
+##|  many of these methods are translated from:
+##|  <http://www.catamount.com/blog/uiimage-extensions-for-cutting-scaling-and-rotating-uiimages/>
+##|  <http://www.catamount.com/forums/viewtopic.php?f=21&t=967>
+##|
 class UIImage
-  ##|
-  ##|  REALLY HANDY STUFF!
-  ##|  many of these methods are translated from:
-  ##|  <http://www.catamount.com/blog/uiimage-extensions-for-cutting-scaling-and-rotating-uiimages/>
-  ##|  <http://www.catamount.com/forums/viewtopic.php?f=21&t=967>
-  ##|
+
+  class << self
+
+    # Easily create a UIImage by using this factory method, and do your drawing
+    # in a block.  The core graphics context will be passed to the block you
+    # provide.  To create a canvas based on an image, use the instance method.
+    #
+    # @example
+    #     white_square = UIImage.canvas(size:[100, 100]) do |context|
+    #       :white.uicolor.set
+    #       CGContextAddRect(context, [[0, 0], [100, 100]])
+    #       CGContextDrawPath(context, KCGPathFill)
+    #     end
+    # :size is required, :scale defaults to the screen scale, and :opaque is
+    # false by default.
+    def canvas(options={}, &block)
+      size = options[:size]
+      raise ":size is required in #{self.name}##canvas" unless size
+      scale = options[:scale] || UIScreen.mainScreen.scale
+      opaque = options.fetch(:opaque, false)
+
+      UIGraphicsBeginImageContextWithOptions(size, opaque, scale)
+      block.call(UIGraphicsGetCurrentContext()) if block
+      new_image = UIGraphicsGetImageFromCurrentImageContext()
+      UIGraphicsEndImageContext()
+      return new_image
+    end
+
+  end
 
   # Merges the two images.  The target is drawn first, `image` is drawn on top.
   # The two images are centered, and the maximum size is used so that both
   # images fit on the canvas.
   def <<(image)
-    size = self.size
-    if image.size.width > size.width
-      size.width = image.size.width
-    end
-    if image.size.height > size.height
-      size.height = image.size.height
-    end
-
-    UIGraphicsBeginImageContextWithOptions(size, false, self.scale)
-
-    self_position = CGPoint.new((size.width - self.size.width) / 2, (size.width - self.size.width) / 2)
-    self.drawAtPoint(self_position)
-
-    image_position = CGPoint.new((size.width - image.size.width) / 2, (size.width - image.size.width) / 2)
-    image.drawAtPoint(image_position)
-
-    new_image = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return new_image
+    self.merge(image, at: :center, stretch: true)
   end
 
-  # Returns a cropped UIImage
-  def crop(rect)
-    if self.scale > 1.0
-      rect = CGRectMake(rect.origin.x * self.scale,
-                        rect.origin.y * self.scale,
-                        rect.size.width * self.scale,
-                        rect.size.height * self.scale)
+  # Draw an image on top of the receiver.  The `:at` option provides either an
+  # absolute location (Array or CGPoint) or relative location (Symbol, one of
+  # :top_left, :top, :top_right, :left, :center (default), :right, :bottom_left,
+  # :bottom, :bottom_right).  The `:stretch` option increases the canvas so
+  # there is room for both images, otherwise the target image's size is used.
+  def merge(image, options={})
+    image_position = options.fetch(:at, :center)
+    stretch = options.fetch(:stretch, false)
+
+    size = self.size
+    if stretch
+      if image.size.width > size.width
+        size.width = image.size.width
+      end
+      if image.size.height > size.height
+        size.height = image.size.height
+      end
     end
 
-    cgimage = CGImageCreateWithImageInRect(self.CGImage, rect)
-    result = UIImage.imageWithCGImage(cgimage, scale:self.scale, orientation:self.imageOrientation)
+    my_left = image_left = 0
+    my_top = image_top = 0
+    my_right = (size.width - self.size.width)
+    my_bottom = (size.height - self.size.height)
+    image_right = (size.width - image.size.width)
+    image_bottom = (size.height - image.size.height)
+    my_cx = my_right / 2.0
+    my_cy = my_bottom / 2.0
+    image_cx = image_right / 2.0
+    image_cy = image_bottom / 2.0
 
-    return result
+    case image_position
+    when :top_left, :topleft, :tl
+      my_position = [my_right, my_bottom]
+      image_position = [image_left, image_top]
+    when :top, :t
+      my_position = [my_cx, my_bottom]
+      image_position = [image_cx, image_top]
+    when :top_right, :topright, :tr
+      my_position = [my_left, my_bottom]
+      image_position = [image_right, image_top]
+    when :left, :l
+      my_position = [my_right, my_cy]
+      image_position = [image_left, image_cy]
+    when :center, :c
+      my_position = [my_cx, my_cy]
+      image_position = [image_cx, image_cy]
+    when :right, :r
+      my_position = [my_left, my_cy]
+      image_position = [image_right, image_cy]
+    when :bottom_left, :bottomleft, :bl
+      my_position = [my_right, my_top]
+      image_position = [image_left, image_bottom]
+    when :bottom, :b
+      my_position = [my_cx, my_top]
+      image_position = [image_cx, image_bottom]
+    when :bottom_right, :bottomright, :br
+      my_position = [my_left, my_top]
+      image_position = [image_right, image_bottom]
+    end
+
+    return self.draw(size: size, at: my_position) do
+      image.drawAtPoint(image_position)
+    end
+  end
+
+  # Returns a cropped UIImage.  The easiest way is to check for a CGImage
+  # backing, but if this image uses a CIImage backing, we draw a new (cropped)
+  # image.
+  def crop(rect)
+    rect = SugarCube::CoreGraphics::Rect(rect)
+    if self.CGImage
+      if self.scale > 1.0
+        rect = CGRectMake(rect.origin.x * self.scale,
+                          rect.origin.y * self.scale,
+                          rect.size.width * self.scale,
+                          rect.size.height * self.scale)
+      end
+
+      cgimage = CGImageCreateWithImageInRect(self.CGImage, rect)
+      return UIImage.imageWithCGImage(cgimage, scale:self.scale, orientation:self.imageOrientation)
+    else
+      return self.canvas(size: rect.size) do |context|
+        self.drawAtPoint(CGPoint.new(-rect.origin.x, -rect.origin.y))
+      end
+    end
   end
 
   ##|
@@ -138,23 +221,23 @@ class UIImage
       mid_x = max_x / 2
       mid_y = max_y / 2
       case position
-      when :top_left, :topleft
+      when :top_left, :topleft, :tl
         position = CGPoint.new(min_x, min_y)
-      when :top
+      when :top, :t
         position = CGPoint.new(mid_x, min_y)
-      when :top_right, :topright
+      when :top_right, :topright, :tr
         position = CGPoint.new(max_x, min_y)
-      when :left
+      when :left, :l
         position = CGPoint.new(min_x, mid_x)
-      when :center
+      when :center, :c
         position = CGPoint.new(mid_x, mid_x)
-      when :right
+      when :right, :r
         position = CGPoint.new(max_x, mid_x)
-      when :bottom_left, :bottomleft
+      when :bottom_left, :bottomleft, :bl
         position = CGPoint.new(min_x, max_y)
-      when :bottom
+      when :bottom, :b
         position = CGPoint.new(mid_x, max_y)
-      when :bottom_right, :bottomright
+      when :bottom_right, :bottomright, :br
         position = CGPoint.new(max_x, max_y)
       else
         raise "Unknown position #{position.inspect}"
@@ -165,17 +248,15 @@ class UIImage
     thumbnail_x = position.x * (new_size.width - my_size.width) / my_size.width
     thumbnail_y = position.y * (new_size.height - my_size.height) / my_size.height
 
-    UIGraphicsBeginImageContextWithOptions(new_size, false, scale)
-    thumbnail_rect = CGRectZero
-    thumbnail_rect.origin = [thumbnail_x, thumbnail_y]
-    thumbnail_rect.size  = my_size
+    new_image = self.canvas(size: new_size) do
+      thumbnail_rect = CGRectZero
+      thumbnail_rect.origin = [thumbnail_x, thumbnail_y]
+      thumbnail_rect.size  = my_size
 
-    self.drawInRect(thumbnail_rect)
+      self.drawInRect(thumbnail_rect)
+    end
 
-    new_image = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-
-    raise "could not scale image"  unless new_image
+    raise "could not scale image" unless new_image
 
     return new_image
   end
@@ -270,28 +351,23 @@ class UIImage
     end
 
     # this is actually the interesting part:
+    new_image = self.canvas(size: new_size) do |context|
+      if background
+        background = background.uicolor
+        background.setFill
+        CGContextAddRect(context, [[0, 0], new_size])
+        CGContextDrawPath(context, KCGPathFill)
+      end
 
-    UIGraphicsBeginImageContextWithOptions(new_size, false, self.scale)
+      thumbnail_rect = CGRectZero
+      thumbnail_rect.origin = thumbnail_point
+      thumbnail_rect.size.width  = scaled_width
+      thumbnail_rect.size.height = scaled_height
 
-    if background
-      background = background.uicolor
-      context = UIGraphicsGetCurrentContext()
-      background.setFill
-      CGContextAddRect(context, [[0, 0], new_size])
-      CGContextDrawPath(context, KCGPathFill)
+      self.drawInRect(thumbnail_rect)
     end
 
-    thumbnail_rect = CGRectZero
-    thumbnail_rect.origin = thumbnail_point
-    thumbnail_rect.size.width  = scaled_width
-    thumbnail_rect.size.height = scaled_height
-
-    self.drawInRect(thumbnail_rect)
-
-    new_image = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-
-    raise "could not scale image"  unless new_image
+    raise "could not scale image" unless new_image
 
     return new_image
   end
@@ -300,13 +376,11 @@ class UIImage
   ##|  image modifications
   ##|
   def rounded(corner_radius=5)
-    UIGraphicsBeginImageContextWithOptions(size, false, self.scale)
-    path = UIBezierPath.bezierPathWithRoundedRect([[0, 0], size], cornerRadius:corner_radius)
-    path.addClip
-    self.drawInRect([[0, 0], size])
-    new_image = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return new_image
+    return self.canvas do
+      path = UIBezierPath.bezierPathWithRoundedRect([[0, 0], size], cornerRadius:corner_radius)
+      path.addClip
+      self.drawInRect([[0, 0], size])
+    end
   end
 
   # Returns a CIImage with the filter applied to the receiver.  The return value
@@ -362,20 +436,17 @@ class UIImage
   def overlay(color)
     image_rect = CGRectMake(0, 0, self.size.width, self.size.height)
 
-    UIGraphicsBeginImageContextWithOptions(image_rect.size, false, self.scale)
-    ctx = UIGraphicsGetCurrentContext()
+    UIImage.canvas(size: self.size, scale: self.scale) do |ctx|
+      self.drawInRect(image_rect)
 
-    self.drawInRect(image_rect)
+      CGContextSetFillColorWithColor(ctx, color.uicolor.CGColor)
+      CGContextSetAlpha(ctx, 1)
+      CGContextSetBlendMode(ctx, KCGBlendModeSourceAtop)
+      CGContextFillRect(ctx, image_rect)
 
-    CGContextSetFillColorWithColor(ctx, color.uicolor.CGColor)
-    CGContextSetAlpha(ctx, 1)
-    CGContextSetBlendMode(ctx, KCGBlendModeSourceAtop)
-    CGContextFillRect(ctx, image_rect)
-
-    image_ref = CGBitmapContextCreateImage(ctx)
-    new_image = UIImage.imageWithCGImage(image_ref, scale:self.scale, orientation:self.imageOrientation)
-
-    UIGraphicsEndImageContext()
+      image_ref = CGBitmapContextCreateImage(ctx)
+      new_image = UIImage.imageWithCGImage(image_ref, scale:self.scale, orientation:self.imageOrientation)
+    end
 
     return new_image
   end
@@ -402,24 +473,18 @@ class UIImage
     new_size = CGSize.new(w, h)
     new_size = self.size
 
-    # Create the bitmap context
-    UIGraphicsBeginImageContextWithOptions(new_size, false, self.scale)
-    bitmap = UIGraphicsGetCurrentContext()
+    return self.canvas(size: new_size) do |context|
+      # Move the origin to the middle of the image so we will rotate and scale around the center.
+      CGContextTranslateCTM(context, new_size.width / 2, new_size.height / 2)
 
-    # Move the origin to the middle of the image so we will rotate and scale around the center.
-    CGContextTranslateCTM(bitmap, new_size.width / 2, new_size.height / 2)
+      # Rotate the image context
+      CGContextRotateCTM(context, radian)
 
-    # Rotate the image context
-    CGContextRotateCTM(bitmap, radian)
-
-    # otherwise it'll be upside down:
-    CGContextScaleCTM(bitmap, 1.0, -1.0)
-    # Now, draw the rotated/scaled image into the context
-    CGContextDrawImage(bitmap, CGRectMake(-new_size.width / 2, -new_size.height / 2, new_size.width, new_size.height), self.CGImage)
-
-    new_image = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return new_image
+      # otherwise it'll be upside down:
+      CGContextScaleCTM(context, 1.0, -1.0)
+      # Now, draw the rotated/scaled image into the context
+      CGContextDrawImage(context, CGRectMake(-new_size.width / 2, -new_size.height / 2, new_size.width, new_size.height), self.CGImage)
+    end
   end
 
   ##|
@@ -501,6 +566,28 @@ class UIImage
     return [red, green, blue].uicolor(alpha / 255.0)
   end
 
+  def avg_color
+    colorSpace = CGColorSpaceCreateDeviceRGB()
+    rgba = Pointer.new(:uchar, 4)
+    context = CGBitmapContextCreate(rgba, 1, 1, 8, 4, colorSpace, KCGImageAlphaPremultipliedLast | KCGBitmapByteOrder32Big)
+
+    CGContextDrawImage(context, CGRectMake(0, 0, 1, 1), self.CGImage)
+
+    if rgba[3] > 0
+        alpha = rgba[3] / 255.0
+        multiplier = alpha / 255.0
+        return UIColor.colorWithRed(rgba[0] * multiplier,
+                              green:rgba[1] * multiplier,
+                               blue:rgba[2] * multiplier,
+                              alpha:alpha)
+    else
+        return UIColor.colorWithRed(rgba[0] / 255.0,
+                              green:rgba[1] / 255.0,
+                               blue:rgba[2] / 255.0,
+                              alpha:rgba[3] / 255.0)
+    end
+  end
+
   def at_scale(scale)
     if scale == self.scale
       return self
@@ -510,14 +597,33 @@ class UIImage
     new_size.width = new_size.width * self.scale / scale
     new_size.height = new_size.height * self.scale / scale
 
-    UIGraphicsBeginImageContextWithOptions(new_size, false, scale)
-    thumbnail_rect = CGRect.new([0, 0], new_size)
+    return self.canvas(size: new_size, scale: scale) do
+      thumbnail_rect = CGRect.new([0, 0], new_size)
+      self.drawInRect(thumbnail_rect)
+    end
+  end
 
-    self.drawInRect(thumbnail_rect)
+  # Using the image as the background, you can use this method to draw anything
+  # on top, like text or other images.
+  def draw(options={}, &block)
+    at = options[:at] || [0, 0]
+    return self.canvas(options) do |context|
+      self.drawAtPoint(at)
+      block.call(context) if block
+    end
+  end
 
-    new_image = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return new_image
+  def canvas(options={}, &block)
+    unless options[:size]
+      options[:size] = self.size
+    end
+    unless options[:scale]
+      options = options.merge(scale: self.scale)
+    end
+
+    self.class.canvas(options) do |context|
+      block.call(context) if block
+    end
   end
 
 end
