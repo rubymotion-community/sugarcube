@@ -5,7 +5,7 @@ class UILabel
     if text && text.length > 20
       text = text[0..20] + '...'
     end
-    super options.merge(inner: 'text: ' + text.inspect)
+    super options.merge(inner: {text: text})
   end
 
 end
