@@ -52,4 +52,48 @@ describe "UIView" do
     point.y.should == 10
   end
 
+  it "should return x" do
+    view = UIView.alloc.initWithFrame([[100, 200], [300, 400]])
+    view.x.should == view.frame.origin.x
+  end
+
+  it "should set x" do
+    view = UIView.alloc.initWithFrame([[100, 200], [300, 400]])
+    view.x = 500
+    view.x.should == 500
+  end
+
+  it "should return y" do
+    view = UIView.alloc.initWithFrame([[100, 200], [300, 400]])
+    view.y.should == view.frame.origin.y
+  end
+
+  it "should set y" do
+    view = UIView.alloc.initWithFrame([[100, 200], [300, 400]])
+    view.y = 500
+    view.y.should == 500
+  end
+
+  it "should return width" do
+    view = UIView.alloc.initWithFrame([[100, 200], [300, 400]])
+    view.width.should == view.frame.size.width
+  end
+
+  it "should set width" do
+    view = UIView.alloc.initWithFrame([[100, 200], [300, 400]])
+    view.width = 500
+    view.width.should == 500
+  end
+
+  it "should return height" do
+    view = UIView.alloc.initWithFrame([[100, 200], [300, 400]])
+    view.height.should == view.frame.size.height
+  end
+
+  it "should set height" do
+    view = UIView.alloc.initWithFrame([[100, 200], [300, 400]])
+    view.height = 500
+    view.height.should == 500
+  end
+
 end

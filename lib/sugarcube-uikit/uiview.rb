@@ -107,4 +107,46 @@ class UIView
     self.convertPoint([0, 0], toView:destination)
   end
 
+  # Easily get and set a UIView's frame properties
+
+  def x
+    self.frame.origin.x
+  end
+
+  def setX(newX)
+    newFrame = self.frame
+    newFrame.origin.x = newX
+    self.frame = newFrame
+  end
+
+  def y
+    self.frame.origin.y
+  end
+
+  def setY(newY)
+    newFrame = self.frame
+    newFrame.origin.y = newY
+    self.frame = newFrame
+  end
+
+  def height
+    self.frame.size.height
+  end
+
+  def setHeight(newHeight)
+    newFrame = self.frame
+    newFrame.size.height = newHeight
+    self.frame = newFrame
+  end
+
+  def width
+    self.frame.size.width
+  end
+
+  def setWidth(newWidth)
+    newFrame = self.frame
+    newFrame.size.width = newWidth
+    self.frame = newFrame
+  end
+
 end
