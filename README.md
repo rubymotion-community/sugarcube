@@ -451,6 +451,10 @@ image.stretchable(insets)
 # will be made transparent, and black opaque.
 image.masked(mask_image)
 
+# Apply a color overlay to an image. This is used used on icons (PNG's), on which
+# you want to change the color.
+image.overlay(UIColor.redColor)
+
 # Combine two images
 image_ab = image_a << image_b
 ```
