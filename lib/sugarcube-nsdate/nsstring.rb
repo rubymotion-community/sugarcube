@@ -1,5 +1,10 @@
 class NSString
 
+  # checks ISO8601 formats *before* falling back on natural language detection
+  def nsdate
+    SugarCube::DateParser.iso8601(self) || SugarCube::DateParser.parse_date(self)
+  end
+
   def nstimezone
     case self
     when /([+-]?\d{4})/

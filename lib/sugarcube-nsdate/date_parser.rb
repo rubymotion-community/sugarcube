@@ -1,16 +1,18 @@
 module SugarCube
   module DateParser
+    module_function
+
     # Parse a date string: E.g.:
     #
     # SugarCube::DateParser.parse_date "There is a date in here tomorrow at 9:00 AM"
     #
     # => 2013-02-20 09:00:00 -0800
-    def self.parse_date(date_string)
+    def parse_date(date_string)
       result = sugarcube_detect(date_string).first
       if result
         return result.date
       else
-        return sugarcube_iso8601(date_string)
+        return iso8601(date_string)
       end
     end
 
@@ -20,7 +22,7 @@ module SugarCube
     #
     # Caveat: This is implemented per Apple documentation. I've never really
     #         seen it work.
-    def self.parse_time_zone(date_string)
+    def parse_time_zone(date_string)
       result = sugarcube_detect(date_string).first
       result && result.timeZone
     end
@@ -32,23 +34,17 @@ module SugarCube
     # => 21600.0
     #
     # Divide by 3600.0 to get number of hours duration.
-    def self.parse_duration(date_string)
+    def parse_duration(date_string)
       result = sugarcube_detect(date_string).first
       result && result.send(:duration)
     end
 
     # Parse a date into a raw match array for further processing
-    def self.match(date_string)
+    def match(date_string)
       sugarcube_detect(date_string)
     end
 
-    private
-    def self.sugarcube_detect(date_string)
-      @@sugarcube_detector ||= NSDataDetector.dataDetectorWithTypes(NSTextCheckingTypeDate, error:Pointer.new(:object))
-      return @@sugarcube_detector.matchesInString(date_string, options:0, range:NSMakeRange(0, date_string.length))
-    end
-
-    def self.sugarcube_iso8601(date_string)
+    def iso8601(date_string)
       @@sugarcube_iso_detectors ||= [
         "yyyy-MM-dd'T'HH:mm:ss",
         "yyyy-MM-dd'T'HH:mm:ssZ",
@@ -62,6 +58,12 @@ module SugarCube
         end
       return @@sugarcube_iso_detectors.inject(nil) { |date, formatter| date || formatter.dateFromString(date_string) }
     end
+
+    def sugarcube_detect(date_string)
+      @@sugarcube_detector ||= NSDataDetector.dataDetectorWithTypes(NSTextCheckingTypeDate, error:Pointer.new(:object))
+      return @@sugarcube_detector.matchesInString(date_string, options:0, range:NSMakeRange(0, date_string.length))
+    end
+    private :sugarcube_detect
 
   end
 end
