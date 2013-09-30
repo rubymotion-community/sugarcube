@@ -358,7 +358,7 @@ class UIImage
   # Apply a color overlay to the image (very practical with PNG button images)
   # 
   # @example
-  #   image.color(UIColor.redColor)
+  #   image.overlay(UIColor.redColor)
   def overlay(color)
     image_rect = CGRectMake(0, 0, self.size.width, self.size.height)
     
