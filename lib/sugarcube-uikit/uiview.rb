@@ -80,7 +80,7 @@ class UIView
     if use_content_size
       UIGraphicsBeginImageContextWithOptions(contentSize, false, scale)
       context = UIGraphicsGetCurrentContext()
-      subviews.each do |subview|
+      self.subviews.each do |subview|
         CGContextSaveGState(context)
         CGContextTranslateCTM(context, subview.frame.origin.x, subview.frame.origin.y)
         subview.layer.renderInContext(context)
