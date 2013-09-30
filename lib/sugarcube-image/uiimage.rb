@@ -356,30 +356,30 @@ class UIImage
   end
 
   # Apply a color overlay to the image (very practical with PNG button images)
-  # 
+  #
   # @example
   #   image.overlay(UIColor.redColor)
   def overlay(color)
     image_rect = CGRectMake(0, 0, self.size.width, self.size.height)
-    
+
     UIGraphicsBeginImageContextWithOptions(image_rect.size, false, self.scale)
     ctx = UIGraphicsGetCurrentContext()
-    
+
     self.drawInRect(image_rect)
-    
-    CGContextSetFillColorWithColor(ctx, color.CGColor)
+
+    CGContextSetFillColorWithColor(ctx, color.uicolor.CGColor)
     CGContextSetAlpha(ctx, 1)
     CGContextSetBlendMode(ctx, KCGBlendModeSourceAtop)
     CGContextFillRect(ctx, image_rect)
-    
+
     image_ref = CGBitmapContextCreateImage(ctx)
     new_image = UIImage.imageWithCGImage(image_ref, scale:self.scale, orientation:self.imageOrientation)
-    
+
     UIGraphicsEndImageContext()
-    
+
     return new_image
   end
-  
+
   ##|
   ##|  rotate images
   ##|

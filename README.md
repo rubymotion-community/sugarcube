@@ -455,6 +455,7 @@ image.masked(mask_image)
 # Apply a color overlay to an image. This is used used on icons (PNG's), on which
 # you want to change the color.
 image.overlay(UIColor.redColor)
+image.overlay(:red)
 
 # Combine two images
 image_ab = image_a << image_b
