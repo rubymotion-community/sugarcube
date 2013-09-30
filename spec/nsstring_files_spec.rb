@@ -152,8 +152,11 @@ describe 'NSString' do
 
     describe '"PkgInfo".resource_url' do
       before { @it = "PkgInfo".resource_url.absoluteString }
-      it 'should start with "file:///Users"' do
-        @it.hasPrefix("file:///Users").should == true
+      it 'should start with "file://localhost/Users"' do
+        (
+          @it.hasPrefix("file://localhost/Users") ||
+          @it.hasPrefix("file:///Users")
+        ).should == true
       end
       it 'should end with "SugarCube_spec.app/PkgInfo"' do
         @it.hasSuffix("SugarCube_spec.app/PkgInfo").should == true
