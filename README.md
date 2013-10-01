@@ -173,6 +173,7 @@ A few varieties of methods are in this package:
 * Conversions: `'string-to'.uiimage`, `image.uiimageview`
 * Helpers: shorthands for common operations, like `a_view << a_subview`
 * Symbols: `:system.uifont(20)`, `:label.uifontsize`
+* Frame accessors: `a_view.x`, `a_view.x = 100`
 
 There are too many methods to define here. Instead: a complete list of methods
 is available in the [documentation][], and the [wiki page][UIKit Wiki] is a
