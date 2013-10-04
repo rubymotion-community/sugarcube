@@ -843,6 +843,14 @@ end.and_then do
 end.start
 ```
 
+Core Animation classes get some love, too!
+
+```ruby
+view.layer.basic_animation('opacity', from: 0, to: 1, duration: 0.1)
+```
+
+Lots more information in the Wiki!
+
 [Animations Wiki]: https://github.com/rubymotion/sugarcube/wiki/Animations
 
 Modal
