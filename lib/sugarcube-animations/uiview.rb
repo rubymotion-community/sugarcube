@@ -61,6 +61,8 @@ class UIView
 
 
 
+
+
       if duration == 0 && delay == 0
         animations.call
         after_adjusted.call(true) if after_adjusted
