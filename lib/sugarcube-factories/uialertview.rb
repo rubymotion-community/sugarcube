@@ -59,9 +59,6 @@ class UIAlertView
       style = style.uialertstyle if style.respond_to?(:uialertstyle)
       alert.alertViewStyle = style
     end
-    if options[:content]
-      alert.contentView = options[:content]
-    end
     if options.fetch(:show, true)
       alert.show
     end

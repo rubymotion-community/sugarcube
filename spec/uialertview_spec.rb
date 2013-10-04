@@ -26,13 +26,6 @@ describe 'UIAlertView' do
     alert.title.should == 'test title'
   end
 
-  it 'should assign the contentView' do
-    view = UIView.alloc.initWithFrame([[0, 0], [100, 100]])
-    view.backgroundColor = :red.uicolor
-    alert = UIAlertView.alert('test title', content: view, show: false)
-    alert.contentView.should == view
-  end
-
   it 'should support three args' do
     alert = UIAlertView.alert('test title', 'test message', show: false)
     alert.visible?.should == false
