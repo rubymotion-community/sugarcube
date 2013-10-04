@@ -459,6 +459,15 @@ image.overlay(:red)
 
 # Combine two images
 image_ab = image_a << image_b
+
+# Create an image from scratch!
+UIImage.canvas([100, 100]) do |context|  # opaque: false, scale: UIScreen.mainScreen.scale
+  # draw here!
+end
+# use an image as a background to draw on
+image.draw do |context|
+  # draw here!
+end
 ```
 
 ###### CIFilter additions

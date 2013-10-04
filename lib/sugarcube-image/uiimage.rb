@@ -13,15 +13,23 @@ class UIImage
     # provide.  To create a canvas based on an image, use the instance method.
     #
     # @example
-    #     white_square = UIImage.canvas(size:[100, 100]) do |context|
+    #     white_square = UIImage.canvas([100, 100]) do |context|
     #       :white.uicolor.set
     #       CGContextAddRect(context, [[0, 0], [100, 100]])
     #       CGContextDrawPath(context, KCGPathFill)
     #     end
     # :size is required, :scale defaults to the screen scale, and :opaque is
     # false by default.
-    def canvas(options={}, &block)
-      size = options[:size]
+    #
+    # The first argument can be a size, or an options dict
+    def canvas(options_or_size={}, more_options={}, &block)
+      if options_or_size.is_a?(NSDictionary)
+        options = options_or_size
+        size = options[:size]
+      else
+        options = more_options
+        size = options_or_size
+      end
       raise ":size is required in #{self.name}##canvas" unless size
       scale = options[:scale] || UIScreen.mainScreen.scale
       opaque = options.fetch(:opaque, false)
@@ -613,10 +621,19 @@ class UIImage
     end
   end
 
-  def canvas(options={}, &block)
+  # the first argument can be a size, or an options dict
+  def canvas(options_or_size={}, more_options={}, &block)
+    if options_or_size.is_a?(NSDictionary)
+      options = options_or_size
+    else
+      options = more_options
+      options[:size] = options_or_size
+    end
+
     unless options[:size]
       options[:size] = self.size
     end
+
     unless options[:scale]
       options = options.merge(scale: self.scale)
     end
