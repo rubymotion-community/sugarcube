@@ -561,6 +561,15 @@ These methods are added onto the UIColor class:
 :white.uicolor.mix_with(:black.uicolor, 0.75)  # => 0xbfbfbf.uicolor
 :white.uicolor.mix_with(:black.uicolor, 1)  # => :black
 
+# you can get information about a color:
+:cyan.uicolor.red         # => 0
+:cyan.uicolor.green       # => 1
+:cyan.uicolor.blue        # => 1
+:cyan.uicolor.hue         # => 0.5
+:cyan.uicolor.saturation  # => 1.0
+:cyan.uicolor.brightness  # => 1.0
+:cyan.uicolor(0.9).alpha  # => 0.9
+
 # convert to CGColor
 color.cgcolor
 ```
