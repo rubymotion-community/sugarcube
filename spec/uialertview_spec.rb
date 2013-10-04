@@ -171,13 +171,16 @@ describe 'UIAlertView' do
     end
 
     it 'should work with :secure_text_input' do
+      @called = false
       alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :secure_text_input) { |button, text|
+        @called = true
         @text = text
       }
       proper_wait 0.6
       alert.textFieldAtIndex(0).text = 'test text'
-      alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
+      alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
 
+      @called.should == true
       @text.should == 'test text'
     end
 
