@@ -85,16 +85,15 @@ module SugarCube
     attr_accessor :on_default
 
     def alertView(alert, didDismissWithButtonIndex:index)
-      cancel_handler = on_cancel || on_default
-      success_handler = on_success || on_default
       handler = nil
-
       if index == alert.cancelButtonIndex
-        handler = cancel_handler
+        handler = on_cancel
       else
-        handler = success_handler
+        handler = on_success
       end
+      handler ||= on_default
 
+      args = nil
       if handler
         if handler.arity == 0
           args = []
