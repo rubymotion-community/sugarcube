@@ -997,6 +997,13 @@ e.g. 1024 bytes in a kilobyte.
 1.megabyte.in_kilobytes   # => 1024
 ```
 
+### Screen
+
+```ruby
+1.pixel  # => 1 on non-retina, 0.5 on retina.
+         # Useful when drawing if you want to specify the number of pixels
+```
+
 AttributedString
 -----
 
