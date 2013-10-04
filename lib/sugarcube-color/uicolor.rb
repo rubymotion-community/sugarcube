@@ -95,7 +95,7 @@ class UIColor
   end
 
   def red
-    _sugarcube_hsb_colors && _sugarcube_hsb_colors[:red]
+    _sugarcube_rgb_colors && _sugarcube_rgb_colors[:red]
   end
 
   def green
