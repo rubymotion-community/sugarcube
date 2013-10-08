@@ -1371,20 +1371,26 @@ CoreLocation
 Open up `CLLocationCoordinate2D` to provide handy-dandies
 
 ```ruby
+# distances
+
 > denver_co = CLLocationCoordinate2D.new(39.739188,-104.985223)
 => #<CLLocationCoordinate2D latitude=39.7391815185547 longitude=-104.985198974609>
 > loveland_oh = CLLocationCoordinate2D.new(39.268128,-84.257648)
 => #<CLLocationCoordinate2D latitude=39.2681274414062 longitude=-84.2576293945312>
 > denver_co.distance_to(loveland_oh)
-=> 1773425.5  # in meters
+=> 1773425.54893302  # in meters
 > denver_co.distance_to(loveland_oh).in_miles
-=> 1101.955078125
+=> 1101.95556640625
+
+# move around the globe using x/y distances in miles or kilometers
 > denver_co.delta_miles(1101.6, -32.556)
 => #<CLLocationCoordinate2D latitude=39.2681427001953 longitude=-84.2577209472656>
-> denver_co.delta_miles(1101.6, -32.556).distance_to(loveland_oh)
-=> 8.0804328918457   # this is in meters
+# our location is pretty close!
 > denver_co.delta_miles(1101.6, -32.556).distance_to(loveland_oh).miles
-=> 0.00502094626426697
+=> 0.90043306350708
+
+> denver_co.delta_kilometers(10, 10)  # 10 kilometers east, 10 kilometers north
+=> #<CLLocationCoordinate2D latitude=39.8290100097656 longitude=-104.868377685547>
 ```
 
 Pipes
