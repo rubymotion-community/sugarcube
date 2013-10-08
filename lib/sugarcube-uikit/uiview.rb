@@ -99,7 +99,21 @@ class UIView
 
   # Returns the receiver's bounds in the coordinate system of `destination`
   def convert_bounds(destination)
-    self.convertRect(self.bounds, toView:destination)
+    message = "The (ambiguously named) `convert_bounds` method has been deprecated, use `convert_frame_to` (or `convert_frame_from`)"
+    if defined?(SugarCube::Legacy)
+      SugarCube::Legacy.log(message)
+    else
+      NSLog(message)
+    end
+    return convert_frame_to(destination)
+  end
+
+  def convert_frame_to(destination)
+    return self.convertRect(CGRectMake(0, 0, self.frame.size.width, self.frame.size.height), toView:destination)
+  end
+
+  def convert_frame_from(source)
+    return self.convertRect(CGRectMake(0, 0, source.frame.size.width, source.frame.size.height), fromView:source)
   end
 
   # Returns the receiver's bounds in the coordinate system of `destination`

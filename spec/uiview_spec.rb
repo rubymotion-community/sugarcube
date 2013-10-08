@@ -28,17 +28,30 @@ describe "UIView" do
     image.scale.should == UIScreen.mainScreen.scale
   end
 
-  it "should convert bounds" do
-    view1 = UIView.alloc.initWithFrame([[0, 0], [100, 100]])
-    view2 = UIView.alloc.initWithFrame([[10, 5], [80, 90]])
-    view1 << view2
-    view3 = UIView.alloc.initWithFrame([[10, 5], [60, 80]])
-    view2 << view3
-    frame = view3.convert_bounds(view1)
-    frame.origin.x.should == 20
-    frame.origin.y.should == 10
-    frame.size.width.should == 60
-    frame.size.height.should == 80
+  describe "should convert bounds" do
+    before do
+      @view1 = UIView.alloc.initWithFrame([[0, 0], [100, 100]])
+      @view2 = UIView.alloc.initWithFrame([[10, 5], [80, 90]])
+      @view1 << @view2
+      @view3 = UIView.alloc.initWithFrame([[10, 5], [60, 80]])
+      @view2 << @view3
+    end
+
+    it "should convert_frame_to" do
+      frame = @view3.convert_frame_to(@view1)
+      frame.origin.x.should == 20
+      frame.origin.y.should == 10
+      frame.size.width.should == 60
+      frame.size.height.should == 80
+    end
+
+    it "should convert_frame_from" do
+      frame = @view1.convert_frame_from(@view3)
+      frame.origin.x.should == 20
+      frame.origin.y.should == 10
+      frame.size.width.should == 60
+      frame.size.height.should == 80
+    end
   end
 
   it "should convert point" do

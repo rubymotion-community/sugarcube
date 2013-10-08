@@ -171,7 +171,7 @@ A big package chock full of methods to make working in UIKit a joy.
 A few varieties of methods are in this package:
 
 * Conversions: `'string-to'.uiimage`, `image.uiimageview`
-* Helpers: shorthands for common operations, like `a_view << a_subview`
+* Helpers: shorthands for common operations, like `a_view << a_subview`, `a_subview.convert_frame_to(a_view)`
 * Symbols: `:system.uifont(20)`, `:label.uifontsize`
 * Frame accessors: `a_view.x`, `a_view.x = 100`
 
