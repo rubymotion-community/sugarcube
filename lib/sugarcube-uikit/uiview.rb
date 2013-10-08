@@ -118,7 +118,21 @@ class UIView
 
   # Returns the receiver's bounds in the coordinate system of `destination`
   def convert_origin(destination)
-    self.convertPoint([0, 0], toView:destination)
+    message = "The (ambiguously named) `convert_origin` method has been deprecated, use `convert_origin_to` (or `convert_origin_from`)"
+    if defined?(SugarCube::Legacy)
+      SugarCube::Legacy.log(message)
+    else
+      NSLog(message)
+    end
+    return self.convert_origin_to(destination)
+  end
+
+  def convert_origin_to(destination)
+    return self.convertPoint([0, 0], toView:destination)
+  end
+
+  def convert_origin_from(source)
+    return self.convertPoint([0, 0], fromView:source)
   end
 
   # Easily get and set a UIView's frame properties

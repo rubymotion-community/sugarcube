@@ -54,15 +54,26 @@ describe "UIView" do
     end
   end
 
-  it "should convert point" do
-    view1 = UIView.alloc.initWithFrame([[0, 0], [100, 100]])
-    view2 = UIView.alloc.initWithFrame([[10, 5], [80, 90]])
-    view1 << view2
-    view3 = UIView.alloc.initWithFrame([[10, 5], [60, 80]])
-    view2 << view3
-    point = view3.convert_origin(view1)
-    point.x.should == 20
-    point.y.should == 10
+  describe "should convert point" do
+    before do
+      @view1 = UIView.alloc.initWithFrame([[0, 0], [100, 100]])
+      @view2 = UIView.alloc.initWithFrame([[10, 5], [80, 90]])
+      @view1 << @view2
+      @view3 = UIView.alloc.initWithFrame([[10, 5], [60, 80]])
+      @view2 << @view3
+    end
+
+    it "should convert_origin_to" do
+      point = @view3.convert_origin_to(@view1)
+      point.x.should == 20
+      point.y.should == 10
+    end
+
+    it "should convert_origin_from" do
+      point = @view1.convert_origin_from(@view3)
+      point.x.should == 20
+      point.y.should == 10
+    end
   end
 
   it "should return x" do
