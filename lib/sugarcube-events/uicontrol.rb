@@ -12,7 +12,7 @@ class UIControl
   #   button.on(:touch) { |sender,touch_event| my_code }
   def on(*events, &block)
     handler = SugarCube::UIControlCallbackHelper.new
-    handler.callback = block
+    handler.callback = WeakRef.new(block)
 
     events.each do |event|
       event = event.uicontrolevent if event.respond_to?(:uicontrolevent)
