@@ -193,7 +193,7 @@ private
     self.addGestureRecognizer(recognizer)
 
     @sugarcube_recognizers = {} unless @sugarcube_recognizers
-    @sugarcube_recognizers[recognizer] = WeakRef.new(proc)
+    @sugarcube_recognizers[recognizer] = proc
 
     recognizer
   end

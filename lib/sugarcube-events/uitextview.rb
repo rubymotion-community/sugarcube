@@ -66,7 +66,7 @@ private
     self.sugarcube_callbacks[notication] << NSNotificationCenter.defaultCenter.addObserverForName(notication,
           object: self,
            queue: NSOperationQueue.mainQueue,
-      usingBlock: WeakRef.new(block))
+      usingBlock: block)
   end
 
   def _offEventNotification(nofication)
