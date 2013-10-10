@@ -29,9 +29,11 @@ class UIResponder
 
   def sugarcube_cleanup
     self.class.ancestors.each do |klass|
-      self.class.sugarcube_cleanup.each do |block|
+      next unless klass.respond_to?(:sugarcube_cleanup)
+      klass.sugarcube_cleanup.each do |block|
         self.instance_eval(&block)
       end
+      break if klass == UIResponder
     end
   end
 
