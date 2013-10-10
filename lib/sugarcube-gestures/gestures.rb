@@ -118,7 +118,7 @@ class UIView
   # @overload on_tap(taps)
   #   @param taps [Fixnum] Number of taps
   # @overload on_tap(options)
-  #   @option options [Fixnum] :min_fingers Minimum umber of fingers for gesture to be recognized
+  #   @option options [Fixnum] :min_fingers Minimum number of fingers for gesture to be recognized
   #   @option options [Fixnum] :max_fingers Maximum number of fingers for gesture to be recognized
   #   @option options [Fixnum] :fingers If min_fingers or max_fingers is not assigned, this will be the default.
   def on_pan(fingers_or_options=nil, &proc)
