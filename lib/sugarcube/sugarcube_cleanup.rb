@@ -1,13 +1,10 @@
 class UIViewController
 
-  def sugarcube_cleanup(target=nil)
-    if target
-      target.sugarcube_cleanup
-      target.subviews.each do |subview|
-        sugarcube_cleanup(subview)
-      end
-    else
-      sugarcube_cleanup(self.view)
+  def sugarcube_cleanup
+    super
+    self.view.sugarcube_cleanup
+    self.childViewControllers.each do |subctlr|
+      subctlr.sugarcube_cleanup
     end
   end
 
@@ -34,6 +31,18 @@ class UIResponder
         self.instance_eval(&block)
       end
       break if klass == UIResponder
+    end
+  end
+
+end
+
+
+class UIView
+
+  def sugarcube_cleanup
+    super
+    self.subviews.each do |subview|
+      subview.sugarcube_cleanup
     end
   end
 
