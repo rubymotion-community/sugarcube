@@ -152,21 +152,6 @@ class UIImage
     return sub_image
   end
 
-  # Delegates to `scale_to_fill(position: :center)`
-  def scale_to_fill(new_size)
-    scale_to_fill(new_size, position: :center)
-  end
-
-  # Delegates to `scale_to_fill(position: :center, scale: scale)`
-  def scale_to_fill(new_size, scale: scale)
-    scale_to_fill(new_size, position: :center, scale: scale)
-  end
-
-  # Delegates to `scale_to_fill(new_size, position: position, scale: self.scale)`
-  def scale_to_fill(new_size, position:position)
-    scale_to_fill(new_size, position: position, scale: self.scale)
-  end
-
   # Scales an image to fit within the given size, stretching one or both
   # dimensions so that it completely fills the area.   The current aspect ratio
   # is maintained.  If you want to place an image inside a container image, this
@@ -189,8 +174,11 @@ class UIImage
   #   `topleft`, that'll work, too)
   #  @param scale [Numeric] image scale
   # @return [UIImage]
-  def scale_to_fill(new_size, position:position, scale:scale)
+  def scale_to_fill(new_size, options={})
     new_size = SugarCube::CoreGraphics::Size(new_size)
+    position = options[:position] || :center
+    scale = options[:scale] || self.scale
+
     my_size = self.size
     if new_size.width == my_size.width && new_size.height == my_size.height && self.scale == scale
       return self
