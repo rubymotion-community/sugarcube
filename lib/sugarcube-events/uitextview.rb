@@ -1,5 +1,9 @@
 class UITextView
 
+  sugarcube_cleanup do
+    self.off
+  end
+
   def sugarcube_callbacks
     @sugarcube_callbacks ||= Hash.new { |h,k| h[k] = [] }
   end

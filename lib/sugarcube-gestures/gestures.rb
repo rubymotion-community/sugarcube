@@ -3,6 +3,10 @@
 # changing it to suit my needs, and offering it here
 class UIView
 
+  sugarcube_cleanup do
+    self.off_gestures
+  end
+
   # A generic gesture adder, but accepts a block like the other gesture methods
   # @yield [recognizer] Handles the gesture event, and passes the recognizer instance to the block.
   # @param options [Hash] method/value pairs to call on the gesture.

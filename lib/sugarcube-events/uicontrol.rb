@@ -1,6 +1,10 @@
 # Additions to UIControl to support jQuery-style `on` and `off` methods.
 class UIControl
 
+  sugarcube_cleanup do
+    self.off
+  end
+
   # Add event handlers to UIControls.  See symbol.rb for the uicontrolevent
   # constant aliases.
   #
