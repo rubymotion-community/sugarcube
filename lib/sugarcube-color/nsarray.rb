@@ -5,6 +5,9 @@ class NSArray
     red = self[0] / 255.0
     green = self[1] / 255.0
     blue = self[2] / 255.0
+    if self[3]
+      alpha = self[3]
+    end
     UIColor.colorWithRed(red, green:green, blue:blue, alpha:alpha.to_f)
   end
 
