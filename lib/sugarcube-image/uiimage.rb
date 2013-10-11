@@ -245,7 +245,7 @@ class UIImage
     thumbnail_y = position.y * (new_size.height - my_size.height) / my_size.height
 
     new_image = self.canvas(size: new_size) do
-      thumbnail_rect = CGRectZero
+      thumbnail_rect = CGRect.new([0, 0], [0, 0])
       thumbnail_rect.origin = [thumbnail_x, thumbnail_y]
       thumbnail_rect.size  = my_size
 
@@ -355,7 +355,7 @@ class UIImage
         CGContextDrawPath(context, KCGPathFill)
       end
 
-      thumbnail_rect = CGRectZero
+      thumbnail_rect = CGRect.new([0, 0], [0, 0])
       thumbnail_rect.origin = thumbnail_point
       thumbnail_rect.size.width  = scaled_width
       thumbnail_rect.size.height = scaled_height
