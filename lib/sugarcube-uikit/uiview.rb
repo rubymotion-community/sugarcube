@@ -76,32 +76,24 @@ class UIView
    # the future, if this argument becomes something that accepts multiple values,
    # those two are sacred.
   def uiimage(use_content_size=false)
-    if self.is_a?(UIScrollView) && (! self.window || ! self.window.keyWindow?)
-      NSLog("For whatever reason, UIView#uiimage doesn't work on scrollviews unless they are already visible")
-      return nil
-    end
-
+    scale = UIScreen.mainScreen.scale
     if use_content_size
-      rect = CGRect.new([0, 0], self.contentSize)
+      UIGraphicsBeginImageContextWithOptions(contentSize, false, scale)
+      context = UIGraphicsGetCurrentContext()
+      self.subviews.each do |subview|
+        CGContextSaveGState(context)
+        CGContextTranslateCTM(context, subview.frame.origin.x, subview.frame.origin.y)
+        subview.layer.renderInContext(context)
+        CGContextRestoreGState(context)
+      end
+      image = UIGraphicsGetImageFromCurrentImageContext()
+      UIGraphicsEndImageContext()
     else
-      rect = self.layer.bounds
-    end
-    scale = (self.window ? self.window.screen : UIScreen.mainScreen).scale
-    old_bounds = self.layer.bounds
-    self.layer.bounds = rect
-    UIGraphicsBeginImageContextWithOptions(rect.size, false, scale)
-    context = UIGraphicsGetCurrentContext()
-    if self.respond_to?('drawViewHierarchyInRect:afterScreenUpdates:')
-      self.drawViewHierarchyInRect(CGRect.new([0, 0], rect.size), afterScreenUpdates: true)
-    else
-      CGContextSaveGState(context)
-      CGContextTranslateCTM(context, -rect.origin.x, -rect.origin.y)
+      UIGraphicsBeginImageContextWithOptions(bounds.size, false, scale)
       layer.renderInContext(UIGraphicsGetCurrentContext())
-      CGContextRestoreGState(context)
+      image = UIGraphicsGetImageFromCurrentImageContext()
+      UIGraphicsEndImageContext()
     end
-    image = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    self.layer.bounds = old_bounds
     return image
   end
 
