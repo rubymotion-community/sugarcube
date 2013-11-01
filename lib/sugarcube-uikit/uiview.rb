@@ -52,9 +52,9 @@ class UIView
   # up the responder chain until the nextResponder is a UIViewController
   # subclass, or returns nil if none is found.
   def controller
-    if nextResponder && nextResponder.is_a?(UIViewController)
+    if nextResponder.is_a?(UIViewController)
       nextResponder
-    elsif nextResponder
+    elsif nextResponder.is_a?(UIView)
       nextResponder.controller
     else
       nil
