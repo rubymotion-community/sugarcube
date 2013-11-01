@@ -431,6 +431,7 @@ class UIImage
   #   image.overlay(UIColor.redColor)
   def overlay(color)
     image_rect = CGRectMake(0, 0, self.size.width, self.size.height)
+    new_image = nil
 
     UIImage.canvas(size: self.size, scale: self.scale) do |ctx|
       self.drawInRect(image_rect)
