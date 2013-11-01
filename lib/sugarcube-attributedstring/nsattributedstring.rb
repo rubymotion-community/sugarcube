@@ -23,7 +23,10 @@ class NSString
   def nsattributedstring(attributes={})
     NSAttributedString.alloc.initWithString(self, attributes: attributes)
   end
-  alias attrd nsattributedstring
+
+  def attrd
+    self.nsattributedstring
+  end
 
 end
 
@@ -145,6 +148,10 @@ class NSAttributedString
 
   def nsattributedstring
     self
+  end
+
+  def attrd
+    self.nsattributedstring
   end
 
   def +(attributedstring)
