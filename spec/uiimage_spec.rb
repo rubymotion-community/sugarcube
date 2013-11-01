@@ -468,4 +468,38 @@ describe 'UIImage' do
 
   end
 
+  describe '`overlay` should add shading to an image' do
+
+    it 'should return an image' do
+      red = UIImage.canvas(size: [10, 10]) do |context|
+        :red.uicolor.set
+        CGContextAddRect(context, [[0, 0], [10, 10]])
+        CGContextFillPath(context)
+      end
+      red.overlay(:white).should.is_a?(UIImage)
+    end
+
+    it 'should return an image that is the same size' do
+      red = UIImage.canvas(size: [10, 10]) do |context|
+        :red.uicolor.set
+        CGContextAddRect(context, [[0, 0], [10, 10]])
+        CGContextFillPath(context)
+      end
+      overlay = red.overlay(:white)
+      overlay.size.width.should == red.size.width
+      overlay.size.height.should == red.size.height
+    end
+
+    it 'should return an image that is a different color' do
+      red = UIImage.canvas(size: [10, 10]) do |context|
+        :red.uicolor.set
+        CGContextAddRect(context, [[0, 0], [10, 10]])
+        CGContextFillPath(context)
+      end
+      overlay = red.overlay(:white)
+      overlay.color_at([0, 0]).should != red.color_at([0, 0])
+    end
+
+  end
+
 end
