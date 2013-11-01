@@ -624,7 +624,7 @@ class UIImage
     end
 
     unless options[:scale]
-      options = options.merge(scale: self.scale)
+      options[:scale] = self.scale
     end
 
     self.class.canvas(options) do |context|
