@@ -203,6 +203,7 @@ describe "Symbol - constants" do
       :info_dark.uibuttontype.should == UIButtonTypeInfoDark
       :contact.uibuttontype.should == UIButtonTypeContactAdd
       :contact_add.uibuttontype.should == UIButtonTypeContactAdd
+      :system.uibuttontype.should == UIButtonTypeSystem
     end
 
     it 'should support `uicontrolstate`' do
