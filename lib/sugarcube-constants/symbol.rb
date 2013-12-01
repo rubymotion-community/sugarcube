@@ -510,6 +510,7 @@ class Symbol
     info_dark:         UIButtonTypeInfoDark,
     contact:           UIButtonTypeContactAdd,
     contact_add:       UIButtonTypeContactAdd,
+    system:            UIButtonTypeSystem,
   }
 
   @uicontrolstate = {
