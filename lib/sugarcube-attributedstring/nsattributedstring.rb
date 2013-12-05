@@ -24,8 +24,8 @@ class NSString
     NSAttributedString.alloc.initWithString(self, attributes: attributes)
   end
 
-  def attrd
-    self.nsattributedstring
+  def attrd(attributes={})
+    self.nsattributedstring(attributes)
   end
 
 end
