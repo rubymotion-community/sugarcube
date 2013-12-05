@@ -2,7 +2,7 @@
 class UIControl
 
   sugarcube_cleanup do
-    self.off
+    @sugarcube_callbacks = nil
   end
 
   # Add event handlers to UIControls.  See symbol.rb for the uicontrolevent

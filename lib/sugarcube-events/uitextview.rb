@@ -1,7 +1,7 @@
 class UITextView
 
   sugarcube_cleanup do
-    self.off
+    @sugarcube_callbacks = nil
   end
 
   def sugarcube_callbacks

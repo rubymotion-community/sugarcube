@@ -4,7 +4,7 @@
 class UIView
 
   sugarcube_cleanup do
-    self.off_gestures
+    @sugarcube_recognizers = nil
   end
 
   # A generic gesture adder, but accepts a block like the other gesture methods
