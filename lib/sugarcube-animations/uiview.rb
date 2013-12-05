@@ -59,10 +59,6 @@ class UIView
         animation_options = curve | from_current
       end
 
-
-
-
-
       if duration == 0 && delay == 0
         animations.call
         after_adjusted.call(true) if after_adjusted
@@ -106,12 +102,12 @@ class UIView
 
   def show
     self.hidden = false
-    self
+    return self
   end
 
   def hide
     self.hidden = true
-    self
+    return self
   end
 
   # Same as UIView##animate, but acts on self
@@ -129,7 +125,7 @@ class UIView
         self.send("#{key}=", value)
       end
     end
-    self
+    return self
   end
 
   # Changes the layer opacity.
@@ -207,7 +203,7 @@ class UIView
     position = SugarCube::CoreGraphics::Point(f.origin)
     to_position = CGPoint.new(position.x + delta.x, position.y + delta.y)
     move_to(to_position, options, more_options, &after)
-    self
+    return self
   end
 
   def resize_to(size, options={}, more_options={}, &after)
@@ -292,7 +288,7 @@ class UIView
     else
       raise "Unknown direction #{direction.inspect}"
     end
-    self
+    return self
   end
 
   # Vibrates the target. You can trick this thing out to do other effects, like:
@@ -337,7 +333,7 @@ class UIView
     animation.values = [origin, left, right, origin]
     animation.keyTimes = [0, 0.25, 0.75, 1.0]
     self.layer.addAnimation(animation, forKey:'shake')
-    self
+    return self
   end
 
   # this dummy method is needed to define the setDuration method
