@@ -385,6 +385,38 @@ class UIView
     end
   end
 
+  # Moves the view on screen while slowly rotating it.
+  #
+  # Based on https://github.com/warrenm/AHAlertView/blob/master/AHAlertView/AHAlertView.m
+  def tumble_in(options={}, &after)
+    if options.is_a? Numeric
+      default_duration = options
+      options = {}
+    else
+      default_duration = 0.3
+    end
+
+    reset_transform = self.transform
+    reset_center = self.center
+
+    options[:duration] ||= default_duration
+    options[:options] ||= UIViewAnimationOptionCurveEaseOut
+    options[:after] = after
+
+    window = UIApplication.sharedApplication.windows[0]
+    top = self.convertPoint([0, 0], toView:nil).y
+    height = window.frame.size.height - top
+    offset = CGPoint.new(0, height * -1.5)
+    offset = CGPointApplyAffineTransform(offset, self.transform)
+    self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(Math::PI/4))
+    self.center = CGPointMake(self.center.x + offset.x, self.center.y + offset.y)
+
+    self.animate(options) do
+      self.transform = reset_transform
+      self.center = reset_center
+    end
+  end
+
   # Moves the view backwards, similar to what Google has been doing a lot
   # recently
   def back_fiend!(options={}, more_options={})
