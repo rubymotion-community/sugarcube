@@ -274,16 +274,16 @@ class UIView
 
     case direction
     when :left
-      size ||= self.bounds.size.width
+      size ||= self.frame.size.width
       delta_to([-size, 0], options, &after)
     when :right
-      size ||= self.bounds.size.width
+      size ||= self.frame.size.width
       delta_to([size, 0], options, &after)
     when :up
-      size ||= self.bounds.size.height
+      size ||= self.frame.size.height
       delta_to([0, -size], options, &after)
     when :down
-      size ||= self.bounds.size.height
+      size ||= self.frame.size.height
       delta_to([0, size], options, &after)
     else
       raise "Unknown direction #{direction.inspect}"
