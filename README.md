@@ -672,6 +672,7 @@ UIButton.info_light        => UIButton.buttonWithType(:info_light.uibuttontype)
 UIButton.info_dark         => UIButton.buttonWithType(:info_dark.uibuttontype)
 UIButton.contact           => UIButton.buttonWithType(:contact.uibuttontype)
 UIButton.contact_add       => UIButton.buttonWithType(:contact_add.uibuttontype)
+UIButton.system            => UIButton.buttonWithType(:system.uibuttontype)
 ```
 
 ###### UITableView
