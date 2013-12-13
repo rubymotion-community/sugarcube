@@ -3,10 +3,6 @@
 # changing it to suit my needs, and offering it here
 class UIView
 
-  sugarcube_cleanup do
-    @sugarcube_recognizers = nil
-  end
-
   # A generic gesture adder, but accepts a block like the other gesture methods
   # @yield [recognizer] Handles the gesture event, and passes the recognizer instance to the block.
   # @param options [Hash] method/value pairs to call on the gesture.
@@ -197,7 +193,7 @@ private
     self.addGestureRecognizer(recognizer)
 
     @sugarcube_recognizers = {} unless @sugarcube_recognizers
-    @sugarcube_recognizers[recognizer] = proc
+    @sugarcube_recognizers[recognizer] = proc.weak!
 
     recognizer
   end

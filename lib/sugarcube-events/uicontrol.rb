@@ -1,10 +1,6 @@
 # Additions to UIControl to support jQuery-style `on` and `off` methods.
 class UIControl
 
-  sugarcube_cleanup do
-    @sugarcube_callbacks = nil
-  end
-
   # Add event handlers to UIControls.  See symbol.rb for the uicontrolevent
   # constant aliases.
   #
@@ -15,8 +11,7 @@ class UIControl
   #   # up to two arguments can be passed in
   #   button.on(:touch) { |sender,touch_event| my_code }
   def on(*events, &block)
-    handler = SugarCube::UIControlCallbackHelper.new
-    handler.callback = block
+    handler = SugarCube::UIControlCallbackHelper.new(block)
 
     events.each do |event|
       event = event.uicontrolevent if event.respond_to?(:uicontrolevent)
@@ -78,16 +73,19 @@ end
 
 module SugarCube
   class UIControlCallbackHelper
-    attr_accessor :callback
+
+    def initialize(callback)
+      @callback = callback!
+    end
 
     def call(sender, event:event)
-      case callback.arity
+      case @callback.arity
       when 0
-        callback.call
+        @callback.call
       when 1
-        callback.call(sender)
+        @callback.call(sender)
       else
-        callback.call(sender, event)
+        @callback.call(sender, event)
       end
     end
   end

@@ -1,9 +1,5 @@
 class UITextView
 
-  sugarcube_cleanup do
-    @sugarcube_callbacks = nil
-  end
-
   def sugarcube_callbacks
     @sugarcube_callbacks ||= Hash.new { |h,k| h[k] = [] }
   end
@@ -70,7 +66,7 @@ private
     self.sugarcube_callbacks[notication] << NSNotificationCenter.defaultCenter.addObserverForName(notication,
           object: self,
            queue: NSOperationQueue.mainQueue,
-      usingBlock: block)
+      usingBlock: block.weak!)
   end
 
   def _offEventNotification(nofication)
