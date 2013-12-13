@@ -75,7 +75,7 @@ module SugarCube
   class UIControlCallbackHelper
 
     def initialize(callback)
-      @callback = callback!
+      @callback = callback.weak!
     end
 
     def call(sender, event:event)
