@@ -71,27 +71,6 @@ Installation
     # in terminal
     $ bundle install
 
-Memory Management
-=================
-
-There are some very convenient helper methods around touches and gestures, but
-they come with an unfortunate side effect.  These helpers accept a block, but
-that block retains a reference to the object it was created in, which is usually
-a controller.
-
-```ruby
-# ... somewhere in a controller
-button.on :touch do
-  # handle touch event
-  self.do_something!  # <= the block retains 'self' so that this handler will
-  # work, even if the controller is released.
-end
-```
-
-To fix this, you need to call `sugarcube_cleanup` when a controller is "going
-away".  Another option is to add/remove button/gesture callbacks when the view
-appears, and remove them when it disappears.
-
 Packages
 ========
 
