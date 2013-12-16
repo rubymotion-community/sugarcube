@@ -175,6 +175,29 @@ class UIView
     sugarcube_add_gesture(proc, recognizer)
   end
 
+  def on_press_begin(duration_or_options=nil, &proc)
+    duration = nil
+    taps = nil
+    fingers = nil
+
+    if duration_or_options
+      if duration_or_options.is_a? Hash
+        duration = duration_or_options[:duration] || duration
+        taps = duration_or_options[:taps] || taps
+        fingers = duration_or_options[:fingers] || fingers
+      else
+        duration = duration_or_options
+      end
+    end
+
+    recognizer = UILongPressGestureRecognizer.alloc.initWithTarget(self, action:'sugarcube_handle_gesture_long_press_on_begin:')
+    recognizer.minimumPressDuration = duration if duration
+    recognizer.numberOfTapsRequired = taps if taps
+    recognizer.numberOfTouchesRequired = fingers if fingers
+    sugarcube_add_gesture(proc, recognizer)
+  end
+
+
 private
   def sugarcube_handle_gesture(recognizer)
     handler = @sugarcube_recognizers[recognizer]
@@ -182,6 +205,16 @@ private
       handler.call
     else
       handler.call(recognizer)
+    end
+  end
+  def sugarcube_handle_gesture_long_press_on_begin(recognizer)
+    if recognizer.state==UIGestureRecognizerStateBegan
+      handler = @sugarcube_recognizers[recognizer]
+      if handler.arity == 0
+        handler.call
+      else
+        handler.call(recognizer)
+      end
     end
   end
 
