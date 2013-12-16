@@ -368,9 +368,19 @@ view.on_pan(2)  # minimum and maximum fingers required
 view.on_pan(fingers: 2)
 view.on_pan(min_fingers: 2, max_fingers: 3)
 
-view.on_press   # use system defaults
+# `on_press` is a continuous event (it uses UILongPressGestureRecognizer), so
+# you need to check the `gesture`:
+view.on_press do |gesture|
+  if gesture.state == UIGestureRecognizerStateBegan
+    # handle press
+  end
+end
 view.on_press(1.5)  # duration
 view.on_press(duration: 1.5, taps: 1, fingers: 1)
+
+# this version is only fired when the long-press begins; this is *probably* more
+# useful to you:
+view.on_press_begin do ... end
 ```
 
 Notifications
