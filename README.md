@@ -1172,7 +1172,7 @@ url = 'http://localhost'.nsurl
 url.nsdata  # => NSData.dataWithContentsOfURL(self)
 
 string_data.nsstring  # => 'String'
-image_data.nsimage  # => whatever 'an image' was
+image_data.uiimage  # => whatever 'an image' was
 ```
 
 NSDate ([wiki][NSDate Wiki])
