@@ -287,7 +287,7 @@ UIControl
 -----------
 
 ```ruby
-button = UIButton.alloc.initWithFrame([0, 0, 10, 10])
+button = UIButton.alloc.initWithFrame([[0, 0] ,[10, 10]])
 
 button.on(:touch) { my_code }
 button.on(:touch_up_outside, :touch_cancel) { |event|
