@@ -4,6 +4,11 @@ describe "NSURL" do
     'test'.nsurl.respond_to?(:open).should == true
   end
 
+  it "should have a method #nsurl" do
+    url = 'https://github.com'.nsurl
+    url.nsurl.should == url
+  end
+
   it "should have a method #can_open?" do
     'https://github.com'.nsurl.can_open?.should == true
   end
