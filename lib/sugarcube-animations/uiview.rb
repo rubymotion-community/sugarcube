@@ -291,6 +291,43 @@ class UIView
     return self
   end
 
+  # moves the view off screen, then animates it back on screen.  The movement
+  # off screen happens immediately, so if you provide a `delay:` option, it will
+  # only affect the movement back on screen.
+  def slide_from(direction, options={}, more_options={}, &after)
+    if options.is_a? Numeric
+      size = options
+      options = more_options
+    else
+      size = options[:size]
+    end
+
+    options[:from_current] = false unless options.key?(:from_current)
+    window_size = UIApplication.sharedApplication.windows[0].frame.size
+
+    case direction
+    when :left
+      size ||= window_size.width
+      self.center = CGPoint.new(self.center.x - size, self.center.y)
+      self.delta_to([size, 0], options, &after)
+    when :right
+      size ||= window_size.width
+      self.center = CGPoint.new(self.center.x + size, self.center.y)
+      self.delta_to([-size, 0], options, &after)
+    when :top, :up
+      size ||= window_size.height
+      self.center = CGPoint.new(self.center.x, self.center.y - size)
+      self.delta_to([0, size], options, &after)
+    when :bottom, :down
+      size ||= window_size.height
+      self.center = CGPoint.new(self.center.x, self.center.y + size)
+      self.delta_to([0, -size], options, &after)
+    else
+      raise "Unknown direction #{direction.inspect}"
+    end
+    return self
+  end
+
   # Vibrates the target. You can trick this thing out to do other effects, like:
   # @example
   #   # wiggle
