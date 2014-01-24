@@ -34,7 +34,7 @@ class NSDate
     NSDate.new.delta(days: -1).start_of_day
   end
 
-  def string_with_style(date_style=NSDateFormatterMediumStyle,time_style=NSDateFormatterNoStyle)
+  def string_with_style(date_style=NSDateFormatterMediumStyle, time_style=NSDateFormatterNoStyle)
     date_formatter = NSDateFormatter.new
     date_style = date_style.nsdatestyle if date_style.is_a? Symbol
     time_style = time_style.nsdatestyle if time_style.is_a? Symbol
