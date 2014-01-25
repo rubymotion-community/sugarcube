@@ -12,4 +12,7 @@ Motion::Project::App.setup do |app|
   Dir.glob(File.join(File.dirname(__FILE__), 'sugarcube-color/**/*.rb')).reverse.each do |file|
     app.files.insert(insert_point, file)
   end
+
+  look_in = File.join(File.dirname(__FILE__), 'sugarcube/look_in.rb')
+  app.files.insert(insert_point, look_in)
 end
