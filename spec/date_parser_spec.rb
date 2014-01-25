@@ -27,7 +27,7 @@ describe "Base Methods" do
   describe "parses iso8601 dates" do
 
     it "parses '2013-08-22T21:34:48.874Z'" do
-      t = SugarCube::DateParser.parse_date("2013-08-22T21:34:48.874Z")
+      t = SugarCube::DateParser.parse_date("2013-08-22T21:34:48.874Z").getutc
       t.month.should == 8
       t.day.should == 22
       t.year.should == 2013
@@ -37,7 +37,7 @@ describe "Base Methods" do
     end
 
     it "parses '2013-08-22T21:34:48.874'" do
-      t = SugarCube::DateParser.parse_date("2013-08-22T21:34:48.874")
+      t = SugarCube::DateParser.parse_date("2013-08-22T21:34:48.874").getutc
       t.month.should == 8
       t.day.should == 22
       t.year.should == 2013
@@ -47,7 +47,7 @@ describe "Base Methods" do
     end
 
     it "parses '2013-08-22T21:34:48Z'" do
-      t = SugarCube::DateParser.parse_date("2013-08-22T21:34:48Z")
+      t = SugarCube::DateParser.parse_date("2013-08-22T21:34:48Z").getutc
       t.month.should == 8
       t.day.should == 22
       t.year.should == 2013
@@ -56,7 +56,7 @@ describe "Base Methods" do
     end
 
     it "parses '2013-08-22T21:34:48'" do
-      t = SugarCube::DateParser.parse_date("2013-08-22T21:34:48")
+      t = SugarCube::DateParser.parse_date("2013-08-22T21:34:48").getutc
       t.month.should == 8
       t.day.should == 22
       t.year.should == 2013

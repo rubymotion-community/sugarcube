@@ -179,6 +179,7 @@ describe 'UIAlertView' do
       proper_wait 0.6
       alert.textFieldAtIndex(0).text = 'test text'
       alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
+      proper_wait 0.1
 
       @called.should == true
       @text.should == 'test text'
@@ -191,6 +192,7 @@ describe 'UIAlertView' do
       proper_wait 0.6
       alert.textFieldAtIndex(0).text = 'test text'
       alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
+      proper_wait 0.1
 
       @text.should == 'test text'
     end
@@ -203,6 +205,7 @@ describe 'UIAlertView' do
       alert.textFieldAtIndex(0).text = 'test text 1'
       alert.textFieldAtIndex(1).text = 'test text 2'
       alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
+      proper_wait 0.1
 
       @text.should == 'test text 1 + test text 2'
     end
@@ -216,6 +219,7 @@ describe 'UIAlertView' do
       alert.textFieldAtIndex(0).text = 'test text 1'
       alert.textFieldAtIndex(1).text = 'test text 2'
       alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
+      proper_wait 0.1
 
       @text.should == 'test text 1 + test text 2'
       @touched_index.should == alert.cancelButtonIndex
