@@ -1077,7 +1077,7 @@ some problems with on RubyMotion (it worked, but not *always*.  Very strange).
 Files
 -----
 
-Methods to find document files, resource files, cache files, and to access
+Methods to find document files, resource files, cache files, temporary files, and to access
 entries out of the Info.plist file.
 
 > `require 'sugarcube-files'`
@@ -1087,6 +1087,7 @@ entries out of the Info.plist file.
 "my.plist".exists?   # => NSFileManager.defaultManager.fileExistsAtPath("my.plist")
 "my.plist".document  # => NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
 "my.plist".cache  # => NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
+"my.plist".temporary  # => NSSearchPathForDirectoriesInDomains(NSTemporaryDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
 "my.plist".remove!  # => NSFileManager.defaultManager.removeItemAtPath("my.plist".document, error: error)  (returns error, if any occurred)
 
 # get the resource path, useful if you include json files or images you manipulate in the app
