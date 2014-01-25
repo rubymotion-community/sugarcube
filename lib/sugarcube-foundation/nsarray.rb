@@ -35,5 +35,9 @@ class NSArray
   def nsset
     NSSet.setWithArray self
   end
+  
+  def nsorderedset
+    NSOrderedSet.orderedSetWithArray self
+  end
 
 end
