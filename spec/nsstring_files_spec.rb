@@ -15,6 +15,11 @@ describe 'NSString' do
     'foo'.app_support.hasSuffix('Library/Application Support/foo').should == true
   end
 
+  it "should have a #temporary method" do
+    'foo'.temporary.hasPrefix('/Users').should == true
+    'foo'.temporary.hasSuffix('tmp/foo').should == true
+  end
+
   it "should have an #exists? method" do
     'foo'.document.exists?.should == false
   end

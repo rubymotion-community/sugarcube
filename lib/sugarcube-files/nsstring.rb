@@ -21,6 +21,13 @@ class NSString
     @@sugarcube_app_suppert.stringByAppendingPathComponent(self)
   end
 
+  def temporary
+    @@sugarcube_temporary ||= NSTemporaryDirectory()
+    return self if self.hasPrefix(@@sugarcube_temporary)
+
+    @@sugarcube_temporary.stringByAppendingPathComponent(self)
+  end
+
   def exists?
     path = self.hasPrefix('/') ? self : self.document
     NSFileManager.defaultManager.fileExistsAtPath(path)
