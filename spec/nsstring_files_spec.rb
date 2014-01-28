@@ -20,9 +20,18 @@ describe 'NSString' do
     'foo'.temporary_path.should.end_with?('tmp/foo')
   end
 
-  it "should have an #file_exists? method" do
-    'foo'.document.file_exists?.should == false
-    'foo'.document.exists?.should == false
+  it "should have a resource_path method" do
+    'little_square.png'.resource_path.should.start_with?("/Users")
+    'little_square.png'.resource_path.should.end_with?("SugarCube_spec.app/little_square.png")
+  end
+
+  it "should have a resource_exists? method" do
+    'little_square.png'.resource_exists?.should == true
+    'foo'.resource_exists?.should == false
+  end
+
+  it "should have a #file_exists? method" do
+    'foo'.document_path.file_exists?.should == false
   end
 
   it "should have a remove_file! method" do
@@ -32,11 +41,6 @@ describe 'NSString' do
     end
     filename.remove_file!
     filename.file_exists?.should == false
-  end
-
-  it "should have a resource_exists? method" do
-    'little_square.png'.resource_exists?.should == true
-    'foo'.resource_exists?.should == false
   end
 
   describe "file_exists?" do
@@ -201,3 +205,45 @@ describe 'NSString' do
 
 end
 
+
+describe 'NSString deprecated methods' do
+
+  it "should have a #document method" do
+    'foo'.document.should.start_with?('/Users')
+    'foo'.document.should.end_with?('Documents/foo')
+  end
+
+  it "should have a #cache method" do
+    'foo'.cache.should.start_with?('/Users')
+    'foo'.cache.should.end_with?('Library/Caches/foo')
+  end
+
+  it "should have a #app_support method" do
+    'foo'.app_support.should.start_with?('/Users')
+    'foo'.app_support.should.end_with?('Library/Application Support/foo')
+  end
+
+  it "should have a #temporary method" do
+    'foo'.temporary.should.start_with?('/Users')
+    'foo'.temporary.should.end_with?('tmp/foo')
+  end
+
+  it "should have a resource method" do
+    'little_square.png'.resource.should.start_with?("/Users")
+    'little_square.png'.resource.should.end_with?("SugarCube_spec.app/little_square.png")
+  end
+
+  it "should have an #exists? method" do
+    'foo'.document_path.exists?.should == false
+  end
+
+  it "should have a remove! method" do
+    filename = 'remove_me'.document_path
+    unless filename.file_exists?
+      NSData.data.writeToFile(filename, atomically: true)
+    end
+    filename.remove!
+    filename.file_exists?.should == false
+  end
+
+end
