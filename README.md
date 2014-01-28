@@ -1084,15 +1084,21 @@ entries out of the Info.plist file.
 
 ```ruby
 # file operations
-"my.plist".exists?   # => NSFileManager.defaultManager.fileExistsAtPath("my.plist")
-"my.plist".document  # => NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
-"my.plist".cache  # => NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
-"my.plist".temporary  # => NSSearchPathForDirectoriesInDomains(NSTemporaryDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
-"my.plist".remove!  # => NSFileManager.defaultManager.removeItemAtPath("my.plist".document, error: error)  (returns error, if any occurred)
+"my.plist".file_exists?   # => NSFileManager.defaultManager.fileExistsAtPath("my.plist")
+
+"my.plist".remove_file!  # => NSFileManager.defaultManager.removeItemAtPath("my.plist".document, error: error)  (returns error, if any occurred)
+
+"my.plist".document_path  # => NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
+"my.plist".cache_path  # => NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true)[0].stringByAppendingPathComponent("my.plist")
+"my.plist".temporary_path  # => NSTemporaryDirectory().stringByAppendingPathComponent("my.plist")
+
+# all of these can be turned into a URL, too
+"my.plist".temporary_path.file_url  # => NSURL.fileURLWithPath("my.plist".temporary_path)
 
 # get the resource path, useful if you include json files or images you manipulate in the app
-"my.plist".resource  # => NSBundle.mainBundle.resourcePath.stringByAppendingPathComponent("my.plist")
-# same, but get a URL instead - often used to display a static HTML page that is stored in resources
+"my.plist".resource_path  # => NSBundle.mainBundle.resourcePath.stringByAppendingPathComponent("my.plist")
+# same, but get a URL instead - often used to display a static HTML page that is stored in resources.
+# getting a path URL from a resource is just a little different from creating a URL from any other type of path
 "index.html".resource_url  # => NSBundle.mainBundle.URLForResource("index", withExtension:"html")
 
 # access data from Info.plist

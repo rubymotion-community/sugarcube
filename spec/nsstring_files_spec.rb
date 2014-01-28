@@ -1,35 +1,37 @@
 describe 'NSString' do
 
-  it "should have a #document method" do
-    'foo'.document.hasPrefix('/Users').should == true
-    'foo'.document.hasSuffix('Documents/foo').should == true
+  it "should have a #document_path method" do
+    'foo'.document_path.should.start_with?('/Users')
+    'foo'.document_path.should.end_with?('Documents/foo')
   end
 
-  it "should have a #cache method" do
-    'foo'.cache.hasPrefix('/Users').should == true
-    'foo'.cache.hasSuffix('Library/Caches/foo').should == true
+  it "should have a #cache_path method" do
+    'foo'.cache_path.should.start_with?('/Users')
+    'foo'.cache_path.should.end_with?('Library/Caches/foo')
   end
 
-  it "should have a #app_support method" do
-    'foo'.app_support.hasPrefix('/Users').should == true
-    'foo'.app_support.hasSuffix('Library/Application Support/foo').should == true
+  it "should have a #app_support_path method" do
+    'foo'.app_support_path.should.start_with?('/Users')
+    'foo'.app_support_path.should.end_with?('Library/Application Support/foo')
   end
 
-  it "should have a #temporary method" do
-    'foo'.temporary.hasPrefix('/Users').should == true
-    'foo'.temporary.hasSuffix('tmp/foo').should == true
+  it "should have a #temporary_path method" do
+    'foo'.temporary_path.should.start_with?('/Users')
+    'foo'.temporary_path.should.end_with?('tmp/foo')
   end
 
-  it "should have an #exists? method" do
+  it "should have an #file_exists? method" do
+    'foo'.document.file_exists?.should == false
     'foo'.document.exists?.should == false
   end
 
-  it "should have a remove! method" do
-    unless 'remove_me'.exists?
-      NSData.data.writeToFile('remove_me'.document, atomically: true)
+  it "should have a remove_file! method" do
+    filename = 'remove_me'.document_path
+    unless filename.file_exists?
+      NSData.data.writeToFile(filename, atomically: true)
     end
-    'remove_me'.document.remove!
-    'remove_me'.exists?.should == false
+    filename.remove_file!
+    filename.file_exists?.should == false
   end
 
   it "should have a resource_exists? method" do
@@ -37,105 +39,105 @@ describe 'NSString' do
     'foo'.resource_exists?.should == false
   end
 
-  describe "exists?" do
+  describe "file_exists?" do
 
-    it "should not exists" do
-      "abc".exists?.should == false
+    it "should not file_exists" do
+      "abc".file_exists?.should == false
     end
 
-    it "should not exists" do
-      "abc".cache.exists?.should == false
+    it "should not file_exists" do
+      "abc".cache.file_exists?.should == false
     end
 
-    it "should not exists" do
-      "abc".resource.exists?.should == false
+    it "should not file_exists" do
+      "abc".resource.file_exists?.should == false
     end
 
     describe "in document" do
       before do
-        "abc".writeToFile "abc".document, atomically:true
+        "abc".writeToFile "abc".document_path, atomically:true
       end
       after do
-        NSFileManager.defaultManager.removeItemAtPath "abc".document, error:nil
+        NSFileManager.defaultManager.removeItemAtPath "abc".document_path, error:nil
       end
 
-      it "should be exists" do
-        "abc".exists?.should == true
+      it "should be file_exists" do
+        "abc".file_exists?.should == true
       end
     end
 
     describe "in cache" do
       before do
-        "abc".writeToFile "abc".cache, atomically:true
+        "abc".writeToFile "abc".cache_path, atomically:true
       end
       after do
-        NSFileManager.defaultManager.removeItemAtPath "abc".cache, error:nil
+        NSFileManager.defaultManager.removeItemAtPath "abc".cache_path, error:nil
       end
 
-      it "should be exists" do
-        "abc".cache.exists?.should == true
+      it "should be file_exists" do
+        "abc".cache_path.file_exists?.should == true
       end
     end
 
     describe "in resource" do
-      it "should be exists" do
-        "info.plist".resource.exists?.should == true
+      it "should be file_exists" do
+        "info.plist".resource.file_exists?.should == true
       end
     end
 
   end
 
-  describe "remove!" do
+  describe "remove_file!" do
 
     describe "in document" do
       before do
-        "abc".writeToFile "abc".document, atomically:true
+        "abc".writeToFile "abc".document_path, atomically:true
       end
       after do
-        NSFileManager.defaultManager.removeItemAtPath "abc".document, error:nil
+        NSFileManager.defaultManager.removeItemAtPath "abc".document_path, error:nil
       end
 
       it "should remove" do
-        "abc".remove!.should == nil
-        "abc".exists?.should == false
+        "abc".remove_file!.should == nil
+        "abc".file_exists?.should == false
       end
     end
 
     describe "in cache" do
       before do
-        "abc".writeToFile "abc".cache, atomically:true
+        "abc".writeToFile "abc".cache_path, atomically:true
       end
       after do
-        NSFileManager.defaultManager.removeItemAtPath "abc".cache, error:nil
+        NSFileManager.defaultManager.removeItemAtPath "abc".cache_path, error:nil
       end
 
       it "should remove" do
-        path = "abc".cache
-        path.remove!.should == nil
-        path.exists?.should == false
+        path = "abc".cache_path
+        path.remove_file!.should == nil
+        path.file_exists?.should == false
       end
     end
 
   end
 
   describe 'resource()' do
-    describe '"info.plist".resource' do
-      before { @it = "info.plist".resource }
+    describe '"info.plist".resource_path' do
+      before { @it = "info.plist".resource_path }
       it 'should start with "/Users"' do
-        @it.hasPrefix("/Users").should == true
+        @it.should.start_with?("/Users")
       end
       it 'should end with "SugarCube_spec.app/info.plist"' do
-        @it.hasSuffix("SugarCube_spec.app/info.plist").should == true
+        @it.should.end_with?("SugarCube_spec.app/info.plist")
       end
     end
 
-    describe '"PkgInfo".resource' do
-      before { @it = "PkgInfo".resource }
+    describe '"PkgInfo".resource_path' do
+      before { @it = "PkgInfo".resource_path }
       it 'should start with "/Users"' do
-        @it.hasPrefix("/Users").should == true
+        @it.should.start_with?("/Users")
       end
       it 'should end with "SugarCube_spec.app/PkgInfo"' do
-        @it.hasSuffix("SugarCube_spec.app/PkgInfo").should == true
+        @it.should.end_with?("SugarCube_spec.app/PkgInfo")
       end
     end
   end
@@ -159,12 +161,12 @@ describe 'NSString' do
       before { @it = "PkgInfo".resource_url.absoluteString }
       it 'should start with "file://localhost/Users"' do
         (
-          @it.hasPrefix("file://localhost/Users") ||
-          @it.hasPrefix("file:///Users")
+          @it.start_with?("file://localhost/Users") ||
+          @it.start_with?("file:///Users")
         ).should == true
       end
       it 'should end with "SugarCube_spec.app/PkgInfo"' do
-        @it.hasSuffix("SugarCube_spec.app/PkgInfo").should == true
+        @it.should.end_with?("SugarCube_spec.app/PkgInfo")
       end
     end
   end
@@ -183,6 +185,18 @@ describe 'NSString' do
         @it.should == ["iPhoneOS"]
       end
     end
+  end
+
+  describe 'file_url' do
+
+    it 'should convert path String to NSURL' do
+      'test'.resource_path.file_url.should.is_a?(NSURL)
+    end
+
+    it 'should be a file path' do
+      'test'.resource_path.file_url.absoluteString.should.start_with?('file://')
+    end
+
   end
 
 end

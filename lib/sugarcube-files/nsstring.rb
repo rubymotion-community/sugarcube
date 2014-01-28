@@ -1,46 +1,46 @@
 class NSString
 
-  def document
+  def document_path
     @@sugarcube_docs ||= NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0]
     return self if self.hasPrefix(@@sugarcube_docs)
 
     @@sugarcube_docs.stringByAppendingPathComponent(self)
   end
-  
-  def cache
+
+  def cache_path
     @@sugarcube_caches ||= NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true)[0]
     return self if self.hasPrefix(@@sugarcube_caches)
 
     @@sugarcube_caches.stringByAppendingPathComponent(self)
   end
 
-  def app_support
+  def app_support_path
     @@sugarcube_app_suppert ||= NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, true)[0]
     return self if self.hasPrefix(@@sugarcube_app_suppert)
 
     @@sugarcube_app_suppert.stringByAppendingPathComponent(self)
   end
 
-  def temporary
+  def temporary_path
     @@sugarcube_temporary ||= NSTemporaryDirectory()
     return self if self.hasPrefix(@@sugarcube_temporary)
 
     @@sugarcube_temporary.stringByAppendingPathComponent(self)
   end
 
-  def exists?
+  def file_exists?
     path = self.hasPrefix('/') ? self : self.document
     NSFileManager.defaultManager.fileExistsAtPath(path)
   end
 
-  def remove!
+  def remove_file!
     ptr = Pointer.new(:id)
     path = self.hasPrefix('/') ? self : self.document
     NSFileManager.defaultManager.removeItemAtPath(path, error:ptr)
     ptr[0]
   end
 
-  def resource
+  def resource_path
     @@sugarcube_resources ||= NSBundle.mainBundle.resourcePath
     return self if self.hasPrefix(@@sugarcube_resources)
 
@@ -48,13 +48,17 @@ class NSString
   end
 
   def resource_exists?
-    NSFileManager.defaultManager.fileExistsAtPath(self.resource)
+    self.resource_path.file_exists?
   end
 
   def resource_url
-    a = self.split(".")
+    a = self.split('.')
     ext = a.pop if a.size >= 2
     NSBundle.mainBundle.URLForResource(a.join("."), withExtension:ext)
+  end
+
+  def file_url
+    NSURL.fileURLWithPath(self)
   end
 
   # It's convenient to store a property which is dependent on an environment to
@@ -76,7 +80,7 @@ class NSString
   # 'VerifyURL'.info_plist
   # </code>
   def info_plist
-      NSBundle.mainBundle.infoDictionary.valueForKey self
+    NSBundle.mainBundle.infoDictionary.valueForKey self
   end
 
 end
