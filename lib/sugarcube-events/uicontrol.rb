@@ -16,8 +16,8 @@ class UIControl
     events.each do |event|
       event = event.uicontrolevent if event.respond_to?(:uicontrolevent)
 
-      sugarcube_callbacks[event].push(handler)
-      addTarget(handler, action:'call:event:', forControlEvents:event)
+      sugarcube_callbacks(event).push(handler)
+      self.addTarget(handler, action:'call:event:', forControlEvents:event)
     end
 
     self
@@ -38,11 +38,12 @@ class UIControl
     events.each do |event|
       event = event.uicontrolevent if event.respond_to?(:uicontrolevent)
 
-      sugarcube_callbacks[event].each do |handler|
+      sugarcube_callbacks(event).each do |handler|
         self.removeTarget(handler, action:'call:event:', forControlEvents:event)
       end
       sugarcube_callbacks.delete(event)
     end
+
     self
   end
 
@@ -64,8 +65,14 @@ private
   # event blocks need to be retained, and the addTarget method explicitly does
   # *not* retain `target`.  This makes sure that callbacks are retained by
   # pushing the block onto a stack.
-  def sugarcube_callbacks
-    @sugarcube_callbacks ||= Hash.new { |hash, key| hash[key] = [] }
+  def sugarcube_callbacks(event=nil)
+    @sugarcube_callbacks ||= {}
+    if event
+      @sugarcube_callbacks[event] ||= []
+      return @sugarcube_callbacks[event]
+    else
+      return @sugarcube_callbacks
+    end
   end
 
 end
