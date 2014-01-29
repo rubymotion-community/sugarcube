@@ -1,7 +1,13 @@
 class UITextView
 
-  def sugarcube_callbacks
-    @sugarcube_callbacks ||= Hash.new { |h,k| h[k] = [] }
+  def sugarcube_callbacks(notification=nil)
+    @sugarcube_callbacks ||= {}
+    if notification
+      @sugarcube_callbacks[notification] ||= SugarCubeNotificationForgetter.new
+      return @sugarcube_callbacks[notification]
+    else
+      return @sugarcube_callbacks
+    end
   end
 
   # Add event handlers to UITextView, with the same syntax as `UIControl`
@@ -62,17 +68,45 @@ class UITextView
   end
 
 private
-  def _onEventNotification(notication, &block)
-    self.sugarcube_callbacks[notication] << NSNotificationCenter.defaultCenter.addObserverForName(notication,
+  def _onEventNotification(notification, &block)
+    self.sugarcube_callbacks(notification) << NSNotificationCenter.defaultCenter.addObserverForName(notification,
           object: self,
            queue: NSOperationQueue.mainQueue,
       usingBlock: block.weak!)
   end
 
-  def _offEventNotification(nofication)
-    self.sugarcube_callbacks[nofication].each do |callback_observer|
+  def _offEventNotification(notification)
+    self.sugarcube_callbacks(notification).tap { |s| ap s }.remove_all
+  end
+
+end
+
+
+class SugarCubeNotificationForgetter
+
+  def initialize
+    @observers = []
+  end
+
+  def <<(observer)
+    @observers << observer
+  end
+
+  def remove_all
+    @observers.each do |callback_observer|
+      self.remove(callback_observer)
+    end
+    @observers = []
+  end
+
+  def remove(callback_observer)
+    if @observers.delete(callback_observer)
       NSNotificationCenter.defaultCenter.removeObserver(callback_observer)
     end
+  end
+
+  def dealloc
+    self.remove_all
   end
 
 end

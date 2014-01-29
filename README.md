@@ -306,32 +306,41 @@ three `:touch` events, calling `button.off(:touch)` will remove all three.
 UITextView
 ------------
 
-You MUST call the `off` methods, because these methods use `NSNotification`s,
-and you must turn off listeners.
+These handlers are functionally identical in usage to the same methods in
+`UIControl`.  They use the `NSNotificationCenter#addObserverForName:object:queue:usingBlock:`
+method, but you do not have to worry about un-observing.  When the text view is
+released, these observers will be removed.
 
-There are two aliases for each event. I prefer the present tense (jQuery-style `on :change`),
-but UIKit prefers past simple (`UITextViewTextDidBeginEditingNotification`).
+There are two aliases for each event, or you can use the event notification. I
+prefer the present tense (jQuery-style `on :change`), but UIKit prefers past
+simple (`:editing_did_begin`).  The notifications, on the other hand, are in
+present simple (`UITextViewTextDidBeginEditingNotification`).  Whatever floats
+your boat.
 
-So these are all the same:
+Anyway, these are all the same:
 
-    :editing_did_begin  :begin
-    :editing_did_change :change
-    :editing_did_end    :end
+    :editing_did_begin   :begin   UITextViewTextDidBeginEditingNotification
+    :editing_did_change  :change  UITextViewTextDidChangeNotification
+    :editing_did_end     :end     UITextViewTextDidEndEditingNotification
 
 ```ruby
 text_view = UITextView.new
-text_view.on :begin do
+text_view.on :begin do |notification|  # <= you have to accept the notification in your block
   p 'wait for it...'
 end
-text_view.on :change do
+text_view.on :change do |notification|
   p text_view.text
 end
-text_view.on :end do
+text_view.on :end do |notification|
   p 'done!'
 end
 
-# later... like in `viewWillDisappear`.  I'll use the alternative aliases here
-text_view.off :editing_did_change, :editing_did_end, :editing_did_begin
+# if you want to remove the block, use the off method
+text_view.off :editing_did_change
+# or
+text_view.off :change
+# or
+text_view.off UITextViewTextDidChangeNotification
 ```
 
 Gestures
