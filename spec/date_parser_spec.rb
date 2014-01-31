@@ -7,7 +7,12 @@ describe "Base Methods" do
     t.hour.should == 19
     t.min.should == 30
     t.sec.should == 0
-    (t.day - today.day).should == 1
+
+    if (today + 1.day).day == 1
+      t.day.should == 1
+    else
+      (t.day - today.day).should == 1
+    end
   end
 
   it "parses a specific natural language string, returning a date" do
