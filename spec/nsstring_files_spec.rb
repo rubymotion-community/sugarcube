@@ -50,11 +50,11 @@ describe 'NSString' do
     end
 
     it "should not file_exists" do
-      "abc".cache.file_exists?.should == false
+      "abc".cache_path.file_exists?.should == false
     end
 
     it "should not file_exists" do
-      "abc".resource.file_exists?.should == false
+      "abc".resource_path.file_exists?.should == false
     end
 
     describe "in document" do
@@ -85,7 +85,7 @@ describe 'NSString' do
 
     describe "in resource" do
       it "should be file_exists" do
-        "info.plist".resource.file_exists?.should == true
+        "info.plist".resource_path.file_exists?.should == true
       end
     end
 

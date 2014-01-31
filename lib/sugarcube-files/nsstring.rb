@@ -29,13 +29,13 @@ class NSString
   end
 
   def file_exists?
-    path = self.hasPrefix('/') ? self : self.document
+    path = self.hasPrefix('/') ? self : self.document_path
     NSFileManager.defaultManager.fileExistsAtPath(path)
   end
 
   def remove_file!
     ptr = Pointer.new(:id)
-    path = self.hasPrefix('/') ? self : self.document
+    path = self.hasPrefix('/') ? self : self.document_path
     NSFileManager.defaultManager.removeItemAtPath(path, error:ptr)
     ptr[0]
   end
