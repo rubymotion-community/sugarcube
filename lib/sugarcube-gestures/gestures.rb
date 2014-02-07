@@ -226,7 +226,7 @@ private
     self.addGestureRecognizer(recognizer)
 
     @sugarcube_recognizers = {} unless @sugarcube_recognizers
-    @sugarcube_recognizers[recognizer] = proc.weak!
+    @sugarcube_recognizers[recognizer] = proc.respond_to?('weak!') ? proc.weak! : proc
 
     recognizer
   end
