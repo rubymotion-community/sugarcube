@@ -28,11 +28,11 @@ class UINavigationController
     self
   end
 
-  def pop(to_view=nil)
-    if to_view == :root
+  def pop(to_vc=nil)
+    if to_vc == :root
       self.popToRootViewControllerAnimated(true)
-    elsif to_view
-      self.popToViewController(to_view, animated: true)
+    elsif to_vc
+      self.popToViewController(to_vc, animated: true)
     else
       self.popViewControllerAnimated(true)
     end
