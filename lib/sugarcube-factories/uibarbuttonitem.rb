@@ -129,7 +129,7 @@ class UIBarButtonItem
   def set_target_and_action target, action
     self.target = target
     self.action = 'sugarcube_handle_action:'
-    @sugarcube_action = action
+    @sugarcube_action = action.respond_to?('weak!') ? action.weak! : action
   end
 
 
