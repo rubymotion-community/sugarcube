@@ -76,7 +76,7 @@ private
   end
 
   def _offEventNotification(notification)
-    self.sugarcube_callbacks(notification).tap { |s| ap s }.remove_all
+    self.sugarcube_callbacks(notification).remove_all
   end
 
 end
