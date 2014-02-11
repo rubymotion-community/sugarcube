@@ -244,6 +244,21 @@ module SugarCube
     end
     alias h shadow
 
+    def blink(color = UIColor.redColor)
+      raise "no view has been assigned to SugarCube::Adjust::adjust" unless $sugarcube_view
+
+      blinking_view = UIView.alloc.initWithFrame([[0,0],$sugarcube_view.frame.size])
+      blinking_view.backgroundColor = color
+      $sugarcube_view.addSubview(blinking_view)
+      UIView.animateWithDuration(0.2, animations: ->{ blinking_view.alpha = 0}, completion: ->(finished){
+        UIView.animateWithDuration(0.2, animations: ->{ blinking_view.alpha = 1}, completion: ->(finished){
+          UIView.animateWithDuration(0.2, animations: ->{ blinking_view.alpha = 0}, completion: ->(finished){
+            blinking_view.removeFromSuperview
+          })
+        })
+      })
+    end
+
     # @param item this can be a tree-like item (UIView, UIViewController,
     #     CALayer) or an integer, in which case it will select that window from
     #     UIApplication.sharedApplication.window.  Defalt is to display the
