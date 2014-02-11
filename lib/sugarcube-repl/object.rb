@@ -94,4 +94,7 @@ private
   def restore(*args)
     SugarCube::Adjust.restore(*args)
   end
+  def blink(*args)
+    SugarCube::Adjust.blink(*args)
+  end
 end
