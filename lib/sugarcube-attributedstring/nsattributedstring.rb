@@ -42,7 +42,7 @@ end
 
 class NSAttributedString
 
-  def dummy
+  def sugarcube_nsattributedstring_dummy_method
     # make sure NSAttributedString constants get compiled
     foo = NSFontAttributeName
     foo = NSParagraphStyleAttributeName
@@ -146,12 +146,16 @@ class NSAttributedString
     retval
   end
 
-  def nsattributedstring
-    self
+  def nsattributedstring(attributes=nil)
+    if attributes.nil?
+      self
+    else
+      self.with_attributes(attributes)
+    end
   end
 
-  def attrd
-    self.nsattributedstring
+  def attrd(attributes=nil)
+    self.nsattributedstring(attributes=nil)
   end
 
   def +(attributedstring)
