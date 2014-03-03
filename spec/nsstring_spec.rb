@@ -98,4 +98,8 @@ describe "NSString" do
     "3.12159".nan?.should.equal false
   end
 
+  it "should have a #remove_accents method" do
+    'çan thîs tést ruñ òk?'.remove_accents.should == 'can this test run ok?'
+  end
+
 end

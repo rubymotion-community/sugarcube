@@ -1257,8 +1257,9 @@ index_path.to_a  # => [1, 2, ...]
 ```ruby
 'https://github.com'.nsurl
 '/path/to/file'.fileurl
-'https://google.com/search?q=' + 'search terms'.escape_url
-'%20'.unescape_url
+'https://google.com/search?q=' + 'search terms'.escape_url  # => "..?q=search%20terms"
+'%20'.unescape_url  #=> " "
+'nô àccénts!'.remove_accents  # => "no accents!"
 ```
 
 ###### NSURL

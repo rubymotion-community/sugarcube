@@ -28,4 +28,12 @@ class NSString
             )
   end
 
+  def remove_accents
+    # removes diacritics by using a lossy conversion
+    ascii = self.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: true)
+
+    # turn it back into a string
+    return NSString.alloc.initWithData(ascii, encoding: NSASCIIStringEncoding)
+  end
+
 end
