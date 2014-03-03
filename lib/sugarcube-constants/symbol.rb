@@ -95,6 +95,11 @@ class Symbol
     SugarCube.look_in(self, Symbol.uibarbuttonstyle)
   end
 
+  def uitabbarsystemitem
+    SugarCube.look_in(self, Symbol.uitabbarsystemitem)
+  end
+  alias uitabbaritem uitabbarsystemitem
+
   def uibuttontype
     SugarCube.look_in(self, Symbol.uibuttontype)
   end
@@ -240,6 +245,7 @@ class Symbol
     attr :uibarbuttonitem
     attr :uibarbuttonitem__deprecated
     attr :uibarbuttonstyle
+    attr :uitabbarsystemitem
 
     attr :uibuttontype
     attr :uicontrolstate
@@ -497,6 +503,21 @@ class Symbol
     plain:    UIBarButtonItemStylePlain,
     bordered: UIBarButtonItemStyleBordered,
     done:     UIBarButtonItemStyleDone
+  }
+
+  @uitabbarsystemitem = {
+    more:        UITabBarSystemItemMore,
+    favorites:   UITabBarSystemItemFavorites,
+    featured:    UITabBarSystemItemFeatured,
+    top_rated:   UITabBarSystemItemTopRated,
+    recents:     UITabBarSystemItemRecents,
+    contacts:    UITabBarSystemItemContacts,
+    history:     UITabBarSystemItemHistory,
+    bookmarks:   UITabBarSystemItemBookmarks,
+    search:      UITabBarSystemItemSearch,
+    downloads:   UITabBarSystemItemDownloads,
+    most_recent: UITabBarSystemItemMostRecent,
+    most_viewed: UITabBarSystemItemMostViewed,
   }
 
   @uibuttontype = {

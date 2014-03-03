@@ -814,6 +814,32 @@ toolbar.items = [
 ]
 ```
 
+###### UITabBarItem
+
+Easy to create system or custom `UITabBarItem`s.
+
+```ruby
+UITabBarItem.titled('My Title')
+# with optional :image and :selected_image options:
+UITabBarItem.titled('My Title', image: 'my_icon', selected_image: 'my_icon_selected')
+# also supports :tag and :badge
+UITabBarItem.titled('My Title', tag: MY_TABBAR_ITEM, badge: '+1')
+
+# system items:
+UITabBarItem.more
+UITabBarItem.favorites
+
+# Most of the UITabBarItem init methods accept the UIView#tag, and so there is
+# support for that in the UITabBarItem factory methods.  Defaults to 0.  The
+# :badge option is supported here as well
+UITabBarItem.featured(tag: MY_TABBAR_ITEM, badge: 10)
+
+# All of the UITabBarSystemItem helpers delegate to the 'UITabBarItem.system'
+# method, which you can call direcly as well.  It accepts :tag and :badge
+# options.
+UITabBarItem.system(:top_rated, tag: MY_ITEM_TAG, badge: 'hi')
+```
+
 ###### NSError
 ```ruby
 # usually, NSError.new doesn't work, because the only initializer for NSError
