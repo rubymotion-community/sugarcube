@@ -365,6 +365,8 @@ class UIView
     right = origin + offset
 
     animation = CAKeyframeAnimation.animationWithKeyPath(keypath)
+    # sometimes, because of conflicts with CATiming (or something to that
+    # effect), calling 'duration=' results in a compiler or runtime error.
     animation.send(:'setDuration:', duration)
     animation.repeatCount = repeat
     animation.values = [origin, left, right, origin]
