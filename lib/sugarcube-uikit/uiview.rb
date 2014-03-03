@@ -109,11 +109,19 @@ class UIView
   end
 
   def convert_frame_to(destination)
-    return self.convertRect(CGRectMake(0, 0, self.frame.size.width, self.frame.size.height), toView:destination)
+    return self.convert_rect(CGRectMake(0, 0, self.frame.size.width, self.frame.size.height), to: destination)
   end
 
   def convert_frame_from(source)
-    return self.convertRect(CGRectMake(0, 0, source.frame.size.width, source.frame.size.height), fromView:source)
+    return self.convert_rect(CGRectMake(0, 0, source.frame.size.width, source.frame.size.height), from: source)
+  end
+
+  def convert_rect(rect, to: destination)
+    return self.convertRect(rect, toView: destination)
+  end
+
+  def convert_rect(rect, from: source)
+    return self.convertRect(rect, fromView: source)
   end
 
   # Returns the receiver's bounds in the coordinate system of `destination`
@@ -127,12 +135,20 @@ class UIView
     return self.convert_origin_to(destination)
   end
 
+  def convert_point(point, to: destination)
+    return self.convertPoint(point, toView: destination)
+  end
+
+  def convert_point(point, from: source)
+    return self.convertPoint(point, fromView: source)
+  end
+
   def convert_origin_to(destination)
-    return self.convertPoint([0, 0], toView:destination)
+    return self.convert_point([0, 0], to: destination)
   end
 
   def convert_origin_from(source)
-    return self.convertPoint([0, 0], fromView:source)
+    return self.convert_point([0, 0], from: source)
   end
 
   # Easily get and set a UIView's frame properties

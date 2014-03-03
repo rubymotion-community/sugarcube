@@ -100,6 +100,23 @@ describe "UIView" do
       frame.size.width.should == 60
       frame.size.height.should == 80
     end
+
+    it "should convert_rect(to:)" do
+      frame = @view3.convert_rect([[1, 2], [10, 20]], to: @view1)
+      frame.origin.x.should == 21
+      frame.origin.y.should == 12
+      frame.size.width.should == 10
+      frame.size.height.should == 20
+    end
+
+    it "should convert_rect(from:)" do
+      frame = @view1.convert_rect([[1, 2], [10, 20]], from: @view3)
+      frame.origin.x.should == 21
+      frame.origin.y.should == 12
+      frame.size.width.should == 10
+      frame.size.height.should == 20
+    end
+
   end
 
   describe "should convert point" do
@@ -122,6 +139,19 @@ describe "UIView" do
       point.x.should == 20
       point.y.should == 10
     end
+
+    it "should convert_point(to:)" do
+      point = @view3.convert_point([1, 2], to: @view1)
+      point.x.should == 21
+      point.y.should == 12
+    end
+
+    it "should convert_point(:from)" do
+      point = @view1.convert_point([1, 2], from: @view3)
+      point.x.should == 21
+      point.y.should == 12
+    end
+
   end
 
   it "should return x" do
