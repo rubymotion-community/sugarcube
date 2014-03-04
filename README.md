@@ -831,6 +831,11 @@ Animations ([wiki][Animations Wiki])
 Careful, once you start using these helpers, you'll never go back.
 
 ```ruby
+view.move_to [100.0, 100.0] # origin
+view.center_to [100.0, 100.0] # center
+view.scale_to # preserves existing rotation transform
+# view.scale_to 4 -> CGAffineTransformMakeScale(4, 4)
+# view.scale_to [4, 3] -> CGAffineTransformMakeScale(4, 3)
 view.fade_out
 view.slide :left, 100
 view.rotate_to 180.degrees

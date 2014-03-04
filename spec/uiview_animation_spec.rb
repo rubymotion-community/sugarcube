@@ -11,12 +11,38 @@ describe "UIView animation methods" do
     @view.resize_to([5,6]).frame.should == CGRectMake(1,2,5,6)
   end
 
-  it 'should reframe_to ' do
+  it 'should reframe_to x:2 y:4 w:5 h:6' do
     @view.reframe_to([[2,4],[5,6]]).frame.should == CGRectMake(2,4,5,6)
   end
 
   it 'should move_to x:2 y:4' do
     @view.move_to([2,4]).frame.should == CGRectMake(2,4,3,4)
+  end
+
+  it 'should center_to x:2 y:4' do
+    @view.center_to([2,4]).center.should == CGPointMake(2,4)
+  end
+
+  it 'should scale to 4' do
+    radians = Math.atan2(@view.transform.b,
+                         @view.transform.a)
+    new_view = @view.scale_to(4)
+    new_radians = Math.atan2(new_view.transform.b,
+                             new_view.transform.a)
+    radians.should == new_radians
+    new_view.transform.a.should == 4.to_f
+    new_view.transform.d.should == 4.to_f
+  end
+
+  it 'should scale to x:4 y:3' do
+    radians = Math.atan2(@view.transform.b,
+                         @view.transform.a)
+    new_view = @view.scale_to([4, 3])
+    new_radians = Math.atan2(new_view.transform.b,
+                             new_view.transform.a)
+    radians.should == new_radians
+    new_view.transform.a.should == 4.to_f
+    new_view.transform.d.should == 3.to_f
   end
 
   it 'should rotate 45 degrees' do

@@ -185,7 +185,14 @@ class UIView
 
   def scale_to(scale, options={}, more_options={}, &after)
     if options.is_a? Numeric
-      options = more_options.merge(scale: options)
+      options = more_options.merge(duration: options)
+    end
+
+    if scale.is_a?(Numeric)
+      scale_x = scale_y = scale
+    else  # this could be an array, or CGSize; either way we'll use []
+      scale_x = scale[0]
+      scale_y = scale[1]
     end
 
     options[:after] = after
@@ -194,14 +201,14 @@ class UIView
       radians = Math.atan2(self.transform.b, self.transform.a)
       # radians = self.valueForKeyPath('layer.transform.rotation.z')
       rotation_t = CGAffineTransformMakeRotation(radians)
-      scale_t = CGAffineTransformMakeScale(scale, scale)
+      scale_t = CGAffineTransformMakeScale(scale_x, scale_y)
       self.transform = CGAffineTransformConcat(rotation_t, scale_t)
     }
   end
 
   def center_to(center, options={}, more_options={}, &after)
     if options.is_a? Numeric
-      options = more_options.merge(center: options)
+      options = more_options.merge(duration: options)
     end
 
     options[:after] = after

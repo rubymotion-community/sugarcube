@@ -2,3 +2,4 @@ pkg/
 *.gem
 .DS_Store
 /build/
+.idea/
