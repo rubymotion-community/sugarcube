@@ -423,8 +423,23 @@ class UIView
     if options.is_a? Numeric
       default_duration = options
       options = more_options
+      side = options[:side] || :left
+    elsif options.is_a? Symbol
+      side = options
+      options = more_options
+      default_duration = 0.3
     else
       default_duration = 0.3
+      side = options[:side] || :left
+    end
+
+    case side
+      when :left
+        angle = -Math::PI/4
+      when :right
+        angle = Math::PI/4
+      else
+        raise "Unknown direction #{side.inspect}"
     end
 
     options[:duration] ||= default_duration
@@ -454,7 +469,7 @@ class UIView
       height = window.frame.size.height - top
       offset = CGPoint.new(0, height * 1.5)
       offset = CGPointApplyAffineTransform(offset, self.transform)
-      self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(-Math::PI/4))
+      self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(angle))
       self.center = CGPointMake(self.center.x + offset.x, self.center.y + offset.y)
     end
   end
@@ -465,9 +480,24 @@ class UIView
   def tumble_in(options={}, &after)
     if options.is_a? Numeric
       default_duration = options
-      options = {}
+      options = more_options
+      side = options[:side] || :left
+    elsif options.is_a? Symbol
+      side = options
+      options = more_options
+      default_duration = 0.3
     else
       default_duration = 0.3
+      side = options[:side] || :left
+    end
+
+    case side
+      when :left
+        angle = -Math::PI/4
+      when :right
+        angle = Math::PI/4
+      else
+        raise "Unknown direction #{side.inspect}"
     end
 
     reset_transform = self.transform
@@ -482,7 +512,7 @@ class UIView
     height = window.frame.size.height - top
     offset = CGPoint.new(0, height * -1.5)
     offset = CGPointApplyAffineTransform(offset, self.transform)
-    self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(Math::PI/4))
+    self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(angle))
     self.center = CGPointMake(self.center.x + offset.x, self.center.y + offset.y)
 
     self.animate(options) do
