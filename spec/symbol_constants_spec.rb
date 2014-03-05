@@ -192,6 +192,21 @@ describe "Symbol - constants" do
       :done.uibarbuttonstyle.should == UIBarButtonItemStyleDone
     end
 
+    it 'should support `uitabbarsystemitem`' do
+      :more.uitabbarsystemitem.should == UITabBarSystemItemMore
+      :favorites.uitabbarsystemitem.should == UITabBarSystemItemFavorites
+      :featured.uitabbarsystemitem.should == UITabBarSystemItemFeatured
+      :top_rated.uitabbarsystemitem.should == UITabBarSystemItemTopRated
+      :recents.uitabbarsystemitem.should == UITabBarSystemItemRecents
+      :contacts.uitabbarsystemitem.should == UITabBarSystemItemContacts
+      :history.uitabbarsystemitem.should == UITabBarSystemItemHistory
+      :bookmarks.uitabbarsystemitem.should == UITabBarSystemItemBookmarks
+      :search.uitabbarsystemitem.should == UITabBarSystemItemSearch
+      :downloads.uitabbarsystemitem.should == UITabBarSystemItemDownloads
+      :most_recent.uitabbarsystemitem.should == UITabBarSystemItemMostRecent
+      :most_viewed.uitabbarsystemitem.should == UITabBarSystemItemMostViewed
+    end
+
     it 'should support `uibuttontype`' do
       :custom.uibuttontype.should == UIButtonTypeCustom
       :rounded.uibuttontype.should == UIButtonTypeRoundedRect
