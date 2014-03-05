@@ -873,6 +873,13 @@ view.slide :left, 100
 view.rotate_to 180.degrees
 view.shake  # great for showing invalid form elements
 view.tumble  # great way to dismiss an alert-like-view
+# tumbles in the other direction (towards the right side instead of left)
+view.tumble(side: :right)
+
+# the complement to 'tumble' is 'tumble_in' - the view starts above the window
+# and drops in with the same kind of animation as 'tumble'.  Before you call
+# this method, set the view.frame to the *destination* location.
+view.tumble_in(side: :right)
 ```
 
 These helpers all delegate to the `UIView.animate` method, which accepts all the

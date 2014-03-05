@@ -477,7 +477,7 @@ class UIView
   # Moves the view on screen while slowly rotating it.
   #
   # Based on https://github.com/warrenm/AHAlertView/blob/master/AHAlertView/AHAlertView.m
-  def tumble_in(options={}, &after)
+  def tumble_in(options={}, more_options={}, &after)
     if options.is_a? Numeric
       default_duration = options
       options = more_options
