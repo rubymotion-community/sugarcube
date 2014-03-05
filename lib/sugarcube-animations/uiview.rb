@@ -417,13 +417,16 @@ class UIView
   # Moves the view off screen while slowly rotating it.
   #
   # Based on https://github.com/warrenm/AHAlertView/blob/master/AHAlertView/AHAlertView.m
-  def tumble(options={}, more_options={}, &after)
+  def tumble(side=:left, options={}, more_options={}, &after)
     if options.is_a? Numeric
       default_duration = options
       options = more_options
     else
       default_duration = 0.3
     end
+
+    angle = -Math::PI/4 if side == :left
+    angle = Math::PI/4 if side == :right
 
     options[:duration] ||= default_duration
     options[:options] ||= UIViewAnimationOptionCurveEaseIn|UIViewAnimationOptionBeginFromCurrentState
@@ -452,7 +455,7 @@ class UIView
       height = window.frame.size.height - top
       offset = CGPoint.new(0, height * 1.5)
       offset = CGPointApplyAffineTransform(offset, self.transform)
-      self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(-Math::PI/4))
+      self.transform = CGAffineTransformConcat(self.transform, CGAffineTransformMakeRotation(angle)
       self.center = CGPointMake(self.center.x + offset.x, self.center.y + offset.y)
     end
   end
