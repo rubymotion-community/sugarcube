@@ -483,10 +483,16 @@ image_ab = image_a << image_b
 UIImage.canvas([100, 100]) do |context|  # opaque: false, scale: UIScreen.mainScreen.scale
   # draw here!
 end
+
 # use an image as a background to draw on
 image.draw do |context|
   # draw here!
 end
+
+# size
+image = Image.canvas(size: [10, 20])
+image.width  # => 10
+image.height  # => 20
 ```
 
 ###### CIFilter additions

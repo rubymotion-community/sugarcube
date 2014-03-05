@@ -12,13 +12,11 @@ describe 'UIImage' do
 
     it 'should return width' do
       image = UIImage.canvas(size: [10, 10])
-      image.width.should == image.height
       image.width.should == 10
     end
 
     it 'should return height' do
       image = UIImage.canvas(size: [10, 10])
-      image.height.should == image.height
       image.height.should == 10
     end
 
