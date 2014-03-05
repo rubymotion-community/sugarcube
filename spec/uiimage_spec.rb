@@ -10,6 +10,18 @@ describe 'UIImage' do
       CGSizeEqualToSize(UIImage.canvas(size: [10, 10]).size, [10, 10]).should == true
     end
 
+    it 'should return width' do
+      image = UIImage.canvas(size: [10, 10])
+      image.width.should == image.height
+      image.width.should == 10
+    end
+
+    it 'should return height' do
+      image = UIImage.canvas(size: [10, 10])
+      image.height.should == image.height
+      image.height.should == 10
+    end
+
     it 'should have the right scale' do
       UIImage.canvas(size: [10, 10], scale: 2).scale.should == 2
     end

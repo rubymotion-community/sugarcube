@@ -6,4 +6,12 @@ class UIImage
     UIImageView.alloc.initWithImage(self)
   end
 
+  def width
+    self.size.width
+  end
+
+  def height
+    self.size.height
+  end
+
 end
