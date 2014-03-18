@@ -984,6 +984,10 @@ if input.nan?
   UIAlertView.alert('not a number!')
 else
   number = input.to_number
+  # convert a currency
+  number = input.to_number(NSNumberFormatterCurrencyStyle)
+  # convert from symbol, requires 'sugarcube-constants'
+  number = input.to_number(:currency)
 end
 ```
 

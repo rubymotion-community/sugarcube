@@ -93,9 +93,42 @@ describe "NSString" do
     'hello'._.should == 'howdy'
   end
 
-  it "should have a #nan? method" do
-    "pi".nan?.should.equal true
-    "3.12159".nan?.should.equal false
+  describe "should have a #nan? method" do
+    it 'should return true for non-numbers' do
+      "pi".nan?.should.equal true
+    end
+
+    it 'should return false for numbers' do
+      "3.12159".nan?.should.equal false
+    end
+
+    it 'should not detect currencies' do
+      "$3.12159".nan?.should.equal true
+    end
+
+    it 'should return false for valid currencies' do
+      "$3.12159".nan?(:currency).should.equal false
+    end
+  end
+
+  describe "should have a #to_number method" do
+    it 'should detect simple integers' do
+      '123'.to_number.should == 123
+      '1,000'.to_number.should == 1000
+    end
+
+    it 'should detect simple floats' do
+      '1.25'.to_number.should == 1.25
+      '1,000.25'.to_number.should == 1000.25
+    end
+
+    it 'should return nil for non-numbers' do
+      'pi'.to_number.should == nil
+    end
+
+    it 'should parse currencies' do
+      '$123.25'.to_number(:currency).should == 123.25
+    end
   end
 
   it "should have a #remove_accents method" do
