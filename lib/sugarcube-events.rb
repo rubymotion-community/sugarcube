@@ -12,9 +12,4 @@ Motion::Project::App.setup do |app|
   Dir.glob(File.join(File.dirname(__FILE__), 'sugarcube-events/**/*.rb')).reverse.each do |file|
     app.files.insert(insert_point, file)
   end
-
-  cleanup = File.join(File.dirname(__FILE__), 'sugarcube/sugarcube_cleanup.rb')
-  uicontrol = File.join(File.dirname(__FILE__), 'sugarcube-events/uicontrol.rb')
-  uitextview = File.join(File.dirname(__FILE__), 'sugarcube-events/uitextview.rb')
-  app.files_dependencies uicontrol => [cleanup], uitextview => [cleanup]
 end

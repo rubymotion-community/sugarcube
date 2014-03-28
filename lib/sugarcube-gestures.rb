@@ -12,8 +12,4 @@ Motion::Project::App.setup do |app|
   Dir.glob(File.join(File.dirname(__FILE__), 'sugarcube-gestures/**/*.rb')).reverse.each do |file|
     app.files.insert(insert_point, file)
   end
-
-  cleanup = File.join(File.dirname(__FILE__), 'sugarcube/sugarcube_cleanup.rb')
-  gestures = File.join(File.dirname(__FILE__), 'sugarcube-gestures/gestures.rb')
-  app.files_dependencies gestures => [cleanup]
 end
