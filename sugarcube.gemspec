@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/sugarcube/version.rb', __FILE__)
+require File.expand_path('../lib/version.rb', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name          = 'sugarcube'
   gem.version       = SugarCube::Version
   gem.licenses      = ['BSD']
 
-  gem.authors = ['Colin T.A. Gray', 'Thom Parkin', 'Katsuyoshi Ito', 'Michael Erasmus']
-  gem.email   = ['colinta@gmail.com']
+  gem.authors = ['Colin T.A. Gray', 'Katsuyoshi Ito', 'Thom Parkin', 'Michael Erasmus']
+  gem.email   = ['colin@hipbyte.com']
   gem.summary     = %{Extensions for Ruby to make Rubymotion development more enjoyable, and hopefully more rubyesque!}
   gem.description = <<-DESC
 == Description
