@@ -193,4 +193,15 @@ class UIView
     self.frame = newFrame
   end
 
+  
+  # Rounds the corners of any UIView.
+  # Defaults to a corner radius of 5.
+  # 
+  # view.round! #5px radius
+  # or, view.round! 20 #20px radius
+  def round!(rad=5)
+      self.layer.cornerRadius = rad
+      self.layer.masksToBounds = true
+  end
+
 end
