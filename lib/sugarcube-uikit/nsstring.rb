@@ -28,11 +28,7 @@ class NSString
 
   # @return [UIImageView]
   def uiimageview
-    image = UIImage.imageNamed(self)
-    unless image
-      NSLog("No image named #{self}")
-    end
-    UIImageView.alloc.initWithImage(image)
+    self.uiimage.uiimageview
   end
 
 end
