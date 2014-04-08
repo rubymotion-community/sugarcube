@@ -13,6 +13,12 @@ You can extend the defaults by adding entries:
 
 =end
 class Symbol
+  def jpg
+    "#{self.to_s}.jpg".uiimage
+  end
+  def png
+    self.uiimage
+  end
   
   def uifont(size=nil)
     size ||= UIFont.systemFontSize
