@@ -542,36 +542,4 @@ class UIView
     end
   end
 
-
-  # Applies perspective transforms to a view
-  # 
-  # Simple example
-  # Pulls top left out, pushes bottom right in, in 0.45 seconds.
-  # view.perspective({ amount:[0.001,0.001],
-  #                   duration: 0.45
-  #                 })
-  # 
-  # Advanced example:
-  # Pulls top left out, pushes bottom right in, scales to 50%, sets 50% opacity, and Alerts the user when the animations are done.
-  # view.perspective({ amount:[0.001,0.001],
-  #                   scale: 0.5,
-  #                   completion:lambda{|q|App.alert('1')},
-  #                   duration: 0.35,
-  #                   alpha: 0.5
-  #                 })
-  # Also supports
-  #   :alpha - sets alpha of whole view to this
-  #   :duration - total animation duration
-  #   :scale - scales the view by this amount
-  #   :completion - called after animations are done. nil or Proc with one parameter. e.g. lambda{|v|puts("All done!")}
-  def perspective(args={})
-      vw = args[:view] || self
-      scale=args[:scale] || 1.0
-      alpha=args[:alpha] || 1.0
-      duration=args[:duration] || 0.5
-      p = args[:amount] || [0,0.0004]
-      completion = args[:completion] || nil
-      UIView.animateWithDuration(duration, delay:0, options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseInOut, animations: lambda{vw.layer.transform = CATransform3D.identity.scale(scale).perspective(p[0],p[1])}, completion:completion)
-  end
-
 end
