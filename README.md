@@ -811,6 +811,7 @@ UIBarButtonItem.alloc.initWithImage('portrait'.uiimage, landscapeImagePhone:'lan
 ```
 
 Example Usage:
+
 ```ruby
 toolbar = UIToolbar.new
 toolbar.items = [

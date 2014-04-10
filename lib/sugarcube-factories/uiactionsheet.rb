@@ -78,6 +78,7 @@ class UIActionSheet
 
     alert = self.alloc
     alert.send('initWithTitle:delegate:cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:', *args)
+
     if options.key?(:style)
       style = options[:style]
       if style.respond_to?(:uiactionstyle)
@@ -85,6 +86,7 @@ class UIActionSheet
       end
       alert.actionSheetStyle = style
     end
+
     if options.fetch(:show, true)
       if options.key?(:from)
         from = options[:from]
@@ -108,6 +110,7 @@ class UIActionSheet
         raise "Unknown :from option #{from.inspect}"
       end
     end
+
     alert
   end
 

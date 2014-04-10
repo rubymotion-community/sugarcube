@@ -49,6 +49,55 @@ describe 'UIActionSheet' do
     end
   end
 
+  it 'should have :from option that accepts CGRect' do
+    alert = UIActionSheet.alert('test', from: CGRect.new([0, 0], [320, 0]))
+    proper_wait 0.6
+    alert.visible?.should == true
+    alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
+  end
+
+  it 'should have :from option that accepts UIBarButtonItem' do
+    button = UIBarButtonItem.done
+    toolbar = UIToolbar.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    toolbar.items = [button]
+    window = UIApplication.sharedApplication.windows[0]
+    window << toolbar
+    alert = UIActionSheet.alert('test', from: button)
+    proper_wait 0.6
+    alert.visible?.should == true
+    alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
+  end
+
+  it 'should have :from option that accepts UIToolbar' do
+    view = UIToolbar.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    window = UIApplication.sharedApplication.windows[0]
+    window << view
+    alert = UIActionSheet.alert('test', from: view)
+    proper_wait 0.6
+    alert.visible?.should == true
+    alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
+  end
+
+  it 'should have :from option that accepts UITabBar' do
+    view = UITabBar.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    window = UIApplication.sharedApplication.windows[0]
+    window << view
+    alert = UIActionSheet.alert('test', from: view)
+    proper_wait 0.6
+    alert.visible?.should == true
+    alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
+  end
+
+  it 'should have :from option that accepts UIView' do
+    view = UIView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    window = UIApplication.sharedApplication.windows[0]
+    window << view
+    alert = UIActionSheet.alert('test', from: view)
+    proper_wait 0.6
+    alert.visible?.should == true
+    alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
+  end
+
   it 'should add a button with << method' do
     alert = UIActionSheet.alert('test', show: false)
     alert << 'title'
