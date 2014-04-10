@@ -1,4 +1,4 @@
-describe "CALayer" do
+describe CALayer do
 
   it "should support <<" do
     layer = CALayer.layer
