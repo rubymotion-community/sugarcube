@@ -95,7 +95,7 @@ class UIActionSheet
       case from
       when CGRect
         view = UIApplication.sharedApplication.windows[0]
-        alert.showInRect(from, inView: view, animated: true)
+        alert.showFromRect(from, inView: view, animated: true)
       when UIBarButtonItem
         alert.showFromBarButtonItem(from)
       when UIToolbar
