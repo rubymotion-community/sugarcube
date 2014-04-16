@@ -37,8 +37,8 @@ class << Symbol
   end
 
   def textalignments
-    SugarCube::Legacy.log("Symbol.textalignments[] is deprecated. Use Symbol.uitextalignment[] instead.")
-    uitextalignment
+    SugarCube::Legacy.log("Symbol.textalignments[] is deprecated. Use Symbol.nstextalignment[] instead.")
+    nstextalignment
   end
 
   def linebreakmodes
