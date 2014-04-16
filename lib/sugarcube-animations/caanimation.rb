@@ -9,15 +9,12 @@ class CAAnimation
       animation.repeatCount = options[:repeat] if options.key?(:repeat)
       animation.repeatCount = options[:repeat_count] if options.key?(:repeat_count)
       animation.repeatDuration = options[:repeat_duration] if options.key?(:repeat_duration)
-
-      remove_on_completion = options.fetch(:remove, true)
-      animation.removedOnCompletion = remove_on_completion
+      animation.removedOnCompletion = options.fetch(:remove, true)
     end
 
     # If you pass a block, that block will be called at the end of the
     # animation.
-    def basic(target, key_path, options={}, &block)
-
+    def basic(key_path, options={}, &block)
       animation = CABasicAnimation.animationWithKeyPath(key_path)
       _sugarcube_apply_animation_options(animation, options)
 
@@ -30,7 +27,7 @@ class CAAnimation
       return animation
     end
 
-    def keyframe(target, key_path, options={}, &block)
+    def keyframe(key_path, options={}, &block)
       timing_function = options.fetch(:timing, KCAMediaTimingFunctionDefault)
       if timing_function.is_a?(NSString)
         timing_function = CAMediaTimingFunction.functionWithName(timing_function)
@@ -40,9 +37,7 @@ class CAAnimation
       animation = CAKeyframeAnimation.animationWithKeyPath(key_path)
       _sugarcube_apply_animation_options(animation, options)
       animation.timingFunction = timing_function
-      animation.duration = duration
       animation.fillMode = fill_mode
-      animation.removedOnCompletion = remove_on_completion
 
       if options.key?(:values)
         animation.values = options[:values]
