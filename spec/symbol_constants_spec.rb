@@ -93,10 +93,10 @@ describe "Symbol - constants" do
       :email.uikeyboardtype.should == UIKeyboardTypeEmailAddress
     end
 
-    it 'should support `uitextalignment`' do
-      :left.uitextalignment.should == UITextAlignmentLeft
-      :right.uitextalignment.should == UITextAlignmentRight
-      :center.uitextalignment.should == UITextAlignmentCenter
+    it 'should support `nstextalignment`' do
+      :left.nstextalignment.should == NSTextAlignmentLeft
+      :right.nstextalignment.should == NSTextAlignmentRight
+      :center.nstextalignment.should == NSTextAlignmentCenter
     end
 
     it 'should support `uilinebreakmode`' do
