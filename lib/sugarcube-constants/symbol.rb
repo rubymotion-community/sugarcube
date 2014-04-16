@@ -3,7 +3,7 @@ Adds some UI classes to the Symbol class.  These methods are prefixed with `ui`
 to make their intent clear, and to provide a little bit of "namespacing"
 
     # alignment
-    :left.uialignment => UITextAlignmentLeft
+    :left.nsalignment => NSTextAlignmentLeft
 
     # uicolors
     :black.uicolor => UIColor.blackColor
@@ -51,9 +51,20 @@ class Symbol
   end
 
   def uitextalignment
-    SugarCube.look_in(self, Symbol.uitextalignment)
+    message = "uitextalignment is deprecated.  Use nstextalignment instead."
+    if defined?(SugarCube::Legacy)
+        SugarCube::Legacy.log(message)
+      else
+        NSLog(message)
+    end
+    SugarCube.look_in(self, Symbol.nstextalignment)
   end
   alias uialignment uitextalignment
+
+  def nstextalignment
+    SugarCube.look_in(self, Symbol.nstextalignment)
+  end
+  alias nsalignment nstextalignment
 
   def uilinebreakmode
     SugarCube.look_in(self, Symbol.uilinebreakmode, Symbol.uilinebreakmode__deprecated)
@@ -232,6 +243,7 @@ class Symbol
     attr :uikeyboardtype
     attr :uikeyboardtype__deprecated
     attr :uitextalignment
+    attr :nstextalignment
     attr :uilinebreakmode
     attr :uilinebreakmode__deprecated
     attr :uibaselineadjustment
@@ -397,10 +409,10 @@ class Symbol
     email:                   UIKeyboardTypeEmailAddress,
   }
 
-  @uitextalignment = {
-    left:   UITextAlignmentLeft,
-    right:  UITextAlignmentRight,
-    center: UITextAlignmentCenter,
+  @nstextalignment = {
+    left:   NSTextAlignmentLeft,
+    right:  NSTextAlignmentRight,
+    center: NSTextAlignmentCenter,
   }
 
   @uilinebreakmode__deprecated = {

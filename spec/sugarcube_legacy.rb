@@ -17,7 +17,7 @@ describe "Legacy code" do
       Symbol.autoresizemasks.should == Symbol.uiautoresizemask
       Symbol.returnkeys.should == Symbol.uireturnkey
       Symbol.keyboardtypes.should == Symbol.uikeyboardtype
-      Symbol.textalignments.should == Symbol.uitextalignment
+      Symbol.textalignments.should == Symbol.nstextalignment
       Symbol.linebreakmodes.should == Symbol.uilinebreakmode
       Symbol.baselineadjustments.should == Symbol.uibaselineadjustment
       Symbol.border_types.should == Symbol.uibordertype
