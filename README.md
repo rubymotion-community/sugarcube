@@ -191,7 +191,7 @@ write these as symbols instead of UILongConstantNames.  This package adds
 methods to `Symbol`s to convert them into a UIKit or Foundation constant.
 
 ```ruby
-:center.uialignment  # => UITextAlignmentCenter
+:center.nsalignment  # => NSTextAlignmentCenter (formerly UITextAlignmentCenter)
 :upside_down.uiorientation  # => UIDeviceOrientationPortraitUpsideDown
 :rounded.uibuttontype  # => UIButtonTypeRoundedRect
 :highlighted.uicontrolstate  # => UIControlStateHighlighted
