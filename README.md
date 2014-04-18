@@ -675,23 +675,54 @@ If you use an array of buttons (which you probably *should*), the order of
 arguments is `[:cancel, :destructive, :others, ...]`.  If you *dont* want a
 cancel or destructive button, pass `nil` in place.
 
+Options:
+
+    UIActionSheet.alert(options)
+    UIActionSheet.alert(title, options)
+    0 => title => String - title of the action sheet
+    :title => Proc - title of the action sheet
+    :success => Proc - the success handler
+    :cancel => Proc - the cancel handler
+    :destructive => Proc - the destructive handler
+    :buttons => [] - List of buttons ([cancel, destructive, others...])
+    :buttons => {} - Hash of buttons ({cancel:, destructive:, others: ...}) in any order of course
+    :style => Symbol | Fixnum - A symbol (uiactionstyle) or constant (UIActionSheetStyle*)
+    :show => Boolean - Whether to show the action sheet (default: true)
+    :from => CGRect | UIBarButtonItem | UIToolbar | UITabBar | UIView (default: first window)
+             Where to display the alert.  Mostly relevant on iPad.
+
 ```ruby
 # simple
-UIActionSheet.alert 'This is happening, OK?' { self.happened! }
-# a little more complex, with cancel and destructive buttons
-UIActionSheet.alert('This is happening, OK?', buttons: ['Sure!', 'OK']
-  ) {
+UIActionSheet.alert 'This is happening, OK?' do
   self.happened!
-}
+end
 
-UIActionSheet.alert('Should I?', buttons: [nil, nil, 'OK', 'Nevermind']) { |pressed|
+# a little more complex, with cancel and destructive buttons
+UIActionSheet.alert('This is happening, OK?', buttons: ['Cancel', 'Kill it!', 'Uh, what?']
+  ) do |button|
+  # button is 'Cancel', 'Kill it!' or 'Uh, what?'
+end
+
+# skip cancel and destructive buttons:
+UIActionSheet.alert('Should I?', buttons: [nil, nil, 'OK', 'Nevermind']) [ |pressed|
   self.do_it if pressed == 'OK'
-}
+]
 
 UIActionSheet.alert 'I mean, is this cool?', buttons: ['Nah', 'With fire!', 'Sure', 'whatever'],
   cancel: proc { self.cancel },
   destructive: proc { self.kill_it_with_fire }
   success: proc { |pressed| self.proceed if pressed == 'Sure' }
+
+# By passing a Hash to buttons you can get this improved interface, similar to
+# BubbleWrap's awesome interface.
+UIActionSheet.alert('Well, how bout it?',
+  buttons: {
+    cancel: 'Cancel',
+    destructive: 'Kill it with fire!',
+    help: 'Tell me more'
+  }) do |button|
+  # button is :cancel, :destructive or :help
+end
 ```
 
 ###### UIButton
