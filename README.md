@@ -607,28 +607,59 @@ Factories
 ###### UIAlertView
 
 Accepts multiple buttons and handlers.  In its simplest form, you can pass just
-a title and block.
+a title and block.  An optional `:message` can either be passed in as an option,
+or as the 2nd positional arg.
+
+Options:
+
+    UIAlertView.alert(title[, message], options)
+    0 => title => String - Title of the alert.
+    1 => message => String - message of the alert.  optional positional arg.
+    :message => String - message of the alert.
+    :success => Proc - the success handler
+    :cancel => Proc - the cancel handler
+    :buttons => [] - List of buttons ([cancel, others...])
+    :buttons => {} - Hash of buttons ({cancel:, others: ...}) in any order of course
+    :style => Symbol | Fixnum - A symbol (uialertstyle) or constant (UIAlertViewStyle*)
+    :show => Boolean - Whether to show the action sheet (default: true)
 
 ```ruby
-# simple
-UIAlertView.alert "This is happening, OK?" { self.happened! }
+# simple title/message alert
+UIAlertView.alert('This is happening, OK?', 'An optional message') do
+  self.it_happened!
+end
 
 # a little more complex - the cancel button should be first, and the block will
-# receive a string, not an index
-UIAlertView.alert("This is happening, OK?", buttons: ["Nevermind", "OK"],
-  message: "Don't worry, it'll be fine.") { |button|
-  if button == "OK"
+# receive a string and an index
+UIAlertView.alert('This is happening, OK?',
+  message: 'Don't worry, it'll be fine.',
+  buttons: ['Nevermind', 'OK'],
+  ) do |button, button_index|
+  if button == 'OK'  # or: button_index == 1
     self.happened!
   end
-}
+end
 
 # Full on whiz-bangery.  The cancel button should be the first entry in
 # `buttons:`.  When you specify the success and cancel button handlers this way,
 # you need not assign both.
-UIAlertView.alert "I mean, is this cool?", buttons: %w[No! Sure! Hmmmm],
-  message: "No going back now",
+UIAlertView.alert('I mean, is this cool?',
+  buttons: ['No!', 'Sure!', 'Hmmmm'],
+  message: 'No going back now',
   cancel: proc { self.cancel },
-  success: proc { |pressed| self.proceed if pressed == "Sure!" }
+  success: proc { |pressed| self.proceed if pressed == 'Sure!' }
+  )
+
+# To keep up with BubbleWrap's awesome BW::ActionSheet and BW::AlertView
+# helpers, SugarCube provides a similar interface.
+UIAlertView.alert('Confirm action!', 'Are you sure you want to do this?',
+  buttons: {
+    cancel: 'No!',
+    success: 'Sure!',
+    unsure: 'Hmmm',
+  }) do |button|
+  # button will be :cancel, :success or :unsure
+end
 ```
 
 ###### UIActionSheet

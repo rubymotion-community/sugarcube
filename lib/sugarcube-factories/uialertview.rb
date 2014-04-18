@@ -1,13 +1,14 @@
 class UIAlertView
 
-  # UIAlertView.alert("title",
-  #   message: "help!",
-  #   # The first button is considered the 'cancel' button, for the purposes of
-  #   # whether the cancel or success handler gets called
-  #   buttons: %w"Cancel OK No-way",
-  #   cancel: proc{ puts "nevermind" },
-  #   success: proc{ |pressed| puts "pressed: #{pressed}" },
-  #   )
+  # @example
+  #     UIAlertView.alert("title",
+  #       message: "help!",
+  #       # The first button is considered the 'cancel' button, for the purposes of
+  #       # whether the cancel or success handler gets called
+  #       buttons: %w"Cancel OK No-way",
+  #       cancel: proc{ puts "nevermind" },
+  #       success: proc{ |pressed| puts "pressed: #{pressed}" },
+  #       )
   #
   # If you choose
   def self.alert(title, options={}, more_options={}, &block)
@@ -16,7 +17,9 @@ class UIAlertView
       options = more_options
     end
 
-    # create the delegate
+    # The delegate gets retained here because UIAlertView#delegate is a weak
+    # reference.  It's released in the delegate method
+    # `#didDismissWithButtonIndex(index)`
     delegate = SugarCube::AlertViewDelegate.new
     delegate.on_success = options[:success]
     delegate.on_cancel = options[:cancel]
@@ -27,8 +30,10 @@ class UIAlertView
     args << options[:message] # message:
     args << delegate          # delegate:
 
-    buttons = options[:buttons] || []
+    buttons = (options[:buttons] || []).freeze
     if buttons.empty?
+      buttons = []  # an empty Hash becomes an Array
+
       # cancelButtonTitle: is first, so check for cancel
       if options[:cancel]
         buttons << "Cancel"
@@ -41,19 +46,35 @@ class UIAlertView
       elsif options[:success]
         buttons << "OK"
       end
+    elsif buttons.is_a?(Hash)
+
     elsif buttons.length == 1 && options[:cancel]
       raise "If you only have one button, use a :success handler, not :cancel (and definitely not BOTH)"
     end
 
     # the button titles.  These are passed to the success handler.
-    delegate.buttons = buttons
+    if buttons.is_a?(Hash)
+      button_titles = buttons.keys
+    else
+      button_titles = buttons
+    end
+    delegate.buttons = button_titles
 
     # uses localized buttons in the actual alert
-    args.concat(buttons.map { |m| m && m.localized })
+    if buttons.is_a?(Hash)
+      if buttons.key?(:cancel)
+        args << (buttons[:cancel] && buttons[:cancel].localized)
+      else
+        args << nil
+      end
+      args.concat(buttons.select { |k, m| k != :cancel }.map { |k, m| m && m.localized })
+    else
+      args.concat(buttons.map { |m| m && m.localized })
+    end
     args << nil  # otherButtonTitles:..., nil
 
     alert = self.alloc
-    alert.send(:"initWithTitle:message:delegate:cancelButtonTitle:otherButtonTitles:", *args)
+    alert.send("initWithTitle:message:delegate:cancelButtonTitle:otherButtonTitles:", *args)
     if options.key?(:style)
       style = options[:style]
       style = style.uialertstyle if style.respond_to?(:uialertstyle)

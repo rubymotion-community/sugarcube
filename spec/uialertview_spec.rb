@@ -1,4 +1,4 @@
-describe 'UIAlertView' do
+describe UIAlertView do
   tests UIViewController  # this is just needed so that a window is available
 
   it 'should have :show option (show: false)' do
@@ -31,7 +31,7 @@ describe 'UIAlertView' do
     alert.visible?.should == false
   end
 
-  describe 'should assign the message' do
+  describe 'assigning a message' do
 
     it 'should use the second arg' do
       alert = UIAlertView.alert('test title', 'test message', show: false)
@@ -134,7 +134,7 @@ describe 'UIAlertView' do
     @touched_index.should == 0
   end
 
-  describe 'Should call the appropriate block when :cancel and :success handlers are used' do
+  describe 'when :cancel and :success handlers are used' do
 
     before do
       @touched = nil
@@ -145,17 +145,17 @@ describe 'UIAlertView' do
     end
 
     after do
-      @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
+      @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false) if @alert.visible?
     end
 
-    it 'should work for :cancel' do
+    it 'should call the :cancel block' do
       proper_wait 0.6
       @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
 
       @touched.should == :cancel
     end
 
-    it 'should work for :success' do
+    it 'should call the :success block' do
       proper_wait 0.6
       @alert.dismissWithClickedButtonIndex(@alert.firstOtherButtonIndex, animated: false)
 
@@ -172,10 +172,10 @@ describe 'UIAlertView' do
 
     it 'should work with :secure_text_input' do
       @called = false
-      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :secure_text_input) { |button, text|
+      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :secure_text_input) do |button, text|
         @called = true
         @text = text
-      }
+      end
       proper_wait 0.6
       alert.textFieldAtIndex(0).text = 'test text'
       alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
@@ -185,10 +185,42 @@ describe 'UIAlertView' do
       @text.should == 'test text'
     end
 
-    it 'should work with :plain_text_input' do
-      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :plain_text_input) { |button, text|
+    it 'should work with UIAlertViewStyleSecureTextInput' do
+      @called = false
+      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: UIAlertViewStyleSecureTextInput) do |button, text|
+        @called = true
         @text = text
-      }
+      end
+      proper_wait 0.6
+      alert.textFieldAtIndex(0).text = 'test text'
+      alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
+      proper_wait 0.1
+
+      @called.should == true
+      @text.should == 'test text'
+    end
+
+    it 'should work with :secure_text_input and pass the index' do
+      @called = false
+      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :secure_text_input) do |button, text, touched_index|
+        @called = true
+        @text = text
+        @touched_index = touched_index
+      end
+      proper_wait 0.6
+      alert.textFieldAtIndex(0).text = 'test text'
+      alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
+      proper_wait 0.1
+
+      @called.should == true
+      @text.should == 'test text'
+      @touched_index.should == alert.firstOtherButtonIndex
+    end
+
+    it 'should work with :plain_text_input' do
+      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :plain_text_input) do |button, text|
+        @text = text
+      end
       proper_wait 0.6
       alert.textFieldAtIndex(0).text = 'test text'
       alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
@@ -197,10 +229,49 @@ describe 'UIAlertView' do
       @text.should == 'test text'
     end
 
+    it 'should work with UIAlertViewStylePlainTextInput' do
+      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: UIAlertViewStylePlainTextInput) do |button, text|
+        @text = text
+      end
+      proper_wait 0.6
+      alert.textFieldAtIndex(0).text = 'test text'
+      alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
+      proper_wait 0.1
+
+      @text.should == 'test text'
+    end
+
+    it 'should work with :plain_text_input and pass the index' do
+      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :plain_text_input) do |button, text, touched_index|
+        @text = text
+        @touched_index = touched_index
+      end
+      proper_wait 0.6
+      alert.textFieldAtIndex(0).text = 'test text'
+      alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
+      proper_wait 0.1
+
+      @text.should == 'test text'
+      @touched_index.should == alert.cancelButtonIndex
+    end
+
     it 'should work with :login_and_password_input' do
-      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :login_and_password_input) { |button, text1, text2|
+      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :login_and_password_input) do |button, text1, text2|
         @text = "#{text1} + #{text2}"
-      }
+      end
+      proper_wait 0.6
+      alert.textFieldAtIndex(0).text = 'test text 1'
+      alert.textFieldAtIndex(1).text = 'test text 2'
+      alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
+      proper_wait 0.1
+
+      @text.should == 'test text 1 + test text 2'
+    end
+
+    it 'should work with UIAlertViewStyleLoginAndPasswordInput' do
+      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: UIAlertViewStyleLoginAndPasswordInput) do |button, text1, text2|
+        @text = "#{text1} + #{text2}"
+      end
       proper_wait 0.6
       alert.textFieldAtIndex(0).text = 'test text 1'
       alert.textFieldAtIndex(1).text = 'test text 2'
@@ -211,10 +282,10 @@ describe 'UIAlertView' do
     end
 
     it 'should work with :login_and_password_input and pass the index' do
-      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :login_and_password_input) { |button, text1, text2, index|
+      alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :login_and_password_input) do |button, text1, text2, index|
         @text = "#{text1} + #{text2}"
         @touched_index = index
-      }
+      end
       proper_wait 0.6
       alert.textFieldAtIndex(0).text = 'test text 1'
       alert.textFieldAtIndex(1).text = 'test text 2'
@@ -223,6 +294,67 @@ describe 'UIAlertView' do
 
       @text.should == 'test text 1 + test text 2'
       @touched_index.should == alert.cancelButtonIndex
+    end
+
+  end
+
+  describe 'with :buttons defined as a hash' do
+
+    before do
+      @touched = nil
+      @alert = UIAlertView.alert('test',
+        buttons: {
+          cancel: 'Cancel',
+          ok: 'Ok'
+        }) do |button|
+        @touched = button
+      end
+    end
+
+    after do
+      @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false) if @alert.visible?
+    end
+
+    it 'should work for :cancel' do
+      proper_wait 0.6
+      @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
+      @touched.should == :cancel
+    end
+
+    it 'should work for :ok' do
+      proper_wait 0.6
+      @alert.dismissWithClickedButtonIndex(@alert.firstOtherButtonIndex, animated: false)
+      @touched.should == :ok
+    end
+
+  end
+
+  describe 'when :cancel and :success handlers are used and buttons as a hash' do
+
+    before do
+      @touched = nil
+      @alert = UIAlertView.alert('test', buttons: {cancel: 'cancel', ok: 'ok'},
+        cancel: ->{ @touched = :cancel },
+        success: ->{ @touched = :success }
+        )
+    end
+
+    after do
+      @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false) if @alert.visible?
+    end
+
+    it 'should call the :cancel block' do
+      proper_wait 0.6
+      @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
+
+      @touched.should == :cancel
+    end
+
+    it 'should call the :success block' do
+      proper_wait 0.6
+      @alert.dismissWithClickedButtonIndex(@alert.firstOtherButtonIndex, animated: false)
+
+      @touched.should == :success
     end
 
   end
