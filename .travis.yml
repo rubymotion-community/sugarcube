@@ -5,4 +5,3 @@ before_install:
     - sudo motion update
     - sudo chown -R travis ~/Library/RubyMotion
     - mkdir -p ~/Library/RubyMotion/build
-    - chmod -R 0755 ~/Library/RubyMotion/build
