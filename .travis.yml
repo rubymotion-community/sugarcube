@@ -1,6 +1,5 @@
 language: objective-c
 before_install:
-    - (ruby --version)
     - brew update
     - brew upgrade xctool
     - sudo mkdir -p ~/Library/RubyMotion/build
