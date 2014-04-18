@@ -19,7 +19,7 @@ class UIAlertView
   #       success: proc{ |pressed| puts "pressed: #{pressed.inspect}" },
   #       )  # pressed will be :ok or :no_way
   def self.alert(title, options={}, more_options={}, &block)
-    if title.is_a?(Hash)
+    if title.is_a?(NSDictionary)
       options = title
       title = options[:title]
       message = options[:message]
@@ -59,22 +59,13 @@ class UIAlertView
       elsif options[:success]
         buttons << "OK"
       end
-    elsif buttons.is_a?(Hash)
-
     elsif buttons.length == 1 && options[:cancel]
       raise "If you only have one button, use a :success handler, not :cancel (and definitely not BOTH)"
     end
 
-    # the button titles.  These are passed to the success handler.
-    if buttons.is_a?(Hash)
-      button_titles = buttons.keys
-    else
-      button_titles = buttons
-    end
-    delegate.buttons = button_titles
-
     # uses localized buttons in the actual alert
-    if buttons.is_a?(Hash)
+    if buttons.is_a?(NSDictionary)
+      button_titles = buttons.keys
       if buttons.key?(:cancel)
         args << (buttons[:cancel] && buttons[:cancel].localized)
       else
@@ -82,8 +73,10 @@ class UIAlertView
       end
       args.concat(buttons.select { |k, m| k != :cancel }.map { |k, m| m && m.localized })
     else
+      button_titles = buttons
       args.concat(buttons.map { |m| m && m.localized })
     end
+    delegate.buttons = button_titles
     args << nil  # otherButtonTitles:..., nil
 
     alert = self.alloc

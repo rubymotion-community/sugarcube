@@ -17,7 +17,7 @@ class UIActionSheet
   #     # use one handler for all buttons
   #     UIActionSheet.alert("title", buttons: [...]) { |button| }
   def self.alert(title, options={}, &block)
-    if title.is_a?(Hash)
+    if title.is_a?(NSDictionary)
       options = title
       title = options[:title]
     end
@@ -49,9 +49,14 @@ class UIActionSheet
       raise 'If you only have one button, use a :success handler, not :cancel or :destructive'
     end
 
+    # the button titles, mapped to how UIActionSheet orders them.  These are
+    # passed to the success handler.
+    buttons_mapped = {}
+
     # cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:
     # uses localized buttons in the actual alert
-    if buttons.is_a?(Hash)
+    if buttons.is_a?(NSDictionary)
+      button_titles = buttons.keys
       if buttons.key?(:cancel)
         args << (buttons[:cancel] && buttons[:cancel].localized)
       else
@@ -64,18 +69,10 @@ class UIActionSheet
       end
       args.concat(buttons.select { |k, m| k != :cancel && k != :destructive }.map { |k, m| m && m.localized })
     else
+      button_titles = buttons
       args.concat(buttons.map { |m| m && m.localized })
     end
     args << nil  # otherButtonTitles:..., nil
-
-    # the button titles, mapped to how UIActionSheet orders them.  These are
-    # passed to the success handler.
-    buttons_mapped = {}
-    if buttons.is_a?(Hash)
-      button_titles = buttons.keys
-    else
-      button_titles = buttons
-    end
 
     if args[2] && args[3]  # cancel && destructive buttons
       buttons_mapped[0] = button_titles[1]                   # destructiveIndex == 0, button == 1
