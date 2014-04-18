@@ -26,8 +26,22 @@ describe UIAlertView do
     alert.title.should == 'test title'
   end
 
+  it 'should assign the title by options' do
+    alert = UIAlertView.alert(title: 'test title', show: false)
+    alert.title.should == 'test title'
+  end
+
   it 'should support three args' do
     alert = UIAlertView.alert('test title', 'test message', show: false)
+    alert.title.should == 'test title'
+    alert.message.should == 'test message'
+    alert.visible?.should == false
+  end
+
+  it 'should assign the title and message by options' do
+    alert = UIAlertView.alert(title: 'test title', message: 'test message', show: false)
+    alert.title.should == 'test title'
+    alert.message.should == 'test message'
     alert.visible?.should == false
   end
 

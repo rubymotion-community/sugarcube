@@ -9,12 +9,25 @@ class UIAlertView
   #       cancel: proc{ puts "nevermind" },
   #       success: proc{ |pressed| puts "pressed: #{pressed}" },
   #       )
-  #
-  # If you choose
+  #     # you can explicitly set the cancel button by using a Hash for the :buttons option
+  #     UIAlertView.alert("title",
+  #       message: "help!",
+  #       # The first button is considered the 'cancel' button, for the purposes of
+  #       # whether the cancel or success handler gets called
+  #       buttons: { cancel: 'Cancel', ok: 'OK', no_way: 'No-way' },
+  #       cancel: proc{ puts "nevermind" },
+  #       success: proc{ |pressed| puts "pressed: #{pressed.inspect}" },
+  #       )  # pressed will be :ok or :no_way
   def self.alert(title, options={}, more_options={}, &block)
-    if options.is_a? String
-      more_options[:message] = options
+    if title.is_a?(Hash)
+      options = title
+      title = options[:title]
+      message = options[:message]
+    elsif options.is_a? String
+      message = options
       options = more_options
+    else
+      message = options[:message]
     end
 
     # The delegate gets retained here because UIAlertView#delegate is a weak
@@ -27,7 +40,7 @@ class UIAlertView
     delegate.send(:retain)
 
     args = [title]            # initWithTitle:
-    args << options[:message] # message:
+    args << message           # message:
     args << delegate          # delegate:
 
     buttons = (options[:buttons] || []).freeze
@@ -136,6 +149,7 @@ module SugarCube
           # but only send the ones they asked for
           args = args[0...handler.arity]
         end
+
         handler.call(*args)
       end
 

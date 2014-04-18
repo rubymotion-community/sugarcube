@@ -612,9 +612,12 @@ or as the 2nd positional arg.
 
 Options:
 
-    UIAlertView.alert(title[, message], options)
-    0 => title => String - Title of the alert.
+    UIAlertView.alert(options)
+    UIAlertView.alert(title, options)
+    UIAlertView.alert(title, message, options)
+    0 => title => String - title of the alert.  optional positional arg.
     1 => message => String - message of the alert.  optional positional arg.
+    :title => String - title of the alert.
     :message => String - message of the alert.
     :success => Proc - the success handler
     :cancel => Proc - the cancel handler
