@@ -4,5 +4,5 @@ before_install:
     - brew upgrade xctool
     - sudo motion update
     - sudo chown -R travis ~/Library/RubyMotion
-    - sudo mkdir -p ~/Library/RubyMotion/build
-    - sudo chmod -R 0755 ~/Library/RubyMotion/build
+    - mkdir -p ~/Library/RubyMotion/build
+    - chmod -R 0755 ~/Library/RubyMotion/build
