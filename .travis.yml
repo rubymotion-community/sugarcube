@@ -2,4 +2,5 @@ language: objective-c
 before_install:
     - (ruby --version)
     - sudo mkdir -p ~/Library/RubyMotion/build
+    - sudo chmod -R 0755 ~/Library/RubyMotion/build
     - sudo motion update
