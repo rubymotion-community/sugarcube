@@ -2,6 +2,21 @@ class UIView
 
   class << self
 
+    def sugarcube_animation_options(options)
+      animation_options = options[:options]
+      animation_options = animation_options.uianimationoption if animation_options.respond_to?(:uianimationoption)
+      unless animation_options
+        curve = options.fetch(:curve, UIViewAnimationOptionCurveEaseInOut)
+        curve = curve.uianimationoption if curve.respond_to?(:uianimationoption)
+
+        from_current = options.fetch(:from_current, true) ? UIViewAnimationOptionBeginFromCurrentState : 0
+        allow_interaction = options.fetch(:allow_interaction, false) ? UIViewAnimationOptionAllowUserInteraction : 0
+
+        animation_options = curve | from_current | allow_interaction
+      end
+      return animation_options
+    end
+
     # If options is a Numeric, it is used as the duration.  Otherwise, duration
     # is an option, and defaults to 0.3.  All the transition methods work this
     # way.
@@ -10,10 +25,10 @@ class UIView
     # @option options [Float] :damping Enables the "spring" animation.  Value of 1.0 is a stiff spring.
     # @option options [Float] :velocity Used in a spring animation to set the initial velocity
     # @option options [Proc]  :after A block that is executed when the animation is complete, useful for chaining (though the `animation_chain` method is better!)
-    # @option options [Fixnum] :options The options parameter that is passed to the UIView.animateWithDuration(...) method.  You can also use the more verbose options `:curve`, `:from_current`, and `:allow_interaction`
-    # @option options [Fixnum] :curve The animation curve option. default: UIViewAnimationOptionCurveEaseIn
-    # @option options [Boolean] :from_current Whether or not to have animations start from their current position (aka UIViewAnimationOptionBeginFromCurrentState)
-    # @option options [Boolean] :allow_interaction aka UIViewAnimationOptionAllowUserInteraction
+    # @option options [Fixnum,Symbol] :options The options parameter that is passed to the UIView.animateWithDuration(...) method.  You can also use the more intuitive options `:curve`, `:from_current`, and `:allow_interaction`. `uianimationcurve` symbols (e.g. :ease_in_out) are converted to Fixnum.
+    # @option options [Fixnum,Symbol] :curve The animation curve option. `uianimationcurve` symbols (e.g. :ease_in_out) are converted to Fixnum. default: UIViewAnimationOptionCurveEaseInOut
+    # @option options [Boolean] :from_current Whether or not to have animations start from their current position. default: true (aka UIViewAnimationOptionBeginFromCurrentState)
+    # @option options [Boolean] :allow_interaction default: false (aka UIViewAnimationOptionAllowUserInteraction)
     def animate(options={}, more_options={}, &animations)
       raise "animation block is required" unless animations
 
@@ -48,16 +63,7 @@ class UIView
         after_adjusted = nil
       end
 
-      animation_options = options[:options]
-      unless animation_options
-        curve = options.fetch(:curve, UIViewAnimationOptionCurveEaseInOut)
-        curve = curve.uianimationcurve if curve.is_a?(Symbol)
-
-        from_current = options.fetch(:from_current, true) ? UIViewAnimationOptionBeginFromCurrentState : 0
-        allow_interaction = options.fetch(:allow_interaction, false) ? UIViewAnimationOptionAllowUserInteraction : 0
-
-        animation_options = curve | from_current | allow_interaction
-      end
+      animation_options = sugarcube_animation_options(options)
 
       if duration == 0 && delay == 0
         animations.call
@@ -443,7 +449,10 @@ class UIView
     end
 
     options[:duration] ||= default_duration
-    options[:options] ||= UIViewAnimationOptionCurveEaseIn|UIViewAnimationOptionBeginFromCurrentState
+    unless options.key?(:options) || options.key?(:curve)
+      options[:options] = UIView.sugarcube_animation_options(curve: UIViewAnimationOptionCurveEaseIn)
+    end
+
     reset_transform = self.transform
     reset_after = ->(finished) do
       self.transform = reset_transform
@@ -504,7 +513,9 @@ class UIView
     reset_center = self.center
 
     options[:duration] ||= default_duration
-    options[:options] ||= UIViewAnimationOptionCurveEaseOut
+    unless options.key?(:options) || options.key?(:curve)
+      options[:options] = UIView.sugarcube_animation_options(curve: UIViewAnimationOptionCurveEaseOut)
+    end
     options[:after] = after
 
     window = UIApplication.sharedApplication.windows[0]

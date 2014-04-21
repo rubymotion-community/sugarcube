@@ -109,4 +109,35 @@ describe "UIView animation methods" do
     @after_called.should == true
   end
 
+  it 'should have sugarcube_animation_options helper' do
+    UIView.sugarcube_animation_options({}).should == (UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionBeginFromCurrentState)
+  end
+
+  it 'should handle accept :options' do
+    UIView.sugarcube_animation_options(options: UIViewAnimationOptionCurveLinear).should == UIViewAnimationOptionCurveLinear
+    UIView.sugarcube_animation_options(options: UIViewAnimationOptionCurveLinear | UIViewAnimationOptionCurveEaseInOut).should == UIViewAnimationOptionCurveLinear | UIViewAnimationOptionCurveEaseInOut
+  end
+
+  it 'should accept :curve' do
+    opts = UIView.sugarcube_animation_options(curve: UIViewAnimationOptionCurveLinear)
+    (opts & UIViewAnimationOptionCurveLinear).should == UIViewAnimationOptionCurveLinear
+
+    opts = UIView.sugarcube_animation_options(curve: :linear)
+    (opts & UIViewAnimationOptionCurveLinear).should == UIViewAnimationOptionCurveLinear
+  end
+
+  it 'should accept :from_current' do
+    opts = UIView.sugarcube_animation_options(from_current: true)
+    (opts & UIViewAnimationOptionBeginFromCurrentState).should == UIViewAnimationOptionBeginFromCurrentState
+    opts = UIView.sugarcube_animation_options(from_current: false)
+    (opts & UIViewAnimationOptionBeginFromCurrentState).should == 0
+  end
+
+  it 'should accept :allow_interaction' do
+    opts = UIView.sugarcube_animation_options(allow_interaction: true)
+    (opts & UIViewAnimationOptionAllowUserInteraction).should == UIViewAnimationOptionAllowUserInteraction
+    opts = UIView.sugarcube_animation_options(allow_interaction: false)
+    (opts & UIViewAnimationOptionAllowUserInteraction).should == 0
+  end
+
 end

@@ -310,6 +310,35 @@ describe "Symbol - constants" do
       :linear.uianimationcurve.should == UIViewAnimationCurveLinear
     end
 
+    it 'should support `uianimationoption`' do
+      :layout_subviews.uianimationoption.should == UIViewAnimationOptionLayoutSubviews
+      :allow_user_interaction.uianimationoption.should == UIViewAnimationOptionAllowUserInteraction
+      :begin_from_current_state.uianimationoption.should == UIViewAnimationOptionBeginFromCurrentState
+      :repeat.uianimationoption.should == UIViewAnimationOptionRepeat
+      :autoreverse.uianimationoption.should == UIViewAnimationOptionAutoreverse
+      :override_inherited_duration.uianimationoption.should == UIViewAnimationOptionOverrideInheritedDuration
+      :override_inherited_curve.uianimationoption.should == UIViewAnimationOptionOverrideInheritedCurve
+      :allow_animated_content.uianimationoption.should == UIViewAnimationOptionAllowAnimatedContent
+      :show_hide_transition_views.uianimationoption.should == UIViewAnimationOptionShowHideTransitionViews
+      :override_inherited_options.uianimationoption.should == UIViewAnimationOptionOverrideInheritedOptions
+      :curve_ease_in_out.uianimationoption.should == UIViewAnimationOptionCurveEaseInOut
+      :ease_in_out.uianimationoption.should == UIViewAnimationOptionCurveEaseInOut
+      :curve_ease_in.uianimationoption.should == UIViewAnimationOptionCurveEaseIn
+      :ease_in.uianimationoption.should == UIViewAnimationOptionCurveEaseIn
+      :curve_ease_out.uianimationoption.should == UIViewAnimationOptionCurveEaseOut
+      :ease_out.uianimationoption.should == UIViewAnimationOptionCurveEaseOut
+      :curve_linear.uianimationoption.should == UIViewAnimationOptionCurveLinear
+      :linear.uianimationoption.should == UIViewAnimationOptionCurveLinear
+      :transition_none.uianimationoption.should == UIViewAnimationOptionTransitionNone
+      :transition_flip_from_left.uianimationoption.should == UIViewAnimationOptionTransitionFlipFromLeft
+      :transition_flip_from_right.uianimationoption.should == UIViewAnimationOptionTransitionFlipFromRight
+      :transition_curl_up.uianimationoption.should == UIViewAnimationOptionTransitionCurlUp
+      :transition_curl_down.uianimationoption.should == UIViewAnimationOptionTransitionCurlDown
+      :transition_cross_dissolve.uianimationoption.should == UIViewAnimationOptionTransitionCrossDissolve
+      :transition_flip_from_top.uianimationoption.should == UIViewAnimationOptionTransitionFlipFromTop
+      :transition_flip_from_bottom.uianimationoption.should == UIViewAnimationOptionTransitionFlipFromBottom
+    end
+
     it 'should support `uitablestyle`' do
       :plain.uitablestyle.should == UITableViewStylePlain
       :grouped.uitablestyle.should == UITableViewStyleGrouped

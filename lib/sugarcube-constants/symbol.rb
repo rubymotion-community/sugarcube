@@ -149,6 +149,11 @@ class Symbol
   end
   alias uiviewanimationcurve uianimationcurve
 
+  def uianimationoption
+    SugarCube.look_in(self, Symbol.uianimationoption)
+  end
+  alias uiviewanimationoption uianimationoption
+
   def uitablestyle
     SugarCube.look_in(self, Symbol.uitablestyle)
   end
@@ -271,6 +276,7 @@ class Symbol
     attr :uicontentmode
     attr :uicontentmode__deprecated
     attr :uianimationcurve
+    attr :uianimationoption
 
     attr :uitablestyle
     attr :uitablerowanimation
@@ -655,6 +661,35 @@ class Symbol
     ease_in:     UIViewAnimationCurveEaseIn,
     ease_out:    UIViewAnimationCurveEaseOut,
     linear:      UIViewAnimationCurveLinear
+  }
+
+  @uianimationoption = {
+    layout_subviews:             UIViewAnimationOptionLayoutSubviews,
+    allow_user_interaction:      UIViewAnimationOptionAllowUserInteraction,
+    begin_from_current_state:    UIViewAnimationOptionBeginFromCurrentState,
+    repeat:                      UIViewAnimationOptionRepeat,
+    autoreverse:                 UIViewAnimationOptionAutoreverse,
+    override_inherited_duration: UIViewAnimationOptionOverrideInheritedDuration,
+    override_inherited_curve:    UIViewAnimationOptionOverrideInheritedCurve,
+    allow_animated_content:      UIViewAnimationOptionAllowAnimatedContent,
+    show_hide_transition_views:  UIViewAnimationOptionShowHideTransitionViews,
+    override_inherited_options:  UIViewAnimationOptionOverrideInheritedOptions,
+    curve_ease_in_out:           UIViewAnimationOptionCurveEaseInOut,
+    ease_in_out:                 UIViewAnimationOptionCurveEaseInOut,
+    curve_ease_in:               UIViewAnimationOptionCurveEaseIn,
+    ease_in:                     UIViewAnimationOptionCurveEaseIn,
+    curve_ease_out:              UIViewAnimationOptionCurveEaseOut,
+    ease_out:                    UIViewAnimationOptionCurveEaseOut,
+    curve_linear:                UIViewAnimationOptionCurveLinear,
+    linear:                      UIViewAnimationOptionCurveLinear,
+    transition_none:             UIViewAnimationOptionTransitionNone,
+    transition_flip_from_left:   UIViewAnimationOptionTransitionFlipFromLeft,
+    transition_flip_from_right:  UIViewAnimationOptionTransitionFlipFromRight,
+    transition_curl_up:          UIViewAnimationOptionTransitionCurlUp,
+    transition_curl_down:        UIViewAnimationOptionTransitionCurlDown,
+    transition_cross_dissolve:   UIViewAnimationOptionTransitionCrossDissolve,
+    transition_flip_from_top:    UIViewAnimationOptionTransitionFlipFromTop,
+    transition_flip_from_bottom: UIViewAnimationOptionTransitionFlipFromBottom,
   }
 
   @uitablestyle = {
