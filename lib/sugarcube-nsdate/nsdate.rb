@@ -51,15 +51,16 @@ class NSDate
   # and
   # <http://www.unicode.org/reports/tr35/tr35-19.html#Date_Field_Symbol_Table>
   # for more information about date format strings.
-  def string_with_format(format)
+  def string_with_format(format, locale=NSLocale.currentLocale)
     if format.is_a?(Symbol)
       formatters = SugarCubeFormats[format]
       raise "No format found for #{format.inspect}" unless formatters
+      locale = NSLocale.localeWithLocaleIdentifier "en_US"
       retval = ''
       formatters.each do |formatter|
         case formatter
         when Symbol
-          retval << string_with_format(formatter.to_s)
+          retval << string_with_format(formatter.to_s, locale)
         when String
           retval << formatter
         end
@@ -67,7 +68,7 @@ class NSDate
       return retval
     else
       format_template = NSDateFormatter.dateFormatFromTemplate(format, options:0,
-                                                        locale:NSLocale.currentLocale)
+                                                        locale:locale)
       date_formatter = NSDateFormatter.new
       date_formatter.setDateFormat(format_template)
       return date_formatter.stringFromDate(self)

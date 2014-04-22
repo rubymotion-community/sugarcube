@@ -101,6 +101,14 @@ describe "NSDate" do
     @date.string_with_format(:iso8601).should == '2013-01-02 12:15:30.000'
   end
 
+  it "should have an NSDate#string_with_format method (:ymd)" do
+    @date.string_with_format(:ymd).should == '2013-01-02'
+  end
+
+  it "should have an NSDate#string_with_format method (:hms)" do
+    @date.string_with_format(:hms).should == '12:15:30.000'
+  end
+
   it "should have an NSDate#timezone method" do
     String.should === @date.timezone.name
   end
