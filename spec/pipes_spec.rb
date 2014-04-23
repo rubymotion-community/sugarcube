@@ -10,27 +10,27 @@ describe "Pipes" do
     end
 
     it "should coerce into UIImage" do
-      (@image | UIImage).should.is_a(UIImage)
+      (@image | UIImage).should.be.kind_of(UIImage)
     end
 
     it "should coerce into UIView" do
-      (@image | UIView).should.is_a(UIView)
+      (@image | UIView).should.be.kind_of(UIView)
     end
 
     it "should coerce into UIImageView" do
-      (@image | UIImageView).should.is_a(UIImageView)
+      (@image | UIImageView).should.be.kind_of(UIImageView)
     end
 
     it "should coerce into CIImage" do
-      (@image | CIImage).should.is_a(CIImage)
+      (@image | CIImage).should.be.kind_of(CIImage)
     end
 
     it "should coerce into UIColor" do
-      (@image | UIColor).should.is_a(UIColor)
+      (@image | UIColor).should.be.kind_of(UIColor)
     end
 
     it "should coerce into NSData" do
-      (@image | NSData).should.is_a(NSData)
+      (@image | NSData).should.be.kind_of(NSData)
     end
 
     it "should not support arbitrary coercions" do
@@ -41,13 +41,13 @@ describe "Pipes" do
 
     it "should apply CIFilter" do
       filter = CIFilter.gaussian_blur
-      (@image | filter).should.is_a(CIImage)
+      (@image | filter).should.be.kind_of(CIImage)
     end
 
     it "should apply multiple CIFilters" do
       filter1 = CIFilter.gaussian_blur(1)
       filter2 = CIFilter.gaussian_blur(2)
-      (@image | filter1 | filter2).should.is_a(CIImage)
+      (@image | filter1 | filter2).should.be.kind_of(CIImage)
     end
 
   end
@@ -58,7 +58,7 @@ describe "Pipes" do
     end
 
     it "should coerce into UIImage" do
-      (@view | UIImage).should.is_a(UIImage)
+      (@view | UIImage).should.be.kind_of(UIImage)
     end
 
     it "should not support arbitrary coercions" do
@@ -75,19 +75,19 @@ describe "Pipes" do
     end
 
     it "should coerce into UIImage" do
-      (@image | UIImage).should.is_a(UIImage)
+      (@image | UIImage).should.be.kind_of(UIImage)
     end
 
     it "should coerce into UIView" do
-      (@image | UIView).should.is_a(UIView)
+      (@image | UIView).should.be.kind_of(UIView)
     end
 
     it "should coerce into UIImageView" do
-      (@image | UIImageView).should.is_a(UIImageView)
+      (@image | UIImageView).should.be.kind_of(UIImageView)
     end
 
     it "should coerce into CIImage" do
-      (@image | CIImage).should.is_a(CIImage)
+      (@image | CIImage).should.be.kind_of(CIImage)
     end
 
     it "should not support arbitrary coercions" do
@@ -98,13 +98,13 @@ describe "Pipes" do
 
     it "should apply CIFilter" do
       filter = CIFilter.gaussian_blur
-      (@image | filter).should.is_a(CIImage)
+      (@image | filter).should.be.kind_of(CIImage)
     end
 
     it "should apply multiple CIFilters" do
       filter1 = CIFilter.gaussian_blur(1)
       filter2 = CIFilter.gaussian_blur(2)
-      (@image | filter1 | filter2).should.is_a(CIImage)
+      (@image | filter1 | filter2).should.be.kind_of(CIImage)
     end
 
   end
