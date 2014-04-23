@@ -14,6 +14,12 @@ describe "Symbol uicolor" do
       :black.uicolor.should.be.kind_of(UIColor)
     end
 
+    it 'should have cgcolor method' do
+      -> do
+        :black.cgcolor.should.not == nil
+      end.should.not.raise
+    end
+
     it 'should have blue color' do
       @colors[:blue].should == :blueColor
       :blue.uicolor.should.be.kind_of(UIColor)

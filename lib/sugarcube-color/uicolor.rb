@@ -8,8 +8,12 @@ class UIColor
     end
   end
 
-  def cgcolor
-    self.CGColor
+  def cgcolor(alpha=nil)
+    if alpha
+      self.uicolor(alpha).CGColor
+    else
+      self.CGColor
+    end
   end
 
   # blends two colors by averaging the RGB and alpha components.

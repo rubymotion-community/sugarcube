@@ -29,6 +29,10 @@ class Symbol
     color
   end
 
+  def cgcolor(alpha=nil)
+    self.uicolor(alpha).CGColor
+  end
+
   @uicolors__deprecated = {
     darkgray: :dark_gray,
     lightgray: :light_gray,

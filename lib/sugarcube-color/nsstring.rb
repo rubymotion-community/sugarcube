@@ -13,4 +13,8 @@ class NSString
     img && img.uicolor(alpha)
   end
 
+  def cgcolor(alpha=nil)
+    self.uicolor(alpha).CGColor
+  end
+
 end

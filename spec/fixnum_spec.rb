@@ -1,21 +1,5 @@
 describe "Fixnum" do
 
-  it "should have a 0xffffff#uicolor method" do
-    color = 0xffffff.uicolor
-    color.red.should == 1
-    color.green.should == 1
-    color.blue.should == 1
-    color.alpha.should == 1
-  end
-
-  it "should have a 0x000000#uicolor(0.5) method" do
-    color = 0.uicolor(0.5)
-    color.red.should == 0
-    color.green.should == 0
-    color.blue.should == 0
-    color.alpha.should == 0.5
-  end
-
   it "should have a #nth method" do
     {
       0    => 'th',
