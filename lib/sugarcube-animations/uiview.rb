@@ -2,6 +2,7 @@ class UIView
 
   class << self
 
+    # This is an internal helper method to determine the animation options.
     def sugarcube_animation_options(options)
       animation_options = options[:options]
       animation_options = animation_options.uianimationoption if animation_options.respond_to?(:uianimationoption)
