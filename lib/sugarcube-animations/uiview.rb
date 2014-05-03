@@ -135,6 +135,15 @@ class UIView
     return self
   end
 
+  # Just calls layoutIfNeeded before and after constraints are applied
+  def animate_constraints(options={}, &animations)
+    self.layoutIfNeeded
+    animations.call
+    UIView.animate(options) do
+      self.layoutIfNeeded
+    end
+  end
+
   # Changes the layer opacity.
   def fade(options={}, more_options={}, &after)
     if options.is_a? Numeric
