@@ -71,7 +71,7 @@ class Symbol
   end
 
   def uibaselineadjustment
-    SugarCube.look_in(self, Symbol.uibaselineadjustment)
+    SugarCube.look_in(self, Symbol.uibaselineadjustment, Symbol.uibaselineadjustment__deprecated)
   end
   alias uibaseline uibaselineadjustment
 
@@ -251,6 +251,7 @@ class Symbol
     attr :nstextalignment
     attr :uilinebreakmode
     attr :uilinebreakmode__deprecated
+    attr :uibaselineadjustment__deprecated
     attr :uibaselineadjustment
     attr :uibordertype
     attr :nsdatestyle
@@ -437,10 +438,14 @@ class Symbol
     middle_truncation: UILineBreakModeMiddleTruncation,
   }
 
-  @uibaselineadjustment = {
+  @uibaselineadjustment__deprecated = {
     alignbaselines: UIBaselineAdjustmentAlignBaselines,
     aligncenters:   UIBaselineAdjustmentAlignCenters,
-    none:           UIBaselineAdjustmentNone,
+  }
+  @uibaselineadjustment = {
+    align_baselines: UIBaselineAdjustmentAlignBaselines,
+    align_centers:   UIBaselineAdjustmentAlignCenters,
+    none:            UIBaselineAdjustmentNone,
   }
 
   @uibordertype = {
