@@ -6,9 +6,11 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    rake (10.1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  rake
   sugarcube!
