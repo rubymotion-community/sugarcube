@@ -109,8 +109,8 @@ describe "Symbol - constants" do
     end
 
     it 'should support `uibaselineadjustment`' do
-      :alignbaselines.uibaselineadjustment.should == UIBaselineAdjustmentAlignBaselines
-      :aligncenters.uibaselineadjustment.should == UIBaselineAdjustmentAlignCenters
+      :align_baselines.uibaselineadjustment.should == UIBaselineAdjustmentAlignBaselines
+      :align_centers.uibaselineadjustment.should == UIBaselineAdjustmentAlignCenters
       :none.uibaselineadjustment.should == UIBaselineAdjustmentNone
     end
 
@@ -517,6 +517,11 @@ describe "Symbol - constants" do
       SugarCube::Legacy.log.length.should > 0
     end
 
+    it 'should support `uibaselineadjustment`' do
+      :alignbaselines.uibaselineadjustment.should == UIBaselineAdjustmentAlignBaselines
+      :aligncenters.uibaselineadjustment.should == UIBaselineAdjustmentAlignCenters
+    end
+
     it 'should support `uicontrolevent`' do
       :changed.uicontrolevent.should == :change.uicontrolevent
       SugarCube::Legacy.log.length.should > 0
@@ -709,8 +714,8 @@ describe "Symbol - constants" do
       should.raise(SugarCubeNotFoundException) { :definitely_doesnt_exist_i_am_really_sure_of_it.uikeyboardtype }
     end
 
-    it 'should not find nonexistant `uitextalignment`' do
-      should.raise(SugarCubeNotFoundException) { :definitely_doesnt_exist_i_am_really_sure_of_it.uitextalignment }
+    it 'should not find nonexistant `nstextalignment`' do
+      should.raise(SugarCubeNotFoundException) { :definitely_doesnt_exist_i_am_really_sure_of_it.nstextalignment }
     end
 
     it 'should not find nonexistant `uilinebreakmode`' do

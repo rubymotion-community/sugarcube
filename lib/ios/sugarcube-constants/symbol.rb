@@ -439,8 +439,8 @@ class Symbol
   }
 
   @uibaselineadjustment__deprecated = {
-    alignbaselines: UIBaselineAdjustmentAlignBaselines,
-    aligncenters:   UIBaselineAdjustmentAlignCenters,
+    alignbaselines: :align_baselines,
+    aligncenters:   :align_centers,
   }
   @uibaselineadjustment = {
     align_baselines: UIBaselineAdjustmentAlignBaselines,
