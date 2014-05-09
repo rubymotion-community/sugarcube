@@ -31,7 +31,7 @@ class UIView
   end
 
   def unshift(view)
-    self.insertSubview(view, atIndex:0)
+    self.insertSubview(view, atIndex: 0)
     return self
   end
 
@@ -103,17 +103,6 @@ class UIView
     return image
   end
 
-  # Returns the receiver's bounds in the coordinate system of `destination`
-  def convert_bounds(destination)
-    message = "The (ambiguously named) `convert_bounds` method has been deprecated, use `convert_frame_to` (or `convert_frame_from`)"
-    if defined?(SugarCube::Legacy)
-      SugarCube::Legacy.log(message)
-    else
-      NSLog(message)
-    end
-    return convert_frame_to(destination)
-  end
-
   def convert_frame_to(destination)
     return self.convert_rect(CGRectMake(0, 0, self.frame.size.width, self.frame.size.height), to: destination)
   end
@@ -130,15 +119,12 @@ class UIView
     return self.convertRect(rect, fromView: source)
   end
 
-  # Returns the receiver's bounds in the coordinate system of `destination`
-  def convert_origin(destination)
-    message = "The (ambiguously named) `convert_origin` method has been deprecated, use `convert_origin_to` (or `convert_origin_from`)"
-    if defined?(SugarCube::Legacy)
-      SugarCube::Legacy.log(message)
-    else
-      NSLog(message)
-    end
-    return self.convert_origin_to(destination)
+  def convert_origin_to(destination)
+    return self.convert_point([0, 0], to: destination)
+  end
+
+  def convert_origin_from(source)
+    return self.convert_point([0, 0], from: source)
   end
 
   def convert_point(point, to: destination)
@@ -147,14 +133,6 @@ class UIView
 
   def convert_point(point, from: source)
     return self.convertPoint(point, fromView: source)
-  end
-
-  def convert_origin_to(destination)
-    return self.convert_point([0, 0], to: destination)
-  end
-
-  def convert_origin_from(source)
-    return self.convert_point([0, 0], from: source)
   end
 
 end
