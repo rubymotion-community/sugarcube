@@ -1,5 +1,19 @@
 describe UIView do
 
+  describe 'should support <<' do
+    view1 = UIView.new
+    view2 = UIView.new
+    view1 << view2
+    view2.superview.should == view1
+  end
+
+  describe 'should support unshift' do
+    view1 = UIView.new
+    view2 = UIView.new
+    view1.unshift view2
+    view2.superview.should == view1
+  end
+
   it "should convert to a UIImage" do
     test = UIView.alloc.initWithFrame([[0, 0], [10, 10]])
     test.backgroundColor = :black.uicolor
