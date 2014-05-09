@@ -14,7 +14,9 @@ class UIView
           if instance_variable_get("@#{attr}") != value
             setNeedsDisplay
           end
+          willChangeValueForKey(attr)
           instance_variable_set("@#{attr}", value)
+          didChangeValueForKey(attr)
         end
       end
     end
