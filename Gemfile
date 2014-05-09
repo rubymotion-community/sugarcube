@@ -1,4 +1,7 @@
 source 'https://rubygems.org'
 
-require 'rake'
+group :test, :development do
+  gem 'rake'
+end
+
 gemspec
