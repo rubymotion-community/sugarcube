@@ -25,9 +25,9 @@ DESC
 
   gem.homepage    = 'https://github.com/rubymotion/sugarcube'
 
-  gem.files        = `git ls-files`.split($\)
-  gem.executables  = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
-  gem.test_files   = gem.files.grep(%r{^spec/})
+  gem.files       = Dir.glob('lib/**/*.rb')
+  gem.files      << 'README.md'
+  gem.test_files  = Dir.glob('spec/**/*.rb')
 
   gem.require_paths = ['lib']
 end
