@@ -551,13 +551,12 @@ class UIView
 
     options[:duration] ||= 200.millisecs
     options[:curve] ||= UIViewAnimationOptionCurveLinear
-    options[:after] ||= after
 
     UIView.animation_chain(options) do
       self.layer.transform = CATransform3DTranslate(CATransform3DScale(CATransform3D.new(1,0,0,0, 0,1,0,perspective, 0,0,1,0, 0,0,0,1), scale, scale, scale), 0, size, 0)
     end.and_then(duration:300.millisecs, options:UIViewAnimationOptionCurveLinear) do
       self.layer.transform = CATransform3DTranslate(CATransform3DScale(CATransform3DIdentity, scale, scale, scale), 0, size, 0)
-    end.start
+    end.and_then(&after).start
   end
 
   # restores the layer after a call to 'back_fiend!'
