@@ -44,10 +44,6 @@ class CAAnimation
       elsif options.key?(:path)
         path = options[:path]
         if path.is_a?(UIBezierPath)
-          p = UIBezierPath.bezierPath
-          p.moveToPoint([0, 0])
-          p.addCurveToPoint([1, 0], controlPoint1: [0.9, 0], controlPoint2: [0.1, 0])
-
           path = path.CGPath
         end
         animation.path = path
