@@ -1,14 +1,12 @@
 =begin
-Adds some UI classes to the Symbol class.  These methods are prefixed with `ui`
-to make their intent clear, and to provide a little bit of "namespacing"
+Adds constant lookups to the Symbol class.  These methods are prefixed with `ui`
+or `ns` to make their intent clear, and to provide a little bit of "namespacing"
 
     # alignment
     :left.nsalignment => NSTextAlignmentLeft
 
     # uicolors
     :black.uicolor => UIColor.blackColor
-
-    :darkturquoise.uicolor => UIColor.blackColor
 
 You can extend the defaults by adding entries:
 
