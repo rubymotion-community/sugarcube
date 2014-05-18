@@ -133,21 +133,21 @@ class Symbol
   }
 
   @nsbezelstyle = {
-    rounded:            NSRoundedBezelStyle
-    regular_square:     NSRegularSquareBezelStyle
-    thick_square:       NSThickSquareBezelStyle
-    thicker_square:     NSThickerSquareBezelStyle
-    disclosure:         NSDisclosureBezelStyle
-    shadowless_square:  NSShadowlessSquareBezelStyle
-    circular:           NSCircularBezelStyle
-    textured_square:    NSTexturedSquareBezelStyle
-    help_button:        NSHelpButtonBezelStyle
-    small_square:       NSSmallSquareBezelStyle
-    textured_rounded:   NSTexturedRoundedBezelStyle
-    round_rect:         NSRoundRectBezelStyle
-    recessed:           NSRecessedBezelStyle
-    rounded_disclosure: NSRoundedDisclosureBezelStyle
-    inline:             NSInlineBezelStyle
+    rounded:            NSRoundedBezelStyle,
+    regular_square:     NSRegularSquareBezelStyle,
+    thick_square:       NSThickSquareBezelStyle,
+    thicker_square:     NSThickerSquareBezelStyle,
+    disclosure:         NSDisclosureBezelStyle,
+    shadowless_square:  NSShadowlessSquareBezelStyle,
+    circular:           NSCircularBezelStyle,
+    textured_square:    NSTexturedSquareBezelStyle,
+    help_button:        NSHelpButtonBezelStyle,
+    small_square:       NSSmallSquareBezelStyle,
+    textured_rounded:   NSTexturedRoundedBezelStyle,
+    round_rect:         NSRoundRectBezelStyle,
+    recessed:           NSRecessedBezelStyle,
+    rounded_disclosure: NSRoundedDisclosureBezelStyle,
+    inline:             NSInlineBezelStyle,
   }
 
   @catimingfunction = {
