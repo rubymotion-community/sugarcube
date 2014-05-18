@@ -39,6 +39,10 @@ class Symbol
     SugarCube.look_in(self, Symbol.nsbuttontype)
   end
 
+  def nsbezelstyle
+    SugarCube.look_in(self, Symbol.nsbezelstyle)
+  end
+
   def catimingfunction
     SugarCube.look_in(self, Symbol.catimingfunction)
   end
@@ -60,6 +64,7 @@ class Symbol
     attr :nsdatestyle
     attr :nsnumberstyle
     attr :nsbuttontype
+    attr :nsbezelstyle
     attr :catimingfunction
     attr :cglinecap
     attr :cglinejoin
@@ -125,6 +130,24 @@ class Symbol
     momentary_change:  NSMomentaryChangeButton,
     on_off:            NSOnOffButton,
     momentary_push_in: NSMomentaryPushInButton,
+  }
+
+  @nsbezelstyle = {
+    rounded:            NSRoundedBezelStyle
+    regular_square:     NSRegularSquareBezelStyle
+    thick_square:       NSThickSquareBezelStyle
+    thicker_square:     NSThickerSquareBezelStyle
+    disclosure:         NSDisclosureBezelStyle
+    shadowless_square:  NSShadowlessSquareBezelStyle
+    circular:           NSCircularBezelStyle
+    textured_square:    NSTexturedSquareBezelStyle
+    help_button:        NSHelpButtonBezelStyle
+    small_square:       NSSmallSquareBezelStyle
+    textured_rounded:   NSTexturedRoundedBezelStyle
+    round_rect:         NSRoundRectBezelStyle
+    recessed:           NSRecessedBezelStyle
+    rounded_disclosure: NSRoundedDisclosureBezelStyle
+    inline:             NSInlineBezelStyle
   }
 
   @catimingfunction = {
