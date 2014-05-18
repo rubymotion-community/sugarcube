@@ -17,12 +17,12 @@ class CAAnimation
     def basic(key_path, options={}, &block)
       animation = CABasicAnimation.animationWithKeyPath(key_path)
       _sugarcube_apply_animation_options(animation, options)
+      fill_mode = options.fetch(:fill_mode, KCAFillModeForwards)
+      animation.fillMode = fill_mode
 
-      if options.key?(:from) || options.key?(:to) || options.key?(:by)
-        animation.fromValue = options[:from] if options.key?(:from)
-        animation.toValue = options[:to] if options.key?(:to)
-        animation.byValue = options[:by] if options.key?(:by)
-      end
+      animation.fromValue = options[:from] if options.key?(:from)
+      animation.toValue = options[:to] if options.key?(:to)
+      animation.byValue = options[:by] if options.key?(:by)
 
       return animation
     end
@@ -42,7 +42,11 @@ class CAAnimation
       if options.key?(:values)
         animation.values = options[:values]
       elsif options.key?(:path)
-        animation.path = options[:path]
+        path = options[:path]
+        if path.is_a?(UIBezierPath)
+          path = path.CGPath
+        end
+        animation.path = path
       end
 
       return animation

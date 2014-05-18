@@ -58,19 +58,19 @@ class UIActionSheet
     if buttons.is_a?(NSDictionary)
       button_titles = buttons.keys
       if buttons.key?(:cancel)
-        args << (buttons[:cancel] && buttons[:cancel].localized)
+        args << (buttons[:cancel] && NSBundle.mainBundle.localizedStringForKey(buttons[:cancel], value: nil, table: nil))
       else
         args << nil
       end
       if buttons.key?(:destructive)
-        args << (buttons[:destructive] && buttons[:destructive].localized)
+        args << (buttons[:destructive] && NSBundle.mainBundle.localizedStringForKey(buttons[:destructive], value: nil, table: nil))
       else
         args << nil
       end
-      args.concat(buttons.select { |k, m| k != :cancel && k != :destructive }.map { |k, m| m && m.localized })
+      args.concat(buttons.select { |k, m| k != :cancel && k != :destructive }.map { |k, m| m && NSBundle.mainBundle.localizedStringForKey(m, value: nil, table: nil) })
     else
       button_titles = buttons
-      args.concat(buttons.map { |m| m && m.localized })
+      args.concat(buttons.map { |m| m && NSBundle.mainBundle.localizedStringForKey(m, value: nil, table: nil) })
     end
     args << nil  # otherButtonTitles:..., nil
 

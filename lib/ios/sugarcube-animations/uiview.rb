@@ -544,20 +544,24 @@ class UIView
 
   # Moves the view backwards, similar to what Google has been doing a lot
   # recently
-  def back_fiend!(options={}, more_options={})
+  def back_fiend!(options={}, &after)
     scale = options[:scale] || 0.5
     perspective = options[:perspective] || -0.0005
     size = options[:size] || -140
 
-    UIView.animation_chain(duration:200.millisecs, options:UIViewAnimationOptionCurveLinear) {
+    options[:duration] ||= 200.millisecs
+    options[:curve] ||= UIViewAnimationOptionCurveLinear
+
+    UIView.animation_chain(options) do
       self.layer.transform = CATransform3DTranslate(CATransform3DScale(CATransform3D.new(1,0,0,0, 0,1,0,perspective, 0,0,1,0, 0,0,0,1), scale, scale, scale), 0, size, 0)
-    }.and_then(duration:300.millisecs, options:UIViewAnimationOptionCurveLinear) {
+    end.and_then(duration:300.millisecs, options:UIViewAnimationOptionCurveLinear) do
       self.layer.transform = CATransform3DTranslate(CATransform3DScale(CATransform3DIdentity, scale, scale, scale), 0, size, 0)
-    }.start
+    end.and_then(&after).start
   end
 
   # restores the layer after a call to 'back_fiend!'
-  def forward_fiend!(options={}, more_options={})
+  def forward_fiend!(options={}, &after)
+    options[:after] ||= after
     UIView.animate(options) do
       self.layer.transform = CATransform3DIdentity
     end
