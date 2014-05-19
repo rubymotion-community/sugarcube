@@ -43,6 +43,10 @@ class Symbol
     SugarCube.look_in(self, Symbol.nsbezelstyle)
   end
 
+  def nsfocusringtype
+    SugarCube.look_in(self, Symbol.nsfocusringtype)
+  end
+
   def catimingfunction
     SugarCube.look_in(self, Symbol.catimingfunction)
   end
@@ -65,6 +69,7 @@ class Symbol
     attr :nsnumberstyle
     attr :nsbuttontype
     attr :nsbezelstyle
+    attr :nsfocusringtype
     attr :catimingfunction
     attr :cglinecap
     attr :cglinejoin
@@ -148,6 +153,12 @@ class Symbol
     recessed:           NSRecessedBezelStyle,
     rounded_disclosure: NSRoundedDisclosureBezelStyle,
     inline:             NSInlineBezelStyle,
+  }
+
+  @nsfocusringtype = {
+    default:   NSFocusRingTypeDefault,
+    none:      NSFocusRingTypeNone,
+    exterior:  NSFocusRingTypeExterior,
   }
 
   @catimingfunction = {
