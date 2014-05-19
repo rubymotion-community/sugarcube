@@ -25,7 +25,7 @@ Motion::Project::App.setup do |app|
   app.files.concat Dir.glob(File.join("app-#{app.template}", '**/*.rb'))
 
   if ENV['files']
-    app.specs_dir = "spec/"
+    app.specs_dir = 'spec/'
   else
     app.specs_dir = "spec/#{app.template}/"
     app.spec_files.concat Dir.glob('spec/cocoa/*.rb')
