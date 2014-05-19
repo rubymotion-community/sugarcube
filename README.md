@@ -297,7 +297,7 @@ button.on(:touch_up_outside, :touch_cancel) { |event|
 
 # remove handlers
 button.off(:touch, :touch_up_outside, :touch_cancel)
-button.off(:all)
+button.off # all events
 ```
 
 You can only remove handlers by "type", not by the action.  e.g. If you bind
