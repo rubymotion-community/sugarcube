@@ -19,6 +19,7 @@ class Symbol
   def nsautoresizingmask
     SugarCube.look_in(self, Symbol.nsautoresizingmask)
   end
+  alias nsautoresizemask nsautoresizingmask
 
   def nstextalignment
     SugarCube.look_in(self, Symbol.nstextalignment)

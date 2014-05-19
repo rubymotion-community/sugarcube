@@ -49,7 +49,6 @@ class Symbol
     alternate_selected_control_text_color:     :alternateSelectedControlTextColor,
     control_background_color:                  :controlBackgroundColor,
     control_color:                             :controlColor,
-    control_alternating_row_background_colors: :controlAlternatingRowBackgroundColors,
     control_highlight_color:                   :controlHighlightColor,
     control_light_highlight_color:             :controlLightHighlightColor,
     control_shadow_color:                      :controlShadowColor,

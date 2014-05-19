@@ -44,12 +44,14 @@ describe 'NSColor (CSS)' do
     '#12be3f'.nscolor(0.5).to_s.should == "NSColor.color('#12be3f', alpha: 0.5)"
   end
 
-  it "should return NSColor objects" do
-    Symbol.nscolors.each do |name, method|
-      name.nscolor.should == NSColor.send(method)
+  Symbol.nscolors.each do |name, method|
+    it "should support #{name.inspect}.nscolor" do
+      name.nscolor.should.be.kind_of(NSColor)
     end
-    Symbol.css_colors.each do |name, val|
-      name.nscolor.is_a?(NSColor).should == true
+  end
+  Symbol.css_colors.each do |name, val|
+    it "should support #{name.inspect}.nscolor" do
+      name.nscolor.should.be.kind_of(NSColor)
     end
   end
 

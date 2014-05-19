@@ -76,10 +76,6 @@ describe 'NSColor' do
   end
 
   it "should have a #invert method" do
-    :red.nscolor.invert.should == NSColor.cyanColor
-    :green.nscolor.invert.should == NSColor.magentaColor
-    :blue.nscolor.invert.should == NSColor.yellowColor
-
     :white.nscolor.invert.red.should == 0
     :white.nscolor.invert.green.should == 0
     :white.nscolor.invert.blue.should == 0

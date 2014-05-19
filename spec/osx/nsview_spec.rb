@@ -15,11 +15,22 @@ describe NSView do
   end
 
   it 'should support first_responder' do
-    view1 = NSView.new
-    view2 = NSTextField.new
-    view1 << view2
-    view2.becomeFirstResponder
-    view1.first_responder.should == view2
+    container = NSView.new
+    field_1 = NSTextField.new
+    field_2 = NSTextField.new
+    container << field_1
+    container << field_2
+
+    @window = NSWindow.new
+    @window.setFrame([[0, 0], [100, 100]], display: true)
+    container.frame = [[0, 0], [100, 100]]
+    field_1.frame = [[0, 50], [100, 50]]
+    field_2.frame = [[0, 0], [100, 50]]
+    @window.setContentView(container)
+    @window.orderFrontRegardless
+
+    field_1.becomeFirstResponder
+    container.first_responder.ancestorSharedWithView(field_1).should == field_1
   end
 
   describe "should convert bounds" do

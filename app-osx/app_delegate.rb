@@ -1,24 +1,24 @@
 class AppDelegate
   def applicationDidFinishLaunching(notification)
-    return true if RUBYMOTION_ENV == 'test'
+    app_name = NSBundle.mainBundle.infoDictionary['CFBundleName']
 
     main_menu = NSMenu.new
-    NSApp.mainMenu = main_menu
-
-    appName = NSBundle.mainBundle.infoDictionary['CFBundleName']
-
-    menu = NSMenu.alloc.initWithTitle(appName)
-    menu.addItemWithTitle("Quit #{appName}", action: 'terminate:', keyEquivalent: 'q')
-    item = NSMenuItem.alloc.initWithTitle(appName, action: nil, keyEquivalent: '')
+    menu = NSMenu.alloc.initWithTitle(app_name)
+    menu.addItemWithTitle("Quit #{app_name}", action: 'terminate:', keyEquivalent: 'q')
+    item = NSMenuItem.alloc.initWithTitle(app_name, action: nil, keyEquivalent: '')
     item.submenu = menu
     main_menu.addItem item
 
-    main_window = NSWindow.alloc.initWithContentRect([[240, 180], [480, 360]],
+    NSApp.mainMenu = main_menu
+
+    return if RUBYMOTION_ENV == 'test'
+
+    @main_window = NSWindow.alloc.initWithContentRect([[240, 180], [480, 360]],
       styleMask: NSTitledWindowMask|NSClosableWindowMask|NSMiniaturizableWindowMask|NSResizableWindowMask,
       backing: NSBackingStoreBuffered,
       defer: false)
-    main_window.title = NSBundle.mainBundle.infoDictionary['CFBundleName']
-    main_window.orderFrontRegardless
+    @main_window.title = app_name
+    @main_window.orderFrontRegardless
   end
 
 end
