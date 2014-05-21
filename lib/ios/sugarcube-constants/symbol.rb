@@ -68,6 +68,11 @@ class Symbol
     SugarCube.look_in(self, Symbol.uilinebreakmode, Symbol.uilinebreakmode__deprecated)
   end
 
+  def nslinebreakmode
+    SugarCube.look_in(self, Symbol.nslinebreakmode)
+  end
+  alias nslinebreak nslinebreakmode
+
   def uibaselineadjustment
     SugarCube.look_in(self, Symbol.uibaselineadjustment, Symbol.uibaselineadjustment__deprecated)
   end
@@ -249,6 +254,7 @@ class Symbol
     attr :nstextalignment
     attr :uilinebreakmode
     attr :uilinebreakmode__deprecated
+    attr :nslinebreakmode
     attr :uibaselineadjustment__deprecated
     attr :uibaselineadjustment
     attr :uibordertype
@@ -434,6 +440,23 @@ class Symbol
     head_truncation:   UILineBreakModeHeadTruncation,
     tail_truncation:   UILineBreakModeTailTruncation,
     middle_truncation: UILineBreakModeMiddleTruncation,
+  }
+
+  @nslinebreakmode = {
+    word_wrapping:     NSLineBreakByWordWrapping,
+    word_wrap:         NSLineBreakByWordWrapping,
+    word:              NSLineBreakByWordWrapping,
+    char_wrapping:     NSLineBreakByCharWrapping,
+    char_wrap:         NSLineBreakByCharWrapping,
+    char:              NSLineBreakByCharWrapping,
+    clipping:          NSLineBreakByClipping,
+    clip:              NSLineBreakByClipping,
+    truncating_head:   NSLineBreakByTruncatingHead,
+    head:              NSLineBreakByTruncatingHead,
+    truncating_tail:   NSLineBreakByTruncatingTail,
+    tail:              NSLineBreakByTruncatingTail,
+    truncating_middle: NSLineBreakByTruncatingMiddle,
+    middle:            NSLineBreakByTruncatingMiddle
   }
 
   @uibaselineadjustment__deprecated = {
