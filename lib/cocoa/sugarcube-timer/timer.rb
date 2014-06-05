@@ -1,4 +1,4 @@
-class Numeric
+class NSNumber
 
   def later(user_info=nil, &fire)
     NSTimer.scheduledTimerWithTimeInterval(self, target: fire, selector: 'call:', userInfo: user_info, repeats: false)

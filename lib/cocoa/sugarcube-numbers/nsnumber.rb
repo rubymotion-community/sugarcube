@@ -1,4 +1,4 @@
-class Numeric
+class NSNumber
 
   def string_with_style(style=NSNumberFormatterDecimalStyle)
     if style.respond_to?(:nsnumberstyle)
