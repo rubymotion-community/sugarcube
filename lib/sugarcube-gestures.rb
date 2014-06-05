@@ -3,10 +3,7 @@ unless defined?(Motion::Project::Config)
 end
 
 
-unless defined?(SugarCube)
-  require 'sugarcube'
-end
-
+require 'sugarcube'
 SugarCube.ios_only!('gestures')
 
 Motion::Project::App.setup do |app|

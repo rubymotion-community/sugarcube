@@ -3,10 +3,7 @@ unless defined?(Motion::Project::Config)
 end
 
 
-unless defined?(SugarCube)
-  require 'sugarcube'
-end
-
+require 'sugarcube'
 SugarCube.osx_only!('appkit')
 
 Motion::Project::App.setup do |app|

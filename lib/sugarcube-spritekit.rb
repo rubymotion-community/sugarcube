@@ -3,8 +3,9 @@ unless defined?(Motion::Project::Config)
 end
 
 
-require 'sugarcube'
-SugarCube.ios_only!('uikit')
+unless defined?(SugarCube)
+  require 'sugarcube'
+end
 
 Motion::Project::App.setup do |app|
   # scans app.files until it finds app/ (the default)
@@ -12,10 +13,7 @@ Motion::Project::App.setup do |app|
   # the end of the list
   insert_point = app.files.find_index { |file| file =~ /^(?:\.\/)?app\// } || 0
 
-  Dir.glob(File.join(File.dirname(__FILE__), 'ios/sugarcube-uikit/**/*.rb')).reverse.each do |file|
-    app.files.insert(insert_point, file)
-  end
-  Dir.glob(File.join(File.dirname(__FILE__), 'cocoa/sugarcube-cocoakit/**/*.rb')).reverse.each do |file|
+  Dir.glob(File.join(File.dirname(__FILE__), 'cocoa/sugarcube-spritekit/**/*.rb')).reverse.each do |file|
     app.files.insert(insert_point, file)
   end
 end

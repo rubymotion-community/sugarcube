@@ -307,6 +307,8 @@ module SugarCube
                     }
         elsif item.is_a? CALayer
           selector = :sublayers
+        elsif defined?(SKNode) && item.is_a?(SKNode)
+          selector = :children
         else
           raise "Unable to determine a SugarCube::Adjust::tree selector for #{item.class.name}"
         end

@@ -5,6 +5,7 @@ exclude = [
   'sugarcube-legacy.rb',
   'sugarcube-uicolor.rb',
   'sugarcube-uiimage.rb',
+  'sugarcube-spritekit.rb',
 
   'sugarcube-568.rb',
   'sugarcube-anonymous.rb',
