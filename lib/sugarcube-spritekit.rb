@@ -3,9 +3,7 @@ unless defined?(Motion::Project::Config)
 end
 
 
-unless defined?(SugarCube)
-  require 'sugarcube'
-end
+require 'sugarcube'
 
 Motion::Project::App.setup do |app|
   # scans app.files until it finds app/ (the default)
