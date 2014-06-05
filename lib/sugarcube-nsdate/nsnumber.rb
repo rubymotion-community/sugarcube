@@ -1,4 +1,4 @@
-class Numeric
+class NSNumber
 
   def nsdate
     NSDate.dateWithTimeIntervalSince1970(self)
@@ -18,15 +18,6 @@ class Numeric
 
   def hence
     self.after(NSDate.new)
-  end
-
-end
-
-
-class Fixnum
-
-  def nstimezone
-    NSTimeZone.timeZoneForSecondsFromGMT(self)
   end
 
 end

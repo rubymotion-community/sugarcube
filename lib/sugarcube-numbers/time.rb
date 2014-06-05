@@ -1,4 +1,4 @@
-class Numeric
+class NSNumber
 
   def milliseconds
     self / 1000.0
