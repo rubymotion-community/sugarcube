@@ -1,17 +1,25 @@
 describe UIColor do
 
-  it "should have a #uicolor method" do
+  it "should support #uicolor" do
     UIColor.redColor.uicolor.should == UIColor.redColor
   end
 
-  it "should have a #cgcolor method" do
+  it "should support #cgcolor" do
     -> do
       UIColor.redColor.cgcolor.should == UIColor.redColor.CGColor
     end.should.not.raise
   end
 
+  it "should support #skcolor" do
+    UIColor.redColor.skcolor.should == UIColor.redColor
+  end
+
   it "should have a #uicolor(alpha) method" do
     UIColor.redColor.uicolor(0.5).alpha.should == 0.5
+  end
+
+  it "should have a #skcolor(alpha) method" do
+    UIColor.redColor.skcolor(0.5).alpha.should == 0.5
   end
 
   describe "should have a #+(color) method" do
@@ -124,7 +132,7 @@ end
 
 
 describe 'Fixnum UIColor extensions' do
-  it "should have a 0xffffff#uicolor method" do
+  it "should support #uicolor" do
     color = 0xffffff.uicolor
     color.red.should == 1
     color.green.should == 1
@@ -132,10 +140,14 @@ describe 'Fixnum UIColor extensions' do
     color.alpha.should == 1
   end
 
-  it "should have a 0xffffff#cgcolor method" do
+  it "should support #cgcolor" do
     -> do
-      0xffffff.cgcolor.should.not == nil
+      0xffffff.cgcolor.class.should == UIColor.redColor.CGColor.class
     end.should.not.raise
+  end
+
+  it "should support #skcolor" do
+    0xffffff.skcolor.should.be.kind_of(UIColor)
   end
 
   it "should have a 0x000000#uicolor(0.5) method" do
@@ -149,7 +161,7 @@ end
 
 
 describe 'NSArray UIColor extensions' do
-  it "should have a [255, 255, 255]#uicolor method" do
+  it "should support #uicolor" do
     color = [255, 255, 255].uicolor
     color.red.should == 1
     color.green.should == 1
@@ -157,10 +169,14 @@ describe 'NSArray UIColor extensions' do
     color.alpha.should == 1
   end
 
-  it "should have a [255, 255, 255]#cgcolor method" do
+  it "should support #cgcolor" do
     -> do
-      [255, 255, 255].cgcolor.should.not == nil
+      [255, 255, 255].cgcolor.class.should == UIColor.redColor.CGColor.class
     end.should.not.raise
+  end
+
+  it "should support #skcolor" do
+    [255, 255, 255].skcolor.should.be.kind_of(UIColor)
   end
 
   it "should have a [0, 0, 0]#uicolor(0.5) method" do
@@ -175,7 +191,7 @@ end
 
 describe 'NSString UIColor extensions' do
 
-  it "should have '#ffffff'.uicolor method" do
+  it "should support #uicolor" do
     color = '#ffffff'.uicolor
     color.should.be.kind_of(UIColor)
     color.red.should == 1.0
@@ -189,10 +205,14 @@ describe 'NSString UIColor extensions' do
     ((color.blue * 2).round / 2.0).should == 0.5
   end
 
-  it "should have '#ffffff'.cgcolor method" do
+  it "should support #cgcolor" do
     -> do
-      '#ffffff'.cgcolor.should.not == nil
+      '#ffffff'.cgcolor.class.should == UIColor.redColor.CGColor.class
     end.should.not.raise
+  end
+
+  it "should support #skcolor" do
+    '#ffffff'.skcolor.should.be.kind_of(UIColor)
   end
 
   it "should have '#000000'.uicolor(0.5) method" do
@@ -223,8 +243,12 @@ describe 'UIImage UIColor extensions' do
 
   it 'should support #cgcolor' do
     -> do
-      UIImage.imageNamed('little_square').cgcolor
+      UIImage.imageNamed('little_square').cgcolor.class.should == UIColor.redColor.CGColor.class
     end.should.not.raise
+  end
+
+  it "should support #skcolor" do
+    UIImage.imageNamed('little_square').skcolor.should.be.kind_of(UIColor)
   end
 
   it 'should support #uicolor(0.5)' do

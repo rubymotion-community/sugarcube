@@ -11,7 +11,11 @@ class UIImage
   end
 
   def cgcolor(alpha=nil)
-    self.uicolor(alpha).CGColor
+    uicolor(alpha).CGColor
+  end
+
+  def skcolor(alpha=nil)
+    uicolor(alpha)
   end
 
 end

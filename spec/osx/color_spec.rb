@@ -1,10 +1,20 @@
 describe 'NSColor' do
 
-  it "should have a #nscolor method" do
+  it "should support #nscolor" do
     NSColor.redColor.nscolor.should == NSColor.redColor
   end
 
-  it "should have a #nscolor(alpha) method" do
+  it "should support #cgcolor" do
+    -> do
+      NSColor.redColor.cgcolor.should == NSColor.redColor.CGColor
+    end.should.not.raise
+  end
+
+  it "should support #skcolor" do
+    NSColor.redColor.skcolor.should == NSColor.redColor
+  end
+
+  it "should support #nscolor(alpha) method" do
     NSColor.redColor.nscolor(0.5).alpha.should == 0.5
   end
 

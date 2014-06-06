@@ -1,12 +1,3 @@
-class Object
-
-  def cgcolor
-    self.uicolor.CGColor
-  end
-
-end
-
-
 class UIColor
 
   def uicolor(alpha=nil)
@@ -18,11 +9,11 @@ class UIColor
   end
 
   def cgcolor(alpha=nil)
-    if alpha
-      self.uicolor(alpha).CGColor
-    else
-      self.CGColor
-    end
+    uicolor(alpha).CGColor
+  end
+
+  def skcolor(alpha=nil)
+    uicolor(alpha)
   end
 
   # blends two colors by averaging the RGB and alpha components.

@@ -19,4 +19,12 @@ class Fixnum
     NSColor.colorWithRed(red, green: green, blue: blue, alpha: alpha.to_f)
   end
 
+  def cgcolor(alpha=nil)
+    nscolor(alpha).CGColor
+  end
+
+  def skcolor(alpha=nil)
+    nscolor(alpha)
+  end
+
 end

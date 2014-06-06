@@ -1,12 +1,3 @@
-class Object
-
-  def cgcolor
-    self.nscolor.CGColor
-  end
-
-end
-
-
 class NSColor
 
   def self.systemControlColor
@@ -29,8 +20,12 @@ class NSColor
     end
   end
 
-  def cgcolor
-    self.CGColor
+  def cgcolor(alpha=nil)
+    nscolor(alpha).CGColor
+  end
+
+  def skcolor(alpha=nil)
+    nscolor(alpha)
   end
 
   # blends two colors by averaging the RGB and alpha components.

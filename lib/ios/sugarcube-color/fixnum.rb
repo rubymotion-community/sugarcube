@@ -19,4 +19,12 @@ class Fixnum
     UIColor.colorWithRed(red, green: green, blue: blue, alpha: alpha.to_f)
   end
 
+  def cgcolor(alpha=nil)
+    uicolor(alpha).CGColor
+  end
+
+  def skcolor(alpha=nil)
+    uicolor(alpha)
+  end
+
 end

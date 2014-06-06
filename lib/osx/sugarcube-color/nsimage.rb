@@ -10,4 +10,12 @@ class NSImage
     color
   end
 
+  def cgcolor(alpha=nil)
+    nscolor(alpha).CGColor
+  end
+
+  def skcolor(alpha=nil)
+    nscolor(alpha)
+  end
+
 end
