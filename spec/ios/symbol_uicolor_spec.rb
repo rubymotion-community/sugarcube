@@ -777,9 +777,14 @@ describe "Symbol uicolor" do
     end
   end
 
-  describe 'deprecated colors' do
+  describe 'Symbol deprecated colors' do
     before do
+      SugarCube::Legacy.log? true
       @colors = Symbol.uicolors__deprecated
+    end
+
+    after do
+      SugarCube::Legacy.log? false
     end
 
     it 'should have darkgray color' do

@@ -461,7 +461,7 @@ describe "Symbol - constants" do
 
   end
 
-  describe "deprecated" do
+  describe "Symbol deprecated methods" do
 
     before do
       SugarCube::Legacy.log? true
@@ -478,6 +478,19 @@ describe "Symbol - constants" do
       :fixed_left.uiautoresizemask.should == :fill_left.uiautoresizemask
       :fixed_right.uiautoresizemask.should == :fill_right.uiautoresizemask
       SugarCube::Legacy.log.length.should > 0
+    end
+
+    it 'should support `uitextalignment`' do
+      :left.uialignment.should == :left.uitextalignment
+    end
+
+    it 'should support `uibaselineadjustment`' do
+      :alignbaselines.uibaselineadjustment.should == UIBaselineAdjustmentAlignBaselines
+      :aligncenters.uibaselineadjustment.should == UIBaselineAdjustmentAlignCenters
+    end
+
+    it 'should have alias for `uibaselineadjustment`' do
+      :alignbaselines.uibaseline.should == :alignbaselines.uibaselineadjustment
     end
 
     it 'should support `uireturnkey`' do
@@ -515,11 +528,6 @@ describe "Symbol - constants" do
       :fixedspace.uibarbuttonitem.should == :fixed_space.uibarbuttonitem
       :fastforward.uibarbuttonitem.should == :fast_forward.uibarbuttonitem
       SugarCube::Legacy.log.length.should > 0
-    end
-
-    it 'should support `uibaselineadjustment`' do
-      :alignbaselines.uibaselineadjustment.should == UIBaselineAdjustmentAlignBaselines
-      :aligncenters.uibaselineadjustment.should == UIBaselineAdjustmentAlignCenters
     end
 
     it 'should support `uicontrolevent`' do
@@ -581,12 +589,13 @@ describe "Symbol - constants" do
       :none.uiautoresize.should == :none.uiautoresizemask
     end
 
-    it 'should have alias for `uitextalignment`' do
-      :left.uialignment.should == :left.uitextalignment
+    it 'should support `uibaselineadjustment`' do
+      :align_baselines.uibaselineadjustment.should == UIBaselineAdjustmentAlignBaselines
+      :align_centers.uibaselineadjustment.should == UIBaselineAdjustmentAlignCenters
     end
 
     it 'should have alias for `uibaselineadjustment`' do
-      :alignbaselines.uibaseline.should == :alignbaselines.uibaselineadjustment
+      :align_baselines.uibaseline.should == :align_baselines.uibaselineadjustment
     end
 
     it 'should have alias for `uibordertype`' do

@@ -207,6 +207,13 @@ end
 
 
 describe 'NSString deprecated methods' do
+  before do
+    SugarCube::Legacy.log? true
+  end
+
+  after do
+    SugarCube::Legacy.log? false
+  end
 
   it "should have a #document method" do
     'foo'.document.should.start_with?('/Users')
