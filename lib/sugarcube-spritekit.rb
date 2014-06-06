@@ -17,4 +17,6 @@ Motion::Project::App.setup do |app|
   Dir.glob(File.join(File.dirname(__FILE__), 'cocoa/sugarcube-spritekit/**/*.rb')).reverse.each do |file|
     app.files.insert(insert_point, file)
   end
+
+  app.frameworks += ['SpriteKit']
 end
