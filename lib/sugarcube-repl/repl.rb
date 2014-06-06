@@ -1,4 +1,4 @@
-module MotionRepl
+module Kernel
 
   def adjust(*args)
     SugarCube::Adjust.adjust(*args)
