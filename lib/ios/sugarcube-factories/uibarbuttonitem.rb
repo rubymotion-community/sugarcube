@@ -157,9 +157,14 @@ private
     style = style.uibarbuttonstyle if style.respond_to?(:uibarbuttonstyle)
     case image
     when Array
-      b = UIBarButtonItem.alloc.initWithImage(image.first.uiimage, landscapeImagePhone:image.last.uiimage, style:style, target:nil, action:nil)
+      first = image.first
+      first = first.uiimage if first.respond_to?(:uiimage)
+      last = image.last
+      last = last.uiimage if last.respond_to?(:uiimage)
+      b = UIBarButtonItem.alloc.initWithImage(first, landscapeImagePhone: last, style: style, target: nil, action: nil)
     else
-      b = UIBarButtonItem.alloc.initWithImage(image.uiimage, style:style, target:nil, action:nil)
+      image = image.uiimage if image.respond_to?(:uiimage)
+      b = UIBarButtonItem.alloc.initWithImage(image, style: style, target: nil, action: nil)
     end
     b.set_target_and_action b, action
     b
