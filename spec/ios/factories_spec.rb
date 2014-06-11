@@ -61,6 +61,19 @@ describe 'SugarCube Factories' do
     end
   end
 
+  describe UIBlurEffect do
+    [
+      'with #dark', -> { UIBlurEffect.dark },
+      'with #light', -> { UIBlurEffect.light },
+      'with #extra_light',  -> { UIBlurEffect.extra_light },
+    ].each_slice(2) do |description, factory|
+      it "should work #{description}" do
+        error = factory.call
+        error.should.be.kind_of UIBlurEffect
+      end
+    end
+  end
+
   describe UIButton do
     [
       'with #custom',            -> { UIButton.custom },
