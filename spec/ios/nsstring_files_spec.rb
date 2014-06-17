@@ -208,11 +208,11 @@ end
 
 describe 'NSString deprecated methods' do
   before do
-    SugarCube.log? true
+    SugarCube.suppress? true
   end
 
   after do
-    SugarCube.log? false
+    SugarCube.suppress? false
   end
 
   it "should have a #document method" do

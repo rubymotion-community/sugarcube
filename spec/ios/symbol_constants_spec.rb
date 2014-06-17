@@ -464,11 +464,11 @@ describe "Symbol - constants" do
   describe "Symbol deprecated methods" do
 
     before do
-      SugarCube.log? true
+      SugarCube.suppress? true
     end
 
     after do
-      SugarCube.log? false
+      SugarCube.suppress? false
     end
 
     it 'should support `uiautoresizemask`' do

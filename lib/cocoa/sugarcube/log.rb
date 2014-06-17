@@ -8,9 +8,9 @@ module SugarCube
       return @log
     end
 
-    if log?
+    if suppress?
       log << message
-    else
+    elsif log?
       NSLog(message)
     end
 
@@ -31,10 +31,24 @@ module SugarCube
 
   def log?(value=nil)
     if value.nil?
+      if @logging.nil?
+        @logging = (RUBYMOTION_ENV == 'development')
+      end
       @logging
     else
       @logging = value
       unless @logging
+        @log = nil
+      end
+    end
+  end
+
+  def suppress?(value=nil)
+    if value.nil?
+      @suppress
+    else
+      @suppress = value
+      unless @suppress
         @log = nil
       end
     end
