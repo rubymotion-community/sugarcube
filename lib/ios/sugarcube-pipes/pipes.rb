@@ -22,7 +22,7 @@ class UIImage
     elsif filter == NSData
       nsdata
     else
-      raise "The `|` operator is not supported for the #{filter.is_a?(Class) ? filter.name : filter.class.name} class"
+      raise "The `|` operator is not supported for the #{filter.is_a?(Class) ? filter.name : filter.class.to_s} class"
     end
   end
 
@@ -36,7 +36,7 @@ class UIView
     if filter == UIImage
       self.uiimage
     else
-      raise "The `|` operator is not supported for the #{filter.is_a?(Class) ? filter.name : filter.class.name} class"
+      raise "The `|` operator is not supported for the #{filter.is_a?(Class) ? filter.name : filter.class.to_s} class"
     end
    end
 
@@ -55,7 +55,7 @@ class CIImage
     elsif filter == CIImage
       self
     else
-      raise "The `|` operator is not supported for the #{filter.is_a?(Class) ? filter.name : filter.class.name} class"
+      raise "The `|` operator is not supported for the #{filter.is_a?(Class) ? filter.name : filter.class.to_s} class"
     end
   end
 
@@ -71,7 +71,7 @@ class String
     elsif String === filter
       self.index(filter) && filter
     else
-      raise "The `|` operator is not supported for the #{filter.is_a?(Class) ? filter.name : filter.class.name} class"
+      raise "The `|` operator is not supported for the #{filter.is_a?(Class) ? filter.name : filter.class.to_s} class"
     end
   end
 

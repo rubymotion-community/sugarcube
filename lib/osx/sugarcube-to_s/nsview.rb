@@ -1,4 +1,4 @@
-class UIView
+class NSView
 
   def sugarcube_to_s(options={})
     if self.respond_to? :stylename and self.stylename

@@ -3,38 +3,38 @@ class UIEvent
   def to_s
     type = case self.type
             when UIEventTypeTouches
-              "touch"
+              'touch'
             when UIEventTypeMotion
               if self.subtype == UIEventSubtypeMotionShake
-                "shake"
+                'shake'
               else
-                "motion"
+                'motion'
               end
             when UIEventTypeRemoteControl
               case self.subtype
               when UIEventSubtypeRemoteControlPlay
-                "remote-control, Play"
+                'remote-control, Play'
               when UIEventSubtypeRemoteControlPause
-                "remote-control, Pause"
+                'remote-control, Pause'
               when UIEventSubtypeRemoteControlStop
-                "remote-control, Stop"
+                'remote-control, Stop'
               when UIEventSubtypeRemoteControlTogglePlayPause
-                "remote-control, TogglePlayPause"
+                'remote-control, TogglePlayPause'
               when UIEventSubtypeRemoteControlNextTrack
-                "remote-control, NextTrack"
+                'remote-control, NextTrack'
               when UIEventSubtypeRemoteControlPreviousTrack
-                "remote-control, PreviousTrack"
+                'remote-control, PreviousTrack'
               when UIEventSubtypeRemoteControlBeginSeekingBackward
-                "remote-control, BeginSeekingBackward"
+                'remote-control, BeginSeekingBackward'
               when UIEventSubtypeRemoteControlEndSeekingBackward
-                "remote-control, EndSeekingBackward"
+                'remote-control, EndSeekingBackward'
               when UIEventSubtypeRemoteControlBeginSeekingForward
-                "remote-control, BeginSeekingForward"
+                'remote-control, BeginSeekingForward'
               when UIEventSubtypeRemoteControlEndSeekingForward
-                "remote-control, EndSeekingForward"
+                'remote-control, EndSeekingForward'
               end
             end
-    "#{self.class.name}(#{type}, touches: #{allTouches.inspect})"
+    "#{self.class.to_s}(#{type}, touches: #{allTouches.inspect})"
   end
 
 end

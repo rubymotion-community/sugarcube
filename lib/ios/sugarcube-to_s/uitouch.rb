@@ -3,18 +3,18 @@ class UITouch
   def to_s
     phase = case self.phase
             when UITouchPhaseBegan
-              "began"
+              'began'
             when UITouchPhaseMoved
-              "moved"
+              'moved'
             when UITouchPhaseStationary
-              "stationary"
+              'stationary'
             when UITouchPhaseEnded
-              "ended"
+              'ended'
             when UITouchPhaseCancelled
-              "cancelled"
+              'cancelled'
             end
-    "#{self.class.name}(#{self.tapCount} #{self.tapCount == 1 ? 'tap' : 'taps'} #{phase},"\
-                      " at #{self.locationInView(self.view).inspect}, @ #{self.timestamp})"
+    "#{self.class.to_s}(#{self.tapCount} #{self.tapCount == 1 ? 'tap' : 'taps'}, phase: #{phase}, "\
+                      "at #{self.locationInView(self.view).inspect}, @ #{self.timestamp})"
   end
 
 end

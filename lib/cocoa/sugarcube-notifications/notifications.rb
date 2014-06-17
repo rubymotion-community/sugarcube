@@ -11,7 +11,7 @@ class NSString
 
   def post_notification(object=nil, user_info=nil)
     if user_info and not user_info.is_a? Hash
-      raise TypeError("Invalid argument #{user_info.class.name} sent to String.post_notification")
+      raise TypeError("Invalid argument #{user_info.class.to_s} sent to String.post_notification")
     end
 
     if user_info

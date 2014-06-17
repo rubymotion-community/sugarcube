@@ -5,7 +5,7 @@ class NSNotification
   end
 
   def inspect
-    "#<#{self.class.name}:0x#{self.object_id.to_s(16)}, "+
+    "#<#{self.class.to_s}:0x#{self.object_id.to_s(16)}, "+
       "name=#{self.name.inspect}, object=#{object.inspect}, "+
       "userInfo=#{userInfo.inspect}"+
      ">"

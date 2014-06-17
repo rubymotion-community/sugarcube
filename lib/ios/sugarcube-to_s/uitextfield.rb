@@ -1,6 +1,6 @@
 class UITextField
 
-  def to_s(options={})
+  def sugarcube_to_s(options={})
     text = self.text
     if text && text.length > 20
       text = text[0..20] + '...'
