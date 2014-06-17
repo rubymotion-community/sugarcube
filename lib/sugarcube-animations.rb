@@ -14,4 +14,7 @@ Motion::Project::App.setup do |app|
   Dir.glob(File.join(File.dirname(__FILE__), App.template.to_s, 'sugarcube-animations/**/*.rb')).reverse.each do |file|
     app.files.insert(insert_point, file)
   end
+  Dir.glob(File.join(File.dirname(__FILE__), 'cocoa/sugarcube-animations/**/*.rb')).reverse.each do |file|
+    app.files.insert(insert_point, file)
+  end
 end
