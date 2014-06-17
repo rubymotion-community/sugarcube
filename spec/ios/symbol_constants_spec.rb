@@ -464,11 +464,11 @@ describe "Symbol - constants" do
   describe "Symbol deprecated methods" do
 
     before do
-      SugarCube::Legacy.log? true
+      SugarCube.log? true
     end
 
     after do
-      SugarCube::Legacy.log? false
+      SugarCube.log? false
     end
 
     it 'should support `uiautoresizemask`' do
@@ -477,7 +477,7 @@ describe "Symbol - constants" do
       :fixed_bottom.uiautoresizemask.should == :fill_bottom.uiautoresizemask
       :fixed_left.uiautoresizemask.should == :fill_left.uiautoresizemask
       :fixed_right.uiautoresizemask.should == :fill_right.uiautoresizemask
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `uitextalignment`' do
@@ -495,7 +495,7 @@ describe "Symbol - constants" do
 
     it 'should support `uireturnkey`' do
       :emergencycall.uireturnkey.should == :emergency_call.uireturnkey
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `uikeyboardtype`' do
@@ -506,7 +506,7 @@ describe "Symbol - constants" do
       :namephonepad.uikeyboardtype.should == :name_phone_pad.uikeyboardtype
       :nameandphone.uikeyboardtype.should == :name_and_phone.uikeyboardtype
       :emailaddress.uikeyboardtype.should == :email_address.uikeyboardtype
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `uilinebreakmode`' do
@@ -515,35 +515,35 @@ describe "Symbol - constants" do
       :headtruncation.uilinebreakmode.should == :head_truncation.uilinebreakmode
       :tailtruncation.uilinebreakmode.should == :tail_truncation.uilinebreakmode
       :middletruncation.uilinebreakmode.should == :middle_truncation.uilinebreakmode
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `nsnumberstyle`' do
       :spellout.nsnumberstyle.should == :spell_out.nsnumberstyle
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `uibarbuttonitem`' do
       :flexiblespace.uibarbuttonitem.should == :flexible_space.uibarbuttonitem
       :fixedspace.uibarbuttonitem.should == :fixed_space.uibarbuttonitem
       :fastforward.uibarbuttonitem.should == :fast_forward.uibarbuttonitem
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `uicontrolevent`' do
       :changed.uicontrolevent.should == :change.uicontrolevent
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `uiactivityindicatorstyle`' do
       :whitelarge.uiactivityindicatorstyle.should == :white_large.uiactivityindicatorstyle
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `uidatepickermode`' do
       :dateandtime.uidatepickermode.should == :date_and_time.uidatepickermode
       :countdowntimer.uidatepickermode.should == :count_down_timer.uidatepickermode
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `uicontentmode`' do
@@ -554,26 +554,26 @@ describe "Symbol - constants" do
       :topright.uicontentmode.should == :top_right.uicontentmode
       :bottomleft.uicontentmode.should == :bottom_left.uicontentmode
       :bottomright.uicontentmode.should == :bottom_right.uicontentmode
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `uitablecellaccessorytype`' do
       :disclosureindicator.uitablecellaccessorytype.should == :disclosure_indicator.uitablecellaccessorytype
       :detaildisclosurebutton.uitablecellaccessorytype.should == :detail_disclosure_button.uitablecellaccessorytype
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `uitablecellseparatorstyle`' do
       :singleline.uitablecellseparatorstyle.should == :single_line.uitablecellseparatorstyle
       :singlelineetched.uitablecellseparatorstyle.should == :single_line_etched.uitablecellseparatorstyle
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `catimingfunction`' do
       :easein.catimingfunction.should == :ease_in.catimingfunction
       :easeout.catimingfunction.should == :ease_out.catimingfunction
       :easeinout.catimingfunction.should == :ease_in_out.catimingfunction
-      SugarCube::Legacy.log.length.should > 0
+      SugarCube.log.length.should > 0
     end
 
   end

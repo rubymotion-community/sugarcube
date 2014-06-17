@@ -49,12 +49,7 @@ class Symbol
   end
 
   def uitextalignment
-    message = "uitextalignment is deprecated.  Use nstextalignment instead."
-    if defined?(SugarCube::Legacy)
-        SugarCube::Legacy.log(message)
-      else
-        NSLog(message)
-    end
+    SugarCube.log('uitextalignment is deprecated.  Use nstextalignment instead.')
     SugarCube.look_in(self, Symbol.nstextalignment)
   end
   alias uialignment uitextalignment

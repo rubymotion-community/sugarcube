@@ -5,12 +5,7 @@ module SugarCube
     return here[where] if here.has_key? where
     if here__deprecated[where]
       translated = here__deprecated[where]
-      message = "The symbol #{where.inspect} has been deprecated in favor of #{translated.inspect}"
-      if defined?(SugarCube::Legacy)
-        SugarCube::Legacy.log(message)
-      else
-        NSLog(message)
-      end
+      SugarCube.log("The symbol #{where.inspect} has been deprecated in favor of #{translated.inspect}")
       return here[translated]
     end
     raise SugarCubeNotFoundException.new(where.inspect)
