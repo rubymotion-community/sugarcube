@@ -124,15 +124,7 @@ class UIView
       options = more_options.merge(duration: options)
     end
 
-    assign = options[:assign] || {}
-
-    UIView.animate(options) do
-      animations.call if animations
-
-      assign.each do |key, value|
-        self.send("#{key}=", value)
-      end
-    end
+    UIView.animate(options, &animations)
     return self
   end
 
