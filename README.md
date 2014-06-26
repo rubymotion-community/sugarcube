@@ -156,6 +156,21 @@ quick overview:
   > u 1
   > w 15
   ```
+  
+* Changed your mind? undo all adjustments to the object currently selected:
+  
+  ```
+  > restore
+  ```
+
+  
+* Which element in the tree did I select with adjust? You can make the object selected flash in the simulator:
+
+
+  ```
+  > blink
+  ```
+
 
 Be sure to read more in the [REPL Additions][REPL Wiki] Wiki page.
 
