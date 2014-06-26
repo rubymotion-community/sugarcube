@@ -35,6 +35,20 @@ class UIView
 
   end
 
+  def animate(options={}, more_options={}, &animations)
+    if options.is_a? Numeric
+      options = more_options.merge(duration: options)
+    end
+
+    self.wantsLayer = true
+    if self.layerContentsRedrawPolicy == NSViewLayerContentsRedrawDuringViewResize
+      self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay
+    end
+
+    UIView.animate(options, &animations)
+    return self
+  end
+
   def show
     self.hidden = false
     return self
@@ -53,7 +67,7 @@ class UIView
 
     options[:after] = after
 
-    animate(options) do
+    self.animate(options) do
       self.animator.alpha = options[:opacity]
     end
   end
