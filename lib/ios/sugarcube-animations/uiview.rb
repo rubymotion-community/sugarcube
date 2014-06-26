@@ -12,8 +12,9 @@ class UIView
 
         from_current = options.fetch(:from_current, true) ? UIViewAnimationOptionBeginFromCurrentState : 0
         allow_interaction = options.fetch(:allow_interaction, false) ? UIViewAnimationOptionAllowUserInteraction : 0
+        repeat = options.fetch(:repeat, false) ? UIViewAnimationOptionRepeat : 0
 
-        animation_options = curve | from_current | allow_interaction
+        animation_options = curve | from_current | allow_interaction | repeat
       end
       return animation_options
     end
