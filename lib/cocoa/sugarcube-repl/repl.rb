@@ -199,6 +199,14 @@ module SugarCube
     end
     alias c center
 
+    def get_tree_item(item)
+      if item.nil? || item.is_a?(Fixnum)
+        window(item)
+      else
+        item
+      end
+    end
+
     # @param item this can be a tree-like item (View, ViewController, CALayer,
     #     Menu) or an integer, in which case it will select that window.  Defalt
     #     is to display the keyWindow

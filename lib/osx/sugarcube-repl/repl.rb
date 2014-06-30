@@ -65,14 +65,6 @@ module SugarCube
       end)
     end
 
-    def get_tree_item(item)
-      if item.is_a?(UIView)
-        item
-      else
-        window(item)
-      end
-    end
-
     def get_tree_selector(item)
       if item.is_a? NSView
         return :subviews
