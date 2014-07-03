@@ -414,6 +414,18 @@ class UIImage
     return UIImage.imageWithCIImage(output, scale:self.scale, orientation:self.imageOrientation)
   end
 
+  # Invert the image
+  # @options - none
+  # 
+  # @example
+  #   image.inverted
+  # 
+  # similar to (image | CIFilter.color_invert).uiimage
+  def inverted(*args)
+    output = self.apply_filter(CIFilter.color_invert(*args))
+    return UIImage.imageWithCIImage(output, scale:self.scale, orientation:self.imageOrientation)
+  end
+  
   # Apply a gaussian filter
   # @options radius, default: 10
   #
