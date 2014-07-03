@@ -55,29 +55,4 @@ describe "NSData" do
 
   end
 
-  describe "write_to" do
-
-    after do
-      "a-z".document_path.remove_file!
-    end
-
-    it "should write data to spcified path" do
-      path = "a-z".document_path
-      contents = (:a..:z).to_a.join
-      contents.nsdata.write_to(path).should == true
-      path.file_exists?.should == true
-      path.fileurl.nsdata.nsstring.should == contents
-    end
-
-    it "should write data to spcified url" do
-      url = NSURL.alloc.initFileURLWithPath "a-z".document_path
-      contents = (:a..:z).to_a.join
-      contents.nsdata.write_to(url).should == true
-      path = "a-z".document_path
-      path.file_exists?.should == true
-      url.nsdata.nsstring.should == contents
-    end
-
-  end
-
 end

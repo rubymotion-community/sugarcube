@@ -26,7 +26,7 @@ describe UIView do
     image.class.should == UIImage
     CGSizeEqualToSize(image.size, [10, 10]).should == true
     image.scale.should == UIScreen.mainScreen.scale
-    # file = 'uiview_uiimage_test.png'.document
+    # file = 'uiview_uiimage_test.png'.document_path
     # image.nsdata.write_to(file)
   end
 
@@ -45,25 +45,25 @@ describe UIView do
     red = UIView.alloc.initWithFrame([[0, 0], [8, 8]])
     red.backgroundColor = :red.uicolor(0.5)
     test << red
-    # file = 'uiview_uiimage_red.png'.document
+    # file = 'uiview_uiimage_red.png'.document_path
     # red.uiimage.nsdata.write_to(file)
 
     green = UIView.alloc.initWithFrame([[10, 0], [10, 10]])
     green.backgroundColor = :green.uicolor(0.5)
     test << green
-    # file = 'uiview_uiimage_green.png'.document
+    # file = 'uiview_uiimage_green.png'.document_path
     # green.uiimage.nsdata.write_to(file)
 
     blue = UIView.alloc.initWithFrame([[0, 10], [10, 10]])
     blue.backgroundColor = :blue.uicolor(0.5)
     test << blue
-    # file = 'uiview_uiimage_blue.png'.document
+    # file = 'uiview_uiimage_blue.png'.document_path
     # blue.uiimage.nsdata.write_to(file)
 
     white = UIView.alloc.initWithFrame([[10, 10], [10, 10]])
     white.backgroundColor = :white.uicolor(0.5)
     test << white
-    # file = 'uiview_uiimage_white.png'.document
+    # file = 'uiview_uiimage_white.png'.document_path
     # white.uiimage.nsdata.write_to(file)
 
     gray = UIView.alloc.initWithFrame([[18, 18], [2, 2]])
@@ -74,7 +74,7 @@ describe UIView do
     image.class.should == UIImage
     CGSizeEqualToSize(image.size, [10, 10]).should == true
     image.scale.should == UIScreen.mainScreen.scale
-    # file = 'uiview_uiimage_small.png'.document
+    # file = 'uiview_uiimage_small.png'.document_path
     # image.nsdata.write_to(file)
 
     image = test.uiimage(:all)
@@ -86,7 +86,7 @@ describe UIView do
     image.class.should == UIImage
     CGSizeEqualToSize(image.size, [20, 20]).should == true
     image.scale.should == UIScreen.mainScreen.scale
-    # file = 'uiview_uiimage_big.png'.document
+    # file = 'uiview_uiimage_big.png'.document_path
     # image.nsdata.write_to(file)
   end
 

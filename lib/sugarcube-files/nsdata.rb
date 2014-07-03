@@ -1,14 +1,18 @@
 class NSData
 
-  # converts NSData into an NSString using any encoding, default is UTF8
-  # @return [NSString]
-  def nsstring(encoding=nil)
-    if encoding
-      return NSString.stringWithCString(self.bytes, encoding: encoding)
-    else
+  class << self
 
-      return NSString.stringWithUTF8String(self)
+    def read_from(path_or_url)
+      case path_or_url
+      when NSURL
+        self.dataWithContentsOfURL(path_or_url)
+      when NSString
+        self.dataWithContentsOfFile(path_or_url)
+      else
+        false
+      end
     end
+
   end
 
   def write_to(path_or_url, atomically=true)
