@@ -4,7 +4,7 @@ class NSData
   # @return [NSString]
   def nsstring(encoding=nil)
     if encoding
-      return NSString.stringWithCString(self.bytes, encoding:encoding)
+      return NSString.stringWithCString(self.bytes, encoding: encoding)
     else
 
       return NSString.stringWithUTF8String(self)
@@ -14,7 +14,7 @@ class NSData
   # @return [UIImage]
   def uiimage(scale=nil)
     if scale
-      return UIImage.imageWithData(self, scale:scale)
+      return UIImage.imageWithData(self, scale: scale)
     else
       return UIImage.imageWithData(self)
     end
@@ -23,9 +23,9 @@ class NSData
   def write_to(path_or_url, atomically=true)
     case path_or_url
     when NSURL
-      self.writeToURL(path_or_url, atomically:atomically)
+      self.writeToURL(path_or_url, atomically: atomically)
     when NSString
-      self.writeToFile(path_or_url, atomically:atomically)
+      self.writeToFile(path_or_url, atomically: atomically)
     else
       false
     end
