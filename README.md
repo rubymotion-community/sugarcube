@@ -1200,8 +1200,8 @@ some problems with on RubyMotion (it worked, but not *always*.  Very strange).
 Files
 -----
 
-Methods to find document files, resource files, cache files, temporary files, and to access
-entries out of the Info.plist file.
+Methods to find document files, resource files, cache files, temporary files, access
+entries out of the Info.plist file, and write data/arrays/dictionaries to a file.
 
 > `require 'sugarcube-files'`
 
@@ -1226,6 +1226,19 @@ entries out of the Info.plist file.
 
 # access data from Info.plist
 "CFBundleVersion".info_plist  # => NSBundle.mainBundle.infoDictionary["CFBundleVersion"]
+
+# write to file
+[].write_to('array.plist'.document_path)
+array = NSArray.read_from('array.plist'.resource_path)
+
+{}.write_to('dict.plist'.document_path)
+dict = NSDictionary.read_from('dict.plist'.resource_path)
+
+data = UIImagePNGRepresentation('some_image'.uiimage)
+# using sugarcube-nsdata:
+# data = 'some_image'.uiimage.nsdata
+data.write_to('some_image.png'.document_path)
+image_data = NSData.read_from('some_image.png'.document_path)
 ```
 
 Localized
