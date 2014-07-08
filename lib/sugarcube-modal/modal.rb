@@ -17,7 +17,8 @@ module SugarCube
 
     def dismiss_modal(options={}, &block)
       target = options.fetch(:target, UIApplication.sharedApplication.keyWindow.rootViewController)
-      target.dismissViewControllerAnimated(true, completion:block)
+      animated = options.fetch(:animated, true)
+      target.dismissViewControllerAnimated(animated, completion:block)
     end
   end
 end
