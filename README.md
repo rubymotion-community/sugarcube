@@ -3,7 +3,8 @@ SugarCube
 
 Some sugar for your [cocoa](http://rubymotion.com), or your [tea][sweettea].
 
-[![Build Status](https://travis-ci.org/rubymotion/sugarcube.png)](https://travis-ci.org/rubymotion/sugarcube)
+[![Build Status](https://travis-ci.org/rubymotion/sugarcube.svg?branch=master)](https://travis-ci.org/rubymotion/sugarcube)
+[![Version](https://badge.fury.io/rb/sugarcube.svg)](https://rubygems.org/gems/sugarcube)
 
 About
 -----
@@ -156,14 +157,14 @@ quick overview:
   > u 1
   > w 15
   ```
-  
+
 * Changed your mind? undo all adjustments to the object currently selected:
-  
+
   ```
   > restore
   ```
 
-  
+
 * Which element in the tree did I select with adjust? You can make the object selected flash in the simulator:
 
 
