@@ -7,9 +7,9 @@ module SugarCube
         NSApplication.sharedApplication.windows[index]
       else
         (
-          NSApplication.sharedApplication.keyWindow
-          || NSApplication.sharedApplication.mainWindow
-          || NSApplication.sharedApplication.windows[0]
+          NSApplication.sharedApplication.keyWindow ||
+          NSApplication.sharedApplication.mainWindow ||
+          NSApplication.sharedApplication.windows[0]
         )
       end
     end
