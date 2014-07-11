@@ -98,23 +98,32 @@ class NSColor
     NSColor.colorWithRed(r, green: g, blue: b, alpha: a)
   end
 
-  def hue
-    hueComponent
-  rescue Exception
-    nil
-  end
+  # Cannot define method `hue' because no Objective-C stub was pre-compiled for
+  # types `d@:'. Make sure you properly link with the framework or library that
+  # defines this message.
+  ### def hue
+  ###   hueComponent
+  ### rescue Exception
+  ###   nil
+  ### end
 
-  def saturation
-    saturationComponent
-  rescue Exception
-    nil
-  end
+  # Cannot define method `saturation' because no Objective-C stub was
+  # pre-compiled for types `d@:'. Make sure you properly link with the framework
+  # or library that defines this message.
+  ### def saturation
+  ###   saturationComponent
+  ### rescue Exception
+  ###   nil
+  ### end
 
-  def brightness
-    brightnessComponent
-  rescue Exception
-    nil
-  end
+  # Cannot define method `brightness' because no Objective-C stub was
+  # pre-compiled for types `d@:'. Make sure you properly link with the framework
+  # or library that defines this message.
+  ### def brightness
+  ###   brightnessComponent
+  ### rescue Exception
+  ###   nil
+  ### end
 
   def red
     redComponent
