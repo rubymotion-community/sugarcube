@@ -59,7 +59,6 @@ module SugarCube
 
     def blink(color=nil)
       return unless check_sugarcube_view
-      blinking_view ||= blink_view(color)
 
       blinking_view = UIView.alloc.initWithFrame([[0,0], @sugarcube_view.frame.size])
       color = color.uicolor if color.respond_to?(:uicolor)

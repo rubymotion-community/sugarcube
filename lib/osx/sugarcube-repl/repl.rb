@@ -28,10 +28,9 @@ module SugarCube
 
     def blink(color=nil)
       return unless check_sugarcube_view
-      blinking_view ||= blink_view(color)
 
       blinking_view = NSView.alloc.initWithFrame([[0,0], @sugarcube_view.frame.size])
-      color = color.uicolor if color.respond_to?(:uicolor)
+      color = color.nscolor if color.respond_to?(:nscolor)
       blinking_view.backgroundColor = color
       blinking_view.alpha = 0
       if @sugarcube_view.window
