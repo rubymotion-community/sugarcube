@@ -1,6 +1,29 @@
 describe "SugarCube::AnimationChain" do
   tests SugarCube::AnimationChainController
 
+  it 'should not crash with a memory error' do
+    @did_run_1 = false
+    @did_run_2 = false
+    @did_run_3 = false
+
+    UIView.animation_chain(duration: 0.01) do
+      @did_run_1 = true
+      controller.view.scale_to 0.9, 0
+    end.and_then(duration: 0.01) do
+      @did_run_2 = true
+      controller.view.scale_to 1.1, 0
+    end.and_then(duration: 0.01) do
+      @did_run_3 = true
+      controller.view.scale_to 1, 0
+    end.start
+
+    wait 0.1 do
+      @did_run_1.should == true
+      @did_run_2.should == true
+      @did_run_3.should == true
+    end
+  end
+
   it "should support chains" do
     SugarCube::AnimationChain.chains.length.should == 0
     @variable_a = nil
