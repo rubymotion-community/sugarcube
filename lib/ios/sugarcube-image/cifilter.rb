@@ -97,7 +97,9 @@ class CIFilter
       end
 
       options.each do |key, value|
-        # translate the keys, but if there is no translation key then do nothing
+        # translate the keys, but if there is no translation key then try to
+        # assign the key as the user specified. This means you can pass options
+        # like `'inputRadius'` directly, without using an alias
         key = names[key] || key.to_s
 
         # translate the value if a block was given for that. `key` is always going
