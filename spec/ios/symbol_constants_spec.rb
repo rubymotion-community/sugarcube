@@ -108,6 +108,23 @@ describe "Symbol - constants" do
       :middle_truncation.uilinebreakmode.should == UILineBreakModeMiddleTruncation
     end
 
+    it 'should support `nslinebreakmode`' do
+      :word_wrapping.nslinebreakmode.should == NSLineBreakByWordWrapping
+      :word_wrap.nslinebreakmode.should == NSLineBreakByWordWrapping
+      :word.nslinebreakmode.should == NSLineBreakByWordWrapping
+      :char_wrapping.nslinebreakmode.should == NSLineBreakByCharWrapping
+      :char_wrap.nslinebreakmode.should == NSLineBreakByCharWrapping
+      :char.nslinebreakmode.should == NSLineBreakByCharWrapping
+      :clipping.nslinebreakmode.should == NSLineBreakByClipping
+      :clip.nslinebreakmode.should == NSLineBreakByClipping
+      :truncating_head.nslinebreakmode.should == NSLineBreakByTruncatingHead
+      :head.nslinebreakmode.should == NSLineBreakByTruncatingHead
+      :truncating_tail.nslinebreakmode.should == NSLineBreakByTruncatingTail
+      :tail.nslinebreakmode.should == NSLineBreakByTruncatingTail
+      :truncating_middle.nslinebreakmode.should == NSLineBreakByTruncatingMiddle
+      :middle.nslinebreakmode.should == NSLineBreakByTruncatingMiddle
+    end
+
     it 'should support `uibaselineadjustment`' do
       :align_baselines.uibaselineadjustment.should == UIBaselineAdjustmentAlignBaselines
       :align_centers.uibaselineadjustment.should == UIBaselineAdjustmentAlignCenters
@@ -598,6 +615,10 @@ describe "Symbol - constants" do
       :align_baselines.uibaseline.should == :align_baselines.uibaselineadjustment
     end
 
+    it 'should have alias for `nslinebreakmode`' do
+      :head.nslinebreakmode.should == :head.nslinebreak
+    end
+
     it 'should have alias for `uibordertype`' do
       :none.uiborderstyle.should == :none.uibordertype
     end
@@ -729,6 +750,10 @@ describe "Symbol - constants" do
 
     it 'should not find nonexistant `uilinebreakmode`' do
       should.raise(SugarCubeNotFoundException) { :definitely_doesnt_exist_i_am_really_sure_of_it.uilinebreakmode }
+    end
+
+    it 'should not find nonexistant `nslinebreakmode`' do
+      should.raise(SugarCubeNotFoundException) { :definitely_doesnt_exist_i_am_really_sure_of_it.nslinebreakmode }
     end
 
     it 'should not find nonexistant `uibaselineadjustment`' do

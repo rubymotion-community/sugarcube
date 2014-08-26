@@ -48,6 +48,11 @@ class Symbol
     SugarCube.look_in(self, Symbol.nsfocusringtype)
   end
 
+  def nslinebreakmode
+    SugarCube.look_in(self, Symbol.nslinebreakmode)
+  end
+  alias nslinebreak nslinebreakmode
+
   def catimingfunction
     SugarCube.look_in(self, Symbol.catimingfunction)
   end
@@ -71,6 +76,7 @@ class Symbol
     attr :nsbuttontype
     attr :nsbezelstyle
     attr :nsfocusringtype
+    attr :nslinebreakmode
     attr :catimingfunction
     attr :cglinecap
     attr :cglinejoin
@@ -160,6 +166,23 @@ class Symbol
     default:   NSFocusRingTypeDefault,
     none:      NSFocusRingTypeNone,
     exterior:  NSFocusRingTypeExterior,
+  }
+
+  @nslinebreakmode = {
+    word_wrapping:     NSLineBreakByWordWrapping,
+    word_wrap:         NSLineBreakByWordWrapping,
+    word:              NSLineBreakByWordWrapping,
+    char_wrapping:     NSLineBreakByCharWrapping,
+    char_wrap:         NSLineBreakByCharWrapping,
+    char:              NSLineBreakByCharWrapping,
+    clipping:          NSLineBreakByClipping,
+    clip:              NSLineBreakByClipping,
+    truncating_head:   NSLineBreakByTruncatingHead,
+    head:              NSLineBreakByTruncatingHead,
+    truncating_tail:   NSLineBreakByTruncatingTail,
+    tail:              NSLineBreakByTruncatingTail,
+    truncating_middle: NSLineBreakByTruncatingMiddle,
+    middle:            NSLineBreakByTruncatingMiddle
   }
 
   @catimingfunction = {
