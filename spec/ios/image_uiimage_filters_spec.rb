@@ -21,6 +21,14 @@ describe "UIImage effects w/ CIImage & CIFilter" do
     end
   end
 
+  describe 'should apply inverted colors' do
+    it 'should have inverted method' do
+      -> {
+        @image.inverted.should.is_a(UIImage)
+      }.should.not.raise
+    end
+  end
+
   describe 'should apply a darken filter' do
     it 'should have a darken method' do
       -> {

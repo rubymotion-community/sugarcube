@@ -456,6 +456,8 @@ image.in_rect([[10, 10], [100, 100]])  # get part of an image
 
 image.darken  # => good for "pressed" buttons
 image.darken(brightness: -0.5, saturation: -0.2)  # these are the defaults
+image.gaussian_blur(radius: 5)
+image.inverted
 
 image.rotate(:left)
 image.rotate(:right)

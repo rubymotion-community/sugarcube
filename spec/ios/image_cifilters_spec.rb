@@ -102,6 +102,12 @@ describe "CIFilter extensions" do
     }.should.not.raise
   end
 
+  it "should implement the CIColorInvert filter" do
+    -> {
+      CIFilter.color_invert.should.is_a(CIFilter)
+    }.should.not.raise
+  end
+
   it "should implement the CIColorMap filter" do
     -> {
       CIFilter.color_map.should.is_a(CIFilter)
