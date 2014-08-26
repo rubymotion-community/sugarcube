@@ -194,7 +194,7 @@ describe 'NSString' do
   describe 'file_url' do
 
     it 'should convert path String to NSURL' do
-      'test'.resource_path.file_url.should.is_a?(NSURL)
+      'test'.resource_path.file_url.should.be.kind_of(NSURL)
     end
 
     it 'should be a file path' do

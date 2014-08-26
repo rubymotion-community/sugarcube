@@ -34,21 +34,21 @@ describe "NSData" do
 
     it "shouldn't need a format" do
       new_image = @image.nsdata.uiimage
-      new_image.should.is_a? UIImage
+      new_image.should.be.kind_of UIImage
       new_image.size.width.should == @image.size.width * @image.scale
       new_image.size.height.should == @image.size.height * @image.scale
     end
 
     it "should support :png" do
       new_image = @image.nsdata(:png).uiimage
-      new_image.should.is_a? UIImage
+      new_image.should.be.kind_of UIImage
       new_image.size.width.should == @image.size.width * @image.scale
       new_image.size.height.should == @image.size.height * @image.scale
     end
 
     it "should support :jpg" do
       new_image = @image.nsdata(:jpg).uiimage
-      new_image.should.is_a? UIImage
+      new_image.should.be.kind_of UIImage
       new_image.size.width.should == @image.size.width * @image.scale
       new_image.size.height.should == @image.size.height * @image.scale
     end

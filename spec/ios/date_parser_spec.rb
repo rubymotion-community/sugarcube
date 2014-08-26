@@ -3,7 +3,7 @@ describe "Base Methods" do
   it "parses a relative natural language string, returning a date" do
     today = Time.now
     t = SugarCube::DateParser.parse_date("tomorrow at 7:30 PM")
-    t.should.is_a Time
+    t.should.be.kind_of Time
     t.hour.should == 19
     t.min.should == 30
     t.sec.should == 0

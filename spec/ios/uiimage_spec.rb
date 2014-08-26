@@ -3,7 +3,7 @@ describe 'UIImage' do
   describe 'UIImage.canvas' do
 
     it 'should create an image' do
-      UIImage.canvas(size: [10, 10]).should.is_a UIImage
+      UIImage.canvas(size: [10, 10]).should.be.kind_of UIImage
     end
 
     it 'should have the right size' do
@@ -486,7 +486,7 @@ describe 'UIImage' do
         CGContextAddRect(context, [[0, 0], [10, 10]])
         CGContextFillPath(context)
       end
-      red.overlay(:white).should.is_a?(UIImage)
+      red.overlay(:white).should.be.kind_of UIImage
     end
 
     it 'should return an image that is the same size' do
