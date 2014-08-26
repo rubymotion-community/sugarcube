@@ -60,7 +60,8 @@ class Symbol
   alias nsalignment nstextalignment
 
   def uilinebreakmode
-    SugarCube.look_in(self, Symbol.uilinebreakmode, Symbol.uilinebreakmode__deprecated)
+    SugarCube.log('uilinebreakmode is deprecated.  Use nslinebreakmode instead.')
+    SugarCube.look_in(self, Symbol.nslinebreakmode)
   end
 
   def nslinebreakmode
@@ -247,8 +248,6 @@ class Symbol
     attr :uikeyboardtype__deprecated
     attr :uitextalignment
     attr :nstextalignment
-    attr :uilinebreakmode
-    attr :uilinebreakmode__deprecated
     attr :nslinebreakmode
     attr :uibaselineadjustment__deprecated
     attr :uibaselineadjustment
@@ -421,36 +420,24 @@ class Symbol
     center: NSTextAlignmentCenter,
   }
 
-  @uilinebreakmode__deprecated = {
-    wordwrap: :word_wrap,
-    characterwrap: :character_wrap,
-    headtruncation: :head_truncation,
-    tailtruncation: :tail_truncation,
-    middletruncation: :middle_truncation,
-  }
-  @uilinebreakmode = {
-    word_wrap:         UILineBreakModeWordWrap,
-    character_wrap:    UILineBreakModeCharacterWrap,
-    clip:              UILineBreakModeClip,
-    head_truncation:   UILineBreakModeHeadTruncation,
-    tail_truncation:   UILineBreakModeTailTruncation,
-    middle_truncation: UILineBreakModeMiddleTruncation,
-  }
-
   @nslinebreakmode = {
     word_wrapping:     NSLineBreakByWordWrapping,
     word_wrap:         NSLineBreakByWordWrapping,
     word:              NSLineBreakByWordWrapping,
     char_wrapping:     NSLineBreakByCharWrapping,
     char_wrap:         NSLineBreakByCharWrapping,
+    character_wrap:    NSLineBreakByCharWrapping,
     char:              NSLineBreakByCharWrapping,
     clipping:          NSLineBreakByClipping,
     clip:              NSLineBreakByClipping,
     truncating_head:   NSLineBreakByTruncatingHead,
+    head_truncation:   NSLineBreakByTruncatingHead,
     head:              NSLineBreakByTruncatingHead,
     truncating_tail:   NSLineBreakByTruncatingTail,
+    tail_truncation:   NSLineBreakByTruncatingTail,
     tail:              NSLineBreakByTruncatingTail,
     truncating_middle: NSLineBreakByTruncatingMiddle,
+    middle_truncation: NSLineBreakByTruncatingMiddle,
     middle:            NSLineBreakByTruncatingMiddle
   }
 

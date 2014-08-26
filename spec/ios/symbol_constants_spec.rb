@@ -99,29 +99,24 @@ describe "Symbol - constants" do
       :center.nstextalignment.should == NSTextAlignmentCenter
     end
 
-    it 'should support `uilinebreakmode`' do
-      :word_wrap.uilinebreakmode.should == UILineBreakModeWordWrap
-      :character_wrap.uilinebreakmode.should == UILineBreakModeCharacterWrap
-      :clip.uilinebreakmode.should == UILineBreakModeClip
-      :head_truncation.uilinebreakmode.should == UILineBreakModeHeadTruncation
-      :tail_truncation.uilinebreakmode.should == UILineBreakModeTailTruncation
-      :middle_truncation.uilinebreakmode.should == UILineBreakModeMiddleTruncation
-    end
-
     it 'should support `nslinebreakmode`' do
       :word_wrapping.nslinebreakmode.should == NSLineBreakByWordWrapping
       :word_wrap.nslinebreakmode.should == NSLineBreakByWordWrapping
       :word.nslinebreakmode.should == NSLineBreakByWordWrapping
       :char_wrapping.nslinebreakmode.should == NSLineBreakByCharWrapping
       :char_wrap.nslinebreakmode.should == NSLineBreakByCharWrapping
+      :character_wrap.nslinebreakmode.should == NSLineBreakByCharWrapping
       :char.nslinebreakmode.should == NSLineBreakByCharWrapping
       :clipping.nslinebreakmode.should == NSLineBreakByClipping
       :clip.nslinebreakmode.should == NSLineBreakByClipping
       :truncating_head.nslinebreakmode.should == NSLineBreakByTruncatingHead
+      :head_truncation.nslinebreakmode.should == NSLineBreakByTruncatingHead
       :head.nslinebreakmode.should == NSLineBreakByTruncatingHead
       :truncating_tail.nslinebreakmode.should == NSLineBreakByTruncatingTail
+      :tail_truncation.nslinebreakmode.should == NSLineBreakByTruncatingTail
       :tail.nslinebreakmode.should == NSLineBreakByTruncatingTail
       :truncating_middle.nslinebreakmode.should == NSLineBreakByTruncatingMiddle
+      :middle_truncation.nslinebreakmode.should == NSLineBreakByTruncatingMiddle
       :middle.nslinebreakmode.should == NSLineBreakByTruncatingMiddle
     end
 
@@ -499,6 +494,17 @@ describe "Symbol - constants" do
 
     it 'should support `uitextalignment`' do
       :left.uialignment.should == :left.uitextalignment
+      SugarCube.log.length.should > 0
+    end
+
+    it 'should support `uilinebreakmode`' do
+      :word_wrap.uilinebreakmode.should == NSLineBreakByWordWrapping
+      :character_wrap.uilinebreakmode.should == NSLineBreakByCharWrapping
+      :clip.uilinebreakmode.should == NSLineBreakByClipping
+      :head_truncation.uilinebreakmode.should == NSLineBreakByTruncatingHead
+      :tail_truncation.uilinebreakmode.should == NSLineBreakByTruncatingTail
+      :middle_truncation.uilinebreakmode.should == NSLineBreakByTruncatingMiddle
+      SugarCube.log.length.should > 0
     end
 
     it 'should support `uibaselineadjustment`' do
@@ -523,15 +529,6 @@ describe "Symbol - constants" do
       :namephonepad.uikeyboardtype.should == :name_phone_pad.uikeyboardtype
       :nameandphone.uikeyboardtype.should == :name_and_phone.uikeyboardtype
       :emailaddress.uikeyboardtype.should == :email_address.uikeyboardtype
-      SugarCube.log.length.should > 0
-    end
-
-    it 'should support `uilinebreakmode`' do
-      :wordwrap.uilinebreakmode.should == :word_wrap.uilinebreakmode
-      :characterwrap.uilinebreakmode.should == :character_wrap.uilinebreakmode
-      :headtruncation.uilinebreakmode.should == :head_truncation.uilinebreakmode
-      :tailtruncation.uilinebreakmode.should == :tail_truncation.uilinebreakmode
-      :middletruncation.uilinebreakmode.should == :middle_truncation.uilinebreakmode
       SugarCube.log.length.should > 0
     end
 
