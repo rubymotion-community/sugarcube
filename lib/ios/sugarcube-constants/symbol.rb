@@ -557,8 +557,10 @@ class Symbol
     info_dark:         UIButtonTypeInfoDark,
     contact:           UIButtonTypeContactAdd,
     contact_add:       UIButtonTypeContactAdd,
-    system:            UIButtonTypeSystem,
   }
+  if defined?(UIButtonTypeSystem)
+    @uibuttontype[:system] = UIButtonTypeSystem
+  end
 
   @uicontrolstate = {
     normal:      UIControlStateNormal,
