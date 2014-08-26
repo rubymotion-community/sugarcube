@@ -88,6 +88,23 @@ describe "Symbol - constants" do
       :exterior.nsfocusringtype.should == NSFocusRingTypeExterior
     end
 
+    it 'should support `nslinebreakmode`' do
+      :word_wrapping.nslinebreakmode.should == NSLineBreakByWordWrapping
+      :word_wrap.nslinebreakmode.should == NSLineBreakByWordWrapping
+      :word.nslinebreakmode.should == NSLineBreakByWordWrapping
+      :char_wrapping.nslinebreakmode.should == NSLineBreakByCharWrapping
+      :char_wrap.nslinebreakmode.should == NSLineBreakByCharWrapping
+      :char.nslinebreakmode.should == NSLineBreakByCharWrapping
+      :clipping.nslinebreakmode.should == NSLineBreakByClipping
+      :clip.nslinebreakmode.should == NSLineBreakByClipping
+      :truncating_head.nslinebreakmode.should == NSLineBreakByTruncatingHead
+      :head.nslinebreakmode.should == NSLineBreakByTruncatingHead
+      :truncating_tail.nslinebreakmode.should == NSLineBreakByTruncatingTail
+      :tail.nslinebreakmode.should == NSLineBreakByTruncatingTail
+      :truncating_middle.nslinebreakmode.should == NSLineBreakByTruncatingMiddle
+      :middle.nslinebreakmode.should == NSLineBreakByTruncatingMiddle
+    end
+
     it 'should support `catimingfunction`' do
       :linear.catimingfunction.should == KCAMediaTimingFunctionLinear
       :ease_in.catimingfunction.should == KCAMediaTimingFunctionEaseIn
@@ -140,6 +157,10 @@ describe "Symbol - constants" do
       :miter.cglinejoinstyle.should == :miter.cglinejoin
     end
 
+    it 'should have alias for `nslinebreakmode`' do
+      :head.nslinebreakmode.should == :head.nslinebreak
+    end
+
   end
 
   describe "not found" do
@@ -169,6 +190,10 @@ describe "Symbol - constants" do
 
     it 'should not find nonexistant `nsfocusringtype`' do
       should.raise(SugarCubeNotFoundException) { :definitely_doesnt_exist_i_am_really_sure_of_it.nsfocusringtype }
+    end
+
+    it 'should not find nonexistant `nslinebreakmode`' do
+      should.raise(SugarCubeNotFoundException) { :definitely_doesnt_exist_i_am_really_sure_of_it.nslinebreakmode }
     end
 
     it 'should not find nonexistant `catimingfunction`' do
