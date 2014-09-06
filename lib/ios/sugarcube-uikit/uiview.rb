@@ -78,9 +78,8 @@ class UIView
    # the future, if this argument becomes something that accepts multiple values,
    # those two are sacred.
   def uiimage(use_content_size=false)
-    scale = UIScreen.mainScreen.scale
     if use_content_size
-      UIGraphicsBeginImageContextWithOptions(contentSize, false, scale)
+      UIGraphicsBeginImageContextWithOptions(contentSize, false, 0.0)
       context = UIGraphicsGetCurrentContext()
       self.subviews.each do |subview|
         CGContextSaveGState(context)
@@ -91,7 +90,7 @@ class UIView
       image = UIGraphicsGetImageFromCurrentImageContext()
       UIGraphicsEndImageContext()
     else
-      UIGraphicsBeginImageContextWithOptions(bounds.size, false, scale)
+      UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0.0)
       if self.respond_to?('drawViewHierarchyInRect:afterScreenUpdates:')
         self.drawViewHierarchyInRect(self.bounds, afterScreenUpdates: true)
       else
