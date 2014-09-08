@@ -1,11 +1,10 @@
 class UIView
 
   def sugarcube_to_s(options={})
-    if self.respond_to? :stylename and self.stylename
-      suffix = ' stylename: ' + self.stylename.inspect
-    else
-      suffix = ''
-    end
+    suffix = ''
+    suffix += " stylename: #{self.stylename.inspect}" if self.respond_to?(:stylename) && self.stylename
+    suffix += " motion_kit_id: #{self.motion_kit_id.inspect}" if self.respond_to?(:motion_kit_id) && self.motion_kit_id
+
     if options[:inner].is_a? Hash
       inner = ''
       options[:inner].each do |key, value|
