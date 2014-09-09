@@ -46,6 +46,18 @@ describe "SugarCube::Anonymous" do
 
   end
 
+  describe "respond_to?" do
+
+    it 'should respond with true if key exists' do
+      @h.respond_to?(:foo).should == true
+    end
+
+    it 'should respond with false if key does not exist' do
+      @h.respond_to?(:not_foo).should == false
+    end
+
+  end
+
   describe "setter" do
 
     it 'should have an #foo= method, and return "Foo"' do
