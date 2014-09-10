@@ -55,8 +55,9 @@ module SugarCube
       return super
     end
 
+    alias_method :hash_respond_to?, :respond_to?
     def respond_to?(method_name)
-      return true if self.include?(method_name)
+      return true if self.include?(method_name) or hash_respond_to?(method_name)
       false
     end
 
