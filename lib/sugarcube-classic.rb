@@ -17,11 +17,11 @@ exclude = [
   'sugarcube-unholy.rb',
 ]
 
-if App.template == :ios
+if SugarCube.ios?
   exclude += [
     'sugarcube-appkit.rb',
   ]
-elsif App.template == :osx
+elsif SugarCube.osx?
   exclude += [
     'sugarcube-modal.rb',
     'sugarcube-uikit.rb',

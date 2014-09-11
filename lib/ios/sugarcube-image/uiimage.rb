@@ -31,7 +31,7 @@ class UIImage
         size = options_or_size
       end
       raise ":size is required in #{self.name}##canvas" unless size
-      scale = options[:scale] || UIScreen.mainScreen.scale
+      scale = options.fetch(:scale, 0.0)  # not a typo, 0.0 indicates "use default"
       opaque = options.fetch(:opaque, false)
 
       UIGraphicsBeginImageContextWithOptions(size, opaque, scale)

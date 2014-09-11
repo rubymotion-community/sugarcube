@@ -11,7 +11,7 @@ Motion::Project::App.setup do |app|
   # the end of the list
   insert_point = app.files.find_index { |file| file =~ /^(?:\.\/)?app\// } || 0
 
-  if App.template == :ios
+  if SugarCube.ios?
     Dir.glob(File.join(File.dirname(__FILE__), 'ios/sugarcube/**/*.rb')).reverse.each do |file|
       app.files.insert(insert_point, file)
     end

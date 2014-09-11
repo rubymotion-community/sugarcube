@@ -55,6 +55,11 @@ module SugarCube
       return super
     end
 
+    def respond_to?(method_name)
+      return true if self.include?(method_name)
+      false
+    end
+
     def to_object
       self
     end

@@ -11,7 +11,7 @@ Motion::Project::App.setup do |app|
   # the end of the list
   insert_point = app.files.find_index { |file| file =~ /^(?:\.\/)?app\// } || 0
 
-  Dir.glob(File.join(File.dirname(__FILE__), App.template.to_s, '/sugarcube-spritekit/**/*.rb')).reverse.each do |file|
+  Dir.glob(File.join(File.dirname(__FILE__), SugarCube.platform, '/sugarcube-spritekit/**/*.rb')).reverse.each do |file|
     app.files.insert(insert_point, file)
   end
   Dir.glob(File.join(File.dirname(__FILE__), 'cocoa/sugarcube-spritekit/**/*.rb')).reverse.each do |file|
