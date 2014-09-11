@@ -3,4 +3,3 @@ pkg/
 .DS_Store
 /build/
 .idea/
-.repl_history
