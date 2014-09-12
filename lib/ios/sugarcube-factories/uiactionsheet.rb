@@ -122,7 +122,7 @@ class UIActionSheet
         view = UIApplication.sharedApplication.windows[0]
         alert.showFromRect(from, inView: view, animated: true)
       when UIBarButtonItem
-        alert.showFromBarButtonItem(from)
+        alert.showFromBarButtonItem(from, animated: true)
       when UIToolbar
         alert.showFromToolbar(from)
       when UITabBar
