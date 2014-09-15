@@ -1,3 +1,5 @@
+require 'sugarcube'
+
 exclude = [
   'sugarcube-all.rb',
   'sugarcube-common.rb',
