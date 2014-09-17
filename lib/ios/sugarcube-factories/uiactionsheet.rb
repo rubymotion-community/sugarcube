@@ -119,7 +119,7 @@ class UIActionSheet
 
       case from
       when CGRect
-        view = UIApplication.sharedApplication.windows[0]
+        view = options.fetch(:view, UIApplication.sharedApplication.windows[0])
         alert.showFromRect(from, inView: view, animated: true)
       when UIBarButtonItem
         alert.showFromBarButtonItem(from, animated: true)
