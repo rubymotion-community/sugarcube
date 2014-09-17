@@ -84,7 +84,7 @@ class UIView
   # @overload on_swipe(options)
   #   @option options [Fixnum] :fingers Number of fingers before gesture is recognized
   #   @option options [Fixnum, Symbol] :direction Direction of swipe, as a UISwipeGestureRecognizerDirection constant or a symbol (`:left, :right, :up, :down`)
-  def on_swipe(direction_or_options, &proc)
+  def on_swipe(direction_or_options=nil, &proc)
     direction = nil
     fingers = nil
 
