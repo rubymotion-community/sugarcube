@@ -708,6 +708,8 @@ Options:
     :show => Boolean - Whether to show the action sheet (default: true)
     :from => CGRect | UIBarButtonItem | UIToolbar | UITabBar | UIView (default: first window)
              Where to display the alert.  Mostly relevant on iPad.
+    :view => UIView (default: first window)
+             The view to display the alert when used with :from => CGRect
 
 ```ruby
 # simple
