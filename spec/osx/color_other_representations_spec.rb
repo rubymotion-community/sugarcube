@@ -1,4 +1,4 @@
-describe 'NSColor (CSS)' do
+describe 'NSColor, other representations' do
 
   it "should have a #to_i method" do
     NSColor.whiteColor.to_i.should == 16777215
@@ -44,14 +44,19 @@ describe 'NSColor (CSS)' do
     '#12be3f'.nscolor(0.5).to_s.should == "'#12be3f'.nscolor(0.5)"
   end
 
-  Symbol.nscolors.each do |name, method|
-    it "should support #{name.inspect}.nscolor" do
-      name.nscolor.should.be.kind_of(NSColor)
+  describe 'System colors' do
+    Symbol.nscolors.each do |name, method|
+      it "should support #{name.inspect}.nscolor" do
+        name.nscolor.should.be.kind_of(NSColor)
+      end
     end
   end
-  Symbol.css_colors.each do |name, val|
-    it "should support #{name.inspect}.nscolor" do
-      name.nscolor.should.be.kind_of(NSColor)
+
+  describe 'CSS names' do
+    Symbol.css_colors.each do |name, val|
+      it "should support #{name.inspect}.nscolor" do
+        name.nscolor.should.be.kind_of(NSColor)
+      end
     end
   end
 

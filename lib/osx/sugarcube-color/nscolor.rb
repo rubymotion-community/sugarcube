@@ -205,9 +205,10 @@ class NSColor
 
   def system_name
     system_color = nil
-    without_alpha = self.nscolor(1)
-    Symbol.nscolors.each do |color, method|
-      if NSColor.send(method) == without_alpha
+    Symbol.nscolors.each do |color_name, method|
+      color = NSColor.send(method)
+      without_alpha = self.nscolor(color.alpha)
+      if color == self || color == without_alpha
         system_color = method
         break
       end

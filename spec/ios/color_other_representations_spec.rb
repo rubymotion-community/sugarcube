@@ -1,4 +1,4 @@
-describe 'UIColor (CSS)' do
+describe 'UIColor, other representations' do
 
   it "should have a #to_i method" do
     UIColor.whiteColor.to_i.should == 16777215
@@ -44,12 +44,19 @@ describe 'UIColor (CSS)' do
     '#12be3f'.uicolor(0.5).to_s.should == "'#12be3f'.uicolor(0.5)"
   end
 
-  it "should return UIColor objects" do
+  describe 'System colors' do
     Symbol.uicolors.each do |name, method|
-      name.uicolor.should == UIColor.send(method)
+      it "should support #{name.inspect}.uicolor" do
+        name.uicolor.should.be.kind_of(UIColor)
+      end
     end
+  end
+
+  describe 'CSS names' do
     Symbol.css_colors.each do |name, val|
-      name.uicolor.is_a?(UIColor).should == true
+      it "should support #{name.inspect}.uicolor" do
+        name.uicolor.should.be.kind_of(UIColor)
+      end
     end
   end
 

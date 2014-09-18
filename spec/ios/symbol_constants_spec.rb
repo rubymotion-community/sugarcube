@@ -411,15 +411,17 @@ describe "Symbol - constants" do
       :black_opaque.uiactionstyle.should == UIActionSheetStyleBlackOpaque
     end
 
-    it 'should support `uialertcontrollerstyle`' do
-      :alert.uialertcontrollerstyle.should == UIAlertControllerStyleAlert
-      :action_sheet.uialertcontrollerstyle.should == UIAlertControllerStyleActionSheet
-    end
+    if defined?(UIAlertControllerStyleAlert)
+      it 'should support `uialertcontrollerstyle`' do
+        :alert.uialertcontrollerstyle.should == UIAlertControllerStyleAlert
+        :action_sheet.uialertcontrollerstyle.should == UIAlertControllerStyleActionSheet
+      end
 
-    it 'should support `uialertactionstyle`' do
-      :default.uialertactionstyle.should == UIAlertActionStyleDefault
-      :cancel.uialertactionstyle.should == UIAlertActionStyleCancel
-      :destructive.uialertactionstyle.should == UIAlertActionStyleDestructive
+      it 'should support `uialertactionstyle`' do
+        :default.uialertactionstyle.should == UIAlertActionStyleDefault
+        :cancel.uialertactionstyle.should == UIAlertActionStyleCancel
+        :destructive.uialertactionstyle.should == UIAlertActionStyleDestructive
+      end
     end
 
     it 'should support `uiimagesource`' do
