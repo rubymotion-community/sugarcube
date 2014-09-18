@@ -1,6 +1,6 @@
 class UIAlertController
 
-  attr_accessor :handler
+  attr_accessor :sugarcube_handler
 
   # @example
   #     UIAlertController.alert(controller, "title",
@@ -29,24 +29,33 @@ class UIAlertController
       buttons = %w(OK Cancel)
     end
 
-    alert.handler = SugarCube::UIAlertControllerCallbackHelper.new(block)
+    if block
+      alert.sugarcube_handler = SugarCube::UIAlertControllerCallbackHelper.new(block)
+    end
 
-    buttons.each do |button|
-      case button
+    if buttons.is_a?(NSDictionary)
+      button_keys = buttons.keys
+      buttons = buttons.values
+    else
+      button_keys = buttons
+    end
+    buttons.each_with_index do |button, index|
+      key = button_keys[index]
+      case key
         when :cancel, 'Cancel'
           action_style = UIAlertActionStyleCancel
-          label        = NSBundle.mainBundle.localizedStringForKey('Cancel', value: nil, table: nil)
+          button = 'Cancel' if button == :cancel
         when :destructive, 'Destructive'
           action_style = UIAlertActionStyleDestructive
-          label        = NSBundle.mainBundle.localizedStringForKey('Destructive', value: nil, table: nil)
+          button = 'Destructive' if button == :destructive
         else
           action_style = UIAlertActionStyleDefault
-          label        = button
       end
+      label = NSBundle.mainBundle.localizedStringForKey(button, value: nil, table: nil)
       action = UIAlertAction.actionWithTitle(label,
                                              style:   action_style,
                                              handler: proc { |_|
-                                               alert.handler.call(button)
+                                               alert.sugarcube_handler.call(key) unless alert.sugarcube_handler.nil?
                                              })
       alert.addAction action
     end
@@ -83,7 +92,7 @@ class UIAlertController
     action = UIAlertAction.actionWithTitle(title,
                                            style:   UIAlertActionStyleDefault,
                                            handler: proc { |_|
-                                             handler.call(title) unless block.nil?
+                                             sugarcube_handler.call(title) unless sugarcube_handler.nil?
                                            })
     addAction action
   end
