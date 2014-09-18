@@ -39,9 +39,7 @@ describe "SugarCube::Anonymous" do
     end
 
     it 'should raise NoMethodError on non-existing keys' do
-      should.raise(NoMethodError) {
-        @h.hoge
-      }
+      should.raise(NoMethodError) { @h.hoge }
     end
 
   end
@@ -83,9 +81,7 @@ describe "SugarCube::Anonymous" do
     end
 
     it 'should raise NoMethodError on non-existing keys' do
-      should.raise(NoMethodError) {
-        @h.hoge.should == 'Hoge'
-      }
+      should.raise(NoMethodError) { @h.hoge.should == 'Hoge' }
     end
 
   end
