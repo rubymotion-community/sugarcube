@@ -11,3 +11,6 @@ script: >
   rake spec &&
   rake clean &&
   rake spec platform=osx
+# rake spec device_family='iPhone 4s' &&
+# rake spec device_family='iPhone 5' &&
+# rake spec device_family='iPad Air' &&

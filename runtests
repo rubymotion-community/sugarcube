@@ -1,5 +1,5 @@
-rake spec output=tap && \
-rake spec retina=3.5 output=tap && \
-rake spec retina=4 output=tap && \
-rake spec platform=osx output=tap && \
+rake spec output=tap &&
+rake spec device_family='iPhone 4s' &&
+rake spec device_family='iPhone 5' &&
+rake spec device_family='iPad Air' &&
 echo "SugarCube tests complete!"
