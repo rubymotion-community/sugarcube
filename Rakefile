@@ -24,6 +24,11 @@ Motion::Project::App.setup do |app|
   app.frameworks << 'CoreLocation'
   app.files.concat Dir.glob(File.join("app-#{app.template}", '**/*.rb'))
 
+  # Uncomment this in order to test the UIAlertController in iPad
+  #if platform == 'ios'
+  #  app.device_family = [:ipad]
+  #end
+
   if ENV['files']
     app.specs_dir = 'spec/'
   else
