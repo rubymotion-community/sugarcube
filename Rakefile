@@ -24,10 +24,13 @@ Motion::Project::App.setup do |app|
   app.frameworks << 'CoreLocation'
   app.files.concat Dir.glob(File.join("app-#{app.template}", '**/*.rb'))
 
-  # Uncomment this in order to test the UIAlertController in iPad
-  #if platform == 'ios'
-  #  app.device_family = [:ipad]
-  #end
+  # try using:
+  #     rake device_name='iPad Air'
+  # or
+  #     rake device_name='iPhone 5'
+  if platform == 'ios'
+    app.device_family = [:iphone, :ipad]
+  end
 
   if ENV['files']
     app.specs_dir = 'spec/'
