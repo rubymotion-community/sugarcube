@@ -411,6 +411,17 @@ describe "Symbol - constants" do
       :black_opaque.uiactionstyle.should == UIActionSheetStyleBlackOpaque
     end
 
+    it 'should support `uialertcontrollerstyle`' do
+      :alert.uialertcontrollerstyle.should == UIAlertControllerStyleAlert
+      :action_sheet.uialertcontrollerstyle.should == UIAlertControllerStyleActionSheet
+    end
+
+    it 'should support `uialertactionstyle`' do
+      :default.uialertactionstyle.should == UIAlertActionStyleDefault
+      :cancel.uialertactionstyle.should == UIAlertActionStyleCancel
+      :destructive.uialertactionstyle.should == UIAlertActionStyleDestructive
+    end
+
     it 'should support `uiimagesource`' do
       :camera.uiimagesource.should == UIImagePickerControllerSourceTypeCamera
       :library.uiimagesource.should == UIImagePickerControllerSourceTypePhotoLibrary
@@ -851,6 +862,14 @@ describe "Symbol - constants" do
 
     it 'should not find nonexistant `uiactionstyle`' do
       should.raise(SugarCubeNotFoundException) { :definitely_doesnt_exist_i_am_really_sure_of_it.uiactionstyle }
+    end
+
+    it 'should not find nonexistant `uialertcontrollerstyle`' do
+      should.raise(SugarCubeNotFoundException) { :definitely_doesnt_exist_i_am_really_sure_of_it.uialertcontrollerstyle }
+    end
+
+    it 'should not find nonexistant `uialertactionstyle`' do
+      should.raise(SugarCubeNotFoundException) { :definitely_doesnt_exist_i_am_really_sure_of_it.uialertactionstyle }
     end
 
     it 'should not find nonexistant `uiimagesource`' do
