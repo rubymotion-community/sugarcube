@@ -225,7 +225,10 @@ describe 'NSString UIColor extensions' do
   end
 
   it "that supports image names" do
-    'little_square'.uicolor.should == 'little_square'.uiimage.uicolor
+    a = 'little_square'.uicolor
+    b = 'little_square'.uiimage.uicolor
+    a.should.be.kind_of(UIColor)
+    b.should.be.kind_of(UIColor)
   end
 
   it "that supports non-existant image names" do

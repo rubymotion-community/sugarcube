@@ -37,11 +37,11 @@ describe 'UIColor (CSS)' do
 
   it "should have good to_s return values" do
     UIColor.whiteColor.to_s.should == 'UIColor.whiteColor'
-    UIColor.whiteColor.uicolor(0.5).to_s.should == 'UIColor.whiteColor(0.5)'
-    :indianred.uicolor.to_s.should == 'UIColor.color(:indianred)'
-    :indianred.uicolor(0.5).to_s.should == 'UIColor.color(:indianred, alpha: 0.5)'
-    '#12be3f'.uicolor.to_s.should == "UIColor.color('#12be3f')"
-    '#12be3f'.uicolor(0.5).to_s.should == "UIColor.color('#12be3f', alpha: 0.5)"
+    UIColor.whiteColor.uicolor(0.5).to_s.should == 'UIColor.whiteColor.colorWithAlphaComponent(0.5)'
+    :indianred.uicolor.to_s.should == ':indianred.uicolor'
+    :indianred.uicolor(0.5).to_s.should == ':indianred.uicolor(0.5)'
+    '#12be3f'.uicolor.to_s.should == "'#12be3f'.uicolor"
+    '#12be3f'.uicolor(0.5).to_s.should == "'#12be3f'.uicolor(0.5)"
   end
 
   it "should return UIColor objects" do

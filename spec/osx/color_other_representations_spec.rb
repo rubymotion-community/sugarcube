@@ -37,11 +37,11 @@ describe 'NSColor (CSS)' do
 
   it "should have good to_s return values" do
     NSColor.whiteColor.to_s.should == 'NSColor.whiteColor'
-    NSColor.whiteColor.nscolor(0.5).to_s.should == 'NSColor.whiteColor(0.5)'
-    :indianred.nscolor.to_s.should == 'NSColor.color(:indianred)'
-    :indianred.nscolor(0.5).to_s.should == 'NSColor.color(:indianred, alpha: 0.5)'
-    '#12be3f'.nscolor.to_s.should == "NSColor.color('#12be3f')"
-    '#12be3f'.nscolor(0.5).to_s.should == "NSColor.color('#12be3f', alpha: 0.5)"
+    NSColor.whiteColor.nscolor(0.5).to_s.should == 'NSColor.whiteColor.colorWithAlphaComponent(0.5)'
+    :indianred.nscolor.to_s.should == ':indianred.nscolor'
+    :indianred.nscolor(0.5).to_s.should == ':indianred.nscolor(0.5)'
+    '#12be3f'.nscolor.to_s.should == "'#12be3f'.nscolor"
+    '#12be3f'.nscolor(0.5).to_s.should == "'#12be3f'.nscolor(0.5)"
   end
 
   Symbol.nscolors.each do |name, method|

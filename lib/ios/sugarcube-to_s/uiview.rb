@@ -2,8 +2,19 @@ class UIView
 
   def sugarcube_to_s(options={})
     suffix = ''
-    suffix += " stylename: #{self.stylename.inspect}" if self.respond_to?(:stylename) && self.stylename
-    suffix += " motion_kit_id: #{self.motion_kit_id.inspect}" if self.respond_to?(:motion_kit_id) && self.motion_kit_id
+    # teacup
+    if self.respond_to?(:stylename) && self.stylename && self.stylename.length > 0
+      suffix += " stylename: #{self.stylename.inspect}"
+    end
+    # motionkit
+    if self.respond_to?(:motion_kit_ids) && self.motion_kit_ids && self.motion_kit_ids.length > 0
+      if motion_kit_ids.length == 1
+        suffix += " motion_kit_id: #{self.motion_kit_id.inspect}"
+      else
+        suffix += " motion_kit_ids: #{self.motion_kit_ids.inspect}"
+      end
+    end
+    # rmq?
 
     if options[:inner].is_a? Hash
       inner = ''

@@ -16,8 +16,12 @@ describe 'NSString' do
   end
 
   it "should have a #temporary_path method" do
-    'foo'.temporary_path.should.start_with?('/Users')
-    'foo'.temporary_path.should.end_with?('tmp/foo')
+    if 'foo'.temporary_path.start_with?('/Users')
+      'foo'.temporary_path.should.start_with?('/Users')
+    else
+      'foo'.temporary_path.should.start_with?('/var/folders')
+    end
+    'foo'.temporary_path.should.end_with?('/foo')
   end
 
   it "should have a resource_path method" do
@@ -216,32 +220,27 @@ describe 'NSString deprecated methods' do
   end
 
   it "should have a #document method" do
-    'foo'.document.should.start_with?('/Users')
-    'foo'.document.should.end_with?('Documents/foo')
+    'foo'.document.should == 'foo'.document_path.should
   end
 
   it "should have a #cache method" do
-    'foo'.cache.should.start_with?('/Users')
-    'foo'.cache.should.end_with?('Library/Caches/foo')
+    'foo'.cache.should == 'foo'.cache_path
   end
 
   it "should have a #app_support method" do
-    'foo'.app_support.should.start_with?('/Users')
-    'foo'.app_support.should.end_with?('Library/Application Support/foo')
+    'foo'.app_support.should == 'foo'.app_support_path
   end
 
   it "should have a #temporary method" do
-    'foo'.temporary.should.start_with?('/Users')
-    'foo'.temporary.should.end_with?('tmp/foo')
+    'foo'.temporary.should == 'foo'.temporary_path
   end
 
   it "should have a resource method" do
-    'little_square.png'.resource.should.start_with?("/Users")
-    'little_square.png'.resource.should.end_with?("SugarCube_spec.app/little_square.png")
+    'little_square.png'.resource.should == 'little_square.png'.resource_path
   end
 
   it "should have an #exists? method" do
-    'foo'.document_path.exists?.should == false
+    'foo'.document_path.exists?.should == 'foo'.document_path.file_exists?
   end
 
   it "should have a remove! method" do
