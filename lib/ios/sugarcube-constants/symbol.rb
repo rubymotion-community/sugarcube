@@ -774,16 +774,21 @@ class Symbol
     login_and_password_input: UIAlertViewStyleLoginAndPasswordInput,
   }
 
-  @uialertcontrollerstyle = {
-      alert:        UIAlertControllerStyleAlert,
-      action_sheet: UIAlertControllerStyleActionSheet
-  }
+  if defined?(UIAlertControllerStyleAlert)
+    @uialertcontrollerstyle = {
+        alert:        UIAlertControllerStyleAlert,
+        action_sheet: UIAlertControllerStyleActionSheet
+    }
 
-  @uialertactionstyle = {
-      default:     UIAlertActionStyleDefault,
-      cancel:      UIAlertActionStyleCancel,
-      destructive: UIAlertActionStyleDestructive
-  }
+    @uialertactionstyle = {
+        default:     UIAlertActionStyleDefault,
+        cancel:      UIAlertActionStyleCancel,
+        destructive: UIAlertActionStyleDestructive
+    }
+  else
+    @uialertcontrollerstyle = {}
+    @uialertactionstyle = {}
+  end
 
   @uiactionstyle = {
     automatic:         UIActionSheetStyleAutomatic,
