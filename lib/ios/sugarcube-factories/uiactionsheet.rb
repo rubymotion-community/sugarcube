@@ -56,7 +56,7 @@ class UIActionSheet
     # cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:
     # uses localized buttons in the actual alert
     if buttons.is_a?(NSDictionary)
-      button_titles = buttons.keys
+      button_keys = buttons.keys
       if buttons.key?(:cancel)
         args << (buttons[:cancel] && NSBundle.mainBundle.localizedStringForKey(buttons[:cancel], value: nil, table: nil))
       else
@@ -69,31 +69,31 @@ class UIActionSheet
       end
       args.concat(buttons.select { |k, m| k != :cancel && k != :destructive }.map { |k, m| m && NSBundle.mainBundle.localizedStringForKey(m, value: nil, table: nil) })
     else
-      button_titles = buttons
+      button_keys = buttons
       args.concat(buttons.map { |m| m && NSBundle.mainBundle.localizedStringForKey(m, value: nil, table: nil) })
     end
     args << nil  # otherButtonTitles:..., nil
 
     if args[2] && args[3]  # cancel && destructive buttons
-      buttons_mapped[0] = button_titles[1]                   # destructiveIndex == 0, button == 1
-      buttons_mapped[button_titles.length - 1] = button_titles[0]  # cancelIndex == last, button == 0
+      buttons_mapped[0] = button_keys[1]                   # destructiveIndex == 0, button == 1
+      buttons_mapped[button_keys.length - 1] = button_keys[0]  # cancelIndex == last, button == 0
       # from first+1 to last-1
-      button_titles[2..-1].each_with_index do |button,index|
+      button_keys[2..-1].each_with_index do |button,index|
         buttons_mapped[index + 1] = button
       end
     elsif args[3]  # destructive button
-      buttons_mapped[0] = button_titles[1]                   # destructiveIndex == 0, button == 1
+      buttons_mapped[0] = button_keys[1]                   # destructiveIndex == 0, button == 1
       # from first+1 to last-1
       buttons[2..-1].each_with_index do |button,index|
         buttons_mapped[index + 1] = button
       end
     elsif args[2]  # cancel button
-      buttons_mapped[buttons.length - 2] = button_titles[0]  # cancelIndex == last, button == 0
-      button_titles[2..-1].each_with_index do |button,index|
+      buttons_mapped[buttons.length - 2] = button_keys[0]  # cancelIndex == last, button == 0
+      button_keys[2..-1].each_with_index do |button,index|
         buttons_mapped[index] = button
       end
     else
-      button_titles[2..-1].each_with_index do |button,index|
+      button_keys[2..-1].each_with_index do |button,index|
         buttons_mapped[index] = button
       end
     end

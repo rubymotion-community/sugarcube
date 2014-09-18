@@ -65,7 +65,7 @@ class UIAlertView
 
     # uses localized buttons in the actual alert
     if buttons.is_a?(NSDictionary)
-      button_titles = buttons.keys
+      button_keys = buttons.keys
       if buttons.key?(:cancel)
         args << (buttons[:cancel] && NSBundle.mainBundle.localizedStringForKey(buttons[:cancel], value: nil, table: nil))
       else
@@ -73,10 +73,10 @@ class UIAlertView
       end
       args.concat(buttons.select { |k, m| k != :cancel }.map { |k, m| m && NSBundle.mainBundle.localizedStringForKey(m, value: nil, table: nil) })
     else
-      button_titles = buttons
+      button_keys = buttons
       args.concat(buttons.map { |m| m && NSBundle.mainBundle.localizedStringForKey(m, value: nil, table: nil) })
     end
-    delegate.buttons = button_titles
+    delegate.buttons = button_keys
     args << nil  # otherButtonTitles:..., nil
 
     alert = self.alloc
