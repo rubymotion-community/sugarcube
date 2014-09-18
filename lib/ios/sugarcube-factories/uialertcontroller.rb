@@ -2,6 +2,11 @@ class UIAlertController
 
   attr_accessor :handler
 
+  # @example
+  #     UIAlertController.alert(controller, "title",
+  #       message: "help!",
+  #       buttons: %w"Cancel OK No-way"
+  #       ) { |pressed| } # pressed will be Cancel OK No-way
   def self.alert(controller, title, options={}, more_options={}, &block)
     if title.is_a?(NSDictionary)
       options = title

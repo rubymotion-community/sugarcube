@@ -745,6 +745,34 @@ UIActionSheet.alert('Well, how bout it?',
 end
 ```
 
+###### UIAlertController
+
+Starting with iOS 8.0, UIActionSheet and UIAlertView are deprecated and replaced by UIAlertController.
+
+This is very similar to `UIAlertView.alert` and `UIActionSheet.alert` but you have to pass a `UIViewController` as first argument.
+
+Options:
+
+    UIAlertController.alert(controller, options)
+    UIAlertController.alert(controller, title, options)
+    0 => title => String - title of the action sheet
+    :title => Title of the alert sheet
+    :buttons => [] - List of buttons ([cancel, destructive, others...])
+    :style => Symbol | Fixnum - A symbol (uialertcontrollerstyle) or constant (UIAlertControllerStyle*)
+    :show => Boolean - Whether to show the alert controller (default: true)
+    :from => CGRect | UIBarButtonItem | UIView (default: first window)
+             Where to display the alert.  Mostly relevant on iPad.
+    :view => UIView (default: first window)
+             The view to display the alert when used with :from => CGRect
+
+```ruby
+# simple
+UIAlertController.alert(self, 'This is happening, OK?', buttons: ['Cancel', 'Kill it!', 'Uh, what?']
+  ) do |button|
+  # button is 'Cancel', 'Kill it!' or 'Uh, what?'
+end
+```
+
 ###### UIButton
 ```ruby
 UIButton.buttonWithType(:custom.uibuttontype)
