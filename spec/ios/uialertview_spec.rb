@@ -3,20 +3,20 @@ describe UIAlertView do
 
   it 'should have :show option (show: false)' do
     alert = UIAlertView.alert('test', show: false)
-    proper_wait 0.6
+    proper_wait 0.5
     alert.visible?.should == false
   end
 
   it 'should have :show option (show: true)' do
     alert = UIAlertView.alert('test', show: true)
-    proper_wait 1
+    proper_wait 0.5
     alert.visible?.should == true
     alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
   end
 
   it 'should show by default' do
     alert = UIAlertView.alert('test')
-    proper_wait 1
+    proper_wait 0.5
     alert.visible?.should == true
     alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
   end
@@ -99,25 +99,25 @@ describe UIAlertView do
   it 'should call the block when dismissed' do
     alert = UIAlertView.alert('test') { @touched = true }
     alert.numberOfButtons.should == 1
-    proper_wait 0.6
+    proper_wait 0.5
     alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
-
+    proper_wait 0.5
     @touched.should == true
   end
 
   it 'should call the block and pass the button when dismissed' do
     alert = UIAlertView.alert('test') { |button| @touched = button }
-    proper_wait 0.6
+    proper_wait 0.5
     alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
-
+    proper_wait 0.5
     @touched.should == 'OK'
   end
 
   it 'should call the block and pass the button and index when dismissed' do
     alert = UIAlertView.alert('test') { |button, index| @touched, @touched_index = button, index }
-    proper_wait 0.6
+    proper_wait 0.5
     alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
-
+    proper_wait 0.5
     @touched.should == 'OK'
     @touched_index.should == 0
   end
@@ -125,25 +125,25 @@ describe UIAlertView do
   it 'should call the block when dismissed no matter when cancel button pressed' do
     alert = UIAlertView.alert('test', buttons:['cancel','ok']) { @touched = true }
     alert.numberOfButtons.should == 2
-    proper_wait 0.6
+    proper_wait 0.5
     alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
-
+    proper_wait 0.5
     @touched.should == true
   end
 
   it 'should call the block and pass the button when dismissed with multiple buttons' do
     alert = UIAlertView.alert('test', buttons: ['cancel', 'ok']) { |button| @touched = button }
-    proper_wait 0.6
+    proper_wait 0.5
     alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
-
+    proper_wait 0.5
     @touched.should == 'cancel'
   end
 
   it 'should call the block and pass the button and index when dismissed with multiple buttons' do
     alert = UIAlertView.alert('test', buttons: ['cancel', 'ok']) { |button, index| @touched, @touched_index = button, index }
-    proper_wait 0.6
+    proper_wait 0.5
     alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
-
+    proper_wait 0.5
     @touched.should == 'cancel'
     @touched_index.should == 0
   end
@@ -163,16 +163,16 @@ describe UIAlertView do
     end
 
     it 'should call the :cancel block' do
-      proper_wait 0.6
+      proper_wait 0.5
       @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
-
+      proper_wait 0.5
       @touched.should == :cancel
     end
 
     it 'should call the :success block' do
-      proper_wait 0.6
+      proper_wait 0.5
       @alert.dismissWithClickedButtonIndex(@alert.firstOtherButtonIndex, animated: false)
-
+      proper_wait 0.5
       @touched.should == :success
     end
 
@@ -190,11 +190,10 @@ describe UIAlertView do
         @called = true
         @text = text
       end
-      proper_wait 0.6
+      proper_wait 0.5
       alert.textFieldAtIndex(0).text = 'test text'
       alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
-      proper_wait 0.1
-
+      proper_wait 0.5
       @called.should == true
       @text.should == 'test text'
     end
@@ -205,11 +204,10 @@ describe UIAlertView do
         @called = true
         @text = text
       end
-      proper_wait 0.6
+      proper_wait 0.5
       alert.textFieldAtIndex(0).text = 'test text'
       alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
-      proper_wait 0.1
-
+      proper_wait 0.5
       @called.should == true
       @text.should == 'test text'
     end
@@ -221,11 +219,10 @@ describe UIAlertView do
         @text = text
         @touched_index = touched_index
       end
-      proper_wait 0.6
+      proper_wait 0.5
       alert.textFieldAtIndex(0).text = 'test text'
       alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
-      proper_wait 0.1
-
+      proper_wait 0.5
       @called.should == true
       @text.should == 'test text'
       @touched_index.should == alert.firstOtherButtonIndex
@@ -235,11 +232,10 @@ describe UIAlertView do
       alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :plain_text_input) do |button, text|
         @text = text
       end
-      proper_wait 0.6
+      proper_wait 0.5
       alert.textFieldAtIndex(0).text = 'test text'
       alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
-      proper_wait 0.1
-
+      proper_wait 0.5
       @text.should == 'test text'
     end
 
@@ -247,11 +243,10 @@ describe UIAlertView do
       alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: UIAlertViewStylePlainTextInput) do |button, text|
         @text = text
       end
-      proper_wait 0.6
+      proper_wait 0.5
       alert.textFieldAtIndex(0).text = 'test text'
       alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
-      proper_wait 0.1
-
+      proper_wait 0.5
       @text.should == 'test text'
     end
 
@@ -260,11 +255,10 @@ describe UIAlertView do
         @text = text
         @touched_index = touched_index
       end
-      proper_wait 0.6
+      proper_wait 0.5
       alert.textFieldAtIndex(0).text = 'test text'
       alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
-      proper_wait 0.1
-
+      proper_wait 0.5
       @text.should == 'test text'
       @touched_index.should == alert.cancelButtonIndex
     end
@@ -273,12 +267,11 @@ describe UIAlertView do
       alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: :login_and_password_input) do |button, text1, text2|
         @text = "#{text1} + #{text2}"
       end
-      proper_wait 0.6
+      proper_wait 0.5
       alert.textFieldAtIndex(0).text = 'test text 1'
       alert.textFieldAtIndex(1).text = 'test text 2'
       alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
-      proper_wait 0.1
-
+      proper_wait 0.5
       @text.should == 'test text 1 + test text 2'
     end
 
@@ -286,12 +279,11 @@ describe UIAlertView do
       alert = UIAlertView.alert('test', buttons: ['cancel', 'ok'], style: UIAlertViewStyleLoginAndPasswordInput) do |button, text1, text2|
         @text = "#{text1} + #{text2}"
       end
-      proper_wait 0.6
+      proper_wait 0.5
       alert.textFieldAtIndex(0).text = 'test text 1'
       alert.textFieldAtIndex(1).text = 'test text 2'
       alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
-      proper_wait 0.1
-
+      proper_wait 0.5
       @text.should == 'test text 1 + test text 2'
     end
 
@@ -300,12 +292,11 @@ describe UIAlertView do
         @text = "#{text1} + #{text2}"
         @touched_index = index
       end
-      proper_wait 0.6
+      proper_wait 0.5
       alert.textFieldAtIndex(0).text = 'test text 1'
       alert.textFieldAtIndex(1).text = 'test text 2'
       alert.dismissWithClickedButtonIndex(alert.cancelButtonIndex, animated: false)
-      proper_wait 0.1
-
+      proper_wait 0.5
       @text.should == 'test text 1 + test text 2'
       @touched_index.should == alert.cancelButtonIndex
     end
@@ -330,14 +321,16 @@ describe UIAlertView do
     end
 
     it 'should work for :cancel' do
-      proper_wait 0.6
+      proper_wait 0.5
       @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
+      proper_wait 0.5
       @touched.should == :cancel
     end
 
     it 'should work for :ok' do
-      proper_wait 0.6
+      proper_wait 0.5
       @alert.dismissWithClickedButtonIndex(@alert.firstOtherButtonIndex, animated: false)
+      proper_wait 0.5
       @touched.should == :ok
     end
 
@@ -358,16 +351,16 @@ describe UIAlertView do
     end
 
     it 'should call the :cancel block' do
-      proper_wait 0.6
+      proper_wait 0.5
       @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
-
+      proper_wait 0.5
       @touched.should == :cancel
     end
 
     it 'should call the :success block' do
-      proper_wait 0.6
+      proper_wait 0.5
       @alert.dismissWithClickedButtonIndex(@alert.firstOtherButtonIndex, animated: false)
-
+      proper_wait 0.5
       @touched.should == :success
     end
 
