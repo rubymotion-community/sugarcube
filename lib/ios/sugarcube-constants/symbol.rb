@@ -193,6 +193,14 @@ class Symbol
   end
   alias uiactionsheetstyle uiactionstyle
 
+  def uialertcontrollerstyle
+    SugarCube.look_in(self, Symbol.uialertcontrollerstyle)
+  end
+
+  def uialertactionstyle
+    SugarCube.look_in(self, Symbol.uialertactionstyle)
+  end
+
   def uiimagesource
     SugarCube.look_in(self, Symbol.uiimagesource)
   end
@@ -288,6 +296,9 @@ class Symbol
 
     attr :uialertstyle
     attr :uiactionstyle
+
+    attr :uialertcontrollerstyle
+    attr :uialertactionstyle
 
     attr :uiimagesource
     attr :uiimagecapture
@@ -761,6 +772,17 @@ class Symbol
     secure_text_input:        UIAlertViewStyleSecureTextInput,
     plain_text_input:         UIAlertViewStylePlainTextInput,
     login_and_password_input: UIAlertViewStyleLoginAndPasswordInput,
+  }
+
+  @uialertcontrollerstyle = {
+      alert:        UIAlertControllerStyleAlert,
+      action_sheet: UIAlertControllerStyleActionSheet
+  }
+
+  @uialertactionstyle = {
+      default:     UIAlertActionStyleDefault,
+      cancel:      UIAlertActionStyleCancel,
+      destructive: UIAlertActionStyleDestructive
   }
 
   @uiactionstyle = {
