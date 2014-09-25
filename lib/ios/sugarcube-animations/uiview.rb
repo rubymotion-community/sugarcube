@@ -560,4 +560,64 @@ class UIView
     end
   end
 
+  # and this "SuperGoodDeleteWiggle" is an aptly named animation care
+  # of mxcl (of PromiseKit, YOLOKit, and if he used RubyMotion I'm 99%
+  # sure he would be using SugarCube - see his "initWith...F**It' repo
+  # if you don't believe me)
+  # https://github.com/mxcl/SuperGoodDeleteWiggle
+  #
+  # Note: doesn't accept a "completion" block, because it's an ongoing animation
+  def wiggle
+    @wiggle_angle ||= 0.035
+    @wiggle_offset ||= 0
+    @wiggle_transform ||= -0.5
+
+    self.layer.transform = CATransform3DMakeRotation(@wiggle_angle, 0, 0, 1.0)
+
+    @wiggle_angle = -@wiggle_angle
+
+    @wiggle_offset += 0.03
+    if @wiggle_offset > 0.9
+      @wiggle_offset -= 0.9
+    end
+
+    @wiggle_transform = -@wiggle_transform
+
+    animation = CABasicAnimation.animationWithKeyPath('transform')
+    animation.toValue = NSValue.valueWithCATransform3D CATransform3DMakeRotation(@wiggle_angle, 0, 0, 1.0)
+    animation.repeatCount = Float::MAX
+    animation.duration = 0.12
+    animation.autoreverses = true
+    animation.timeOffset = @wiggle_offset
+    self.layer.addAnimation(animation, forKey: 'wiggle_rotate')
+
+    animation = CABasicAnimation.animationWithKeyPath('transform.translation.y')
+    animation.duration = 0.08
+    animation.repeatCount = Float::MAX
+    animation.autoreverses = true
+    animation.fromValue = @wiggle_transform
+    animation.toValue = -@wiggle_transform
+    animation.fillMode = KCAFillModeForwards
+    animation.timeOffset = @wiggle_offset
+    self.layer.addAnimation(animation, forKey: 'wiggle_translate_y')
+
+    animation = CABasicAnimation.animationWithKeyPath('transform.translation.x')
+    animation.duration = 0.09
+    animation.repeatCount = Float::MAX
+    animation.autoreverses = true
+    animation.fromValue = @wiggle_transform
+    animation.toValue = -@wiggle_transform
+    animation.fillMode = KCAFillModeForwards
+    animation.timeOffset = @wiggle_offset + 0.6
+    self.layer.addAnimation(animation, forKey: 'wiggle_translate_x')
+  end
+  alias super_good_delete_wiggle wiggle
+
+  def dont_wiggle
+    self.layer.removeAnimationForKey('wiggle_rotate')
+    self.layer.removeAnimationForKey('wiggle_translate_y')
+    self.layer.removeAnimationForKey('wiggle_translate_x')
+    self.layer.transform = CATransform3DIdentity
+  end
+
 end

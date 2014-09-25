@@ -989,6 +989,11 @@ view.shake  # great for showing invalid form elements
 view.tumble  # great way to dismiss an alert-like-view
 # tumbles in the other direction (towards the right side instead of left)
 view.tumble(side: :right)
+# wow, this is a SuperGoodDeleteWiggle! https://github.com/mxcl/SuperGoodDeleteWiggle
+view.wiggle
+view.dont_wiggle
+# if you modify the AppDelegate to load the WiggleAnimationController you can
+# see an example of this animation in action.
 
 # the complement to 'tumble' is 'tumble_in' - the view starts above the window
 # and drops in with the same kind of animation as 'tumble'.  Before you call
