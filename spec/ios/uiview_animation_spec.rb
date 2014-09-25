@@ -140,4 +140,28 @@ describe "UIView animation methods" do
     (opts & UIViewAnimationOptionAllowUserInteraction).should == 0
   end
 
+  it 'should have a forward_fiend! animation' do
+    -> do
+      @view.forward_fiend!
+    end.should.not.raise
+  end
+
+  it 'should have a back_fiend! animation' do
+    -> do
+      @view.back_fiend!
+    end.should.not.raise
+  end
+
+  it 'should have a wiggle animation' do
+    -> do
+      @view.wiggle
+    end.should.not.raise
+  end
+
+  it 'should have a dont_wiggle method' do
+    -> do
+      @view.dont_wiggle
+    end.should.not.raise
+  end
+
 end

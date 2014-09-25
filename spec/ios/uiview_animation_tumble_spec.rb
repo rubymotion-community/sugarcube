@@ -137,16 +137,4 @@ describe "UIView animation methods" do
     end
   end
 
-  it 'should have a wiggle animation' do
-    -> do
-      @view.wiggle
-    end.should.not.raise
-  end
-
-  it 'should have a dont_wiggle method' do
-    -> do
-      @view.dont_wiggle
-    end.should.not.raise
-  end
-
 end
