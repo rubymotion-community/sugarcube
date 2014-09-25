@@ -372,7 +372,7 @@ the prefix is "on" instead of "when" (e.g. "on_pan" instead of "when_panned")
 
 ```ruby
 view.on_pan do |gesture|
-  location = gesture.view.locationInView(view)
+  location = gesture.locationInView(view)
 end
 
 # other gesture methods, with common options:
