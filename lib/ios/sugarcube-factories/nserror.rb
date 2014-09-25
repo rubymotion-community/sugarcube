@@ -7,10 +7,7 @@ class NSError
     if options[:userInfo]
       info.merge! options[:userInfo]
     end
-    NSError.alloc.initWithDomain( domain,
-                            code: code,
-                        userInfo: info
-                                )
+    NSError.alloc.initWithDomain(domain, code: code, userInfo: info)
   end
 
 end

@@ -1,5 +1,4 @@
 class UIAlertController
-
   attr_accessor :sugarcube_handler
 
   # @example
@@ -12,7 +11,7 @@ class UIAlertController
       options = title
       title   = options[:title]
       message = options[:message]
-    elsif options.is_a? String
+    elsif options.is_a?(String)
       message = options
       options = more_options
     else
