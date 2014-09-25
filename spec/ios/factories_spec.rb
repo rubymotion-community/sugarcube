@@ -171,4 +171,39 @@ describe 'SugarCube Factories' do
     end
   end
 
+  describe UILabel do
+
+    describe 'new method' do
+      it 'should support UILabel.new' do
+        label = UILabel.new
+        label.should.be.kind_of(UILabel)
+      end
+      it 'should support UILabel.new(text)' do
+        label = UILabel.new('text')
+        label.should.be.kind_of(UILabel)
+        label.text.should == 'text'
+      end
+      it 'should support UILabel.new(text, font)' do
+        label = UILabel.new('text', UIFont.fontWithName('Helvetica', size: 10))
+        label.should.be.kind_of(UILabel)
+        label.text.should == 'text'
+        label.font.familyName.should == 'Helvetica'
+        label.font.pointSize.should == 10
+      end
+      it 'should support UILabel.new(text, font_name)' do
+        label = UILabel.new('text', 'Helvetica')
+        label.should.be.kind_of(UILabel)
+        label.text.should == 'text'
+        label.font.familyName.should == 'Helvetica'
+      end
+      it 'should support UILabel.new(text, font_name, size)' do
+        label = UILabel.new('text', 'Helvetica', 10)
+        label.should.be.kind_of(UILabel)
+        label.text.should == 'text'
+        label.font.familyName.should == 'Helvetica'
+        label.font.pointSize.should == 10
+      end
+    end
+  end
+
 end
