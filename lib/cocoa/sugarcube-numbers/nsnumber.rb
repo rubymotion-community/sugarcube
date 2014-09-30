@@ -7,4 +7,8 @@ class NSNumber
     NSNumberFormatter.localizedStringFromNumber(self, numberStyle:style)
   end
 
+  def to_bool
+    boolValue
+  end
+
 end
