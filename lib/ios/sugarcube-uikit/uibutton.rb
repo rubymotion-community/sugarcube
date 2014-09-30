@@ -16,7 +16,4 @@ class UIButton
     setAttributedTitle(value, forState: UIControlStateNormal)
   end
 
-  def font=(value)
-    self.titleLabel.font = value
-  end
 end
