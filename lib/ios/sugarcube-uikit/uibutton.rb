@@ -4,20 +4,12 @@ class UIButton
     titleForState(UIControlStateNormal)
   end
 
-  def title=(value)
-    setTitle(value)
-  end
-
   def setTitle(value)
     setTitle(value, forState: UIControlStateNormal)
   end
 
-  def attr_text
+  def attributedTitle
     attributedTitleForState(UIControlStateNormal)
-  end
-
-  def attr_text=(value)
-    setAttributedTitle(value)
   end
 
   def setAttributedTitle(value)
