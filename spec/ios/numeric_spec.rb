@@ -139,4 +139,8 @@ describe "Numeric" do
     1000.string_with_style(:currency).should == NSNumberFormatter.localizedStringFromNumber(1000, numberStyle:NSNumberFormatterCurrencyStyle)
   end
 
+  it 'should have a #to_bool method' do
+    0.to_bool.should == false
+    1.to_bool.should == true
+  end
 end

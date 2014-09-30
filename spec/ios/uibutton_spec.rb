@@ -19,4 +19,19 @@ describe UIButton do
     @subject.title.should == 'foo'
   end
 
+  it 'should set the attributedTitle using `attributedTitle=`' do
+    @subject.attributedTitle = 'foo'.attrd
+    @subject.attributedTitleForState(UIControlStateNormal).should == 'foo'.attrd
+  end
+
+  it 'should set the attributedTitle using `setAttributedTitle()`' do
+    @subject.setAttributedTitle('foo'.attrd)
+    @subject.attributedTitleForState(UIControlStateNormal).should == 'foo'.attrd
+  end
+
+  it 'should get the attributedTitle' do
+    @subject.setAttributedTitle('foo'.attrd, forState: UIControlStateNormal)
+    @subject.attributedTitle.should == 'foo'.attrd
+  end
+
 end
