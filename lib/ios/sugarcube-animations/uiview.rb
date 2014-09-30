@@ -137,7 +137,7 @@ class UIView
     end
   end
 
-  # Changes the layer opacity.
+  # Changes the view alpha.
   def fade(options={}, more_options={}, &after)
     if options.is_a? Numeric
       options = { opacity: options }
@@ -150,7 +150,7 @@ class UIView
     end
   end
 
-  # Changes the layer opacity to 0.
+  # Changes the view alpha to 0.
   # @see #fade
   def fade_out(options={}, more_options={}, &after)
     if options.is_a? Numeric
@@ -162,7 +162,7 @@ class UIView
     fade(options, &after)
   end
 
-  # Changes the layer opacity to 1.
+  # Changes the view alpha to 1.
   # @see #fade
   def fade_in(options={}, more_options={}, &after)
     if options.is_a? Numeric
@@ -174,7 +174,7 @@ class UIView
     fade(options, &after)
   end
 
-  # Changes the layer opacity to 0 and then removes the view from its superview
+  # Changes the view alpha to 0 and then removes the view from its superview
   # @see #fade_out
   def fade_out_and_remove(options={}, more_options={}, &after)
     if options.is_a? Numeric
