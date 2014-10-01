@@ -4,6 +4,7 @@ module SugarCube
 
     @sugarcube_view = nil
     @sugarcube_items = nil
+    @sugarcube_collapsed_items = nil
     @sugarcube_restore = nil
 
     def adjust(view=nil)
@@ -22,6 +23,29 @@ module SugarCube
       view
     end
     alias a adjust
+
+    def collapse(view)
+      if view.is_a? Fixnum
+        @sugarcube_items ||= SugarCube::Repl::build_tree(window, :subviews)
+        view = @sugarcube_items[view]
+      end
+
+      @sugarcube_collapsed_items ||= []
+      if @sugarcube_collapsed_items.include?(view)
+        @sugarcube_collapsed_items.delete(view)
+      else
+        @sugarcube_collapsed_items << view
+      end
+
+      retval = tree
+
+      if @sugarcube_collapsed_items
+        @sugarcube_collapsed_items.keep_if { |v| @sugarcube_items.include? v }
+      end
+
+      retval
+    end
+    alias coll collapse
 
     ##|  FRAME
     def frame(f=nil)
@@ -237,6 +261,9 @@ module SugarCube
       end
 
       @sugarcube_items = SugarCube::Repl::build_tree(item, selector)
+      if @sugarcube_collapsed_items
+        @sugarcube_collapsed_items.keep_if { |v| @sugarcube_items.include? v }
+      end
       if self.respond_to? :draw_tree
         draw_tree(item, selector)
       else
@@ -261,12 +288,16 @@ module SugarCube
 
       if tab
         print tab
-        if is_last
-          print '`-- '
-          tab += '    '
+        if @sugarcube_collapsed_items && @sugarcube_collapsed_items.include?(item)
+          print '<<< '
         else
-          print '+-- '
-          tab += '|   '
+          if is_last
+            print '`-- '
+            tab += '    '
+          else
+            print '+-- '
+            tab += '|   '
+          end
         end
       else
         print '. '
@@ -289,19 +320,22 @@ module SugarCube
       end
       items ||= []
 
-      items.each_with_index { |subview, index|
-        items_index += 1
-        if self.respond_to? :draw_tree
-          items_index = draw_tree(subview, selector, tab, index == items.length - 1, items_index)
-        else
-          items_index = SugarCube::Repl::draw_tree(subview, selector, tab, index == items.length - 1, items_index)
+      unless @sugarcube_collapsed_items && @sugarcube_collapsed_items.include?(item)
+        items.each_with_index do |subview, index|
+          items_index += 1
+          if self.respond_to? :draw_tree
+            items_index = draw_tree(subview, selector, tab, index == items.length - 1, items_index)
+          else
+            items_index = SugarCube::Repl::draw_tree(subview, selector, tab, index == items.length - 1, items_index)
+          end
         end
-      }
+      end
 
       return items_index
     end
 
     def build_tree(item, selector)
+
       if selector.is_a? Proc
         items = selector.call(item)
       else
@@ -310,9 +344,11 @@ module SugarCube
       items ||= []
 
       ret = [item]
-      items.each_with_index { |subview, index|
+      return ret if @sugarcube_collapsed_items && @sugarcube_collapsed_items.include?(item)
+
+      items.each_with_index do |subview, index|
         ret.concat SugarCube::Repl::build_tree(subview, selector)
-      }
+      end
       ret
     end
 

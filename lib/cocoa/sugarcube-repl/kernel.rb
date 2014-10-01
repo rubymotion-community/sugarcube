@@ -9,6 +9,15 @@ module Kernel
   end
   alias a adjust
 
+  def collapse(*args)
+    if self.nil?
+      super
+    else
+      SugarCube::Repl.collapse(*args)
+    end
+  end
+  alias coll collapse
+
   def tree(*args)
     if self.nil?
       super
