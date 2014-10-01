@@ -779,6 +779,7 @@ UIButton.buttonWithType(:custom.uibuttontype)
 # =>
 UIButton.custom
 
+# many of these are obsolete since iOS 7
 UIButton.custom            => UIButton.buttonWithType(:custom.uibuttontype)
 UIButton.rounded           => UIButton.buttonWithType(:rounded.uibuttontype)
 UIButton.rounded_rect      => UIButton.buttonWithType(:rounded_rect.uibuttontype)
