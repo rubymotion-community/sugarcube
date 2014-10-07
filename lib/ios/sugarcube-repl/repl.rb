@@ -72,10 +72,10 @@ module SugarCube
       end
 
       duration = 0.2
-      NSView.animateWithDuration(duration * 2, animations: ->{ blinking_view.alpha = 1 }, completion: ->(finished) do
-        NSView.animateWithDuration(duration, animations: ->{ blinking_view.alpha = 0 }, completion: ->(finished) do
-          NSView.animateWithDuration(duration, animations: ->{ blinking_view.alpha = 1 }, completion: ->(finished) do
-            NSView.animateWithDuration(duration, animations: ->{ blinking_view.alpha = 0 }, completion: ->(finished) do
+      UIView.animateWithDuration(duration * 2, animations: ->{ blinking_view.alpha = 1 }, completion: ->(finished) do
+        UIView.animateWithDuration(duration, animations: ->{ blinking_view.alpha = 0 }, completion: ->(finished) do
+          UIView.animateWithDuration(duration, animations: ->{ blinking_view.alpha = 1 }, completion: ->(finished) do
+            UIView.animateWithDuration(duration, animations: ->{ blinking_view.alpha = 0 }, completion: ->(finished) do
               blinking_view.removeFromSuperview
             end)
           end)
