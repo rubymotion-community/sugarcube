@@ -7,10 +7,10 @@ before_install:
     - mkdir -p ~/Library/RubyMotion/build
     - (ruby --version)
 script: >
-  rake clean &&
-  rake spec &&
-  rake clean &&
-  rake spec platform=osx
+  bundle exec rake clean &&
+  bundle exec rake spec &&
+  bundle exec rake clean &&
+  bundle exec rake spec platform=osx
 # rake spec device_family='iPhone 4s' &&
 # rake spec device_family='iPhone 5' &&
 # rake spec device_family='iPad Air' &&
