@@ -1,63 +1,23 @@
 module SugarCube
-  module Repl
-    module_function
+  class << Repl
 
-    @sugarcube_view = nil
-    @sugarcube_items = nil
-    @sugarcube_collapsed_items = nil
-    @sugarcube_restore = nil
-
-    def adjust(view=nil)
-      return @sugarcube_view unless view
-
-      if view.is_a? Fixnum
-        @sugarcube_items ||= SugarCube::Repl::build_tree(window, :subviews)
-        view = @sugarcube_items[view]
-      end
-
-      # a/adjust will return this object
-      @sugarcube_view = view
-
-      adjust_init(view)
-
-      view
+    def build_default_tree
+      build_tree(window)
     end
-    alias a adjust
-
-    def collapse(view)
-      if view.is_a? Fixnum
-        @sugarcube_items ||= SugarCube::Repl::build_tree(window, :subviews)
-        view = @sugarcube_items[view]
-      end
-
-      @sugarcube_collapsed_items ||= []
-      if @sugarcube_collapsed_items.include?(view)
-        @sugarcube_collapsed_items.delete(view)
-      else
-        @sugarcube_collapsed_items << view
-      end
-
-      retval = tree
-
-      if @sugarcube_collapsed_items
-        @sugarcube_collapsed_items.keep_if { |v| @sugarcube_items.include? v }
-      end
-
-      retval
-    end
-    alias coll collapse
 
     ##|  FRAME
     def frame(f=nil)
       return unless check_sugarcube_view
 
-      return @sugarcube_view.frame unless f
+      return @adjust_item.frame unless f
 
-      f = SugarCube::CoreGraphics::Rect(f)
-      @sugarcube_view.frame = f
+      if defined?(SugarCube::CoreGraphics)
+        f = SugarCube::CoreGraphics::Rect(f)
+      end
+      @adjust_item.frame = f
       puts format_frame(f)
 
-      @sugarcube_view
+      @adjust_item
     end
     alias f frame
 
@@ -70,12 +30,12 @@ module SugarCube
     def right(val=1)
       return unless check_sugarcube_view
 
-      f = @sugarcube_view.frame
+      f = @adjust_item.frame
       f.origin.x += val
-      @sugarcube_view.frame = f
+      @adjust_item.frame = f
       puts format_frame(f)
 
-      @sugarcube_view
+      @adjust_item
     end
     alias r right
 
@@ -87,31 +47,35 @@ module SugarCube
     def down(val=1)
       return unless check_sugarcube_view
 
-      f = @sugarcube_view.frame
+      f = @adjust_item.frame
       f.origin.y += val
-      @sugarcube_view.frame = f
+      @adjust_item.frame = f
       puts format_frame(f)
 
-      @sugarcube_view
+      @adjust_item
     end
     alias d down
 
     def origin x=nil, y=nil
       return unless check_sugarcube_view
 
-      f = @sugarcube_view.frame
+      f = @adjust_item.frame
       return f.origin unless x
 
       if y
         f.origin.x = x
         f.origin.y = y
       else
-        f.origin = SugarCube::CoreGraphics::Point(x)
+        if defined?(SugarCube::CoreGraphics)
+          f.origin = SugarCube::CoreGraphics::Point(x)
+        else
+          f.origin = x
+        end
       end
-      @sugarcube_view.frame = f
+      @adjust_item.frame = f
       puts format_frame(f)
 
-      @sugarcube_view
+      @adjust_item
     end
     alias o origin
 
@@ -124,12 +88,12 @@ module SugarCube
     def wider(val=1)
       return unless check_sugarcube_view
 
-      f = @sugarcube_view.frame
+      f = @adjust_item.frame
       f.size.width += val
-      @sugarcube_view.frame = f
+      @adjust_item.frame = f
       puts format_frame(f)
 
-      @sugarcube_view
+      @adjust_item
     end
     alias w wider
 
@@ -141,31 +105,35 @@ module SugarCube
     def taller(val=1)
       return unless check_sugarcube_view
 
-      f = @sugarcube_view.frame
+      f = @adjust_item.frame
       f.size.height += val
-      @sugarcube_view.frame = f
+      @adjust_item.frame = f
       puts format_frame(f)
 
-      @sugarcube_view
+      @adjust_item
     end
     alias t taller
 
     def size(w=nil, h=nil)
       return unless check_sugarcube_view
 
-      f = @sugarcube_view.frame
+      f = @adjust_item.frame
       return f.size unless w
 
       if h
         f.size.width = w
         f.size.height = h
       else
-        f.size = SugarCube::CoreGraphics::Size(w)
+        if defined?(SugarCube::CoreGraphics)
+          f.size = SugarCube::CoreGraphics::Size(w)
+        else
+          f.size = w
+        end
       end
-      @sugarcube_view.frame = f
+      @adjust_item.frame = f
       puts format_frame(f)
 
-      @sugarcube_view
+      @adjust_item
     end
     alias z size
 
@@ -173,7 +141,7 @@ module SugarCube
     def restore
       return unless check_sugarcube_view
 
-      @sugarcube_restore.each do |msg, value|
+      @restore.each do |msg, value|
         SugarCube::Repl.send(msg, value)
       end
     end
@@ -203,7 +171,7 @@ module SugarCube
       element = 1 unless element
       total = 1 unless total
 
-      view = @sugarcube_view
+      view = @adjust_item
 
       left = view.origin.x
       top = view.origin.y
@@ -223,17 +191,17 @@ module SugarCube
     end
     alias c center
 
-    def set_default(item)
-      @sugarcube_default_item = item
-    end
-
-    def clear_default
-      @sugarcube_default_item = nil
+    def register_default_tree_selectors
+      register_tree_selector(CALayer, :sublayers)
+      if defined?(SKNode)
+        register_tree_selector(SKNode, :children)
+      end
+      register_platform_tree_selectors
     end
 
     def get_tree_item(item)
-      if item.nil? && @sugarcube_default_item
-        @sugarcube_default_item
+      if item.nil? && @default
+        @default
       elsif item.nil? || item.is_a?(Fixnum)
         window(item)
       else
@@ -241,142 +209,8 @@ module SugarCube
       end
     end
 
-    # @param item this can be a tree-like item (View, ViewController, CALayer,
-    #     Menu) or an integer, in which case it will select that window.  Defalt
-    #     is to display the keyWindow
-    # @param selector If you pass an unsupported object to tree, you will need
-    #     to pass a selector as well - this method should return an array of
-    #     items which are passed recursively to tree
-    # @block sel_blk If a block is passed, it will be used to build the array of
-    #     items that are called recursively
-    def tree(item=nil, selector=nil, &sel_blk)
-      item = get_tree_item(item)
-
-      if sel_blk && selector
-        raise "You can't hand me a block AND a selector.  I don't know what to do with them!"
-      elsif sel_blk
-        selector = sel_blk
-      elsif ! selector
-        if item.is_a? CALayer
-          selector = :sublayers
-        elsif defined?(SKNode) && item.is_a?(SKNode)
-          selector = :children
-        else
-          selector = get_tree_selector(item)
-        end
-
-        if !selector && @sugarcube_tree_selectors
-          klass = item.class
-          while klass && !selector
-            selector = @sugarcube_tree_selectors[klass]
-            klass = klass.superclass
-          end
-        end
-
-        unless selector
-          raise "Unable to determine a SugarCube::Repl::tree selector for #{item.class.to_s}"
-        end
-      end
-
-      @sugarcube_items = SugarCube::Repl::build_tree(item, selector)
-      if @sugarcube_collapsed_items
-        @sugarcube_collapsed_items.keep_if { |v| @sugarcube_items.include? v }
-      end
-      if self.respond_to? :draw_tree
-        draw_tree(item, selector)
-      else
-        SugarCube::Repl::draw_tree(item, selector)
-      end
-      puts ''
-
-      return item
-    end
-
-    def register_tree_selector(klass, selector=nil, &sel_blk)
-      @sugarcube_tree_selectors ||= {}
-      @sugarcube_tree_selectors[klass] = selector || sel_blk
-    end
-
-    # Draws the tree items
-    def draw_tree(item, selector, tab=nil, is_last=true, items_index=0)
-      space = ' '
-      if items_index < 10
-        print '  '
-      elsif items_index < 100
-        print ' '
-      elsif items_index > 999  # good god, man!
-        space = ''
-      end
-      print items_index.to_s + ":" + space
-
-      if tab
-        print tab
-        if @sugarcube_collapsed_items && @sugarcube_collapsed_items.include?(item)
-          print '<<< '
-        else
-          if is_last
-            print '`-- '
-            tab += '    '
-          else
-            print '+-- '
-            tab += '|   '
-          end
-        end
-      else
-        print '. '
-        tab = ''
-      end
-
-      if self == item || @sugarcube_view == item
-        print "\033[1m"
-      end
-      print draw_tree_item(item)
-      if self == item || @sugarcube_view == item
-        print "\033[0m"
-      end
-      puts
-
-      if selector.is_a? Proc
-        items = selector.call(item)
-      else
-        items = item.send(selector)
-      end
-      items ||= []
-
-      unless @sugarcube_collapsed_items && @sugarcube_collapsed_items.include?(item)
-        items.each_with_index do |subview, index|
-          items_index += 1
-          if self.respond_to? :draw_tree
-            items_index = draw_tree(subview, selector, tab, index == items.length - 1, items_index)
-          else
-            items_index = SugarCube::Repl::draw_tree(subview, selector, tab, index == items.length - 1, items_index)
-          end
-        end
-      end
-
-      return items_index
-    end
-
-    def build_tree(item, selector)
-
-      if selector.is_a? Proc
-        items = selector.call(item)
-      else
-        items = item.send(selector)
-      end
-      items ||= []
-
-      ret = [item]
-      return ret if @sugarcube_collapsed_items && @sugarcube_collapsed_items.include?(item)
-
-      items.each_with_index do |subview, index|
-        ret.concat SugarCube::Repl::build_tree(subview, selector)
-      end
-      ret
-    end
-
     def check_sugarcube_view
-      raise 'no view has been assigned to SugarCube::Repl::adjust' unless @sugarcube_view
+      raise 'no view has been assigned to SugarCube::Repl::adjust' unless @adjust_item
 
       true
     end
