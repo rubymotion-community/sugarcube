@@ -30,12 +30,8 @@ class NSString
 
   # @return [NSImageView]
   def nsimageview
-    image = NSImage.imageNamed(self)
-    unless image
-      NSLog("No image named #{self}")
-    end
     image_view = NSImageView.alloc.init
-    image_view.image = image
+    image_view.image = self.nsimage
     frame = image_view.frame
     frame.size = image_view.intrinsicContentSize
     image_view.frame = frame
