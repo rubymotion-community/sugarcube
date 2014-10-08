@@ -1,5 +1,7 @@
 rake spec platform=osx output=tap &&
-rake spec device_family='iPhone 4s' &&
-rake spec device_family='iPhone 5' &&
-rake spec device_family='iPad Air' &&
+rake spec device_name='iPhone 4s' files=spec/ios/568_spec.rb &&
+rake spec device_name='iPhone 5' &&
+rake spec device_name='iPhone 6' files=spec/ios/568_spec.rb &&
+rake spec device_name='iPhone 6 Plus' files=spec/ios/568_spec.rb &&
+rake spec device_name='iPad Air' &&
 echo "SugarCube tests complete!"
