@@ -4,17 +4,8 @@ end
 
 
 require 'sugarcube'
+SugarCube.cocoa_only!('nsdata')
 
-Motion::Project::App.setup do |app|
-  # scans app.files until it finds app/ (the default)
-  # if found, it inserts just before those files, otherwise it will insert to
-  # the end of the list
-  insert_point = app.files.find_index { |file| file =~ /^(?:\.\/)?app\// } || 0
-
-  Dir.glob(File.join(File.dirname(__FILE__), SugarCube.platform, 'sugarcube-nsdata/**/*.rb')).reverse.each do |file|
-    app.files.insert(insert_point, file)
-  end
-  Dir.glob(File.join(File.dirname(__FILE__), 'cocoa/sugarcube-nsdata/**/*.rb')).reverse.each do |file|
-    app.files.insert(insert_point, file)
-  end
+Motion::Project::App.pre_setup do |app|
+  SugarCube.add_app_files(app, 'sugarcube-nsdata')
 end
