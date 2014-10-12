@@ -38,8 +38,8 @@ Cocoa-wrappage.
 SugarCube started out as a [Fusionbox][] project (see the
 [announcement][fusionbox announcement]), but as its popularity increased, the
 decision was made to offer it to the rubymotion community, in the spirit of
-open-source and collaboration.  It is a great complement to [teacup][],
-especially when paired with [sweettea][]!
+open-source and collaboration.  It is a great complement to [MotionKit][],
+especially when paired with [SweetKit][]!
 
 Documentation
 =============
@@ -1720,8 +1720,8 @@ Contributions
 If you want to see new features, please fork, commit, and pull-request! :smiley:
 
 [BubbleWrap]: https://github.com/rubymotion/BubbleWrap
-[sweettea]: https://github.com/colinta/sweettea
-[teacup]: https://github.com/rubymotion/teacup
+[SweetTea]: https://github.com/motion-kit/sweet-kit
+[MotionKit]: https://github.com/motion-kit/motion-kit
 [nsnulldammit]: https://github.com/colinta/nsnulldammit
 [geomotion]: https://github.com/clayallsopp/geomotion
 
