@@ -1720,7 +1720,7 @@ Contributions
 If you want to see new features, please fork, commit, and pull-request! :smiley:
 
 [BubbleWrap]: https://github.com/rubymotion/BubbleWrap
-[SweetTea]: https://github.com/motion-kit/sweet-kit
+[SweetKit]: https://github.com/motion-kit/sweet-kit
 [MotionKit]: https://github.com/motion-kit/motion-kit
 [nsnulldammit]: https://github.com/colinta/nsnulldammit
 [geomotion]: https://github.com/clayallsopp/geomotion
