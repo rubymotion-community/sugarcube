@@ -77,6 +77,10 @@ module SugarCube
 
 end
 
+if ! App.respond_to?(:pre_setup)
+  require 'sugarcube_pre_setup'
+end
+
 Motion::Project::App.pre_setup do |app|
   app.files << File.join(File.dirname(__FILE__), 'version.rb')
 
