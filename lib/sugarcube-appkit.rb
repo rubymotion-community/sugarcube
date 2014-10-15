@@ -7,5 +7,6 @@ require 'sugarcube'
 SugarCube.osx_only!('appkit')
 
 Motion::Project::App.pre_setup do |app|
+  SugarCube.add_app_files(app, 'sugarcube-cocoakit')
   SugarCube.add_app_files(app, 'sugarcube-appkit')
 end
