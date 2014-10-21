@@ -92,6 +92,7 @@ module SugarCube
         if @collapsed_items
           @collapsed_items.keep_if { |v| @tree_items.include? v }
         end
+
         draw_tree(item)
         puts ''
 
