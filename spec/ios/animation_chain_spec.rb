@@ -24,6 +24,20 @@ describe "SugarCube::AnimationChain" do
     end
   end
 
+  it "should not leak memory" do
+    chain = UIView.animation_chain(duration:0.01){
+      f = controller.view.frame
+      f.origin.x -= 20
+      controller.view.frame = f
+    }.start 
+
+    wait 0.1 do
+      weak = WeakRef.new(chain)
+      chain = nil
+      weak.weakref_alive?.should == false
+    end
+  end
+
   it "should support chains" do
     SugarCube::AnimationChain.chains.length.should == 0
     @variable_a = nil

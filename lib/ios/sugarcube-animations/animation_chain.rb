@@ -53,7 +53,7 @@ module SugarCube
             AnimationChain.stop_chain(self)
           end
         end
-      }
+      }.weak!
       options[:after] = @after_block
 
       UIView.animate(options) do
