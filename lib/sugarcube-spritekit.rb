@@ -9,3 +9,8 @@ SugarCube.cocoa_only!('spritekit')
 Motion::Project::App.pre_setup do |app|
   SugarCube.add_app_files(app, 'sugarcube-spritekit')
 end
+
+
+Motion::Project::App.post_setup do |app|
+  app.frameworks += %w{SpriteKit}
+end
