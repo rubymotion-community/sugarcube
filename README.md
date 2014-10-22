@@ -404,6 +404,9 @@ view.on_press(duration: 1.5, taps: 1, fingers: 1)
 # this version is only fired when the long-press begins; this is *probably* more
 # useful to you:
 view.on_press_begin do ... end
+
+# or, when the gesture ends:
+view.on_press_ended do ... end
 ```
 
 Notifications
