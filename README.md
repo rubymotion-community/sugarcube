@@ -80,20 +80,34 @@ written so that it does *not* pollute any classes by default.  So if all you do
 is `require "sugarcube"`, you are NOT going to get much mileage!
 
 In the installation code above, I show the example of using `:require => 'sugarcube-all'`
-to include *all* of SugarCube's extensions.  Usually you will require the
-packages you need from your Rakefile:
+to include *all* of SugarCube's extensions.  You can, alternatively require just
+the packages you need:
+
+###### Gemfile
+```ruby
+gem 'sugarcube', :require => [
+  'sugarcube-uikit',
+  'sugarcube-events',
+  'sugarcube-gestures',
+  'sugarcube-568',
+  'sugarcube-attributedstring',
+]
+```
+
+Or, from your Rakefile:
 
 ```ruby
 $:.unshift('/Library/RubyMotion/lib')
 require 'motion/project/template/ios'
+
 require 'bundler'
 Bundler.require
-require './lib/sugarcube-uikit'
-require './lib/sugarcube-events'
-require './lib/sugarcube-gestures'
-require './lib/sugarcube-568'
-require './lib/sugarcube-attributedstring'
-# ...
+
+require 'sugarcube-uikit'
+require 'sugarcube-events'
+require 'sugarcube-gestures'
+require 'sugarcube-568'
+require 'sugarcube-attributedstring'
 ```
 
 You can require the packages in piecemeal like this, or you can require a group
