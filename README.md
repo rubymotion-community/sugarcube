@@ -1,8 +1,6 @@
 SugarCube
 =========
 
-Some sugar for your [cocoa](http://rubymotion.com), or your [tea][sweettea].
-
 [![Build Status](https://travis-ci.org/rubymotion/sugarcube.svg?branch=master)](https://travis-ci.org/rubymotion/sugarcube)
 [![Version](https://badge.fury.io/rb/sugarcube.svg)](https://rubygems.org/gems/sugarcube)
 
