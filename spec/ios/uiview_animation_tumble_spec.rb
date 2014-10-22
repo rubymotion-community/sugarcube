@@ -1,4 +1,4 @@
-describe "UIView animation methods" do
+describe "UIView tumble animation" do
   # the 'tumble' animation requires an app window to be present
   tests UIViewController
 
