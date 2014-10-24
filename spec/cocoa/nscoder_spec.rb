@@ -60,8 +60,8 @@ describe "NSCoder" do
   end
 
   it "is nscoding compliant" do
-    data = NSKeyedArchiver.archivedDataWithRootObject(@subject)
-    test = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+    data = NSCoder.archive(@subject)
+    test = NSCoder.unarchive(data)
     test.object.class.should == CoderHelper
     test.bool.should == @subject.bool
     test.double.should == @subject.double

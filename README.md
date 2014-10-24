@@ -1347,17 +1347,29 @@ Shorthands and hash-like access to the coder/decoder objects.
 ```ruby
 # hash access is the handiest
 coder['key'] = self.value
-self.value = decoder['key']
+@value = decoder['key']
+
+if decoder.key?('key')
+  value = decoder['key']
+end
 
 # but if you want to store booleans and such (in their C form,
 # which will take up less space):
 coder.set('sugarcube_is_neat', toBool: self.sugarcube_is_neat?)
-self.sugarcube_is_neat = decoder.bool('sugarcube_is_neat')
+@sugarcube_is_neat = decoder.bool('sugarcube_is_neat')
 
 coder.set('number_of_things', toInt:self.number_of_things)
-self.number_of_things = decoder.int('number_of_things')
+@number_of_things = decoder.int('number_of_things')
 
-# the entire list:
+# Archiving and unarchiving is straightforward
+# archiving uses NSKeyedArchiver
+NSCoder.archive(root_object)  # returns NSData
+NSCoder.archive(root_object, to_file: 'foo'.document_path)  # returns success boolean
+# unarchiving uses NSKeyedUnarchiver
+NSCoder.unarchive(data)
+NSCoder.unarchive('foo'.document_path)
+
+# the entire list of encode/decode helpers:
 coder.set(key, toBool:value)
 coder.set(key, toDouble:value)
 coder.set(key, toFloat:value)
