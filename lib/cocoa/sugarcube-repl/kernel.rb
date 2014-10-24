@@ -18,11 +18,11 @@ module Kernel
   end
   alias coll collapse
 
-  def tree(*args)
+  def tree(*args, &sel_blk)
     if self.nil?
       super
     else
-      SugarCube::Repl.tree(*args)
+      SugarCube::Repl.tree(*args, &sel_blk)
     end
   end
 
