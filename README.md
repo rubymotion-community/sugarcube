@@ -1183,6 +1183,17 @@ distance = 2.miles  # => 3218.688, that's how many meters are in 2 miles
 1500.in_miles  # converts meters to miles => 0.932056427001953
 ```
 
+### Time
+
+By now you have probably "gotten it" and are hooked on these number helpers.
+Heads up, though, some of these conflict with MotionSupport's definition.
+
+```ruby
+1.second * 5.per_second = 5
+1.day * 3.per_hour = 72
+1.year.in_minutes = 525960.0
+```
+
 ### Sizes
 
 Similar conversion methods for hard disk sizes.  Uses the "mebi-byte" concepts,
