@@ -223,8 +223,18 @@ module SugarCube
     end
     alias c center
 
+    def set_default(item)
+      @sugarcube_default_item = item
+    end
+
+    def clear_default
+      @sugarcube_default_item = nil
+    end
+
     def get_tree_item(item)
-      if item.nil? || item.is_a?(Fixnum)
+      if item.nil? && @sugarcube_default_item
+        @sugarcube_default_item
+      elsif item.nil? || item.is_a?(Fixnum)
         window(item)
       else
         item
@@ -255,6 +265,14 @@ module SugarCube
           selector = get_tree_selector(item)
         end
 
+        if !selector && @sugarcube_tree_selectors
+          klass = item.class
+          while klass && !selector
+            selector = @sugarcube_tree_selectors[klass]
+            klass = klass.superclass
+          end
+        end
+
         unless selector
           raise "Unable to determine a SugarCube::Repl::tree selector for #{item.class.to_s}"
         end
@@ -272,6 +290,11 @@ module SugarCube
       puts ''
 
       return item
+    end
+
+    def register_tree_selector(klass, selector=nil, &sel_blk)
+      @sugarcube_tree_selectors ||= {}
+      @sugarcube_tree_selectors[klass] = selector || sel_blk
     end
 
     # Draws the tree items
