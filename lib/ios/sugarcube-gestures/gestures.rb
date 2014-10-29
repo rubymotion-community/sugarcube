@@ -157,12 +157,14 @@ class UIView
     duration = nil
     taps = nil
     fingers = nil
+    distance = nil
 
     if duration_or_options
       if duration_or_options.is_a? Hash
         duration = duration_or_options[:duration] || duration
         taps = duration_or_options[:taps] || taps
         fingers = duration_or_options[:fingers] || fingers
+        distance = duration_or_options[:distance] || distance
       else
         duration = duration_or_options
       end
@@ -172,6 +174,7 @@ class UIView
     recognizer.minimumPressDuration = duration if duration
     recognizer.numberOfTapsRequired = taps if taps
     recognizer.numberOfTouchesRequired = fingers if fingers
+    recognizer.allowableMovement = distance if distance
     sugarcube_add_gesture(proc, recognizer)
   end
 
@@ -179,12 +182,14 @@ class UIView
     duration = nil
     taps = nil
     fingers = nil
+    distance = nil
 
     if duration_or_options
       if duration_or_options.is_a? Hash
         duration = duration_or_options[:duration] || duration
         taps = duration_or_options[:taps] || taps
         fingers = duration_or_options[:fingers] || fingers
+        distance = duration_or_options[:distance] || distance
       else
         duration = duration_or_options
       end
@@ -194,6 +199,7 @@ class UIView
     recognizer.minimumPressDuration = duration if duration
     recognizer.numberOfTapsRequired = taps if taps
     recognizer.numberOfTouchesRequired = fingers if fingers
+    recognizer.allowableMovement = distance if distance
     sugarcube_add_gesture(proc, recognizer)
   end
 
@@ -201,12 +207,14 @@ class UIView
     duration = nil
     taps = nil
     fingers = nil
+    distance = nil
 
     if duration_or_options
       if duration_or_options.is_a? Hash
         duration = duration_or_options[:duration] || duration
         taps = duration_or_options[:taps] || taps
         fingers = duration_or_options[:fingers] || fingers
+        distance = duration_or_options[:distance] || distance
       else
         duration = duration_or_options
       end
@@ -216,6 +224,7 @@ class UIView
     recognizer.minimumPressDuration = duration if duration
     recognizer.numberOfTapsRequired = taps if taps
     recognizer.numberOfTouchesRequired = fingers if fingers
+    recognizer.allowableMovement = distance if distance
     sugarcube_add_gesture(proc, recognizer)
   end
 
