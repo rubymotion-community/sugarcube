@@ -29,7 +29,7 @@ class NSColor
   end
 
   def named_color_space?
-    self.respond_to?(:colorSpaceName) && colorSpaceName == "NSNamedColorSpace"
+    colorSpaceName == "NSNamedColorSpace"
   end
 
   def cgcolor(alpha=nil)
