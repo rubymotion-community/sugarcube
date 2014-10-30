@@ -14,10 +14,22 @@ class NSColor
 
   def nscolor(alpha=nil)
     if alpha
-      self.colorWithAlphaComponent(alpha.to_f)
+      if named_color_space?
+        self.colorUsingColorSpace(NSColorSpace.genericRGBColorSpace).colorWithAlphaComponent(alpha.to_f)
+      else
+        self.colorWithAlphaComponent(alpha.to_f)
+      end
     else
-      self
+      if named_color_space?
+        self.colorUsingColorSpace(NSColorSpace.genericRGBColorSpace)
+      else
+        self
+      end
     end
+  end
+
+  def named_color_space?
+    colorSpaceName == "NSNamedColorSpace"
   end
 
   def cgcolor(alpha=nil)
