@@ -183,6 +183,14 @@ class Symbol
     SugarCube.look_in(self, Symbol.uitablecellseparatorstyle, Symbol.uitablecellseparatorstyle__deprecated)
   end
 
+  def presentationstyle
+    SugarCube.look_in(self, Symbol.presentationstyle)
+  end
+
+  def transitionstyle
+    SugarCube.look_in(self, Symbol.transitionstyle)
+  end
+
   def uialertstyle
     SugarCube.look_in(self, Symbol.uialertstyle)
   end
@@ -293,6 +301,9 @@ class Symbol
     attr :uitablecellselectionstyle
     attr :uitablecellseparatorstyle
     attr :uitablecellseparatorstyle__deprecated
+
+    attr :presentationstyle
+    attr :transitionstyle
 
     attr :uialertstyle
     attr :uiactionstyle
@@ -765,6 +776,25 @@ class Symbol
     single:             UITableViewCellSeparatorStyleSingleLine,
     single_line_etched: UITableViewCellSeparatorStyleSingleLineEtched,
     etched:             UITableViewCellSeparatorStyleSingleLineEtched,
+  }
+
+  @presentationstyle = {
+      fullscreen:           UIModalPresentationFullScreen,
+      page_sheet:           UIModalPresentationPageSheet,
+      form_sheet:           UIModalPresentationFormSheet,
+      current_context:      UIModalPresentationCurrentContext,
+      custom:               UIModalPresentationCustom,
+      over_fullscreen:      UIModalPresentationOverFullScreen,
+      over_current_context: UIModalPresentationOverCurrentContext,
+      popover:              UIModalPresentationPopover,
+      none:                 UIModalPresentationNone
+  }
+
+  @transitionstyle = {
+      cover_vertical:  UIModalTransitionStyleCoverVertical,
+      flip_horizontal: UIModalTransitionStyleFlipHorizontal,
+      cross_dissolve:  UIModalTransitionStyleCrossDissolve,
+      partial_curl:    UIModalTransitionStylePartialCurl
   }
 
   @uialertstyle = {
