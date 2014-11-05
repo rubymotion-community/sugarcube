@@ -1321,6 +1321,37 @@ data.write_to('some_image.png'.document_path)
 image_data = NSData.read_from('some_image.png'.document_path)
 ```
 
+SpriteKit
+-----
+
+```ruby
+node_a = SKNode.node
+node_a.name = 'parent'
+
+node_b = SKNode.node
+node_b.name = 'child'
+node_c = SKNode.node
+node_c.name = 'child'
+
+# add child nodes
+node_a << node_b
+node_a << node_c
+
+# set user data
+node_a[:life] = 100
+
+# enumerate child nodes
+node_a.each_named('child') do |node, stop_ptr|
+  if node == node_b
+    stop_ptr.value = true
+  end
+end
+
+node_a.run_action(SKAction.fadeOut) do
+  # done fading out
+end
+```
+
 Localized
 -----
 
