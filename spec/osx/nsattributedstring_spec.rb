@@ -36,9 +36,7 @@ describe 'NSAttributeString' do
     end
 
     it 'should have `font`' do
-      p :bold.nsfont
       'test'.attrd.font(:bold.nsfont).should.have_string_attributes({ NSFontAttributeName => :bold.nsfont })
-      p 'Helvetica'.nsfont
       'test'.attrd.font('Helvetica').should.have_string_attributes({ NSFontAttributeName => 'Helvetica'.nsfont })
     end
 
