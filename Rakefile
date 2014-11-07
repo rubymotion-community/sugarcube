@@ -21,7 +21,6 @@ end
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'SugarCube'
-  app.frameworks << 'CoreLocation'
   app.files.concat Dir.glob(File.join("app-#{app.template}", '**/*.rb'))
 
   # try using:
