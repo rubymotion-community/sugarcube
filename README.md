@@ -129,7 +129,7 @@ REPL ([wiki][REPL Wiki])
 ----
 
 If you install SugarCube and *only* use the REPL package, you will benefit from
-some of its greatest tools!
+some of SugarCube's greatest tricks!
 
 > `require 'sugarcube-repl'`
 
@@ -137,9 +137,12 @@ This package is useful during development because it adds methods to the REPL
 that make adjusting and introspecting views much easier.  You'll get a lot more
 done in the REPL with these additions.
 
+You should NEVER use these methods in your application, because this package is
+only included in 'development' mode.  That means if you hard-code a call to
+'tree' in your code, that will crash when you go to release your app.  YIKES.
+
 To keep this document lean-and-mean, I've put most of the REPL documentation [in
-the wiki][REPL Wiki], but a
-quick overview:
+the wiki][REPL Wiki], but here's a quick overview:
 
 * Use the `tree` commands to output your view hierarchy.  It can accept a UIView,
   `UIViewController`, or `CALayer` object as the root object, or it defaults to
