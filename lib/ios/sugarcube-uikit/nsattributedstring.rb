@@ -6,6 +6,7 @@ class NSAttributedString
       label.attributedText = self
       label.backgroundColor = :clear.uicolor
       label.sizeToFit
+      label
     end
   end
 
