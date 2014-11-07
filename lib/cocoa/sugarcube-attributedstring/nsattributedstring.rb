@@ -15,11 +15,6 @@ class NSString
     nsattributedstring({NSFontAttributeName => font})
   end
 
-  def underline(underline_style=nil)
-    underline_style ||= NSUnderlineStyleSingle
-    nsattributedstring({NSUnderlineStyleAttributeName => underline_style})
-  end
-
   def nsattributedstring(attributes={})
     NSAttributedString.alloc.initWithString(self, attributes: attributes)
   end
@@ -44,27 +39,27 @@ class NSAttributedString
 
   def sugarcube_nsattributedstring_dummy_method
     # make sure NSAttributedString constants get compiled
-    foo = NSFontAttributeName
-    foo = NSParagraphStyleAttributeName
-    foo = NSForegroundColorAttributeName
-    foo = NSBackgroundColorAttributeName
-    foo = NSLigatureAttributeName
-    foo = NSKernAttributeName
-    foo = NSStrikethroughStyleAttributeName
-    foo = NSUnderlineStyleAttributeName
-    foo = NSStrokeColorAttributeName
-    foo = NSStrokeWidthAttributeName
-    foo = NSShadowAttributeName
-    foo = NSVerticalGlyphFormAttributeName
+    NSFontAttributeName
+    NSParagraphStyleAttributeName
+    NSForegroundColorAttributeName
+    NSBackgroundColorAttributeName
+    NSLigatureAttributeName
+    NSKernAttributeName
+    NSStrikethroughStyleAttributeName
+    NSUnderlineStyleAttributeName
+    NSStrokeColorAttributeName
+    NSStrokeWidthAttributeName
+    NSShadowAttributeName
+    NSVerticalGlyphFormAttributeName
     # new iOS 7 text effects
-    foo = NSTextEffectAttributeName
-    foo = NSTextEffectLetterpressStyle
+    NSTextEffectAttributeName
+    NSTextEffectLetterpressStyle
     # make sure alignments get compiled
-    foo = NSLeftTextAlignment
-    foo = NSRightTextAlignment
-    foo = NSCenterTextAlignment
-    foo = NSJustifiedTextAlignment
-    foo = NSNaturalTextAlignment
+    NSLeftTextAlignment
+    NSRightTextAlignment
+    NSCenterTextAlignment
+    NSJustifiedTextAlignment
+    NSNaturalTextAlignment
     nil
   end
 
@@ -82,10 +77,6 @@ class NSAttributedString
     self.font(font)
   end
 
-  def underline
-    underline_style(NSUnderlineStyleSingle)
-  end
-
   def font(value)
     with_attributes({NSFontAttributeName => value.uifont})
   end
@@ -98,10 +89,6 @@ class NSAttributedString
     with_attributes({NSForegroundColorAttributeName => value.uicolor})
   end
   alias color foreground_color
-
-  def underline_style(value)
-    with_attributes({NSUnderlineStyleAttributeName => value})
-  end
 
   def background_color(value)
     with_attributes({NSBackgroundColorAttributeName => value.uicolor})
@@ -159,7 +146,9 @@ class NSAttributedString
   end
 
   def +(attributedstring)
-    NSMutableAttributedString.alloc.initWithAttributedString(self) + attributedstring.nsattributedstring
+    string = NSMutableAttributedString.alloc.initWithAttributedString(self)
+    string.appendAttributedString(attributedstring.nsattributedstring)
+    string
   end
 
 end
@@ -172,7 +161,7 @@ class NSMutableAttributedString
     self
   end
 
-  def +(attributedstring)
+  def <<(attributedstring)
     self.appendAttributedString(attributedstring.nsattributedstring)
   end
 

@@ -27,14 +27,14 @@ describe 'NSAttributeString' do
 
     it 'should have `superscript`' do
       subject = 'test'.attrd.superscript
-      subject.attributesAtIndex(0, effectiveRange:nil).should == {KCTSuperscriptAttributeName => 1}
+      subject.attributesAtIndex(0, effectiveRange:nil).should == {NSSuperscriptAttributeName => 1}
       subject = 'test'.attrd.superscript(2)
-      subject.attributesAtIndex(0, effectiveRange:nil).should == {KCTSuperscriptAttributeName => 2}
+      subject.attributesAtIndex(0, effectiveRange:nil).should == {NSSuperscriptAttributeName => 2}
     end
 
     it 'should have `subscript`' do
       subject = 'test'.attrd.subscript
-      subject.attributesAtIndex(0, effectiveRange:nil).should == {KCTSuperscriptAttributeName => -1}
+      subject.attributesAtIndex(0, effectiveRange:nil).should == {NSSuperscriptAttributeName => -1}
     end
   end
 
