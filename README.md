@@ -1250,7 +1250,8 @@ issues with missing constants).
 # And there's where it gets FUN:
 ('This'.italic + ' is going to be ' + 'FUN'.bold).underline
 
-# You can even generate attributed text from html!
+# You can even generate attributed text from html!  This feature uses the
+# NSHTMLTextDocumentType option to convert the html to NSAttributedString
 'Why on <b>earth<b> would you want to do <em>that</em>?".attributed_html
 ```
 
