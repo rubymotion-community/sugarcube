@@ -32,6 +32,21 @@ describe 'NSAttributeString' do
       subject.attributesAtIndex(0, effectiveRange:nil).should == {'NSFont' => :bold.uifont, 'NSUnderline' => NSUnderlineStyleSingle}
     end
 
+    it 'should convert html' do
+      bold_subject = '<b>Bold</b>'.attributed_html
+      emphasis_subject = '<em>Emphasis</em>'.attributed_html
+      underline_subject = '<u>Underline</u>'.attributed_html
+
+      bold_subject.should.be.kind_of(NSAttributedString)
+      emphasis_subject.should.be.kind_of(NSAttributedString)
+      underline_subject.should.be.kind_of(NSAttributedString)
+
+      # Commented out tests don't work because :bold.uifont isn't the same font instance as the html converter uses.
+      # bold_subject.attributesAtIndex(0, effectiveRange:nil)['NSFont'].should == :bold.uifont
+      # emphasis_subject.attributesAtIndex(0, effectiveRange:nil)['NSFont'].should == :italic.uifont
+      underline_subject.attributesAtIndex(0, effectiveRange:nil)['NSUnderline'].should == NSUnderlineStyleSingle
+    end
+
   end
 
   describe "should support all attribute names" do
