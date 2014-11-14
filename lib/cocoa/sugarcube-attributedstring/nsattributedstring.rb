@@ -8,6 +8,11 @@ class NSString
     self.nsattributedstring(attributes)
   end
 
+  def attributed_html
+    options = {NSDocumentTypeDocumentAttribute => NSHTMLTextDocumentType}
+    NSAttributedString.alloc.initWithData(self.dataUsingEncoding(NSUTF8StringEncoding), options:options, documentAttributes:nil, error:nil)
+  end
+
 end
 
 
@@ -39,6 +44,8 @@ class NSAttributedString
     # new iOS 7 text effects
     NSTextEffectAttributeName
     NSTextEffectLetterpressStyle
+    NSRTFDTextDocumentType
+    NSHTMLTextDocumentType
     # make sure alignments get compiled
     NSLeftTextAlignment
     NSRightTextAlignment

@@ -1249,6 +1249,9 @@ issues with missing constants).
 
 # And there's where it gets FUN:
 ('This'.italic + ' is going to be ' + 'FUN'.bold).underline
+
+# You can even generate attributed text from html!
+'Why on <b>earth<b> would you want to do <em>that</em>?".attributed_html
 ```
 
 And you can easily turn an attributed string into a label, if you include the
