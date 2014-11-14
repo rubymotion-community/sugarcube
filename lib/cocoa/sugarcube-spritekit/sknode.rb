@@ -9,11 +9,22 @@ class SKNode
   end
 
   def [](key)
-    userData[key]
+    self.userData ||= {}
+    userData[key.to_s]
   end
 
   def []=(key, value)
-    userData[key] = value
+    self.userData ||= {}
+    userData[key.to_s] = value
+  end
+
+  def each_named(name, &block)
+    if block.arity == 1
+      using_block = -> (node, stop_ptr) { block.call(node) }
+    else
+      using_block = block
+    end
+    enumerateChildNodesWithName(name, usingBlock: using_block)
   end
 
   def to_s
