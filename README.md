@@ -1252,7 +1252,7 @@ issues with missing constants).
 
 # You can even generate attributed text from html!  This feature uses the
 # NSHTMLTextDocumentType option to convert the html to NSAttributedString
-'Why on <b>earth<b> would you want to do <em>that</em>?".attributed_html
+'Why on <b>earth<b> would you want to do <em>that</em>?'.attributed_html
 ```
 
 And you can easily turn an attributed string into a label, if you include the
