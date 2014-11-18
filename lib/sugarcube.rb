@@ -62,13 +62,13 @@ module SugarCube
     # scans app.files until it finds app/ (the default)
     # if found, it inserts just before those files, otherwise it will insert to
     # the end of the list
-    platforms = [SugarCube.platform]  # ios, osx, or android specific files
+    platforms = ['all']
     if SugarCube.cocoa?
       platforms << 'cocoa'
     end
-    platforms << 'all'
+    platforms << SugarCube.platform  # ios, osx, or android specific files
 
-    platforms.reverse.each do |platform|
+    platforms.each do |platform|
       Dir.glob(File.join(File.dirname(__FILE__), platform, package_name, '**/*.rb')).each do |file|
         app.files << file
       end

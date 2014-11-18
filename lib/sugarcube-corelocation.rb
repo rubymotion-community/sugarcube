@@ -9,3 +9,8 @@ SugarCube.cocoa_only!('corelocation')
 Motion::Project::App.pre_setup do |app|
   SugarCube.add_app_files(app, 'sugarcube-corelocation')
 end
+
+
+Motion::Project::App.post_setup do |app|
+  app.frameworks += %w{CoreLocation}
+end

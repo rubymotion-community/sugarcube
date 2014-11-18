@@ -95,6 +95,10 @@ describe 'NSColor' do
     :black.nscolor.invert.blue.should == 1
   end
 
+  it "should process system colors with a NSNamedColorSpace correctly" do
+    NSColor.controlTextColor.invert.should.not.raise(StandardError)
+  end
+
   it "should have a #mix_with method" do
     white = :white.nscolor
     black = :black.nscolor

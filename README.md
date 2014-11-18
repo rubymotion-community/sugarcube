@@ -129,7 +129,7 @@ REPL ([wiki][REPL Wiki])
 ----
 
 If you install SugarCube and *only* use the REPL package, you will benefit from
-some of its greatest tools!
+some of SugarCube's greatest tricks!
 
 > `require 'sugarcube-repl'`
 
@@ -137,9 +137,12 @@ This package is useful during development because it adds methods to the REPL
 that make adjusting and introspecting views much easier.  You'll get a lot more
 done in the REPL with these additions.
 
+You should NEVER use these methods in your application, because this package is
+only included in 'development' mode.  That means if you hard-code a call to
+'tree' in your code, that will crash when you go to release your app.  YIKES.
+
 To keep this document lean-and-mean, I've put most of the REPL documentation [in
-the wiki][REPL Wiki], but a
-quick overview:
+the wiki][REPL Wiki], but here's a quick overview:
 
 * Use the `tree` commands to output your view hierarchy.  It can accept a UIView,
   `UIViewController`, or `CALayer` object as the root object, or it defaults to
@@ -1246,6 +1249,10 @@ issues with missing constants).
 
 # And there's where it gets FUN:
 ('This'.italic + ' is going to be ' + 'FUN'.bold).underline
+
+# You can even generate attributed text from html!  This feature uses the
+# NSHTMLTextDocumentType option to convert the html to NSAttributedString
+'Why on <b>earth<b> would you want to do <em>that</em>?'.attributed_html
 ```
 
 And you can easily turn an attributed string into a label, if you include the
@@ -1319,6 +1326,37 @@ data = UIImagePNGRepresentation('some_image'.uiimage)
 # data = 'some_image'.uiimage.nsdata
 data.write_to('some_image.png'.document_path)
 image_data = NSData.read_from('some_image.png'.document_path)
+```
+
+SpriteKit
+-----
+
+```ruby
+node_a = SKNode.node
+node_a.name = 'parent'
+
+node_b = SKNode.node
+node_b.name = 'child'
+node_c = SKNode.node
+node_c.name = 'child'
+
+# add child nodes
+node_a << node_b
+node_a << node_c
+
+# set user data
+node_a[:life] = 100
+
+# enumerate child nodes
+node_a.each_named('child') do |node, stop_ptr|
+  if node == node_b
+    stop_ptr.value = true
+  end
+end
+
+node_a.run_action(SKAction.fadeOut) do
+  # done fading out
+end
 ```
 
 Localized

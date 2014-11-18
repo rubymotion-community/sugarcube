@@ -6,7 +6,7 @@ class AppDelegate
     return true if RUBYMOTION_ENV == 'test'
 
     @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
-    ctlr = WiggleAnimationController.new
+    ctlr = MyController.new
     @window.rootViewController = ctlr
 
     @window.makeKeyAndVisible
@@ -16,11 +16,13 @@ end
 
 class MyController < UIViewController
 
-  def viewDidLoad
-    @label = 'Hi!'.uilabel
-    @label.center = self.view.center
-    @label.textColor = :white.uicolor
-    self.view << @label
+  def loadView
+    super.tap do
+      @label = ('Hi!'.underline + '2'.attrd.superscript).uilabel
+      @label.center = self.view.center
+      @label.textColor = :white.uicolor
+      self.view << @label
+    end
   end
 
 end
