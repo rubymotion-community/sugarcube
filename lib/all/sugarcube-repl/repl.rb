@@ -63,7 +63,7 @@ module SugarCube
       def tree_selectors(klass=nil)
         if ! @tree_selectors
           @tree_selectors ||= {}
-          @tree_selectors[nil.class] = -> { nil }
+          @tree_selectors[nil.class] = -> (foo) { nil }
           register_default_tree_selectors
         end
 
