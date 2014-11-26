@@ -44,7 +44,7 @@ module SugarCube
       return nil if @block_index >= @blocks.length
 
       options, block = @blocks[@block_index]
-      @after_block = ->(completed){
+      @after_block = ->(completed) do
         if @abort || ! self.do_next
           @running = false
           if @loop
@@ -53,12 +53,12 @@ module SugarCube
             AnimationChain.stop_chain(self)
           end
         end
-      }.weak!
+      end.weak!
       options[:after] = @after_block
 
       UIView.animate(options) do
         Thread.current[:sugarcube_chaining] = true
-        block.call
+        block.call if block
         Thread.current[:sugarcube_chaining] = nil
         @block_index += 1
       end
