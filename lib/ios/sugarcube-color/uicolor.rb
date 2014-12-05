@@ -181,11 +181,12 @@ class UIColor
 private
   def _sugarcube_hsb_colors
     @sugarcube_hsb_colors ||= begin
-      hue = Pointer.new(:float)
-      saturation = Pointer.new(:float)
-      brightness = Pointer.new(:float)
-      alpha = Pointer.new(:float)
-      white = Pointer.new(:float)
+      type = CGSize.type[/(f|d)/]
+      hue = Pointer.new(type)
+      saturation = Pointer.new(type)
+      brightness = Pointer.new(type)
+      alpha = Pointer.new(type)
+      white = Pointer.new(type)
 
       if self.getHue(hue, saturation:saturation, brightness:brightness, alpha:alpha)
         {
@@ -209,11 +210,12 @@ private
 
   def _sugarcube_rgb_colors
     @sugarcube_rgb_colors ||= begin
-      red = Pointer.new(:float)
-      green = Pointer.new(:float)
-      blue = Pointer.new(:float)
-      alpha = Pointer.new(:float)
-      white = Pointer.new(:float)
+      type = CGSize.type[/(f|d)/]
+      red = Pointer.new(type)
+      green = Pointer.new(type)
+      blue = Pointer.new(type)
+      alpha = Pointer.new(type)
+      white = Pointer.new(type)
       if self.getRed(red, green:green, blue:blue, alpha:alpha)
         {
           red: red[0],
