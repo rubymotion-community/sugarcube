@@ -18,9 +18,9 @@ base classes (String, Fixnum, Float).  With sugarcube, you can create a
 color from an integer or symbol, or create a UIFont or UIImage from a
 string.
 
-Some UI classes are opened up as well, like adding the <tt><<</tt> operator to a
-<tt>UIView</tt> instance, instead of <tt>view.addSubview(subview)</tt>, you can
-use the more idiomatic: <tt>view << subview</tt>.
+Some UI classes are opened up as well, like adding the `<<`` operator to a
+`UIView` instance, instead of `view.addSubview(subview)`, you can use the more
+idiomatic: `view << subview`.
 DESC
 
   gem.homepage    = 'https://github.com/rubymotion/sugarcube'
