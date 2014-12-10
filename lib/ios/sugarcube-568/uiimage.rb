@@ -3,6 +3,7 @@ class UIImage
     SugarCube568_TallSuffix = '-568h@2x'  # 320 x 568
     SugarCube667_TallSuffix = '-667h@2x'  # 375 x 667
     SugarCube736_TallSuffix = '-736h@2x'  # 414 x 736
+    SugarCube1024_TallSuffix = '-1024h@2x'  # 768 x 1024
 
     def sugarcube568_imageNamed(name)
       case UIScreen.mainScreen.bounds.size.height
@@ -12,6 +13,8 @@ class UIImage
         taller_image_ext = SugarCube667_TallSuffix
       when 736
         taller_image_ext = SugarCube736_TallSuffix
+      when 1024
+        taller_image_ext = SugarCube1024_TallSuffix
       else
         taller_image_ext = false
       end
