@@ -23,6 +23,11 @@ Motion::Project::App.setup do |app|
   app.name = 'SugarCube'
   app.files.concat Dir.glob(File.join("app-#{app.template}", '**/*.rb'))
 
+  if ENV['bits'] == '64'
+    app.archs['iPhoneOS'] << 'arm64'
+    app.archs['iPhoneSimulator'] << 'x86_64'
+  end
+
   # try using:
   #     rake device_name='iPad Air'
   # or
