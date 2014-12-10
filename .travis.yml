@@ -11,7 +11,7 @@ script: >
   bundle exec rake spec &&
   bundle exec rake clean &&
   bundle exec rake spec bits=64 &&
-  bundle exec rake clean &&
+  bundle exec rake clean
 # bundle exec rake spec platform=osx
 # rake spec device_family='iPhone 4s' &&
 # rake spec device_family='iPhone 5' &&
