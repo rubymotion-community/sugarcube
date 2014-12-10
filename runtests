@@ -1,7 +1,8 @@
-rake spec platform=osx output=tap &&
+# rake spec platform=osx output=tap &&
+rake clean:all
+rake spec device_name='iPhone 5' bits=64 &&
 rake spec device_name='iPhone 4s' files=spec/ios/568_spec.rb &&
 rake spec device_name='iPhone 5' &&
-rake spec device_name='iPhone 5' bits=64 &&
 rake spec device_name='iPhone 6' files=spec/ios/568_spec.rb &&
 rake spec device_name='iPhone 6 Plus' files=spec/ios/568_spec.rb &&
 rake spec device_name='iPad Air' &&
