@@ -11,7 +11,7 @@ module SugarCube
     if suppress?
       log << message
     elsif log?
-      stderr(message)
+      SugarCube.stderr(message)
     end
 
     self
@@ -25,7 +25,7 @@ module SugarCube
       output << "\n"
       output << message
     end
-    NSLog(output)
+    SugarCube.stderr(output)
     @log = nil
   end
 

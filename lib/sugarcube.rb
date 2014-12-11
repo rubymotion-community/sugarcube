@@ -24,16 +24,22 @@ module SugarCube
     end
   end
 
+  def android_only!(package)
+    unless android?
+      raise "The '\033[0;1msugarcube-#{package}\033[0m' package is only available on Android."
+    end
+  end
+
   def ios?
-    App.template.to_s =~ /ios/
+    App.template.to_s =~ /\bios\b/
   end
 
   def osx?
-    App.template.to_s =~ /osx/
+    App.template.to_s =~ /\bosx\b/
   end
 
   def android?
-    App.template.to_s =~ /android/
+    App.template.to_s =~ /\bandroid\b/
   end
 
   def cocoa?
@@ -52,25 +58,33 @@ module SugarCube
     end
   end
 
+  def add_app_files(app, package_name)
+    # scans app.files until it finds app/ (the default)
+    # if found, it inserts just before those files, otherwise it will insert to
+    # the end of the list
+    platforms = ['all']
+    if SugarCube.cocoa?
+      platforms << 'cocoa'
+    end
+    platforms << SugarCube.platform  # ios, osx, or android specific files
+
+    platforms.each do |platform|
+      Dir.glob(File.join(File.dirname(__FILE__), platform, package_name, '**/*.rb')).each do |file|
+        app.files << file
+      end
+    end
+  end
+
 end
 
-Motion::Project::App.setup do |app|
-  # scans app.files until it finds app/ (the default)
-  # if found, it inserts just before those files, otherwise it will insert to
-  # the end of the list
-  insert_point = app.files.find_index { |file| file =~ /^(?:\.\/)?app\// } || 0
-
-  app.files.insert(insert_point, File.join(File.dirname(__FILE__), 'version.rb'))
-  Dir.glob(File.join(File.dirname(__FILE__), SugarCube.platform, 'sugarcube/**/*.rb')).reverse.each do |file|
-    app.files.insert(insert_point, file)
-  end
-  Dir.glob(File.join(File.dirname(__FILE__), 'cocoa/sugarcube/**/*.rb')).reverse.each do |file|
-    app.files.insert(insert_point, file)
-  end
-  Dir.glob(File.join(File.dirname(__FILE__), 'all/sugarcube/**/*.rb')).reverse.each do |file|
-    app.files.insert(insert_point, file)
-  end
+if ! App.respond_to?(:pre_setup)
+  require 'sugarcube_pre_setup'
 end
 
-require File.join(File.dirname(__FILE__), 'sugarcube-coregraphics.rb')
+Motion::Project::App.pre_setup do |app|
+  app.files << File.join(File.dirname(__FILE__), 'version.rb')
+
+  SugarCube.add_app_files(app, 'sugarcube')
+end
+
 require File.join(File.dirname(__FILE__), 'sugarcube-to_s.rb')

@@ -4,16 +4,13 @@ end
 
 
 require 'sugarcube'
+SugarCube.cocoa_only!('corelocation')
 
-Motion::Project::App.setup do |app|
-  # scans app.files until it finds app/ (the default)
-  # if found, it inserts just before those files, otherwise it will insert to
-  # the end of the list
-  insert_point = app.files.find_index { |file| file =~ /^(?:\.\/)?app\// } || 0
+Motion::Project::App.pre_setup do |app|
+  SugarCube.add_app_files(app, 'sugarcube-corelocation')
+end
 
-  Dir.glob(File.join(File.dirname(__FILE__), 'cocoa/sugarcube-corelocation/**/*.rb')).reverse.each do |file|
-    app.files.insert(insert_point, file)
-  end
 
-  app.frameworks << 'CoreLocation'
+Motion::Project::App.post_setup do |app|
+  app.frameworks += %w{CoreLocation}
 end
