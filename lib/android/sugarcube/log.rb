@@ -1,8 +1,3 @@
-module SugarCube
-  module_function
-
-  def stderr(message)
-    puts message
-  end
-
+def SugarCube.stderr(message)
+  puts message
 end

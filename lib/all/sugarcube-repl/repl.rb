@@ -100,53 +100,56 @@ module SugarCube
       end
 
       def draw_tree(item, tab=nil, is_last=true, items_index=0)
+        line = ''
         space = ' '
         if items_index < 10
-          print '  '
+          line << '  '
         elsif items_index < 100
-          print ' '
+          line << ' '
         elsif items_index > 999  # good god, man!
           space = ''
         end
-        print items_index.to_s + ":" + space
+        line << items_index.to_s + ":" + space
 
         if tab
-          print tab
+          line << tab
           if @collapsed_items && @collapsed_items.include?(item)
-            print '<<< '
+            line << '<<< '
           else
             if is_last
-              print '`-- '
+              line << '`-- '
               tab += '    '
             else
-              print '+-- '
+              line << '+-- '
               tab += '|   '
             end
           end
         else
-          print '. '
+          line << '. '
           tab = ''
         end
 
         if self == item || @adjust_item == item
-          print "\033[1m"
+          line << "\033[1m"
         end
-        print draw_tree_item(item)
+        line << draw_tree_item(item)
         if self == item || @adjust_item == item
-          print "\033[0m"
+          line << "\033[0m"
         end
-        puts
+        puts line
 
         items = call_item_selector(item)
 
         unless @collapsed_items && @collapsed_items.include?(item)
-          items.each_with_index do |subitem, index|
+          index = 0
+          items.each do |subitem|
             items_index += 1
             if self.respond_to? :draw_tree
               items_index = draw_tree(subitem, tab, index == items.length - 1, items_index)
             else
               items_index = draw_tree(subitem, tab, index == items.length - 1, items_index)
             end
+            index += 1
           end
         end
 
@@ -159,8 +162,10 @@ module SugarCube
         ret = [item]
         return ret if @collapsed_items && @collapsed_items.include?(item)
 
-        items.each_with_index do |subitem, index|
+        index = 0
+        items.each do |subitem, index|
           ret.concat build_tree(subitem)
+          index += 1
         end
         ret
       end
