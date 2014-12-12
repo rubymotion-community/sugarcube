@@ -86,7 +86,7 @@ the packages you need:
 ###### Gemfile
 ```ruby
 gem 'sugarcube', :require => [
-  'sugarcube-uikit',
+  'sugarcube-ui',
   'sugarcube-events',
   'sugarcube-gestures',
   'sugarcube-568',
@@ -103,7 +103,7 @@ require 'motion/project/template/ios'
 require 'bundler'
 Bundler.require
 
-require 'sugarcube-uikit'
+require 'sugarcube-ui'
 require 'sugarcube-events'
 require 'sugarcube-gestures'
 require 'sugarcube-568'
@@ -192,25 +192,43 @@ Be sure to read more in the [REPL Additions][REPL Wiki] Wiki page.
 
 [REPL Wiki]: https://github.com/rubymotion/sugarcube/wiki/REPL-Additions
 
-UIKit ([wiki][UIKit Wiki])
+UI on iOS: UIKit extensions ([wiki][UIKit Wiki])
 -----
 
 A big package chock full of methods to make working in UIKit a joy.
 
-> `require 'sugarcube-uikit'`
+> `require 'sugarcube-ui'`
 
 A few varieties of methods are in this package:
 
-* Conversions: `'string-to'.uiimage`, `image.uiimageview`
+* Conversions: `'string-to'.uiimage`, `image.uiimageview`, `'string-to'.uilabel(font)`
 * Helpers: shorthands for common operations, like `a_view << a_subview`, `a_subview.convert_frame_to(a_view)`
 * Symbols: `:system.uifont(20)`, `:label.uifontsize`
-* Frame accessors: `a_view.x`, `a_view.x = 100`
+* Frame accessors: `a_view.x`, `a_view.x = 100` (on `UIView` and `CALayer`)
 
 There are too many methods to define here. Instead: a complete list of methods
 is available in the [documentation][], and the [wiki page][UIKit Wiki] is a
 great source as well.
 
 [UIKit Wiki]: https://github.com/rubymotion/sugarcube/wiki/UIKit
+
+UI on OS X: AppKit extensions
+-----
+
+Similar extensions as the iOS version, but using the `ns` prefix on method names:
+
+* Conversions: `'string-to'.nsimage`, `image.nsimageview`, `'string-to'.nslabel(font)`
+* Helpers: `view << subview`
+* Symbols: `:white.nscolor`, `:system.nsfont`
+* Frame accessors: `a_view.x`, `a_view.x = 100` (on `UIView`, `CALayer`, `NSWindow`, and `NSScreen`)
+
+UI on Android
+-----
+
+*(warning: extending built-in classes is not reliable in RubyMotion on Android)*
+
+ViewGroup gets the same `<<` method that you see in UIView and NSView.
+
 
 Constants
 -----
@@ -1256,7 +1274,7 @@ issues with missing constants).
 ```
 
 And you can easily turn an attributed string into a label, if you include the
-`sugarcube-uikit` package.
+`sugarcube-ui` package.
 
 ```ruby
 view << (("We just met\n".attrd +

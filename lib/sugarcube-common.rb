@@ -5,25 +5,23 @@ exclude = [
   'sugarcube-common.rb',
   'sugarcube-classic.rb',
   'sugarcube-legacy.rb',
-  'sugarcube-uicolor.rb',
-  'sugarcube-uiimage.rb',
 
   'sugarcube-anonymous.rb',
   'sugarcube-awesome.rb',
   'sugarcube-pipes.rb',
   'sugarcube-unholy.rb',
+  'sugarcube-appkit.rb',
+  'sugarcube-uikit.rb',
 ]
 
 if SugarCube.ios?
   exclude += [
-    'sugarcube-appkit.rb',
   ]
 elsif SugarCube.osx?
   exclude += [
     'sugarcube-568.rb',
     'sugarcube-gestures.rb',
     'sugarcube-modal.rb',
-    'sugarcube-uikit.rb',
   ]
 end
 
