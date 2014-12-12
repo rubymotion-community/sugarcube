@@ -6,27 +6,30 @@ end
 module SugarCube
   module_function
 
+  class PlatformException < Exception
+  end
+
   def ios_only!(package)
     unless ios?
-      raise "The '\033[0;1msugarcube-#{package}\033[0m' package is only available on iOS."
+      raise PlatformException.new("The '\033[0;1msugarcube-#{package}\033[0m' package is only available on iOS.")
     end
   end
 
   def osx_only!(package)
     unless osx?
-      raise "The '\033[0;1msugarcube-#{package}\033[0m' package is only available on OS X."
+      raise PlatformException.new("The '\033[0;1msugarcube-#{package}\033[0m' package is only available on OS X.")
     end
   end
 
   def cocoa_only!(package)
     unless cocoa?
-      raise "The '\033[0;1msugarcube-#{package}\033[0m' package is only available on OS X or iOS."
+      raise PlatformException.new("The '\033[0;1msugarcube-#{package}\033[0m' package is only available on OS X or iOS.")
     end
   end
 
   def android_only!(package)
     unless android?
-      raise "The '\033[0;1msugarcube-#{package}\033[0m' package is only available on Android."
+      raise PlatformException.new("The '\033[0;1msugarcube-#{package}\033[0m' package is only available on Android.")
     end
   end
 
