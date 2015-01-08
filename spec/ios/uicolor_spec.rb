@@ -26,6 +26,12 @@ describe "UIColor" do
       '#4dc223'.uicolor(0.5).should == '#4dc223'.uicolor(0.5)
     end
 
+    it "should support changing brightness" do
+      # Test by using #hex as brightness will differ e.g. 0.9 vs 0.911182...
+      '#ffffff'.uicolor.darken(10.0).hex.should == '#e5e5e5'.uicolor.hex
+      '#e5e5e5'.uicolor.lighten(10.0).hex.should == '#ffffff'.uicolor.hex
+    end
+
     it "should support css names" do
       :blanchedalmond.uicolor.should == :blanchedalmond.uicolor
       :chartreuse.uicolor.should == :chartreuse.uicolor
