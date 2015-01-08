@@ -16,16 +16,16 @@ class UIColor
     uicolor(alpha)
   end
 
-  def darken(percent)
-    change_brightness -percent
+  def darken(amount=0.1)
+    change_brightness -amount
   end
 
-  def lighten(percent)
-    change_brightness percent
+  def lighten(amount=0.1)
+    change_brightness amount
   end
 
-  def change_brightness(percent)
-    new_brightness = (100.0 + percent.to_f) / 100.0
+  def change_brightness(amount)
+    new_brightness = brightness + amount
     UIColor.colorWithHue(hue, saturation: saturation, brightness: new_brightness, alpha: alpha)
   end
 

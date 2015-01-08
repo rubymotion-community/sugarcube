@@ -26,18 +26,43 @@ describe "UIColor" do
       '#4dc223'.uicolor(0.5).should == '#4dc223'.uicolor(0.5)
     end
 
-    it "should support changing brightness" do
-      # Test by using #hex as brightness will differ e.g. 0.9 vs 0.911182...
-      '#ffffff'.uicolor.darken(10.0).hex.should == '#e5e5e5'.uicolor.hex
-      '#e5e5e5'.uicolor.lighten(10.0).hex.should == '#ffffff'.uicolor.hex
+    it "should have r/g/b/hue/sat/brightness attributes" do
+      '#ffffff'.uicolor.red.should == 1
+      '#ffffff'.uicolor.green.should == 1
+      '#ffffff'.uicolor.blue.should == 1
+      '#ffffff'.uicolor.brightness.should == 1
     end
 
-    it "should support css names" do
-      :blanchedalmond.uicolor.should == :blanchedalmond.uicolor
-      :chartreuse.uicolor.should == :chartreuse.uicolor
-      :darkgreen.uicolor.should == :darkgreen.uicolor
-      :deepskyblue.uicolor.should == :deepskyblue.uicolor
-      :floralwhite.uicolor(0.5).should == :floralwhite.uicolor(0.5)
+    describe "should support changing brightness" do
+      # Test by using #hex as brightness will differ e.g. 0.9 vs 0.911182...
+      it "should darken" do
+        '#ffffff'.uicolor.darken(0.1).hex.should == '#e5e5e5'.uicolor.hex
+      end
+      it "should invert darken" do
+        '#ffffff'.uicolor.darken(0.1).lighten(0.1).hex.should == '#ffffff'.uicolor.hex
+      end
+      it "should lighten" do
+        '#e6e6e6'.uicolor.lighten(0.1).hex.should == '#ffffff'.uicolor.hex
+      end
+      it "should invert lighten" do
+        '#e5e5e5'.uicolor.lighten(0.1).darken(0.1).hex.should == '#e5e5e5'.uicolor.hex
+      end
+    end
+
+    describe "should support css names" do
+      [
+        :blanchedalmond,
+        :chartreuse,
+        :darkgreen,
+        :deepskyblue,
+        :floralwhite,
+      ].each do |name|
+        it "should support #{name}" do
+          name.uicolor.should.be.kind_of(UIColor)
+          name.uicolor(0.5).should.be.kind_of(UIColor)
+          name.uicolor(0.5).alpha.round(1).should == 0.5
+        end
+      end
     end
 
   end
