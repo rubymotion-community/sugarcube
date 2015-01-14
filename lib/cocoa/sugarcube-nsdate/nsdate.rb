@@ -54,7 +54,7 @@ class NSDate
   def string_with_format(format, options={})
     locale = options[:locale] || NSLocale.currentLocale
     timezone = options[:timezone] || NSTimeZone.defaultTimeZone
-    
+
     if format.is_a?(Symbol)
       formatters = SugarCubeFormats[format]
       raise "No format found for #{format.inspect}" unless formatters
@@ -123,6 +123,16 @@ class NSDate
   def today?
     today = self.class.new
     return same_day?(today)
+  end
+
+  def tomorrow?
+    tomorrow = self.class.tomorrow
+    return same_day?(tomorrow)
+  end
+
+  def yesterday?
+    yesterday = self.class.yesterday
+    return same_day?(yesterday)
   end
 
   def same_day?(other)
