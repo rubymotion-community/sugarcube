@@ -37,6 +37,11 @@ describe 'NSAttributeString' do
       'test'.attrd.vertical_glyph_form(1).should.have_string_attributes({ NSVerticalGlyphFormAttributeName => 1 })
     end
 
+    it 'should have have `empty?`' do
+      'test'.attrd.empty?.should == false
+      ''.attrd.empty?.should == true
+    end
+
   end
 
 end

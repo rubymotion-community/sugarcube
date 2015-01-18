@@ -111,6 +111,10 @@ class NSAttributedString
     string
   end
 
+  def empty?
+    self.length == 0
+  end
+
 end
 
 
