@@ -115,6 +115,24 @@ class NSAttributedString
     self.length == 0
   end
 
+  def strip
+    # Trim leading whitespace and newlines.
+    charSet = NSCharacterSet.whitespaceAndNewlineCharacterSet
+    range = self.string.rangeOfCharacterFromSet(charSet)
+    while (range.length != 0 && range.location == 0)
+      self.replaceCharactersInRange(range, withString:"")
+      range = self.string.rangeOfCharacterFromSet(charSet)
+    end
+
+    # Trim trailing whitespace and newlines.
+    range = self.string.rangeOfCharacterFromSet(charSet, options:NSBackwardsSearch)
+    while (range.length != 0 && NSMaxRange(range) == self.length)
+      self.replaceCharactersInRange(range, withString:"")
+      range = self.string.rangeOfCharacterFromSet(charSet, options:NSBackwardsSearch)
+    end
+    self
+  end
+
 end
 
 

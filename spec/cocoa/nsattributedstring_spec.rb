@@ -42,6 +42,19 @@ describe 'NSAttributeString' do
       ''.attrd.empty?.should == true
     end
 
+    it 'should have `strip`' do
+      'test '.attrd.strip.should == 'test'.attrd
+      ' test '.attrd.strip.should == 'test'.attrd
+      ' test'.attrd.strip.should == 'test'.attrd
+      "\ntest".attrd.strip.should == 'test'.attrd
+      "\n test".attrd.strip.should == 'test'.attrd
+      "\n test \n".attrd.strip.should == 'test'.attrd
+      "\n test  \n".attrd.strip.should == 'test'.attrd
+      "test  ".attrd.strip.should == 'test'.attrd
+      "test\n  ".attrd.strip.should == 'test'.attrd
+      "  \n test".attrd.strip.should == 'test'.attrd
+    end
+
   end
 
 end
