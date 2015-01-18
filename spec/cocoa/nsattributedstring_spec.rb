@@ -37,6 +37,24 @@ describe 'NSAttributeString' do
       'test'.attrd.vertical_glyph_form(1).should.have_string_attributes({ NSVerticalGlyphFormAttributeName => 1 })
     end
 
+    it 'should have have `empty?`' do
+      'test'.attrd.empty?.should == false
+      ''.attrd.empty?.should == true
+    end
+
+    it 'should have `strip`' do
+      'test '.attrd.strip.should == 'test'.attrd
+      ' test '.attrd.strip.should == 'test'.attrd
+      ' test'.attrd.strip.should == 'test'.attrd
+      "\ntest".attrd.strip.should == 'test'.attrd
+      "\n test".attrd.strip.should == 'test'.attrd
+      "\n test \n".attrd.strip.should == 'test'.attrd
+      "\n test  \n".attrd.strip.should == 'test'.attrd
+      "test  ".attrd.strip.should == 'test'.attrd
+      "test\n  ".attrd.strip.should == 'test'.attrd
+      "  \n test".attrd.strip.should == 'test'.attrd
+    end
+
   end
 
 end
