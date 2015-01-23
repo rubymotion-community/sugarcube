@@ -4,6 +4,9 @@ end
 
 
 require 'sugarcube'
+if SugarCube.cocoa?
+  require 'sugarcube-coregraphics'
+end
 
 Motion::Project::App.pre_setup do |app|
   SugarCube.add_app_files(app, 'sugarcube-animations')
