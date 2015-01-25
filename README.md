@@ -1625,6 +1625,36 @@ f = Rect(p, [w, h])
 f = Rect([x, y], s)
 ```
 
+Base64
+------
+
+> `require 'sugarcube-base64'`
+
+**Todo: add UIImage/NSImage support**
+**Todo: add Android support?**
+
+Uses the `NSData#base64EncodedStringWithOptions` and
+`NSData#initWithBase64EncodedData` methods to encode/decode base64 data.  Normal
+use is to convert your image/binary data into an `NSData` instance, and then
+call `to_base64` on that object.
+
+There is a helper on `NSString`, so you can convert an `NSString` instance
+directly to base-64, using UTF8 encoding (or any encoding Apple supports).
+
+```ruby
+base64_str = 'test string'.to_base64
+...
+NSString.from_base64(base64_str) == 'test string'
+
+# require 'sugarcube-nsdata'
+image = 'some_image'.uiimage
+data = image.nsdata  # defaults to PNG data
+base64_str = data.to_base64
+...
+data = NSData.from_base64(base64_str)
+image = data.uiimage  # defaults to reading PNG data
+```
+
 Pointer
 -----
 
