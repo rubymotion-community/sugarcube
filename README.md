@@ -1585,8 +1585,7 @@ NSUserDefaults['test'] = test  # saved
 CoreGraphics
 --------------
 
-*This package is installed automatically, because so many other packages depend
-on it. It does not add any methods to built-in classes.*
+*This package is included by a few of the other packages, like repl, animations, and image.*
 
 ###### Is it `CGMakeRect` or `CGRectMake`?  What arguments does `CGRect.new` take?
 
