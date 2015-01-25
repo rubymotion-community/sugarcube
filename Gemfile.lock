@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sugarcube (3.0.8)
+    sugarcube (3.1.0)
 
 GEM
   remote: https://rubygems.org/
