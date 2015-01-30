@@ -154,15 +154,11 @@ class Array
   # Detects if any part of an array is an NSAttributedString and joins them
   # Otherwise, just joins the array.
   def join_attrd(connector=nil)
-    if self.any?{|part| part.is_a?(NSAttributedString)} || connector.is_a?(NSAttributedString)
-      joining = "".attrd
-      each_with_index do |attrd_str, index|
-        joining << connector if connector && index > 0
-        joining << attrd_str
-      end
-      joining
-    else
-      join(connector)
+    joining = "".attrd
+    each_with_index do |attrd_str, index|
+      joining << connector if connector && index > 0
+      joining << attrd_str
     end
+    joining
   end
 end

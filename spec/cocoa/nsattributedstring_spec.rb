@@ -57,13 +57,14 @@ describe 'NSAttributeString' do
   end
 
   describe "should allow joining an array of attributed strings" do
-    it "should not care about standard arrays of strings" do
+    it "should turn an array of strings into an attributed string" do
       joined = ['a', 'b', 'c'].join_attrd
-      joined.should == 'abc'
-      joined.is_a?(NSAttributedString).should == false
-      joined.is_a?(NSString).should == true
+      joined.is_a?(NSAttributedString).should == true
+      joined.is_a?(NSString).should == false
+      joined.isEqualToAttributedString('abc'.attrd).should == true
 
-      ['a', 'b', 'c'].join_attrd('-').should == 'a-b-c'
+      joined2 = ['a', 'b', 'c'].join_attrd('-')
+      joined2.isEqualToAttributedString('a-b-c'.attrd).should == true
     end
 
     it "should join attributed strings" do
