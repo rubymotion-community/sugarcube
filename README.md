@@ -1268,6 +1268,13 @@ issues with missing constants).
 # And there's where it gets FUN:
 ('This'.italic + ' is going to be ' + 'FUN'.bold).underline
 
+# and if you need to join a bunch of strings, there's a helper for that!
+['This', 'is'.bold, 'handy!'].join_attrd(' ')
+# or join plain strings with an attributed string:
+['a', 'b', 'c'].join_attrd('-'.bold)
+# join_attrd will *always* return an NSAttributedString
+['a', 'b', 'c'].join_attrd(' ')  # == NSAttributedString ('a b c')
+
 # You can even generate attributed text from html!  This feature uses the
 # NSHTMLTextDocumentType option to convert the html to NSAttributedString
 'Why on <b>earth<b> would you want to do <em>that</em>?'.attributed_html
