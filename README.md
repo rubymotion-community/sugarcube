@@ -11,9 +11,9 @@ CocoaTouch/iOS is a *verbose* framework.  These extensions hope to make
 development in rubymotion more enjoyable. With SugarCube, you can create a color
 from an integer or symbol, or create a UIFont or UIImage from a string.
 
-Some core classes are opened up as well, like adding the '<<' operator to a
+Many core classes are opened up as well, like adding the '<<' operator to a
 UIView instance, instead of view.addSubview(subview), you can use the more
-idiomatic: view << subview.
+idiomatic: `view << subview`.
 
 The basic idea of SugarCube is to turn operations on their head.  So instead of:
 
@@ -33,11 +33,14 @@ Cocoa-wrappage.
 
 **CONTRIBUTIONS**
 
-SugarCube started out as a [Fusionbox][] project (see the
-[announcement][fusionbox announcement]), but as its popularity increased, the
-decision was made to offer it to the rubymotion community, in the spirit of
-open-source and collaboration.  It is a great complement to [MotionKit][],
-especially when paired with [SweetKit][]!
+SugarCube is the result of the hard work of many developers, but it’s mostly
+maintained by [Colin Gray][colinta], with help from members of the RubyMotion
+community.  If you have an idea, please open a pull request so we can discuss
+it!  All PRs must be submitted with specs.
+
+If you use SugarCube on your projects, please consider donating a small amount
+via [gratipay.com](https://gratipay.com/colinta), or better yet: fork the
+project, add some specs, and improve the quality of this super-handy gem!
 
 Documentation
 =============
@@ -1855,7 +1858,6 @@ If you want to see new features, please fork, commit, and pull-request! :smiley:
 [nsnulldammit]: https://github.com/colinta/nsnulldammit
 [geomotion]: https://github.com/clayallsopp/geomotion
 
-[Fusionbox]: http://www.fusionbox.com/
-[fusionbox announcement]: http://fusionbox.org/projects/rubymotion-sugarcube/
 [Clay Allsopp]: https://github.com/clayallsopp
 [Thom Parkin]: https://github.com/ParkinT
+[colinta]: https://github.com/colinta
