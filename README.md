@@ -1001,12 +1001,30 @@ UITabBarItem.system(:top_rated, tag: MY_ITEM_TAG, badge: 'hi')
 ```
 
 ###### NSError
+
+> **WARNING:** Breaking change in 3.3.0, this method name *was* `new`, but that
+> caused conflicts with a bunch of 3rd party CocoaPods.
+
 ```ruby
-# usually, NSError.new doesn't work, because the only initializer for NSError
+# usually, NSError.error doesn't work, because the only initializer for NSError
 # needs more arguments.  This method passes some defaults in.
-NSError.new('message')
+NSError.error('message')
 # same as =>
-NSError.new('message', domain: 'Error', code: 0, userInfo: {})
+NSError.error('message', domain: 'Error', code: 0, userInfo: {})
+```
+
+###### UILabel
+
+> **WARNING:** Breaking change in 3.3.0, this method name *was* `new`, but that
+> caused conflicts with a bunch of 3rd party CocoaPods.
+
+```ruby
+# supports text, font, and font size
+UILabel.label('label text')
+UILabel.label('label text'.attrd)  # detects attributed strings, too
+UILabel.label('label text', 'Font name')  # You can pass just a font name
+UILabel.label('label text', UIFont.fontWithName('Font name', size: 20))  # Or a UIFont object
+UILabel.label('label text', 'Font name', 20)  # Or the name *and* the size
 ```
 
 Animations ([wiki][Animations Wiki])
