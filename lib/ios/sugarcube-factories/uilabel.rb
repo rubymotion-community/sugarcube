@@ -6,7 +6,7 @@ class UILabel
   #     UILabel.label('test', 'Helvetica')
   #     UILabel.label('test', 'Helvetica', 20)
   def self.label(text=nil, font=nil, size=nil)
-    return super() if text.nil?
+    return new() if text.nil?
 
     font = font.uifont(size) if font.respond_to?(:uifont)
     label = self.alloc.initWithFrame([[0, 0], [0, 0]])

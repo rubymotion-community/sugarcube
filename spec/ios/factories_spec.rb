@@ -2,8 +2,8 @@ describe 'SugarCube Factories' do
 
   describe NSError do
     [
-      'with message',             -> { NSError.new('message') },
-      'with message and options', -> { NSError.new('message', domain: 'Error', code: 1, userInfo: {}) },
+      'with message',             -> { NSError.error('message') },
+      'with message and options', -> { NSError.error('message', domain: 'Error', code: 1, userInfo: {}) },
     ].each_slice(2) do |description, factory|
       it "should work #{description}" do
         error = factory.call
@@ -156,13 +156,17 @@ describe 'SugarCube Factories' do
   describe UITableViewCell do
     [
       'with #default', -> { UITableViewCell.default('identifier') },
-      'with #default with options', -> { UITableViewCell.default('identifier', accessory: :disclosure, selection: :none, text: 'text', detailText: 'detail') },
+      'with #default with options', -> { UITableViewCell.default('identifier', accessory: :disclosure, selection_style: :none, text: 'text', detailText: 'detail') },
+      'with #default with old options (:selection)', -> { UITableViewCell.default('identifier', accessory: :disclosure, selection: :none, text: 'text', detailText: 'detail') },
       'with #value1', -> { UITableViewCell.value1('identifier') },
-      'with #value1 with options', -> { UITableViewCell.value1('identifier', accessory: :disclosure, selection: :none, text: 'text', detailText: 'detail') },
+      'with #value1 with options', -> { UITableViewCell.value1('identifier', accessory: :disclosure, selection_style: :none, text: 'text', detailText: 'detail') },
+      'with #value1 with old options (:selection)', -> { UITableViewCell.value1('identifier', accessory: :disclosure, selection: :none, text: 'text', detailText: 'detail') },
       'with #value2', -> { UITableViewCell.value2('identifier') },
-      'with #value2 with options', -> { UITableViewCell.value2('identifier', accessory: :disclosure, selection: :none, text: 'text', detailText: 'detail') },
+      'with #value2 with options', -> { UITableViewCell.value2('identifier', accessory: :disclosure, selection_style: :none, text: 'text', detailText: 'detail') },
+      'with #value2 with old options (:selection)', -> { UITableViewCell.value2('identifier', accessory: :disclosure, selection: :none, text: 'text', detailText: 'detail') },
       'with #subtitle', -> { UITableViewCell.subtitle('identifier') },
-      'with #subtitle with options', -> { UITableViewCell.subtitle('identifier', accessory: :disclosure, selection: :none, text: 'text', detailText: 'detail') },
+      'with #subtitle with options', -> { UITableViewCell.subtitle('identifier', accessory: :disclosure, selection_style: :none, text: 'text', detailText: 'detail') },
+      'with #subtitle with old options (:selection)', -> { UITableViewCell.subtitle('identifier', accessory: :disclosure, selection: :none, text: 'text', detailText: 'detail') },
     ].each_slice(2) do |description, factory|
       it "should work #{description}" do
         error = factory.call
@@ -174,30 +178,30 @@ describe 'SugarCube Factories' do
   describe UILabel do
 
     describe 'new method' do
-      it 'should support UILabel.new' do
-        label = UILabel.new
+      it 'should support UILabel.label' do
+        label = UILabel.label
         label.should.be.kind_of(UILabel)
       end
-      it 'should support UILabel.new(text)' do
-        label = UILabel.new('text')
+      it 'should support UILabel.label(text)' do
+        label = UILabel.label('text')
         label.should.be.kind_of(UILabel)
         label.text.should == 'text'
       end
-      it 'should support UILabel.new(text, font)' do
-        label = UILabel.new('text', UIFont.fontWithName('Helvetica', size: 10))
+      it 'should support UILabel.label(text, font)' do
+        label = UILabel.label('text', UIFont.fontWithName('Helvetica', size: 10))
         label.should.be.kind_of(UILabel)
         label.text.should == 'text'
         label.font.familyName.should == 'Helvetica'
         label.font.pointSize.should == 10
       end
-      it 'should support UILabel.new(text, font_name)' do
-        label = UILabel.new('text', 'Helvetica')
+      it 'should support UILabel.label(text, font_name)' do
+        label = UILabel.label('text', 'Helvetica')
         label.should.be.kind_of(UILabel)
         label.text.should == 'text'
         label.font.familyName.should == 'Helvetica'
       end
-      it 'should support UILabel.new(text, font_name, size)' do
-        label = UILabel.new('text', 'Helvetica', 10)
+      it 'should support UILabel.label(text, font_name, size)' do
+        label = UILabel.label('text', 'Helvetica', 10)
         label.should.be.kind_of(UILabel)
         label.text.should == 'text'
         label.font.familyName.should == 'Helvetica'
