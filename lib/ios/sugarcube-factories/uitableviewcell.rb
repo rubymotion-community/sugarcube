@@ -4,31 +4,59 @@ class UITableViewCell
   class << self
 
     # returns a cell in the default style, with reuse identifier
-    # `cell_identifier`.  Options are passed on to the
-    # `sugarcube_cell_factory` method.
-    def default(cell_identifier, options={})
-      return sugarcube_cell_factory(cell_identifier, :default, options)
+    # `reuse_identifier`.  Supported options are :accessory, :text, :detail,
+    # :image, and :selection_style.
+    # Valid values for `:accessory`:
+    #      :none, :disclosure, :disclosureindicator, :detail,
+    #      :detaildisclosurebutton, :checkmark
+    #      or any UITableViewCellAccessory constant
+    # Valid values for `:selection_style`:
+    #      :none, :blue, :gray
+    #      or any UITableViewCellSelectionStyle constant
+    def default(reuse_identifier, options={})
+      return sugarcube_cell_factory(reuse_identifier, :default, options)
     end
 
     # returns a cell in the value1 style, with reuse identifier
-    # `cell_identifier`.  Options are passed on to the
-    # `sugarcube_cell_factory` method.
-    def value1(cell_identifier, options={})
-      return sugarcube_cell_factory(cell_identifier, :value1, options)
+    # `reuse_identifier`.  Supported options are :accessory, :text, :detail,
+    # :image, and :selection_style.
+    # Valid values for `:accessory`:
+    #      :none, :disclosure, :disclosureindicator, :detail,
+    #      :detaildisclosurebutton, :checkmark
+    #      or any UITableViewCellAccessory constant
+    # Valid values for `:selection_style`:
+    #      :none, :blue, :gray
+    #      or any UITableViewCellSelectionStyle constant
+    def value1(reuse_identifier, options={})
+      return sugarcube_cell_factory(reuse_identifier, :value1, options)
     end
 
     # returns a cell in the value2 style, with reuse identifier
-    # `cell_identifier`.  Options are passed on to the
-    # `sugarcube_cell_factory` method.
-    def value2(cell_identifier, options={})
-      return sugarcube_cell_factory(cell_identifier, :value2, options)
+    # `reuse_identifier`.  Supported options are :accessory, :text, :detail,
+    # :image, and :selection_style.
+    # Valid values for `:accessory`:
+    #      :none, :disclosure, :disclosureindicator, :detail,
+    #      :detaildisclosurebutton, :checkmark
+    #      or any UITableViewCellAccessory constant
+    # Valid values for `:selection_style`:
+    #      :none, :blue, :gray
+    #      or any UITableViewCellSelectionStyle constant
+    def value2(reuse_identifier, options={})
+      return sugarcube_cell_factory(reuse_identifier, :value2, options)
     end
 
     # returns a cell in the subtitle style, with reuse identifier
-    # `cell_identifier`.  Options are passed on to the
-    # `sugarcube_cell_factory` method.
-    def subtitle(cell_identifier, options={})
-      return sugarcube_cell_factory(cell_identifier, :subtitle, options)
+    # `reuse_identifier`.  Supported options are :accessory, :text, :detail,
+    # :image, and :selection_style.
+    # Valid values for `:accessory`:
+    #      :none, :disclosure, :disclosureindicator, :detail,
+    #      :detaildisclosurebutton, :checkmark
+    #      or any UITableViewCellAccessory constant
+    # Valid values for `:selection_style`:
+    #      :none, :blue, :gray
+    #      or any UITableViewCellSelectionStyle constant
+    def subtitle(reuse_identifier, options={})
+      return sugarcube_cell_factory(reuse_identifier, :subtitle, options)
     end
 
 private
@@ -41,9 +69,10 @@ private
     #   text - textLabel.text content
     #   detail - detailTextLabel.text content
     #   selection - selectionStyle
-    def sugarcube_cell_factory(cell_identifier, cell_style, options)
+    def sugarcube_cell_factory(reuse_identifier, cell_style, options)
+      cell_style_name = cell_style
       cell_style = cell_style.uitablecellstyle if cell_style.respond_to?(:uitablecellstyle)
-      cell = UITableViewCell.alloc.initWithStyle(cell_style, reuseIdentifier: cell_identifier)
+      cell = UITableViewCell.alloc.initWithStyle(cell_style, reuseIdentifier: reuse_identifier)
 
       if options[:accessory]
         accessory = options[:accessory]
@@ -51,14 +80,14 @@ private
         cell.accessoryType = accessory
       end
 
-      if options[:selection]
-        selection = options[:selection]
-        selection = selection.uitablecellselectionstyle if selection.respond_to?(:uitablecellselectionstyle)
-        cell.selectionStyle = selection
+      selection_style = options[:selection] || options[:selection_style]
+      if selection_style
+        selection_style = selection_style.uitablecellselectionstyle if selection_style.respond_to?(:uitablecellselectionstyle)
+        cell.selectionStyle = selection_style
       end
 
       if options[:image]
-        raise "cell type #{cell_style} does not support imageView" unless cell.imageView
+        raise "cell type #{cell_style_name} does not support imageView" unless cell.imageView
         image = options[:image]
         cell.imageView.image = image && image.uiimage
       end
@@ -68,7 +97,7 @@ private
       end
 
       if options[:detail]
-        raise "cell type #{cell_style} does not support detailTextLabel" unless cell.detailTextLabel
+        raise "cell type #{cell_style_name} does not support detailTextLabel" unless cell.detailTextLabel
         cell.detailTextLabel.text = options[:detail]
       end
 
