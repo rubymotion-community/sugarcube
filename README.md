@@ -52,6 +52,15 @@ diligent about adding Yard documentation, which is available here:
 
 [documentation]: http://rubydoc.info/gems/sugarcube/latest
 
+Versioning
+==========
+
+SugarCube uses FerVer: https://github.com/jonathanong/ferver.  This means that
+minor breaking changes occur in minor version bumps, and sometimes a
+non-breaking change occures in the major version (like when we added OS X
+support).
+
+
 Installation
 ============
 
