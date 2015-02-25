@@ -19,8 +19,8 @@ class NSDate
 
     delta = s
     # todo: leap second adjustment?  can leap seconds be detected?
-    delta += mi.minutes
-    delta += h.hours
+    delta += mi * 60
+    delta += h * 3600
 
     return_date = self + delta
 
@@ -42,17 +42,17 @@ class NSDate
       if mo > 0
         mo.times do
           delta = return_date.days_in_month
-          return_date += delta.days
+          return_date += delta * 3600 * 24
 
           # if the day_of_month is wrong, it must be because we either added PAST
           # the correct month (so roll back), or because we WERE rolled back and
           # when we moved forward a month, we were left back at the smaller day.
           if correct_day_of_month
             if return_date.day < 28
-              return_date -= return_date.day.days
+              return_date -= return_date.day * 3600 * 24
             elsif return_date.day < correct_day_of_month
               fix = correct_day_of_month > return_date.days_in_month ? return_date.days_in_month : correct_day_of_month
-              return_date += (fix - return_date.day).days
+              return_date += (fix - return_date.day) * 3600 * 24
             end
           end
         end
@@ -63,15 +63,15 @@ class NSDate
           # hour short of "last month" and so you end up with THIS month.  there
           # is NEVER a case when subtracting return_date.day+1 days is NOT
           # "previous month".  dates. :-|  f-em.
-          delta = (return_date - (return_date.day+1).days).days_in_month
-          return_date -= delta.days
+          delta = (return_date - (return_date.day+1) * 3600 * 24).days_in_month
+          return_date -= delta * 3600 * 24
           # same correction as above
           if correct_day_of_month
             if return_date.day < 28
-              return_date -= return_date.day.days
+              return_date -= return_date.day * 3600 * 24
             elsif return_date.day < correct_day_of_month
               fix = correct_day_of_month > return_date.days_in_month ? return_date.days_in_month : correct_day_of_month
-              return_date += (fix - return_date.day).days
+              return_date += (fix - return_date.day) * 3600 * 24
             end
           end
         end
@@ -79,8 +79,8 @@ class NSDate
     end
 
     delta = 0
-    delta += d.days
-    delta += w.weeks
+    delta += d * 3600 * 24
+    delta += w * 3600 * 24 * 7
     return_date += delta
 
     # DST adjustment, unless minutes, hours, or seconds were specified.
@@ -98,9 +98,9 @@ class NSDate
     # Time.at(3/10/2012).delta(hours:25)  # => 2012-03-11 18:00:00 -0600
     unless return_date.dst? == is_dst or is_very_specific
       if is_dst
-        return_date += 1.hour
+        return_date += 3600
       else
-        return_date -= 1.hour
+        return_date -= 3600
       end
     end
 
