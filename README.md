@@ -701,7 +701,7 @@ end
 # a little more complex - the cancel button should be first, and the block will
 # receive a string and an index
 UIAlertView.alert('This is happening, OK?',
-  message: 'Don't worry, it\'ll be fine.',
+  message: 'Don\'t worry, it\'ll be fine.',
   buttons: ['Nevermind', 'OK'],
   ) do |button, button_index|
   if button == 'OK'  # or: button_index == 1
