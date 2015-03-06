@@ -556,7 +556,7 @@ image.draw do |context|
 end
 
 # size
-image = Image.canvas(size: [10, 20])
+image = UIImage.canvas(size: [10, 20])
 image.width  # => 10
 image.height  # => 20
 ```
