@@ -497,6 +497,22 @@ class UIImage
   end
 
   ##|
+  ##|  flip image horizontally
+  ##|
+  def flip_horizontal
+    image_ref = self.cgimage
+
+    UIGraphicsBeginImageContext(self.size)
+    context = UIGraphicsGetCurrentContext()
+    CGContextTranslateCTM(context, self.size.width, self.size.height)
+    CGContextScaleCTM(context, -1.0, -1.0)
+    CGContextDrawImage(context, [[0, 0], self.size], image_ref)
+    new_image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    new_image
+  end
+
+  ##|
   ##|  resizableImageWithCapInsets
   ##|
   def tileable(insets=UIEdgeInsetsZero)
