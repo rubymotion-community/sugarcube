@@ -20,6 +20,11 @@ class NSString
     nsattributedstring({ NSUnderlineStyleAttributeName => underline_style })
   end
 
+  def color(color=nil)
+    color ||= UIColor.blackColor
+    nsattributedstring({ NSForegroundColorAttributeName => color })
+  end
+
 end
 
 
