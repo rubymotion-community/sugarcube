@@ -28,18 +28,26 @@ describe 'NSAttributeString' do
     end
 
     it 'should convert html' do
+      plain_subject = 'Plain'.attributed_html
       bold_subject = '<b>Bold</b>'.attributed_html
       emphasis_subject = '<em>Emphasis</em>'.attributed_html
       underline_subject = '<u>Underline</u>'.attributed_html
 
+      plain_subject.should.be.kind_of(NSAttributedString)
       bold_subject.should.be.kind_of(NSAttributedString)
       emphasis_subject.should.be.kind_of(NSAttributedString)
       underline_subject.should.be.kind_of(NSAttributedString)
+
+      plain_font = plain_subject.attributesAtIndex(0, effectiveRange:nil)['NSFont']
 
       # Commented out tests don't work because :bold.uifont isn't the same font instance as the html converter uses.
       # bold_subject.attributesAtIndex(0, effectiveRange:nil)['NSFont'].should == :bold.uifont
       # emphasis_subject.attributesAtIndex(0, effectiveRange:nil)['NSFont'].should == :italic.uifont
       underline_subject.attributesAtIndex(0, effectiveRange:nil)['NSUnderline'].should == NSUnderlineStyleSingle
+
+      # we can at least make sure the font is not the default
+      bold_subject.attributesAtIndex(0, effectiveRange:nil)['NSFont'].should != plain_font
+      emphasis_subject.attributesAtIndex(0, effectiveRange:nil)['NSFont'].should != plain_font
     end
 
   end
