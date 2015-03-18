@@ -33,7 +33,8 @@ class NSAttributedString
   end
 
   def font(value)
-    with_attributes({ NSFontAttributeName => value.nsfont })
+    value = value.nsfont if value.respond_to?(:nsfont)
+    with_attributes({ NSFontAttributeName => value })
   end
 
   def monospace(size=nil)
@@ -51,17 +52,20 @@ class NSAttributedString
   end
 
   def foreground_color(value)
-    with_attributes({ NSForegroundColorAttributeName => value.nscolor })
+    value = value.nscolor if value.respond_to?(:nscolor)
+    with_attributes({ NSForegroundColorAttributeName => value })
   end
   alias color foreground_color
 
   def background_color(value)
-    with_attributes({ NSBackgroundColorAttributeName => value.nscolor })
+    value = value.nscolor if value.respond_to?(:nscolor)
+    with_attributes({ NSBackgroundColorAttributeName => value })
   end
   alias bg_color background_color
 
   def stroke_color(value)
-    with_attributes({ NSStrokeColorAttributeName => value.nscolor })
+    value = value.nscolor if value.respond_to?(:nscolor)
+    with_attributes({ NSStrokeColorAttributeName => value })
   end
 
   def superscript(amount=nil)

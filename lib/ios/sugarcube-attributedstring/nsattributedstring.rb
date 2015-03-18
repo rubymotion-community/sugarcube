@@ -63,7 +63,8 @@ class NSAttributedString
   end
 
   def font(value)
-    with_attributes({ NSFontAttributeName => value.uifont })
+    value = value.uifont if value.respond_to?(:uifont)
+    with_attributes({ NSFontAttributeName => value })
   end
 
   def underline
@@ -75,17 +76,20 @@ class NSAttributedString
   end
 
   def foreground_color(value)
-    with_attributes({ NSForegroundColorAttributeName => value.uicolor })
+    value = value.uicolor if value.respond_to?(:uicolor)
+    with_attributes({ NSForegroundColorAttributeName => value })
   end
   alias color foreground_color
 
   def background_color(value)
-    with_attributes({ NSBackgroundColorAttributeName => value.uicolor })
+    value = value.uicolor if value.respond_to?(:uicolor)
+    with_attributes({ NSBackgroundColorAttributeName => value })
   end
   alias bg_color background_color
 
   def stroke_color(value)
-    with_attributes({ NSStrokeColorAttributeName => value.uicolor })
+    value = value.uicolor if value.respond_to?(:uicolor)
+    with_attributes({ NSStrokeColorAttributeName => value })
   end
 
   def superscript(amount=nil)
