@@ -1,23 +1,23 @@
 class NSString
 
   def bold(size=nil)
-    font = :bold.uifont(size)
-    nsattributedstring({ NSFontAttributeName => font })
+    nsattributedstring.bold(size)
   end
 
   def italic(size=nil)
-    font = :italic.uifont(size)
-    nsattributedstring({ NSFontAttributeName => font })
+    nsattributedstring.italic(size)
   end
 
   def monospace(size=nil)
-    font = :monospace.uifont(size)
-    nsattributedstring({ NSFontAttributeName => font })
+    nsattributedstring.monospace(size)
   end
 
   def underline(underline_style=nil)
-    underline_style ||= NSUnderlineStyleSingle
-    nsattributedstring({ NSUnderlineStyleAttributeName => underline_style })
+    if underline_style
+      nsattributedstring.underline_style(underline_style)
+    else
+      nsattributedstring.underline
+    end
   end
 
 end
@@ -45,12 +45,20 @@ class NSAttributedString
   end
 
   def bold(size=nil)
-    font = :bold.uifont(size)
+    size ||= UIFont.systemFontSize
+    font = UIFont.boldSystemFontOfSize(size)
     self.font(font)
   end
 
   def italic(size=nil)
-    font = :italic.uifont(size)
+    size ||= UIFont.systemFontSize
+    font = UIFont.italicSystemFontOfSize(size)
+    self.font(font)
+  end
+
+  def monospace(size=nil)
+    size ||= UIFont.systemFontSize
+    font = UIFont.fontWithName('Courier New', size: size)
     self.font(font)
   end
 
