@@ -15,10 +15,10 @@ class NSString
   end
 
   def app_support_path
-    @@sugarcube_app_suppert ||= NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, true)[0]
-    return self if self.hasPrefix(@@sugarcube_app_suppert)
+    @@sugarcube_app_support ||= NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, true)[0]
+    return self if self.hasPrefix(@@sugarcube_app_support)
 
-    @@sugarcube_app_suppert.stringByAppendingPathComponent(self)
+    @@sugarcube_app_support.stringByAppendingPathComponent(self)
   end
 
   def temporary_path
