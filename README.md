@@ -774,9 +774,9 @@ UIActionSheet.alert('This is happening, OK?', buttons: ['Cancel', 'Kill it!', 'U
 end
 
 # skip cancel and destructive buttons:
-UIActionSheet.alert('Should I?', buttons: [nil, nil, 'OK', 'Nevermind']) [ |pressed|
+UIActionSheet.alert('Should I?', buttons: [nil, nil, 'OK', 'Nevermind']) { |pressed|
   self.do_it if pressed == 'OK'
-]
+}
 
 UIActionSheet.alert 'I mean, is this cool?', buttons: ['Nah', 'With fire!', 'Sure', 'whatever'],
   cancel: proc { self.cancel },
