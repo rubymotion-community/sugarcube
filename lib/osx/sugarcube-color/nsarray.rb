@@ -1,6 +1,6 @@
 class NSArray
 
-  # [160, 210, 242].uicolor => 0xA0D2F2.uicolor
+  # [160, 210, 242].nscolor => 0xA0D2F2.nscolor
   def nscolor(alpha=1.0)
     red = self[0] / 255.0
     green = self[1] / 255.0
@@ -16,7 +16,7 @@ class NSArray
   end
 
   def skcolor(alpha=nil)
-    uicolor(alpha)
+    nscolor(alpha)
   end
 
 end
