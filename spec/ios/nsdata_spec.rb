@@ -10,7 +10,7 @@ describe "NSData" do
     NSString.stringWithUTF8String("t\u0113st".nsdata).should == "t\u0113st"
   end
 
-  it "native methods should work - turkey" do
+  it "native methods should work - turkish letters" do
     NSString.stringWithUTF8String("\u00ab\u03c4\u03b1\u0411\u042c\u2113\u03c3\u00bb".dataUsingEncoding(NSUTF8StringEncoding)).should == "\u00ab\u03c4\u03b1\u0411\u042c\u2113\u03c3\u00bb"
     NSString.stringWithUTF8String("\u00ab\u03c4\u03b1\u0411\u042c\u2113\u03c3\u00bb".nsdata).should == "\u00ab\u03c4\u03b1\u0411\u042c\u2113\u03c3\u00bb"
   end
