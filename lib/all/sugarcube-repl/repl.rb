@@ -163,7 +163,7 @@ module SugarCube
         return ret if @collapsed_items && @collapsed_items.include?(item)
 
         index = 0
-        items.each do |subitem, index|
+        items.each do |subitem|
           ret.concat build_tree(subitem)
           index += 1
         end

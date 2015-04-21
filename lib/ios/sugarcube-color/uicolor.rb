@@ -16,6 +16,19 @@ class UIColor
     uicolor(alpha)
   end
 
+  def darken(amount=0.1)
+    change_brightness -amount
+  end
+
+  def lighten(amount=0.1)
+    change_brightness amount
+  end
+
+  def change_brightness(amount)
+    new_brightness = brightness + amount
+    UIColor.colorWithHue(hue, saturation: saturation, brightness: new_brightness, alpha: alpha)
+  end
+
   # blends two colors by averaging the RGB and alpha components.
   # @example
   #     :white.uicolor + :black.uicolor == :gray.uicolor

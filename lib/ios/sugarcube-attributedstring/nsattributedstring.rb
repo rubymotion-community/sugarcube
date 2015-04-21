@@ -1,23 +1,23 @@
 class NSString
 
   def bold(size=nil)
-    font = :bold.uifont(size)
-    nsattributedstring({ NSFontAttributeName => font })
+    nsattributedstring.bold(size)
   end
 
   def italic(size=nil)
-    font = :italic.uifont(size)
-    nsattributedstring({ NSFontAttributeName => font })
+    nsattributedstring.italic(size)
   end
 
   def monospace(size=nil)
-    font = :monospace.uifont(size)
-    nsattributedstring({ NSFontAttributeName => font })
+    nsattributedstring.monospace(size)
   end
 
   def underline(underline_style=nil)
-    underline_style ||= NSUnderlineStyleSingle
-    nsattributedstring({ NSUnderlineStyleAttributeName => underline_style })
+    if underline_style
+      nsattributedstring.underline_style(underline_style)
+    else
+      nsattributedstring.underline
+    end
   end
 
 end
@@ -45,17 +45,26 @@ class NSAttributedString
   end
 
   def bold(size=nil)
-    font = :bold.uifont(size)
+    size ||= UIFont.systemFontSize
+    font = UIFont.boldSystemFontOfSize(size)
     self.font(font)
   end
 
   def italic(size=nil)
-    font = :italic.uifont(size)
+    size ||= UIFont.systemFontSize
+    font = UIFont.italicSystemFontOfSize(size)
+    self.font(font)
+  end
+
+  def monospace(size=nil)
+    size ||= UIFont.systemFontSize
+    font = UIFont.fontWithName('Courier New', size: size)
     self.font(font)
   end
 
   def font(value)
-    with_attributes({ NSFontAttributeName => value.uifont })
+    value = value.uifont if value.respond_to?(:uifont)
+    with_attributes({ NSFontAttributeName => value })
   end
 
   def underline
@@ -67,17 +76,20 @@ class NSAttributedString
   end
 
   def foreground_color(value)
-    with_attributes({ NSForegroundColorAttributeName => value.uicolor })
+    value = value.uicolor if value.respond_to?(:uicolor)
+    with_attributes({ NSForegroundColorAttributeName => value })
   end
   alias color foreground_color
 
   def background_color(value)
-    with_attributes({ NSBackgroundColorAttributeName => value.uicolor })
+    value = value.uicolor if value.respond_to?(:uicolor)
+    with_attributes({ NSBackgroundColorAttributeName => value })
   end
   alias bg_color background_color
 
   def stroke_color(value)
-    with_attributes({ NSStrokeColorAttributeName => value.uicolor })
+    value = value.uicolor if value.respond_to?(:uicolor)
+    with_attributes({ NSStrokeColorAttributeName => value })
   end
 
   def superscript(amount=nil)

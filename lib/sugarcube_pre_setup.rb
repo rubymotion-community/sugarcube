@@ -25,8 +25,9 @@ module Motion; module Project
 
     alias sugarcube_old_setup setup
     def setup
-      app_files = @files.flatten.select { |file| file.start_with?('app/')}
-      @files = @files - app_files
+      app_files = @files.flatten
+
+      @files = []
       if @pre_setup_blocks
         @pre_setup_blocks.each { |b| b.call(self) }
         @pre_setup_blocks = nil

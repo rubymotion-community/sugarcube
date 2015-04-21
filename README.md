@@ -1,6 +1,8 @@
 SugarCube
 =========
 
+[![Join the chat at https://gitter.im/rubymotion/sugarcube](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rubymotion/sugarcube?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/rubymotion/sugarcube.svg?branch=master)](https://travis-ci.org/rubymotion/sugarcube)
 [![Version](https://badge.fury.io/rb/sugarcube.svg)](https://rubygems.org/gems/sugarcube)
 
@@ -11,9 +13,9 @@ CocoaTouch/iOS is a *verbose* framework.  These extensions hope to make
 development in rubymotion more enjoyable. With SugarCube, you can create a color
 from an integer or symbol, or create a UIFont or UIImage from a string.
 
-Some core classes are opened up as well, like adding the '<<' operator to a
+Many core classes are opened up as well, like adding the '<<' operator to a
 UIView instance, instead of view.addSubview(subview), you can use the more
-idiomatic: view << subview.
+idiomatic: `view << subview`.
 
 The basic idea of SugarCube is to turn operations on their head.  So instead of:
 
@@ -33,11 +35,14 @@ Cocoa-wrappage.
 
 **CONTRIBUTIONS**
 
-SugarCube started out as a [Fusionbox][] project (see the
-[announcement][fusionbox announcement]), but as its popularity increased, the
-decision was made to offer it to the rubymotion community, in the spirit of
-open-source and collaboration.  It is a great complement to [MotionKit][],
-especially when paired with [SweetKit][]!
+SugarCube is the result of the hard work of many developers, but it’s mostly
+maintained by [Colin Gray][colinta], with help from members of the RubyMotion
+community.  If you have an idea, please open a pull request so we can discuss
+it!  All PRs must be submitted with specs.
+
+If you use SugarCube on your projects, please consider donating a small amount
+via [gratipay.com](https://gratipay.com/colinta), or better yet: fork the
+project, add some specs, and improve the quality of this super-handy gem!
 
 Documentation
 =============
@@ -48,6 +53,15 @@ diligent about adding Yard documentation, which is available here:
 <http://rubydoc.info/gems/sugarcube/latest>
 
 [documentation]: http://rubydoc.info/gems/sugarcube/latest
+
+Versioning
+==========
+
+SugarCube uses FerVer: https://github.com/jonathanong/ferver.  This means that
+minor breaking changes occur in minor version bumps, and sometimes a
+non-breaking change occures in the major version (like when we added OS X
+support).
+
 
 Installation
 ============
@@ -544,7 +558,7 @@ image.draw do |context|
 end
 
 # size
-image = Image.canvas(size: [10, 20])
+image = UIImage.canvas(size: [10, 20])
 image.width  # => 10
 image.height  # => 20
 ```
@@ -689,7 +703,7 @@ end
 # a little more complex - the cancel button should be first, and the block will
 # receive a string and an index
 UIAlertView.alert('This is happening, OK?',
-  message: 'Don't worry, it'll be fine.',
+  message: 'Don\'t worry, it\'ll be fine.',
   buttons: ['Nevermind', 'OK'],
   ) do |button, button_index|
   if button == 'OK'  # or: button_index == 1
@@ -760,9 +774,9 @@ UIActionSheet.alert('This is happening, OK?', buttons: ['Cancel', 'Kill it!', 'U
 end
 
 # skip cancel and destructive buttons:
-UIActionSheet.alert('Should I?', buttons: [nil, nil, 'OK', 'Nevermind']) [ |pressed|
+UIActionSheet.alert('Should I?', buttons: [nil, nil, 'OK', 'Nevermind']) { |pressed|
   self.do_it if pressed == 'OK'
-]
+}
 
 UIActionSheet.alert 'I mean, is this cool?', buttons: ['Nah', 'With fire!', 'Sure', 'whatever'],
   cancel: proc { self.cancel },
@@ -998,12 +1012,30 @@ UITabBarItem.system(:top_rated, tag: MY_ITEM_TAG, badge: 'hi')
 ```
 
 ###### NSError
+
+> **WARNING:** Breaking change in 3.3.0, this method name *was* `new`, but that
+> caused conflicts with a bunch of 3rd party CocoaPods.
+
 ```ruby
-# usually, NSError.new doesn't work, because the only initializer for NSError
+# usually, NSError.error doesn't work, because the only initializer for NSError
 # needs more arguments.  This method passes some defaults in.
-NSError.new('message')
+NSError.error('message')
 # same as =>
-NSError.new('message', domain: 'Error', code: 0, userInfo: {})
+NSError.error('message', domain: 'Error', code: 0, userInfo: {})
+```
+
+###### UILabel
+
+> **WARNING:** Breaking change in 3.3.0, this method name *was* `new`, but that
+> caused conflicts with a bunch of 3rd party CocoaPods.
+
+```ruby
+# supports text, font, and font size
+UILabel.label('label text')
+UILabel.label('label text'.attrd)  # detects attributed strings, too
+UILabel.label('label text', 'Font name')  # You can pass just a font name
+UILabel.label('label text', UIFont.fontWithName('Font name', size: 20))  # Or a UIFont object
+UILabel.label('label text', 'Font name', 20)  # Or the name *and* the size
 ```
 
 Animations ([wiki][Animations Wiki])
@@ -1267,6 +1299,13 @@ issues with missing constants).
 
 # And there's where it gets FUN:
 ('This'.italic + ' is going to be ' + 'FUN'.bold).underline
+
+# and if you need to join a bunch of strings, there's a helper for that!
+['This', 'is'.bold, 'handy!'].join_attrd(' ')
+# or join plain strings with an attributed string:
+['a', 'b', 'c'].join_attrd('-'.bold)
+# join_attrd will *always* return an NSAttributedString
+['a', 'b', 'c'].join_attrd(' ')  # == NSAttributedString ('a b c')
 
 # You can even generate attributed text from html!  This feature uses the
 # NSHTMLTextDocumentType option to convert the html to NSAttributedString
@@ -1585,8 +1624,7 @@ NSUserDefaults['test'] = test  # saved
 CoreGraphics
 --------------
 
-*This package is installed automatically, because so many other packages depend
-on it. It does not add any methods to built-in classes.*
+*This package is included by a few of the other packages, like repl, animations, and image.*
 
 ###### Is it `CGMakeRect` or `CGRectMake`?  What arguments does `CGRect.new` take?
 
@@ -1623,6 +1661,36 @@ f = Rect(p, s)
 # any combination of point/array and size/array
 f = Rect(p, [w, h])
 f = Rect([x, y], s)
+```
+
+Base64
+------
+
+> `require 'sugarcube-base64'`
+
+**Todo: add UIImage/NSImage support**
+**Todo: add Android support?**
+
+Uses the `NSData#base64EncodedStringWithOptions` and
+`NSData#initWithBase64EncodedData` methods to encode/decode base64 data.  Normal
+use is to convert your image/binary data into an `NSData` instance, and then
+call `to_base64` on that object.
+
+There is a helper on `NSString`, so you can convert an `NSString` instance
+directly to base-64, using UTF8 encoding (or any encoding Apple supports).
+
+```ruby
+base64_str = 'test string'.to_base64
+...
+NSString.from_base64(base64_str) == 'test string'
+
+# require 'sugarcube-nsdata'
+image = 'some_image'.uiimage
+data = image.nsdata  # defaults to PNG data
+base64_str = data.to_base64
+...
+data = NSData.from_base64(base64_str)
+image = data.uiimage  # defaults to reading PNG data
 ```
 
 Pointer
@@ -1819,7 +1887,6 @@ If you want to see new features, please fork, commit, and pull-request! :smiley:
 [nsnulldammit]: https://github.com/colinta/nsnulldammit
 [geomotion]: https://github.com/clayallsopp/geomotion
 
-[Fusionbox]: http://www.fusionbox.com/
-[fusionbox announcement]: http://fusionbox.org/projects/rubymotion-sugarcube/
 [Clay Allsopp]: https://github.com/clayallsopp
 [Thom Parkin]: https://github.com/ParkinT
+[colinta]: https://github.com/colinta

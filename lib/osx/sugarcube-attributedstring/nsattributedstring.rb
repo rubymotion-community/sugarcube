@@ -1,18 +1,19 @@
 class NSString
 
   def bold(size=nil)
-    font = :bold.nsfont(size)
-    nsattributedstring({ NSFontAttributeName => font })
+    nsattributedstring.bold(size)
   end
 
   def monospace(size=nil)
-    font = :monospace.nsfont(size)
-    nsattributedstring({ NSFontAttributeName => font })
+    nsattributedstring.monospace(size)
   end
 
   def underline(underline_style=nil)
-    underline_style ||= NSSingleUnderlineStyle
-    nsattributedstring({ NSUnderlineStyleAttributeName => underline_style })
+    if underline_style
+      nsattributedstring.underline_style(underline_style)
+    else
+      nsattributedstring.underline
+    end
   end
 
 end
@@ -26,12 +27,20 @@ class NSAttributedString
   end
 
   def bold(size=nil)
-    font = :bold.nsfont(size)
+    size ||= NSFont.systemFontSize
+    font = NSFont.boldSystemFontOfSize(size)
     self.font(font)
   end
 
   def font(value)
-    with_attributes({ NSFontAttributeName => value.nsfont })
+    value = value.nsfont if value.respond_to?(:nsfont)
+    with_attributes({ NSFontAttributeName => value })
+  end
+
+  def monospace(size=nil)
+    size ||= NSFont.systemFontSize
+    font = NSFont.fontWithName('Courier New', size: size)
+    self.font({ NSFontAttributeName => font })
   end
 
   def underline
@@ -43,17 +52,20 @@ class NSAttributedString
   end
 
   def foreground_color(value)
-    with_attributes({ NSForegroundColorAttributeName => value.nscolor })
+    value = value.nscolor if value.respond_to?(:nscolor)
+    with_attributes({ NSForegroundColorAttributeName => value })
   end
   alias color foreground_color
 
   def background_color(value)
-    with_attributes({ NSBackgroundColorAttributeName => value.nscolor })
+    value = value.nscolor if value.respond_to?(:nscolor)
+    with_attributes({ NSBackgroundColorAttributeName => value })
   end
   alias bg_color background_color
 
   def stroke_color(value)
-    with_attributes({ NSStrokeColorAttributeName => value.nscolor })
+    value = value.nscolor if value.respond_to?(:nscolor)
+    with_attributes({ NSStrokeColorAttributeName => value })
   end
 
   def superscript(amount=nil)

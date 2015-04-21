@@ -6,8 +6,8 @@ Gem::Specification.new do |gem|
   gem.version       = SugarCube::Version
   gem.licenses      = ['BSD']
 
-  gem.authors = ['Colin T.A. Gray', 'Katsuyoshi Ito', 'Thom Parkin', 'Michael Erasmus']
-  gem.email   = ['colin@hipbyte.com']
+  gem.authors = ['Colin T.A. Gray', 'Katsuyoshi Ito', 'Thom Parkin', 'Michael Erasmus', 'Mark Rickert']
+  gem.email   = ['colin@hipbyte.com', 'mjar81@gmail.com']
   gem.summary     = %{Extensions for Ruby to make Rubymotion development more enjoyable, and hopefully more rubyesque!}
   gem.description = <<-DESC
 == Description

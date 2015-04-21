@@ -111,6 +111,28 @@ class NSAttributedString
     string
   end
 
+  def empty?
+    self.length == 0
+  end
+
+  def strip
+    # Trim leading whitespace and newlines.
+    charSet = NSCharacterSet.whitespaceAndNewlineCharacterSet
+    range = self.string.rangeOfCharacterFromSet(charSet)
+    while (range.length != 0 && range.location == 0)
+      self.replaceCharactersInRange(range, withString:"")
+      range = self.string.rangeOfCharacterFromSet(charSet)
+    end
+
+    # Trim trailing whitespace and newlines.
+    range = self.string.rangeOfCharacterFromSet(charSet, options:NSBackwardsSearch)
+    while (range.length != 0 && NSMaxRange(range) == self.length)
+      self.replaceCharactersInRange(range, withString:"")
+      range = self.string.rangeOfCharacterFromSet(charSet, options:NSBackwardsSearch)
+    end
+    self
+  end
+
 end
 
 
@@ -125,4 +147,18 @@ class NSMutableAttributedString
     self.appendAttributedString(attributedstring.nsattributedstring)
   end
 
+end
+
+class Array
+
+  # Detects if any part of an array is an NSAttributedString and joins them
+  # Otherwise, just joins the array.
+  def join_attrd(connector=nil)
+    joining = "".attrd
+    each_with_index do |attrd_str, index|
+      joining << connector if connector && index > 0
+      joining << attrd_str
+    end
+    joining
+  end
 end

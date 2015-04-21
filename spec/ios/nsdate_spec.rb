@@ -125,6 +125,25 @@ describe "NSDate" do
   it "should have an NSDate#today method" do
     @date.today?.should == false
     NSDate.new.today?.should === true
+    NSDate.today.today?.should == true
+    NSDate.today.yesterday?.should == false
+    NSDate.today.tomorrow?.should == false
+  end
+
+  it "should have an NSDate#tomorrow method" do
+    @date.tomorrow?.should == false
+    NSDate.new.tomorrow?.should === false
+    NSDate.tomorrow.tomorrow?.should == true
+    NSDate.tomorrow.today?.should == false
+    NSDate.tomorrow.yesterday?.should == false
+  end
+
+  it "should have an NSDate#yesterday method" do
+    @date.yesterday?.should == false
+    NSDate.new.yesterday?.should === false
+    NSDate.yesterday.yesterday?.should == true
+    NSDate.yesterday.tomorrow?.should == false
+    NSDate.yesterday.today?.should == false
   end
 
   it "should have an NSDate#same_day method" do

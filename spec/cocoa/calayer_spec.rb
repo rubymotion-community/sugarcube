@@ -7,4 +7,13 @@ describe CALayer do
     layer.sublayers.should == [another_layer]
   end
 
+  it "should support unshift" do
+    layer = CALayer.layer
+    sub_layer1 = CALayer.layer
+    sub_layer2 = CALayer.layer
+    layer.unshift sub_layer1
+    layer.unshift sub_layer2
+    layer.sublayers.should == [sub_layer2, sub_layer1]
+  end
+
 end

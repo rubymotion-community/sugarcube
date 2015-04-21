@@ -349,7 +349,7 @@ class UIImage
     # this is actually the interesting part:
     new_image = self.canvas(size: new_size) do |context|
       if background
-        background = background.uicolor
+        background = background.uicolor unless background.is_a?(UIColor)
         background.setFill
         CGContextAddRect(context, [[0, 0], new_size])
         CGContextDrawPath(context, KCGPathFill)

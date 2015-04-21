@@ -4,6 +4,10 @@ describe UIColor do
     UIColor.redColor.uicolor.should == UIColor.redColor
   end
 
+  it "should have a #uicolor(alpha) method" do
+    UIColor.redColor.uicolor(0.5).alpha.should == 0.5
+  end
+
   it "should support #cgcolor" do
     -> do
       UIColor.redColor.cgcolor.should == UIColor.redColor.CGColor
@@ -12,10 +16,6 @@ describe UIColor do
 
   it "should support #skcolor" do
     UIColor.redColor.skcolor.should == UIColor.redColor
-  end
-
-  it "should have a #uicolor(alpha) method" do
-    UIColor.redColor.uicolor(0.5).alpha.should == 0.5
   end
 
   it "should have a #skcolor(alpha) method" do

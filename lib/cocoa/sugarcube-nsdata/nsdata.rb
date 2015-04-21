@@ -2,13 +2,8 @@ class NSData
 
   # converts NSData into an NSString using any encoding, default is UTF8
   # @return [NSString]
-  def nsstring(encoding=nil)
-    if encoding
-      return NSString.stringWithCString(self.bytes, encoding: encoding)
-    else
-
-      return NSString.stringWithUTF8String(self)
-    end
+  def nsstring(encoding=NSUTF8StringEncoding)
+    return NSString.alloc.initWithData(self, encoding: encoding)
   end
 
   def write_to(path_or_url, atomically=true)
