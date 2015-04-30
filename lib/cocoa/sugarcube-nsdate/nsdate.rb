@@ -52,31 +52,42 @@ class NSDate
   # <http://www.unicode.org/reports/tr35/tr35-19.html#Date_Field_Symbol_Table>
   # for more information about date format strings.
   def string_with_format(format, options={})
-    locale = options[:locale] || NSLocale.currentLocale
     timezone = options[:timezone] || NSTimeZone.defaultTimeZone
 
     if format.is_a?(Symbol)
-      formatters = SugarCubeFormats[format]
-      raise "No format found for #{format.inspect}" unless formatters
-      locale = NSLocale.localeWithLocaleIdentifier "en_US"
-      retval = ''
-      formatters.each do |formatter|
-        case formatter
-        when Symbol
-          retval << string_with_format(formatter.to_s, locale: locale, timezone: timezone)
-        when String
-          retval << formatter
-        end
-      end
-      return retval
+      return _string_with_sugarcube_format(format, timezone)
     else
-      format_template = NSDateFormatter.dateFormatFromTemplate(format, options: 0,
-                                                        locale: locale)
-      date_formatter = NSDateFormatter.new
-      date_formatter.setDateFormat(format_template)
-      date_formatter.setTimeZone(timezone)
-      return date_formatter.stringFromDate(self)
+      locale = options[:locale] || NSLocale.currentLocale
+      if locale.is_a?(NSString)
+        locale = NSLocale.localeWithLocaleIdentifier(locale)
+      end
+      return _string_with_nsdate_format(format, timezone, locale)
     end
+  end
+
+  def _string_with_sugarcube_format(format, timezone)
+    formatters = SugarCubeFormats[format]
+    raise "No format found for #{format.inspect}" unless formatters
+    locale = NSLocale.localeWithLocaleIdentifier('en_US')
+    retval = ''
+    formatters.each do |formatter|
+      case formatter
+      when Symbol
+        retval << string_with_format(formatter.to_s, locale: locale, timezone: timezone)
+      when String
+        retval << formatter
+      end
+    end
+    return retval
+  end
+
+  def _string_with_nsdate_format(format, timezone, locale)
+    format_template = NSDateFormatter.dateFormatFromTemplate(format, options: 0,
+                                                      locale: locale)
+    date_formatter = NSDateFormatter.new
+    date_formatter.setDateFormat(format_template)
+    date_formatter.setTimeZone(timezone)
+    return date_formatter.stringFromDate(self)
   end
 
   def upto(last_date, delta={days: 1}, &block)

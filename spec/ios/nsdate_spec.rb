@@ -90,11 +90,20 @@ describe "NSDate" do
   end
 
   it "should have an NSDate#string_with_format method (1)" do
-    @date.string_with_format("yyyyMMdd HH:mm:ss").should == '01/02/2013, 12:15:30'
+    @date.string_with_format('yyyyMMdd HH:mm:ss').should == '01/02/2013, 12:15:30'
   end
 
   it "should have an NSDate#string_with_format method (2)" do
-    @date.string_with_format("yyyyMMMMd HH:mm:ss").should == 'January 2, 2013, 12:15:30'
+    @date.string_with_format('yyyyMMMMd HH:mm:ss').should == 'January 2, 2013, 12:15:30'
+  end
+
+  it "should have an NSDate#string_with_format(locale: (France))" do
+    locale = NSLocale.localeWithLocaleIdentifier('fr')
+    @date.string_with_format('yyyyMMMMd HH:mm:ss', locale: locale).should == '2 January 2013 12:15:30'
+  end
+
+  it "should have an NSDate#string_with_format(locale: 'fr')" do
+    @date.string_with_format('yyyyMMMMd HH:mm:ss', locale: 'fr').should == '2 January 2013 12:15:30'
   end
 
   it "should have an NSDate#string_with_format method (:iso8601)" do
