@@ -63,15 +63,15 @@ class NSDate
       formatters.each do |formatter|
         case formatter
         when Symbol
-          retval << string_with_format(formatter.to_s, locale:locale, timezone:timezone)
+          retval << string_with_format(formatter.to_s, locale: locale, timezone: timezone)
         when String
           retval << formatter
         end
       end
       return retval
     else
-      format_template = NSDateFormatter.dateFormatFromTemplate(format, options:0,
-                                                        locale:locale)
+      format_template = NSDateFormatter.dateFormatFromTemplate(format, options: 0,
+                                                        locale: locale)
       date_formatter = NSDateFormatter.new
       date_formatter.setDateFormat(format_template)
       date_formatter.setTimeZone(timezone)
