@@ -43,8 +43,14 @@ class NSDate
     date_formatter.stringFromDate(self)
   end
 
-  # Pass in a format string or a Symbol.  The Symbol must exist in
+  # Pass in a format string or a Symbol.  If you use a Symbol, it must exist in
   # NSDate::SugarCubeFormats.
+  #
+  # This method accepts some options:
+  #
+  # timezone: String or NSTimeZone.  Strings get converted using NSTimeZone.timeZoneWithName
+  # unicode: if true, this method will use Unicode date format (TR35) instead of converting to a locale specific format
+  # locale: Strings or NSLocale.  Strings get converted using NSLocale.localeWithLocaleIdentifier
   #
   # See
   # <https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatting10_4.html#//apple_ref/doc/uid/TP40002369-SW1>
@@ -53,15 +59,24 @@ class NSDate
   # for more information about date format strings.
   def string_with_format(format, options={})
     timezone = options[:timezone] || NSTimeZone.defaultTimeZone
+    if timezone.is_a?(NSString)
+      timezone = NSTimeZone.timeZoneWithName(timezone)
+    end
 
     if format.is_a?(Symbol)
       return _string_with_sugarcube_format(format, timezone)
     else
-      locale = options[:locale] || NSLocale.currentLocale
-      if locale.is_a?(NSString)
-        locale = NSLocale.localeWithLocaleIdentifier(locale)
+      unicode = options[:unicode]
+      if unicode
+        return _string_with_unicode_format(format, timezone)
+      else
+        locale = options[:locale] || NSLocale.currentLocale
+        if locale.is_a?(NSString)
+          locale = NSLocale.localeWithLocaleIdentifier(locale)
+        end
+
+        return _string_with_nsdate_format(format, timezone, locale)
       end
-      return _string_with_nsdate_format(format, timezone, locale)
     end
   end
 
@@ -82,10 +97,31 @@ class NSDate
   end
 
   def _string_with_nsdate_format(format, timezone, locale)
-    format_template = NSDateFormatter.dateFormatFromTemplate(format, options: 0,
-                                                      locale: locale)
-    date_formatter = NSDateFormatter.new
-    date_formatter.setDateFormat(format_template)
+    locale_name = locale.localeIdentifier
+    @@sugarcube_date_formatters ||= {}
+    @@sugarcube_date_formatters[locale_name] ||= {}
+    @@sugarcube_date_formatters[locale_name][format] ||= begin
+      format_template = NSDateFormatter.dateFormatFromTemplate(format, options: 0,
+                                                        locale: locale)
+      date_formatter = NSDateFormatter.new
+      date_formatter.setDateFormat(format_template)
+      date_formatter
+    end
+
+    date_formatter = @@sugarcube_date_formatters[locale_name][format]
+    date_formatter.setTimeZone(timezone)
+    return date_formatter.stringFromDate(self)
+  end
+
+  def _string_with_unicode_format(format, timezone)
+    @@sugarcube_unicode_formatters ||= {}
+    @@sugarcube_unicode_formatters[format] ||= begin
+      date_formatter = NSDateFormatter.new
+      date_formatter.setDateFormat(format)
+      date_formatter
+    end
+
+    date_formatter = @@sugarcube_unicode_formatters[format]
     date_formatter.setTimeZone(timezone)
     return date_formatter.stringFromDate(self)
   end
