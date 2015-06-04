@@ -6,21 +6,12 @@ class AppDelegate
     return true if RUBYMOTION_ENV == 'test'
 
     @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
-    ctlr = MyController.new
+    ctlr = UINavigationController.new
+    ctlr << UIViewController.new.tap { |c| c.title = "foo" }
+    ctlr << UIViewController.new.tap { |c| c.title = "bar" }
+    ctlr << UIViewController.new.tap { |c| c.title = "baz" }
     @window.rootViewController = ctlr
 
     @window.makeKeyAndVisible
   end
-end
-
-
-class MyController < UIViewController
-
-  def viewDidLoad
-    @label = ('Hi!'.underline + '2'.attrd.superscript).uilabel
-    @label.center = self.view.center
-    @label.textColor = :white.uicolor
-    self.view << @label
-  end
-
 end
