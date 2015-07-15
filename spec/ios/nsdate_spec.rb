@@ -123,6 +123,15 @@ describe "NSDate" do
     date.string_with_format(:iso8601, timezone:"UTC".nstimezone).should == '2013-01-02 12:15:30.000'
   end
 
+  it "should have an NSDate#string_with_format method (:universal)" do
+    @date.string_with_format(:universal).should == '2013-01-02T12:15:30'
+  end
+
+  it "should have an NSDate#string_with_format method (:universal) and timezone" do
+    date = @date + @date.utc_offset
+    date.string_with_format(:universal, timezone:"UTC".nstimezone).should == '2013-01-02T12:15:30'
+  end
+
   it "should have an NSDate#string_with_format method (:ymd)" do
     @date.string_with_format(:ymd).should == '2013-01-02'
   end

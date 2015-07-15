@@ -4,6 +4,7 @@ class NSDate
   # as-is
   SugarCubeFormats = {
     iso8601: [:yyyy, '-', :MM, '-', :dd, ' ', :'HH:mm:ss.SSS'],
+    universal: [:yyyy, '-', :MM, '-', :dd, 'T', :'HH:mm:ss'],
     ymd: [:yyyy, '-', :MM, '-', :dd],
     hms: [:'HH:mm:ss.SSS'],
   }
