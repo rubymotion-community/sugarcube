@@ -9,7 +9,7 @@ SugarCube
 About
 -----
 
-CocoaTouch/iOS is a *verbose* framework.  These extensions hope to make
+Cocoa and CocoaTouch are *verbose* frameworks.  These extensions hope to make
 development in rubymotion more enjoyable. With SugarCube, you can create a color
 from an integer or symbol, or create a UIFont or UIImage from a string.
 
