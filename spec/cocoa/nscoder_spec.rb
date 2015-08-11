@@ -67,9 +67,17 @@ describe "NSCoder" do
     test.double.should == @subject.double
     test.float.should == @subject.float
     test.int.should == @subject.int
-    test.point.should == @subject.point
-    test.rect.should == @subject.rect
-    test.size.should == @subject.size
+    val = test.point
+    val.x.should == @subject.point.x
+    val.y.should == @subject.point.y
+    val = test.rect
+    val.origin.x.should == @subject.rect.origin.x
+    val.origin.y.should == @subject.rect.origin.y
+    val.size.width.should == @subject.rect.size.width
+    val.size.height.should == @subject.rect.size.height
+    val = test.size
+    val.width.should == @subject.size.width
+    val.height.should == @subject.size.height
   end
 
 end
