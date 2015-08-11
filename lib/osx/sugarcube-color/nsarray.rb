@@ -8,7 +8,11 @@ class NSArray
     if self[3]
       alpha = self[3]
     end
-    NSColor.colorWithRed(red, green:green, blue:blue, alpha:alpha.to_f)
+    if NSColor.respond_to?('colorWithRed:green:blue:alpha:')
+      NSColor.colorWithRed(red, green:green, blue:blue, alpha:alpha.to_f)
+    else
+      NSColor.colorWithCalibratedRed(red, green:green, blue:blue, alpha:alpha.to_f)
+    end
   end
 
   def cgcolor(alpha=nil)
