@@ -50,7 +50,7 @@ class NSAttributedString
   def monospace(size=nil)
     size ||= NSFont.systemFontSize
     font = NSFont.fontWithName('Courier New', size: size)
-    self.font({ NSFontAttributeName => font })
+    self.font(font)
   end
 
   def underline
