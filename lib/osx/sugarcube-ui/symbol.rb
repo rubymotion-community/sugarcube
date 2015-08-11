@@ -52,6 +52,7 @@ class Symbol
   @nsfont = {
     system: :"systemFontOfSize:",
     bold:   :"boldSystemFontOfSize:",
+    italic: 'Helvetica-Italic',
     monospace: 'Courier New',
   }
 
