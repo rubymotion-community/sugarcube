@@ -15,17 +15,18 @@ class NSColor
   def nscolor(alpha=nil)
     if alpha
       if named_color_space?
-        self.colorUsingColorSpace(NSColorSpace.genericRGBColorSpace).colorWithAlphaComponent(alpha.to_f)
-      else
-        self.colorWithAlphaComponent(alpha.to_f)
+        color = self.colorUsingColorSpace(NSColorSpace.genericRGBColorSpace)
+        if color
+          return color.colorWithAlphaComponent(alpha.to_f)
+        end
       end
-    else
-      if named_color_space?
-        self.colorUsingColorSpace(NSColorSpace.genericRGBColorSpace)
-      else
-        self
-      end
+      return self.colorWithAlphaComponent(alpha.to_f)
+    elsif named_color_space?
+      color = self.colorUsingColorSpace(NSColorSpace.genericRGBColorSpace)
+      return color if color
     end
+
+    return self
   end
 
   def self.rgba(r, g, b, a)
