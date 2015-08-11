@@ -4,6 +4,10 @@ class NSString
     nsattributedstring.bold(size)
   end
 
+  def italic(size=nil)
+    nsattributedstring.italic(size)
+  end
+
   def monospace(size=nil)
     nsattributedstring.monospace(size)
   end
@@ -29,6 +33,12 @@ class NSAttributedString
   def bold(size=nil)
     size ||= NSFont.systemFontSize
     font = NSFont.boldSystemFontOfSize(size)
+    self.font(font)
+  end
+
+  def italic(size=nil)
+    size ||= NSFont.systemFontSize
+    font = NSFont.fontWithName('HelveticaNeue-Italic', size: size)
     self.font(font)
   end
 
