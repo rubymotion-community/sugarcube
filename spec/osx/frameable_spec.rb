@@ -154,22 +154,22 @@ describe SugarCube::Frameable do
   describe NSScreen do
 
     it 'should return x' do
-      view = NSScreen.alloc.initWithFrame([[100, 200], [300, 400]])
+      view = NSScreen.mainScreen
       view.x.should == view.frame.origin.x
     end
 
     it 'should return y' do
-      view = NSScreen.alloc.initWithFrame([[100, 200], [300, 400]])
+      view = NSScreen.mainScreen
       view.y.should == view.frame.origin.y
     end
 
     it 'should return width' do
-      view = NSScreen.alloc.initWithFrame([[100, 200], [300, 400]])
+      view = NSScreen.mainScreen
       view.width.should == view.frame.size.width
     end
 
     it 'should return height' do
-      view = NSScreen.alloc.initWithFrame([[100, 200], [300, 400]])
+      view = NSScreen.mainScreen
       view.height.should == view.frame.size.height
     end
 
