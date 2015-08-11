@@ -16,7 +16,7 @@ class Fixnum
     green = ((self & 0xFF00) >> 8).to_f / 255.0
     blue = (self & 0xFF).to_f / 255.0
 
-    NSColor.colorWithRed(red, green: green, blue: blue, alpha: alpha.to_f)
+    NSColor.rgba(red, green, blue, alpha.to_f)
   end
 
   def cgcolor(alpha=nil)

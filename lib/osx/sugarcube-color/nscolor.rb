@@ -28,6 +28,14 @@ class NSColor
     end
   end
 
+  def self.rgba(r, g, b, a)
+    if NSColor.respond_to?('colorWithRed:green:blue:alpha:')
+      NSColor.colorWithRed(r, green: g, blue: b, alpha: a)
+    else
+      NSColor.colorWithCalibratedRed(r, green: g, blue: b, alpha: a)
+    end
+  end
+
   def named_color_space?
     colorSpaceName == "NSNamedColorSpace"
   end
@@ -59,7 +67,8 @@ class NSColor
     g = [1.0, color.green * color.alpha + self.green].min
     b = [1.0, color.blue * color.alpha + self.blue].min
     a = self.alpha
-    NSColor.colorWithRed(r, green:g, blue:b, alpha:a)
+
+    NSColor.rgba(r, g, b, a)
   end
 
   # a more generic color mixing method.  mixes two colors, but a second
@@ -80,7 +89,7 @@ class NSColor
       g = (self.green + color.green) / 2
       b = (self.blue + color.blue) / 2
       a = self.alpha
-      NSColor.colorWithRed(r, green:g, blue:b, alpha:a)
+      NSColor.rgba(r, g, b, a)
     else
       a = (color.alpha - self.alpha) * amount + self.alpha
       return NSColor.clearColor if a == 0
@@ -95,7 +104,7 @@ class NSColor
       r = (color_red - self_red) * amount + self_red
       g = (color_green - self_green) * amount + self_green
       b = (color_blue - self_blue) * amount + self_blue
-      NSColor.colorWithRed(r, green:g, blue:b, alpha:a)
+      NSColor.rgba(r, g, b, a)
     end
   end
 
@@ -107,7 +116,7 @@ class NSColor
     g = 1.0 - self.green
     b = 1.0 - self.blue
     a = self.alpha
-    NSColor.colorWithRed(r, green: g, blue: b, alpha: a)
+    NSColor.rgba(r, g, b, a)
   end
 
   # Cannot define method `hue' because no Objective-C stub was pre-compiled for
