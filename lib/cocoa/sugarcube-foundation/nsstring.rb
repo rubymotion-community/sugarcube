@@ -21,11 +21,7 @@ class NSString
   end
 
   def unescape_url
-    CFURLCreateStringByReplacingPercentEscapes(
-            nil,
-            self,
-            ""
-            )
+    self.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
   end
 
   def remove_accents
