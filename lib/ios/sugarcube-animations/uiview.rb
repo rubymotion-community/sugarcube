@@ -108,6 +108,24 @@ class UIView
 
   end
 
+  # Convenience method for animating a single attribute.
+  # Example: view.anim(:y, 40)
+  def anim(attribute, value, options = {}, &block)
+    options = options.merge(after: block) unless block.nil?
+    animate(options) do
+      self.send("#{attribute.to_s}=",value)
+    end
+  end
+
+  # Convenience method for animating a single attribute.
+  # Example: view.layer_anim(:shadowOpacity, 0)
+  def layer_anim(attribute, value, options = {}, &block)
+    options = options.merge(after: block) unless block.nil?
+    animate(options) do
+      self.layer.send("#{attribute.to_s}=",value)
+    end
+  end
+
   def show
     self.hidden = false
     return self
