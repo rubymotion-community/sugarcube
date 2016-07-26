@@ -241,7 +241,7 @@ class UIView
     sugarcube_add_gesture(proc, recognizer)
   end
 
-  private
+private
   def sugarcube_handle_gesture(recognizer)
     handler = @sugarcube_recognizers[recognizer]
     if handler.arity == 0
