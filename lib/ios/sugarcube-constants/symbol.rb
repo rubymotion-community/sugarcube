@@ -248,6 +248,12 @@ class Symbol
   def uigesturerecognizerstate
     SugarCube.look_in(self, Symbol.uigesturerecognizerstate)
   end
+
+  def uirectedge 
+    SugarCube.look_in(self, Symbol.uirectedge)
+  end
+
+
   alias uigesturestate uigesturerecognizerstate
 
   class << self
@@ -324,6 +330,8 @@ class Symbol
 
     attr :uigesturerecognizerstate
 
+    attr :uirectedge
+
   end
 
   @uidevice = {
@@ -391,6 +399,15 @@ class Symbol
     fixed_bottom_right:  UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin,
     float_horizontal: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin,
     float_vertical:   UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin,
+  }
+
+  @uirectedge = {
+    left: UIRectEdgeLeft,
+    right: UIRectEdgeRight,
+    top: UIRectEdgeTop,
+    bottom: UIRectEdgeBottom,
+    none: UIRectEdgeNone,
+    all: UIRectEdgeAll
   }
 
   @uireturnkey__deprecated = {

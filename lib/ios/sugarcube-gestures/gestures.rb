@@ -123,12 +123,14 @@ class UIView
   #   @option options [Fixnum] :fingers If min_fingers or max_fingers is not assigned, this will be the default.
   def on_pan(fingers_or_options=nil, &proc)
     fingers = nil
+    edges = []
     min_fingers = nil
     max_fingers = nil
 
     if fingers_or_options
       if fingers_or_options.is_a? Hash
         fingers = fingers_or_options[:fingers] || fingers
+        edges = fingers_or_options[:edges] || edges
         min_fingers = fingers_or_options[:min_fingers] || min_fingers
         max_fingers = fingers_or_options[:max_fingers] || max_fingers
       else
@@ -140,6 +142,15 @@ class UIView
     min_fingers ||= fingers
     max_fingers ||= fingers
 
+    if edges.empty?
+      edge = :all.uirectedge
+    else
+      edge = :none.uirectedge
+      edges.each do | e |
+        edge += (e.uirectedge || 0)
+      end
+    end
+    
     recognizer = UIPanGestureRecognizer.alloc.initWithTarget(self, action:'sugarcube_handle_gesture:')
     recognizer.maximumNumberOfTouches = min_fingers if min_fingers
     recognizer.minimumNumberOfTouches = max_fingers if max_fingers
@@ -228,7 +239,7 @@ class UIView
     sugarcube_add_gesture(proc, recognizer)
   end
 
-private
+  private
   def sugarcube_handle_gesture(recognizer)
     handler = @sugarcube_recognizers[recognizer]
     if handler.arity == 0
