@@ -121,16 +121,18 @@ class UIView
   #   @option options [Fixnum] :min_fingers Minimum number of fingers for gesture to be recognized
   #   @option options [Fixnum] :max_fingers Maximum number of fingers for gesture to be recognized
   #   @option options [Fixnum] :fingers If min_fingers or max_fingers is not assigned, this will be the default.
+  #   @option options [Array]  :edges Some combination of [:left, :right, :top, :bottom, :all]. If present, overrides fingers options and instead handles gestures originating at specified screen edges.
   def on_pan(fingers_or_options=nil, &proc)
     fingers = nil
-    edges = []
+    edge_options = [:none]
     min_fingers = nil
     max_fingers = nil
+    recognizer = nil
 
     if fingers_or_options
       if fingers_or_options.is_a? Hash
         fingers = fingers_or_options[:fingers] || fingers
-        edges = fingers_or_options[:edges] || edges
+        edge_options = fingers_or_options[:edges] || edge_options
         min_fingers = fingers_or_options[:min_fingers] || min_fingers
         max_fingers = fingers_or_options[:max_fingers] || max_fingers
       else
@@ -138,22 +140,22 @@ class UIView
       end
     end
 
-    # if fingers is assigned, but not min/max, assign it as a default
-    min_fingers ||= fingers
-    max_fingers ||= fingers
-
-    if edges.empty?
-      edge = :all.uirectedge
-    else
-      edge = :none.uirectedge
-      edges.each do | e |
-        edge += (e.uirectedge || 0)
+    if edge_options.uniq == [:none] # full view pan, possibly with finger options
+      # if fingers is assigned, but not min/max, assign it as a default
+      min_fingers ||= fingers
+      max_fingers ||= fingers
+      recognizer = UIPanGestureRecognizer.alloc.initWithTarget(self, action:'sugarcube_handle_gesture:')
+      recognizer.maximumNumberOfTouches = min_fingers if min_fingers
+      recognizer.minimumNumberOfTouches = max_fingers if max_fingers
+    else #edges option, finger options ignored
+      edges = :none.uirectedge
+      edge_options.each do | edge |
+        edges |= (edge.uirectedge || 0)
       end
+      mp "EDGES: #{edges}"
+      recognizer = UIScreenEdgePanGestureRecognizer.alloc.initWithTarget(self, action:'sugarcube_handle_gesture:')
+      recognizer.edges = edges
     end
-    
-    recognizer = UIPanGestureRecognizer.alloc.initWithTarget(self, action:'sugarcube_handle_gesture:')
-    recognizer.maximumNumberOfTouches = min_fingers if min_fingers
-    recognizer.minimumNumberOfTouches = max_fingers if max_fingers
     sugarcube_add_gesture(proc, recognizer)
   end
 

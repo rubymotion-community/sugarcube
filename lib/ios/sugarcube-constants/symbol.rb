@@ -401,15 +401,6 @@ class Symbol
     float_vertical:   UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin,
   }
 
-  @uirectedge = {
-    left: UIRectEdgeLeft,
-    right: UIRectEdgeRight,
-    top: UIRectEdgeTop,
-    bottom: UIRectEdgeBottom,
-    none: UIRectEdgeNone,
-    all: UIRectEdgeAll
-  }
-
   @uireturnkey__deprecated = {
     emergencycall: :emergency_call
   }
@@ -908,5 +899,16 @@ class Symbol
     failed:     UIGestureRecognizerStateFailed,
     recognized: UIGestureRecognizerStateRecognized,
   }
+
+
+  @uirectedge = {
+    left: UIRectEdgeLeft,
+    right: UIRectEdgeRight,
+    top: UIRectEdgeTop,
+    bottom: UIRectEdgeBottom,
+    none: UIRectEdgeNone,
+    all: UIRectEdgeAll
+  }
+
 
 end
