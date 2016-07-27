@@ -152,7 +152,6 @@ class UIView
       edge_options.each do | edge |
         edges |= (edge.uirectedge || 0)
       end
-      mp "EDGES: #{edges}"
       recognizer = UIScreenEdgePanGestureRecognizer.alloc.initWithTarget(self, action:'sugarcube_handle_gesture:')
       recognizer.edges = edges
     end

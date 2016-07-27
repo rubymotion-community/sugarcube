@@ -69,7 +69,7 @@ describe 'Gestures' do
       @view.gestureRecognizers.should.include?(gesture)
     end
 
-    it 'should work with options' do
+    it 'should work with fingers options' do
       gesture = @view.on_pan(min_fingers: 2, max_fingers: 2) do |gesture|
       end
       gesture.should.be.kind_of(UIPanGestureRecognizer)
@@ -77,6 +77,25 @@ describe 'Gestures' do
       gesture.minimumNumberOfTouches.should == 2
       @view.gestureRecognizers.should.include?(gesture)
     end
+
+    it 'should work with edges option' do 
+      gesture = @view.on_pan(edges: [:top, :left]) do |gesture|
+      end
+      gesture.should.be.kind_of(UIScreenEdgePanGestureRecognizer)
+      gesture.edges.should == (:left.uirectedge + :top.uirectedge)
+      @view.gestureRecognizers.should.include?(gesture)
+    end
+
+    it 'should ignore :none edges option' do 
+      gesture = @view.on_pan(edges: [:none], min_fingers: 2, max_fingers: 2) do |gesture|
+      end
+      gesture.should.be.kind_of(UIPanGestureRecognizer)
+      gesture.maximumNumberOfTouches.should == 2
+      gesture.minimumNumberOfTouches.should == 2
+      @view.gestureRecognizers.should.include?(gesture)
+    end
+
+    
   end
 
   describe 'on_press' do
