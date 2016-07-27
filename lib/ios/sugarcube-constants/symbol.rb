@@ -248,6 +248,12 @@ class Symbol
   def uigesturerecognizerstate
     SugarCube.look_in(self, Symbol.uigesturerecognizerstate)
   end
+
+  def uirectedge 
+    SugarCube.look_in(self, Symbol.uirectedge)
+  end
+
+
   alias uigesturestate uigesturerecognizerstate
 
   class << self
@@ -323,6 +329,8 @@ class Symbol
     attr :cglinejoin
 
     attr :uigesturerecognizerstate
+
+    attr :uirectedge
 
   end
 
@@ -891,5 +899,16 @@ class Symbol
     failed:     UIGestureRecognizerStateFailed,
     recognized: UIGestureRecognizerStateRecognized,
   }
+
+
+  @uirectedge = {
+    left: UIRectEdgeLeft,
+    right: UIRectEdgeRight,
+    top: UIRectEdgeTop,
+    bottom: UIRectEdgeBottom,
+    none: UIRectEdgeNone,
+    all: UIRectEdgeAll
+  }
+
 
 end
