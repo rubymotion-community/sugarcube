@@ -440,7 +440,7 @@ view.on_pan(2)  # minimum and maximum fingers required
 view.on_pan(fingers: 2)
 view.on_pan(min_fingers: 2, max_fingers: 3)
 
-# If present, overrides fingers options and instead handles gestures originating at specified screen edges.
+# If present, overrides fingers options and instead handles gestures originating at specified screen edges (UIScreenEdgePanGestureRecognizer)
 view.on_pan(edges: [<list>]) #  Some combination of [:left, :right, :top, :bottom, :all]. 
 
 # `on_press` is a continuous event (it uses UILongPressGestureRecognizer), so
