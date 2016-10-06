@@ -4,11 +4,10 @@ module SugarCube
     def window(index=nil)
       if index
         UIApplication.sharedApplication.windows[index]
+      elsif UIApplication.sharedApplication.keyWindow
+        UIApplication.sharedApplication.keyWindow
       else
-        (
-          UIApplication.sharedApplication.keyWindow ||
-          UIApplication.sharedApplication.windows[0]
-        )
+        UIApplication.sharedApplication.windows.select { |window| window.subviews.count > 0 }.first
       end
     end
 
