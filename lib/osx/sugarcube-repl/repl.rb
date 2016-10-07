@@ -4,12 +4,12 @@ module SugarCube
     def window(index=nil)
       if index
         NSApplication.sharedApplication.windows[index]
-      elsif UIApplication.sharedApplication.keyWindow
-        UIApplication.sharedApplication.keyWindow
-      elsif UIApplication.sharedApplication.mainWindow
-        UIApplication.sharedApplication.mainWindow
+      elsif NSApplication.sharedApplication.keyWindow
+        NSApplication.sharedApplication.keyWindow
+      elsif NSApplication.sharedApplication.mainWindow
+        NSApplication.sharedApplication.mainWindow
       else
-        UIApplication.sharedApplication.windows.select { |window|
+        NSApplication.sharedApplication.windows.select { |window|
           window.contentView != nil && window.contentView.subviews.count > 0
         }.first
       end
