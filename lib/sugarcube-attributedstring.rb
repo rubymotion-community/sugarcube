@@ -7,5 +7,6 @@ require 'sugarcube'
 SugarCube.cocoa_only!('attributedstring')
 
 Motion::Project::App.pre_setup do |app|
+  SugarCube.add_app_files(app, 'sugarcube-ui')
   SugarCube.add_app_files(app, 'sugarcube-attributedstring')
 end
