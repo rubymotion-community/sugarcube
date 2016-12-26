@@ -71,6 +71,16 @@ describe UIActionSheet do
     alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
   end
 
+  it 'should have :from option that accepts CGRect and a :view that accepts UIView' do
+    view = UIView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    window = UIApplication.sharedApplication.windows[0]
+    window << view
+    alert = UIActionSheet.alert('test', from: CGRect.new([0, 0], [320, 0]), view: view)
+    proper_wait 0.6
+    alert.visible?.should == true
+    alert.dismissWithClickedButtonIndex(alert.firstOtherButtonIndex, animated: false)
+  end
+
   it 'should have :from option that accepts UIBarButtonItem' do
     button = UIBarButtonItem.done
     toolbar = UIToolbar.alloc.initWithFrame(UIScreen.mainScreen.bounds)
