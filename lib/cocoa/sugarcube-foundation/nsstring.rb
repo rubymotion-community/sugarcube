@@ -1,13 +1,17 @@
 class NSString
 
   # @return [NSURL]
-  def nsurl
-    @url ||= NSURL.alloc.initWithString(self)
+  def nsurl(baseURL=nil)
+    @url ||= begin
+      baseURL.nil? ? NSURL.alloc.initWithString(self) : NSURL.alloc.initWithString(self, relativeToURL: baseURL)
+    end
   end
 
   # @return [NSURL]
-  def fileurl
-    @fileurl ||= NSURL.fileURLWithPath(self)
+  def fileurl(baseURL=nil)
+    @fileurl ||= begin
+      baseURL.nil? ? NSURL.fileURLWithPath(self) : NSURL.fileURLWithPath(self, relativeToURL: baseURL)
+    end
   end
 
   def escape_url
