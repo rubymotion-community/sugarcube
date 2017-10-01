@@ -7,6 +7,13 @@ describe "NSString" do
     url.host.should == 'github.com'
   end
 
+  it "should have a #nsurl method with baseURL parametor" do
+    url = 'status'.nsurl('https://github.com'.nsurl)
+    url.should.be.kind_of(NSURL)
+    url.absoluteString.should == 'https://github.com/status'
+    url.host.should == 'github.com'
+  end
+
   it "should have a #nsdata method" do
     data = 'test'.nsdata
     data.should.be.kind_of(NSData)
