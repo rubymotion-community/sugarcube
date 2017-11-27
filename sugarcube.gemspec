@@ -4,7 +4,7 @@ require File.expand_path('../lib/version.rb', __FILE__)
 Gem::Specification.new do |gem|
   gem.name          = 'sugarcube'
   gem.version       = SugarCube::Version
-  gem.licenses      = ['BSD']
+  gem.licenses      = ['MIT']
 
   gem.authors = ['Colin T.A. Gray', 'Katsuyoshi Ito', 'Thom Parkin', 'Michael Erasmus', 'Mark Rickert']
   gem.email   = ['colin@hipbyte.com', 'mjar81@gmail.com']
