@@ -44,6 +44,13 @@ module SugarCube
     end
 
     def iso8601(date_string)
+      if defined? NSISO8601DateFormatter
+        formatter = NSISO8601DateFormatter.alloc.init
+        formatter.timeZone = NSTimeZone.timeZoneWithAbbreviation "UTC"
+        date = formatter.dateFromString date_string
+        return date if date
+      end
+
       @@sugarcube_iso_detectors ||= [
         "yyyy-MM-dd'T'HH:mm:ss",
         "yyyy-MM-dd'T'HH:mm:ssZ",
