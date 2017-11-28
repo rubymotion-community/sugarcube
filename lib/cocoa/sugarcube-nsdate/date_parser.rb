@@ -8,11 +8,10 @@ module SugarCube
     #
     # => 2013-02-20 09:00:00 -0800
     def parse_date(date_string)
-      result = sugarcube_detect(date_string).first
-      if result
+      if result = iso8601(date_string)
+        return result
+      elsif result = sugarcube_detect(date_string).first
         return result.date
-      else
-        return iso8601(date_string)
       end
     end
 
