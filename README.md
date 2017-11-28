@@ -1752,19 +1752,19 @@ Open up `CLLocationCoordinate2D` to provide handy-dandies
 > loveland_oh = CLLocationCoordinate2D.new(39.268128, -84.257648)
 => #<CLLocationCoordinate2D latitude=39.2681274414062 longitude=-84.2576293945312>
 > denver_co.distance_to(loveland_oh)
-=> 1773425.54893302  # in meters
+=> 1779547.32010451  # in meters
 > denver_co.distance_to(loveland_oh).in_miles
-=> 1101.95556640625
+=> 1105.75943993609
 
 # move around the globe using x/y distances in miles or kilometers
 > denver_co.delta_miles(1101.6, -32.556)
-=> #<CLLocationCoordinate2D latitude=39.2681427001953 longitude=-84.2577209472656>
+=> #<CLLocationCoordinate2D latitude=39.2685263870498 longitude=-84.2744401887072>
 # our location is pretty close!
-> denver_co.delta_miles(1101.6, -32.556).distance_to(loveland_oh).miles
-=> 0.90043306350708
+> denver_co.delta_miles(1101.6, -32.556).distance_to(loveland_oh).in_miles
+=> 0.900871117223827
 
 > denver_co.delta_kilometers(10, 10)  # 10 kilometers east, 10 kilometers north
-=> #<CLLocationCoordinate2D latitude=39.8290100097656 longitude=-104.868377685547>
+=> #<CLLocationCoordinate2D latitude=39.8290195284119 longitude=-104.868401269013>
 ```
 
 Pipes
