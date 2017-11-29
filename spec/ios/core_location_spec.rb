@@ -5,11 +5,11 @@ describe "CoreLocation" do
   end
 
   it "should calculate distance in miles" do
-    @denver.distance_to(@cincinnati).in_miles.round.should == 1101
+    @denver.distance_to(@cincinnati).in_miles.round.should == 1105
   end
 
   it "should calculate distance in kilometers" do
-    @denver.distance_to(@cincinnati).in_kilometers.round.should == 1772
+    @denver.distance_to(@cincinnati).in_kilometers.round.should == 1778
   end
 
 end

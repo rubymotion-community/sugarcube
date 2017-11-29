@@ -78,7 +78,7 @@ describe "UIImage scale methods" do
   end
 
   it 'should be able to change scale' do
-    if UIScreen.mainScreen.scale == 2
+    if UIScreen.mainScreen.scale >= 2
       scaled = @image.at_scale(1.0)
       scaled.nsdata.writeToFile('at_scale.png'.document_path, atomically: true)
 

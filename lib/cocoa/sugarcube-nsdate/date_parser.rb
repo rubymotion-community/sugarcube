@@ -8,11 +8,10 @@ module SugarCube
     #
     # => 2013-02-20 09:00:00 -0800
     def parse_date(date_string)
-      result = sugarcube_detect(date_string).first
-      if result
+      if result = iso8601(date_string)
+        return result
+      elsif result = sugarcube_detect(date_string).first
         return result.date
-      else
-        return iso8601(date_string)
       end
     end
 
@@ -45,6 +44,13 @@ module SugarCube
     end
 
     def iso8601(date_string)
+      if defined? NSISO8601DateFormatter
+        formatter = NSISO8601DateFormatter.alloc.init
+        formatter.timeZone = NSTimeZone.timeZoneWithAbbreviation "UTC"
+        date = formatter.dateFromString date_string
+        return date if date
+      end
+
       @@sugarcube_iso_detectors ||= [
         "yyyy-MM-dd'T'HH:mm:ss",
         "yyyy-MM-dd'T'HH:mm:ssZ",

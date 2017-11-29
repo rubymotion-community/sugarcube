@@ -4,3 +4,4 @@ pkg/
 /build/
 .idea/
 .repl_history
+Gemfile.lock

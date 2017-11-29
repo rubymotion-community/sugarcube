@@ -89,7 +89,7 @@ describe 'NSString' do
 
     describe "in resource" do
       it "should be file_exists" do
-        "info.plist".resource_path.file_exists?.should == true
+        "Info.plist".resource_path.file_exists?.should == true
       end
     end
 

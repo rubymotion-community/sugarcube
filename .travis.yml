@@ -1,18 +1,28 @@
 language: objective-c
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode9.1
+    - os: osx
+      osx_image: xcode8.3
+cache:
+  bundler: true
+  cocoapods: true
+  directories: []
+branches:
+  only:
+    - master
 before_install:
-    - brew update
-    - if brew outdated | grep -qx xctool; then brew upgrade xctool; fi
-    - sudo motion update
-    - sudo chown -R travis ~/Library/RubyMotion
-    - mkdir -p ~/Library/RubyMotion/build
-    - (ruby --version)
-script: >
-  bundle exec rake clean &&
-  bundle exec rake spec &&
-  bundle exec rake clean &&
-  bundle exec rake spec bits=64 &&
-  bundle exec rake clean
-# bundle exec rake spec platform=osx
-# rake spec device_family='iPhone 4s' &&
-# rake spec device_family='iPhone 5' &&
-# rake spec device_family='iPad Air' &&
+  - brew update
+  - brew outdated xctool || brew upgrade xctool
+  - sudo motion update
+  - (motion --version)
+  - (ruby --version)
+script:
+  - bundle exec rake clean:all spec
+  - bundle exec rake clean:all spec bits=64
+# - bundle exec rake clean:all spec platform=osx
+# - bundle exec rake clean:all spec device_family='iPhone 4s'
+# - bundle exec rake clean:all spec device_family='iPhone 5'
+# - bundle exec rake clean:all spec device_family='iPad Air'
+  - bundle exec rake clean:all
