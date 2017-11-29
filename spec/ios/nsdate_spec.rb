@@ -105,13 +105,13 @@ describe "NSDate" do
 
   it "should have an NSDate#string_with_format(locale: (France))" do
     locale = NSLocale.localeWithLocaleIdentifier('fr')
-    @date.string_with_format('yyyyMMMMd HH:mm:ss', locale: locale).should == '2 January 2013 12:15:30'
+    @date.string_with_format('yyyyMMMMd HH:mm:ss', locale: locale).should == '2 January 2013 à 12:15:30'
   end
 
   it "should have an NSDate#string_with_format(locale: 'fr')" do
-    @date.string_with_format('yyyyMMMMd HH:mm:ss', locale: 'fr').should == '2 January 2013 12:15:30'
+    @date.string_with_format('yyyyMMMMd HH:mm:ss', locale: 'fr').should == '2 January 2013 à 12:15:30'
     # these formatters get cached, and it's important to test the cache:
-    @date.string_with_format('yyyyMMMMd HH:mm:ss', locale: 'fr').should == '2 January 2013 12:15:30'
+    @date.string_with_format('yyyyMMMMd HH:mm:ss', locale: 'fr').should == '2 January 2013 à 12:15:30'
   end
 
   it "should have an NSDate#string_with_format method (:iso8601)" do

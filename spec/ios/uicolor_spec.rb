@@ -42,7 +42,7 @@ describe "UIColor" do
         '#ffffff'.uicolor.darken(0.1).lighten(0.1).hex.should == '#ffffff'.uicolor.hex
       end
       it "should lighten" do
-        '#e6e6e6'.uicolor.lighten(0.1).hex.should == '#ffffff'.uicolor.hex
+        '#e6e6e6'.uicolor.lighten(0.0999999).hex.should == '#ffffff'.uicolor.hex
       end
       it "should invert lighten" do
         '#e5e5e5'.uicolor.lighten(0.1).darken(0.1).hex.should == '#e5e5e5'.uicolor.hex
