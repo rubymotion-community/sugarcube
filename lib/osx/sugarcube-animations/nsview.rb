@@ -1,4 +1,4 @@
-class UIView
+class NSView
 
   class << self
 
@@ -45,7 +45,7 @@ class UIView
       self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay
     end
 
-    UIView.animate(options, &animations)
+    NSView.animate(options, &animations)
     return self
   end
 
