@@ -128,5 +128,14 @@ if defined?(UIAlertControllerStyleAlert)
       alert.actions[3].style.should == UIAlertActionStyleDefault
     end
 
+    describe '.prompt' do
+      it 'should have text_field' do
+        alert = UIAlertController.prompt(controller, 'test')
+        wait 0.6 do
+          alert.textFields.count.should == 1
+          controller.dismissViewControllerAnimated(false, completion: nil)
+        end
+      end
+    end
   end
 end

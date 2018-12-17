@@ -95,6 +95,23 @@ class UIAlertController
                                            })
     addAction action
   end
+
+  def self.prompt(controller, title, options = {}, more_options = {}, &block)
+    text_fields = []
+
+    alert = UIAlertController.alert(controller, title, options.merge(show: false), more_options) do |result|
+      next block.call(text_fields.first.text) if result == 'OK'
+      next block.call(nil)
+    end
+
+    alert.addTextFieldWithConfigurationHandler(->(s){ text_fields << s })
+
+    if options.fetch(:show, true)
+      controller.presentViewController(alert, animated: true, completion: nil)
+    end
+
+    alert
+  end
 end
 
 module SugarCube
