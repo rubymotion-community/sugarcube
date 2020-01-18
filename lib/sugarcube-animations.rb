@@ -11,3 +11,7 @@ end
 Motion::Project::App.pre_setup do |app|
   SugarCube.add_app_files(app, 'sugarcube-animations')
 end
+
+Motion::Project::App.post_setup do |app|
+  app.frameworks += %w{QuartzCore}
+end

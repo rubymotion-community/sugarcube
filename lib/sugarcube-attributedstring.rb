@@ -9,3 +9,7 @@ SugarCube.cocoa_only!('attributedstring')
 Motion::Project::App.pre_setup do |app|
   SugarCube.add_app_files(app, 'sugarcube-attributedstring')
 end
+
+Motion::Project::App.post_setup do |app|
+  app.frameworks += %w{CoreText}
+end
