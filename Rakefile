@@ -1,4 +1,5 @@
 $:.unshift('/Library/RubyMotion/lib')
+$:.unshift("~/.rubymotion/rubymotion-templates")
 
 platform = ENV.fetch('platform', 'ios')
 if platform == 'ios'
