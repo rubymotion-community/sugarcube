@@ -18,6 +18,7 @@ env:
 before_install:
   - brew update
   - brew outdated xctool || brew upgrade xctool
+  - (xcrun simctl list)
   - wget http://travisci.rubymotion.com/ -O RubyMotion-TravisCI.pkg
   - sudo installer -pkg RubyMotion-TravisCI.pkg -target /
   - cp -r /usr/lib/swift/*.dylib /Applications/Xcode.app/Contents/Frameworks/
