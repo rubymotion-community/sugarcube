@@ -1,5 +1,6 @@
 $:.unshift('/Library/RubyMotion/lib')
 $:.unshift("~/.rubymotion/rubymotion-templates")
+require 'motion/project/template/gem/gem_tasks'
 
 platform = ENV.fetch('platform', 'ios')
 if platform == 'ios'
