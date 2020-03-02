@@ -1291,6 +1291,7 @@ issues with missing constants).
 'test'.bold  # => NSAttributedString.alloc.initWithString('test', attributes:{NSFontAttributeName => :bold.uifont})
 'test'.italic  # => NSAttributedString.alloc.initWithString('test', attributes:{NSFontAttributeName => :italic.uifont})
 'test'.underline  # => NSAttributedString.alloc.initWithString('test', attributes:{NSUnderlineStyleAttributeName => NSUnderlineStyleSingle})
+'test'.color(UIColor.blueColor)  # => NSAttributedString.alloc.initWithString('test', attributes:{NSForegroundColorAttributeName => UIColor.blueColor})
 
 # you can chain 'em, too.
 'test'.bold.underline

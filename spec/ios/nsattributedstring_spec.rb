@@ -22,6 +22,12 @@ describe 'NSAttributeString' do
       subject.should.have_string_attributes({NSUnderlineStyleAttributeName => NSUnderlineStyleSingle})
     end
 
+    it 'should have #color' do
+      my_color = UIColor.redColor
+      subject = 'test'.color(my_color)
+      subject.should.have_string_attributes({NSForegroundColorAttributeName => my_color})
+    end
+
     it 'should be chainable' do
       subject = 'test'.bold.underline
       subject.should.have_string_attributes({NSFontAttributeName => :bold.uifont, NSUnderlineStyleAttributeName => NSUnderlineStyleSingle})
