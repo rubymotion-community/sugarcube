@@ -20,6 +20,14 @@ class NSString
     end
   end
 
+  def font(value=UIFont.systemFontOfSize(14))
+    nsattributedstring.font(value)
+  end
+
+  def color(value=UIColor.blackColor)
+    nsattributedstring.color(value)
+  end
+
 end
 
 
@@ -41,6 +49,7 @@ class NSAttributedString
     KCTVerticalFormsAttributeName
     KCTGlyphInfoAttributeName
     KCTRunDelegateAttributeName
+    KCTParagraphStyleSpecifierMinimumLineHeight
     nil
   end
 
@@ -103,6 +112,12 @@ class NSAttributedString
 
   def letterpress
     with_attributes({ NSTextEffectAttributeName => NSTextEffectLetterpressStyle })
+  end
+
+  def line_height(value)
+    style = NSMutableParagraphStyle.new
+    style.minimumLineHeight = value
+    paragraph_style(style)
   end
 
 end
